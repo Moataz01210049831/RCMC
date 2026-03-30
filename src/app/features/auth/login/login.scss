@@ -1,20 +1,16 @@
-$green: #006B41;
-$gold: #c9a84c;
-$light-border: #d0d0d0;
-$input-bg: #f9f9f9;
+@use '../../../../styles/variables' as *;
 
 .login-wrapper {
   display: flex;
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  font-family: 'IBM Plex Arabic', 'Segoe UI', Tahoma, sans-serif;
 }
 
 // ── Left green panel ──────────────────────────────────────────────
 .left-panel {
   width: 50%;
-  background-color: $green;
+  background-color: $bg-left-panel;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,7 +46,7 @@ $input-bg: #f9f9f9;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
+  background: $bg-card;
 }
 
 .login-form {
@@ -61,7 +57,7 @@ $input-bg: #f9f9f9;
 
   .form-title {
     text-align: center;
-    color: $gold;
+    color: $accent;
     font-size: 1.6rem;
     font-weight: 700;
     margin: 0 0 8px;
@@ -74,7 +70,7 @@ $input-bg: #f9f9f9;
 
     label {
       font-size: 0.85rem;
-      color: #444;
+      color: $text-secondary;
       text-align: right;
       font-weight: 600;
     }
@@ -82,42 +78,31 @@ $input-bg: #f9f9f9;
     input {
       width: 100%;
       padding: 10px 14px;
-      border: 1px solid $light-border;
-      border-radius: 6px;
-      background: $input-bg;
+      border: 1px solid $border;
+      border-radius: $radius-input;
+      background: $bg-input;
       font-size: 0.95rem;
       text-align: right;
       outline: none;
       box-sizing: border-box;
       transition: border-color 0.2s;
 
-      &:focus {
-        border-color: $green;
-      }
-
-      &::placeholder {
-        color: #bbb;
-      }
-
-      &.invalid {
-        border-color: #d32f2f;
-        background: #fff8f8;
-      }
+      &:focus { border-color: $primary; }
+      &::placeholder { color: $text-placeholder; }
+      &.invalid { border-color: $error; background: #fff8f8; }
     }
   }
 
   .error {
     font-size: 0.78rem;
-    color: #d32f2f;
+    color: $error;
     margin-top: 2px;
   }
 
   .password-wrapper {
     position: relative;
 
-    input {
-      padding-left: 40px;
-    }
+    input { padding-left: 40px; }
 
     .toggle-pw {
       position: absolute;
@@ -128,43 +113,30 @@ $input-bg: #f9f9f9;
       border: none;
       cursor: pointer;
       padding: 0;
-      color: #888;
+      color: $text-muted;
 
-      svg {
-        width: 18px;
-        height: 18px;
-        display: block;
-      }
+      svg { width: 18px; height: 18px; display: block; }
     }
   }
 
   .btn-login {
     width: 100%;
     padding: 12px;
-    background-color: $green;
+    background-color: $primary;
     color: #fff;
     border: none;
-    border-radius: 6px;
+    border-radius: $radius-input;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s;
 
-    &:hover {
-      background-color: darken($green, 8%);
-    }
+    &:hover { background-color: $primary-dark; }
   }
 }
 
 // ── Responsive ────────────────────────────────────────────────────
 @media (max-width: 700px) {
-  .login-wrapper {
-    flex-direction: column;
-  }
-
-  .left-panel,
-  .right-panel {
-    width: 100%;
-    height: 50%;
-  }
+  .login-wrapper { flex-direction: column; }
+  .left-panel, .right-panel { width: 100%; height: 50%; }
 }

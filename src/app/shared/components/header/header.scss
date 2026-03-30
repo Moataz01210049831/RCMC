@@ -1,64 +1,51 @@
-$green: #006B41;
-$border: #e8e8e8;
+@use '../../../../styles/variables' as *;
 
 .app-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #fff;
+  background: $bg-header;
   border: 1px solid $border;
-  border-radius: 12px;
+  border-radius: $radius-header;
   padding: 0 20px;
-  height: 60px;
-  // position: sticky;
+  height: $header-height;
   top: 16px;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: $shadow-header;
 }
 
-// ── Logo ──────────────────────────────────────────────────────────
 .header-logo {
   height: 36px;
   object-fit: contain;
 }
 
-// ── Left cluster ──────────────────────────────────────────────────
 .header-left {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-// ── Separator ─────────────────────────────────────────────────────
 .separator {
   width: 1px;
   height: 28px;
-  background: #e0e0e0;
+  background: $border;
 }
 
-// ── Notification bell ─────────────────────────────────────────────
 .icon-btn {
   background: none;
   border: none;
   cursor: pointer;
-  color: #555;
+  color: $text-muted;
   display: flex;
   align-items: center;
   padding: 6px;
   border-radius: 50%;
   transition: background 0.15s;
 
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  &:hover {
-    background: #f0f0f0;
-  }
+  svg { width: 20px; height: 20px; }
+  &:hover { background: #f0f0f0; }
 }
 
-// ── Account ───────────────────────────────────────────────────────
 .account {
   display: flex;
   align-items: center;
@@ -66,19 +53,17 @@ $border: #e8e8e8;
   cursor: pointer;
   position: relative;
   padding: 6px 10px;
-  border-radius: 8px;
+  border-radius: $radius-input;
   transition: background 0.15s;
 
-  &:hover {
-    background: #f5f5f5;
-  }
+  &:hover { background: #f5f5f5; }
 }
 
 .avatar {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background: $green;
+  background: $primary;
   color: #fff;
   font-size: 0.75rem;
   font-weight: 700;
@@ -94,36 +79,25 @@ $border: #e8e8e8;
   line-height: 1.3;
   text-align: right;
 
-  .user-name {
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: #222;
-  }
-
-  .user-role {
-    font-size: 0.72rem;
-    color: #888;
-  }
+  .user-name { font-size: 0.82rem; font-weight: 600; color: $text-primary; }
+  .user-role { font-size: 0.72rem; color: $text-muted; }
 }
 
 .chevron {
   width: 16px;
   height: 16px;
-  color: #555;
+  color: $text-muted;
   transition: transform 0.2s;
   flex-shrink: 0;
 
-  &.open {
-    transform: rotate(180deg);
-  }
+  &.open { transform: rotate(180deg); }
 }
 
-// ── Dropdown ──────────────────────────────────────────────────────
 .dropdown {
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
-  background: #fff;
+  background: $bg-card;
   border: 1px solid $border;
   border-radius: 10px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
@@ -142,32 +116,18 @@ $border: #e8e8e8;
   border: none;
   font-family: inherit;
   font-size: 0.88rem;
-  color: #333;
+  color: $text-secondary;
   cursor: pointer;
   text-align: right;
   transition: background 0.15s;
 
-  svg {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-    color: #666;
-  }
-
-  &:hover {
-    background: #f5f5f5;
-  }
+  svg { width: 16px; height: 16px; flex-shrink: 0; color: $text-muted; }
+  &:hover { background: #f5f5f5; }
 
   &.logout {
-    color: #d32f2f;
+    color: $error;
     border-top: 1px solid $border;
-
-    svg {
-      color: #d32f2f;
-    }
-
-    &:hover {
-      background: #fff5f5;
-    }
+    svg { color: $error; }
+    &:hover { background: #fff5f5; }
   }
 }

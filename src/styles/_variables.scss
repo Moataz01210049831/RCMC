@@ -1,0 +1,35 @@
+// ═══════════════════════════════════════════════════════════════
+//  THEME VARIABLES — edit here to restyle the entire app
+// ═══════════════════════════════════════════════════════════════
+
+// Brand colors
+$primary:       #006B41;   // buttons, highlights, focus rings
+$primary-dark:  darken($primary, 8%);
+$accent:        #c9a84c;   // titles, gold accents
+$error:         #c0392b;   // validation errors
+$warning:       #c0392b;   // inline warnings
+
+// Surfaces
+$bg-page:       #f4f6f8;   // page background
+$bg-card:       #ffffff;   // card / panel background
+$bg-input:      #fafafa;   // input / select background
+$bg-header:     #ffffff;   // header background
+$bg-left-panel: $primary;  // login left panel background
+
+// Borders & shadows
+$border:        #e0e0e0;
+$shadow-card:   0 4px 20px rgba(0, 0, 0, 0.07);
+$shadow-header: 0 2px 8px  rgba(0, 0, 0, 0.05);
+
+// Typography
+$font-family:   'IBM Plex Arabic', 'Segoe UI', Tahoma, sans-serif;
+$text-primary:  #222222;
+$text-secondary:#444444;
+$text-muted:    #888888;
+$text-placeholder: #bbbbbb;
+
+// Layout
+$header-height: 60px;
+$radius-card:   14px;
+$radius-input:  8px;
+$radius-header: 12px;

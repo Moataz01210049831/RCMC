@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AppConfig } from '../../../core/config/app-config';
 
 @Component({
   selector: 'app-login',
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
   styleUrl: './login.scss',
 })
 export class Login {
+  readonly config = AppConfig;
   username = '';
   password = '';
   showPassword = signal(false);

@@ -1,7 +1,6 @@
-$green: #006B41;
-$gold: #c9a84c;
-$border: #e0e0e0;
-$error: #c0392b;
+@use '../../../../styles/variables' as *;
+$green: $primary;
+$gold: $accent;
 
 .page-center {
   display: flex;

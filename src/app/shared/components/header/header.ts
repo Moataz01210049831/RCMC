@@ -1,5 +1,6 @@
 import { Component, signal, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppConfig } from '../../../core/config/app-config';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 export class Header {
   dropdownOpen = signal(false);
 
-  // Mock user — replace with AuthService later
+  readonly config = AppConfig;
   user = { name: 'عائدة كما', role: 'مشرف', initials: 'AG' };
 
   constructor(private router: Router) {}
