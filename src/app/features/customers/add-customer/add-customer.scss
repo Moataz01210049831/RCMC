@@ -1,0 +1,219 @@
+$green: #006B41;
+$gold: #c9a84c;
+$border: #e0e0e0;
+$error: #c0392b;
+
+.page-center {
+  display: flex;
+  justify-content: center;
+  padding: 16px 0;
+}
+
+.form-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid $border;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+  padding: 28px 32px;
+  width: 100%;
+  max-width: 860px;
+}
+
+.card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: $gold;
+  margin: 0 0 24px;
+  text-align: right;
+}
+
+// ── Form rows ─────────────────────────────────────────────────────
+.form-row {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 16px;
+
+  &.cols-3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+// ── Field ─────────────────────────────────────────────────────────
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #444;
+  }
+
+  input, select {
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid $border;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.88rem;
+    background: #fafafa;
+    outline: none;
+    text-align: right;
+    transition: border-color 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+
+    &:focus { border-color: $green; }
+    &::placeholder { color: #ccc; }
+    &.invalid { border-color: $error; background: #fff8f8; }
+  }
+}
+
+.req { color: $error; }
+
+.error {
+  font-size: 0.75rem;
+  color: $error;
+}
+
+.warning {
+  font-size: 0.75rem;
+  color: $error;
+}
+
+// ── Verify row ────────────────────────────────────────────────────
+.verify-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.btn-verify {
+  height: 40px;
+  padding: 0 28px;
+  background: $green;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+
+  &:hover:not(:disabled) { background: darken($green, 8%); }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+// ── Date field ────────────────────────────────────────────────────
+.date-wrapper {
+  position: relative;
+
+  input {
+    padding-left: 36px;
+  }
+
+  .cal-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: #aaa;
+    pointer-events: none;
+  }
+}
+
+// ── Phone field ───────────────────────────────────────────────────
+.phone-wrapper {
+  display: flex;
+
+  .country-code {
+    width: 80px;
+    border-radius: 8px 0 0 8px;
+    border-left: none;
+    flex-shrink: 0;
+    font-size: 0.82rem;
+  }
+
+  input {
+    flex: 1;
+  }
+}
+
+// ── Gender radio ──────────────────────────────────────────────────
+.radio-group {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid $border;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  color: #333;
+
+  input[type="radio"] { display: none; }
+
+  .radio-custom {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid $border;
+    background: #fff;
+    transition: border-color 0.2s, background 0.2s;
+    flex-shrink: 0;
+
+    &.checked {
+      border-color: $green;
+      background: $green;
+      box-shadow: inset 0 0 0 3px #fff;
+    }
+  }
+}
+
+// ── Actions ───────────────────────────────────────────────────────
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  justify-content: flex-end;
+
+  button {
+    padding: 10px 36px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+}
+
+.btn-save {
+  background: $green;
+  color: #fff;
+  border: none;
+  &:hover { background: darken($green, 8%); }
+}
+
+.btn-cancel {
+  background: #fff;
+  color: #333;
+  border: 1px solid $border;
+  &:hover { background: #f5f5f5; }
+}

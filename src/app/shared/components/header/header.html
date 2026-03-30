@@ -1,0 +1,61 @@
+<header class="app-header">
+
+  <!-- Right: logo (first child → right in RTL) -->
+  <div class="header-right">
+    <img src="images/Rightside.png" alt="وزارة التجارة" class="header-logo" />
+  </div>
+
+  <!-- Left: account + notification (second child → left in RTL) -->
+  <div class="header-left">
+
+    <!-- Notification bell -->
+    <button class="icon-btn" aria-label="الإشعارات">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </svg>
+    </button>
+
+    <div class="separator"></div>
+
+    <!-- Account dropdown -->
+    <div class="account" (click)="toggleDropdown()">
+       <div class="avatar">{{ user.initials }}</div>
+
+      <div class="user-info">
+        <span class="user-name">{{ user.name }}</span>
+        <span class="user-role">{{ user.role }}</span>
+      </div>
+
+     
+      <svg class="chevron" [class.open]="dropdownOpen()" xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+
+      @if (dropdownOpen()) {
+        <div class="dropdown" (click)="$event.stopPropagation()">
+          <button class="dropdown-item" (click)="changePassword()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            تغيير كلمة المرور
+          </button>
+          <button class="dropdown-item logout" (click)="logout()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
+            </svg>
+            تسجيل الخروج
+          </button>
+        </div>
+      }
+    </div>
+
+  </div>
+</header>

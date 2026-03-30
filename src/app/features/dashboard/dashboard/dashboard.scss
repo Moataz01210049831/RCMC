@@ -1,0 +1,164 @@
+$green: #006B41;
+$gold: #c9a84c;
+$border: #e0e0e0;
+
+.page-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 110px);
+}
+
+.service-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid $border;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+  padding: 24px;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+// ── Header ────────────────────────────────────────────────────────
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: $gold;
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #888;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px;
+
+  &:hover {
+    color: #333;
+  }
+}
+
+// ── Search Row ────────────────────────────────────────────────────
+.search-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  border: 1px solid $border;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fafafa;
+  height: 44px;
+  padding-inline-end: 9px;
+}
+
+.search-input-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  input {
+    width: 100%;
+    height: 100%;
+    padding: 0 36px 0 12px;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+    text-align: right;
+
+    &::placeholder {
+      color: #bbb;
+    }
+  }
+
+  .search-icon {
+    position: absolute;
+    right: 10px;
+    width: 16px;
+    height: 16px;
+    color: #aaa;
+    pointer-events: none;
+    flex-shrink: 0;
+  }
+}
+
+.divider {
+  width: 1px;
+  background: $border;
+  align-self: stretch;
+}
+
+select {
+  height: 100%;
+  padding: 0 10px 0 5px;
+  border: none;
+  border-right: none;
+  background: #fafafa;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: #333;
+  outline: none;
+  cursor: pointer;
+  appearance: auto;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+// ── No Results ────────────────────────────────────────────────────
+.no-results {
+  font-size: 0.85rem;
+  color: #c0392b;
+  text-align: right;
+  margin: 0;
+}
+
+// ── Actions ───────────────────────────────────────────────────────
+.card-actions {
+  display: flex;
+  gap: 12px;
+
+  button {
+    flex: 1;
+    padding: 11px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+}
+
+.btn-search {
+  background: $green;
+  color: #fff;
+  border: none;
+
+  &:hover {
+    background: darken($green, 8%);
+  }
+}
+
+.btn-add {
+  background: #fff;
+  color: #333;
+  border: 1px solid $border;
+
+  &:hover {
+    background: #f5f5f5;
+  }
+}
