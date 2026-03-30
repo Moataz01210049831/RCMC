@@ -40,7 +40,25 @@ export class AddCustomer {
 
   verifyId() {
     if (!this.canVerify) return;
-    // TODO: call API to verify ID
+
+    // TODO: replace with real API call using idType, idNumber, birthDate
+    const mockData = {
+      firstName:        'أحمد',
+      secondName:       'محمد',
+      thirdName:        'عبدالله',
+      fourthName:       'العمري',
+      nationality:      'SA',
+      gender:           'male',
+      phone:            '0512345678',
+      phoneAlt:         '0598765432',
+      preferredLang:    'ar',
+      preferredContact: 'email',
+      email:            'ahmed.alamri@example.com',
+      region:           'riyadh',
+      city:             'riyadh',
+    };
+
+    Object.assign(this.customer, mockData);
     this.idSharedWarning.set(true);
     this.idVerified.set(true);
   }
@@ -48,8 +66,8 @@ export class AddCustomer {
   onSubmit(form: NgForm) {
     this.submitted.set(true);
     if (form.invalid) return;
+    console.log('Customer Data:', this.customer);
     // TODO: call API
-    this.router.navigate(['/customers/search']);
   }
 
   goBack() {
