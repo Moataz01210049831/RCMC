@@ -7,16 +7,23 @@
     @for (entity of entities; track entity.id) {
       <div class="entity-tab" [class.active]="selectedEntityId() === entity.id"
         (click)="selectEntity(entity.id)">
-        <span class="entity-name">{{ entity.name }}</span>
-        <span class="entity-number">{{ entity.number }}</span>
-        <button class="tab-arrow">&#x3c;</button>
+        <div class="entity-text">
+          <span class="entity-name">{{ entity.name }}</span>
+          <span class="entity-number">{{ entity.number }}</span>
+        </div>
+        <button class="tab-arrow">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
       </div>
     }
   </div>
 
   <!-- Service cards grid -->
   <div class="service-grid">
-    @for (card of serviceCards; track card.title) {
+    @for (card of activeServiceCards(); track card.title) {
       <div class="service-card">
 
         <div class="service-header">
