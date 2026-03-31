@@ -24,6 +24,10 @@ export const routes: Routes = [
         path: 'customers/search',
         loadComponent: () => import('./features/customers/search-results/search-results').then(m => m.SearchResults),
       },
+      {
+        path: 'customers/:id',
+        loadComponent: () => import('./features/customers/customer-detail/customer-detail').then(m => m.CustomerDetail),
+      },
     ],
   },
 ];

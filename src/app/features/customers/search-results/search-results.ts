@@ -51,4 +51,8 @@ export class SearchResults implements OnInit {
   addCustomer() {
     this.router.navigate(['/customers/add']);
   }
+
+  viewCustomer(id: number) {
+    this.router.navigate(['/customers', id]);
+  }
 }

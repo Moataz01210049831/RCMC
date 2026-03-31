@@ -1,0 +1,186 @@
+@use '../../../../styles/variables' as *;
+
+.related-entities {
+  border: 2px dashed lighten($primary, 40%);
+  border-radius: $radius-card;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: #fff;
+}
+
+// ── Title ─────────────────────────────────────────────────────────
+.section-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: $accent;
+  margin: 0;
+  text-align: right;
+}
+
+// ── Entity tabs ───────────────────────────────────────────────────
+.entity-tabs {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+
+  &::-webkit-scrollbar { height: 4px; }
+  &::-webkit-scrollbar-thumb { background: $border; border-radius: 4px; }
+}
+
+.entity-tab {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid $border;
+  border-radius: $radius-input;
+  cursor: pointer;
+  white-space: nowrap;
+  background: $bg-card;
+  transition: border-color 0.2s;
+  flex-direction: row-reverse;
+
+  &.active {
+    border-color: $primary;
+    border-width: 2px;
+  }
+
+  .entity-name {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: $text-primary;
+  }
+
+  .entity-number {
+    font-size: 0.78rem;
+    color: $text-muted;
+  }
+
+  .tab-arrow {
+    background: none;
+    border: none;
+    color: $text-muted;
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+  }
+}
+
+// ── Service grid ──────────────────────────────────────────────────
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+
+  @media (max-width: 900px)  { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 480px)  { grid-template-columns: 1fr; }
+}
+
+.service-card {
+  border: 1px solid $border;
+  border-radius: $radius-input;
+  padding: 14px;
+  background: $bg-card;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+.service-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.service-title-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.service-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: $text-primary;
+}
+
+.service-count {
+  font-size: 0.78rem;
+  color: $text-muted;
+}
+
+.bulb-icon {
+  svg {
+    width: 28px;
+    height: 28px;
+    color: $accent;
+  }
+}
+
+.service-desc {
+  font-size: 0.75rem;
+  color: $text-muted;
+  margin: 0;
+  text-align: right;
+}
+
+// ── Service items ─────────────────────────────────────────────────
+.service-items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.service-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+
+.item-code {
+  color: $text-secondary;
+  font-weight: 500;
+}
+
+.item-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: $primary;
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: $primary;
+    flex-shrink: 0;
+  }
+}
+
+// ── Card arrow ────────────────────────────────────────────────────
+.card-arrow {
+  align-self: flex-start;
+  background: none;
+  border: 1px solid $border;
+  border-radius: 6px;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: $text-muted;
+  font-size: 0.8rem;
+  transition: background 0.15s;
+
+  &:hover { background: $hover-bg; }
+}

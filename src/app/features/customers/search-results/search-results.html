@@ -44,7 +44,7 @@
               <td>{{ customer.phone }}</td>
               <td>
                 <div class="actions">
-                  <button class="action-btn view" title="عرض">
+                  <button class="action-btn view" title="عرض" (click)="viewCustomer(customer.id)">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                       stroke="currentColor" stroke-width="2">
                       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
