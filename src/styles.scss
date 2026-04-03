@@ -1,5 +1,10 @@
 @use 'styles/variables' as *;
 
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -10,4 +15,40 @@ body {
   font-family: $font-family;
   min-height: 100vh;
   background: $bg-page;
+}
+
+// ── Global button animation ───────────────────────────────────────
+button:not(:disabled) {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.15s, box-shadow 0.2s, background-color 0.2s;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      rgba(#fff, 0.2) 50%,
+      transparent 60%
+    );
+    background-size: 400px 100%;
+    background-repeat: no-repeat;
+    background-position: -400px 0;
+    pointer-events: none;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+
+    &::after {
+      animation: shimmer 0.55s linear forwards;
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: none !important;
+  }
 }
