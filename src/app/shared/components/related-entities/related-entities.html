@@ -26,34 +26,42 @@
     @for (card of activeServiceCards(); track card.title) {
       <div class="service-card">
 
-        <div class="service-header">
-          <div class="service-title-row">
-            <span class="service-count">{{ card.count }}</span>
+        <!-- Bulb icon top right -->
+        <div class="bulb-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.5">
+            <path d="M9 21h6M12 3a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V17a1 1 0 0 1-1 1H10a1 1 0 0 1-1-1v-2.8C7.21 13.16 6 11.22 6 9a6 6 0 0 1 6-6z"/>
+          </svg>
+        </div>
+
+        <!-- Title row: arrow + name + count -->
+        <div class="service-title-row">
+          <div class="title-group">
             <span class="service-title">{{ card.title }}</span>
+            <span class="service-count">{{ card.count }}</span>
           </div>
-          <div class="bulb-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="1.5">
-              <path d="M9 21h6M12 3a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V17a1 1 0 0 1-1 1H10a1 1 0 0 1-1-1v-2.8C7.21 13.16 6 11.22 6 9a6 6 0 0 1 6-6z"/>
-            </svg>
-          </div>
+          <svg class="title-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
         </div>
 
         <p class="service-desc">{{ card.description }}</p>
 
+        <!-- Items -->
         <div class="service-items">
           @for (item of card.items; track item.code) {
             <div class="service-item">
+              <span class="item-code">{{ item.code }}</span>
               <span class="item-status">
                 <span class="status-dot"></span>
                 {{ item.status }}
               </span>
-              <span class="item-code">{{ item.code }}</span>
             </div>
           }
         </div>
 
-        <button class="card-arrow">&#x3c;</button>
+       
 
       </div>
     }
