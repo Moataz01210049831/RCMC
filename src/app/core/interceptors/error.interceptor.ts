@@ -8,20 +8,18 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      let message = 'حدث خطأ غير متوقع';
+      let message: string;
 
-      if (error.status === 0) {
-        message = 'تعذّر الاتصال بالخادم، تحقق من الشبكة';
-      } else if (error.status === 401) {
-        message = 'غير مصرح، يرجى تسجيل الدخول مجدداً';
-      } else if (error.status === 403) {
-        message = 'ليس لديك صلاحية للقيام بهذه العملية';
-      } else if (error.status === 404) {
-        message = 'المورد المطلوب غير موجود';
-      } else if (error.status === 422 || error.status === 400) {
-        message = error.error?.message ?? 'بيانات غير صحيحة';
-      } else if (error.status >= 500) {
-        message = 'خطأ في الخادم، يرجى المحاولة لاحقاً';
+      switch (error.status) {
+        case 0:   message = 'تعذّر الاتصال بالخادم، تحقق من الشبكة';        break;
+        case 400: message = 'غير مصرح، يرجى تسجيل الدخول مجدداً';           break;
+        case 422: message = error.error?.message ?? 'بيانات غير صحيحة';      break;
+        case 401: message = 'غير مصرح، يرجى تسجيل الدخول مجدداً';           break;
+        case 403: message = 'ليس لديك صلاحية للقيام بهذه العملية';           break;
+        case 404: message = 'المورد المطلوب غير موجود';                       break;
+        default:  message = error.status >= 500
+                    ? 'خطأ في الخادم، يرجى المحاولة لاحقاً'
+                    : 'حدث خطأ غير متوقع';
       }
 
       toast.error(message);
