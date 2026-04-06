@@ -131,9 +131,11 @@ $gold: $accent;
 // ── Date field ────────────────────────────────────────────────────
 .date-wrapper {
   position: relative;
+  cursor: pointer;
 
   input {
     padding-left: 36px;
+    cursor: pointer;
   }
 
   .cal-icon {
