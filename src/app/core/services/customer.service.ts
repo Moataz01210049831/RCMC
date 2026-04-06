@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ContactResponse, CreateContactRequest } from '../models/contact.model';
+import { DUMMY_CONTACT } from '../dummy-data/contact.dummy';
 
 export type { CreateContactRequest, ContactResponse };
 
@@ -17,26 +18,9 @@ export class CustomerService {
   }
 
   getContact(id: string) {
-    const dummy: ContactResponse = {
-      id,
-      firstName:              'حسن',
-      middleName:             'حمدان',
-      thirdName:              'محمد',
-      lastName:               'جاد',
-      cityId:                 'city-05',
-      dateOfBirth:            '1990-05-15T00:00:00',
-      email:                  'hassan.gad@example.com',
-      gender:                 1,
-      identityType:           1,
-      identityNumber:         '1234567890',
-      mobileNumber1:          '0501234567',
-      mobileNumber2:          '0507654321',
-      nationalityId:          'country-01',
-      preferredContactMethod: 1,
-      preferredLanguage:      0,
-      regionId:               'region-04',
-    };
-    return of(dummy);
-    // TODO: return this.http.get<ContactResponse>(`${this.apiUrl}/contacts/${id}`);
+    if (environment.useDummyData) {
+      return of({ ...DUMMY_CONTACT, id });
+    }
+    return this.http.get<ContactResponse>(`${this.apiUrl}/contacts/${id}`);
   }
 }
