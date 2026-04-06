@@ -70,6 +70,15 @@ export class AddCustomer implements OnInit {
     private toast: ToastService,
   ) {}
 
+  get canVerify(): boolean {
+    return !!this.customer.identityType && !!this.customer.identityNumber && !!this.customer.dateOfBirth;
+  }
+
+  verifyId() {
+    if (!this.canVerify) return;
+    // TODO: call verify API
+  }
+
   ngOnInit() {
     this.lookupService.getCities().subscribe({ next: data => this.cities = data });
     this.lookupService.getCountries().subscribe({ next: data => this.nationalities = data });

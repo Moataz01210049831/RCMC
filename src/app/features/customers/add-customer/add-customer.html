@@ -53,6 +53,11 @@
 
       </div>
 
+      <!-- Verify row -->
+      <div class="verify-row">
+        <button type="button" class="btn-verify" (click)="verifyId()" [disabled]="!canVerify">تحقق</button>
+      </div>
+
       <!-- Row 2: Name fields (1st / 2nd / 3rd) -->
       <div class="form-row cols-3">
 

@@ -111,7 +111,7 @@ $gold: $accent;
 .verify-row {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 12px;
   margin-bottom: 16px;
 
@@ -121,14 +121,15 @@ $gold: $accent;
 }
 
 .btn-verify {
-  height: 40px;
+  height: 32px;
+  width: 111px;
   padding: 0 28px;
   background: $green;
   color: #fff;
   border: none;
   border-radius: 8px;
   font-family: inherit;
-  font-size: 0.88rem;
+  font-size: 0.5rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s, opacity 0.2s;
@@ -231,17 +232,17 @@ $gold: $accent;
   }
 
   button {
-    padding: 10px 36px;
+    height: 32px;
+    width: 111px;
     border-radius: 8px;
     font-family: inherit;
-    font-size: 0.95rem;
+    font-size: 0.88rem;
     font-weight: 600;
     cursor: pointer;
     transition: background 0.2s;
 
     @media (max-width: 480px) {
       width: 100%;
-      padding: 12px;
     }
   }
 }
