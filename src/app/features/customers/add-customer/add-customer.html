@@ -103,13 +103,15 @@
 
         <div class="field-group">
           <label>الجنسية <span class="req">*</span></label>
-          <select name="nationalityId" [(ngModel)]="customer.nationalityId" required
-            #nationalityCtrl="ngModel" [class.invalid]="submitted() && nationalityCtrl.invalid">
-            <option value="" disabled>الجنسية</option>
-            @for (item of nationalities; track item.value) {
-              <option [value]="item.value">{{ item.name }}</option>
-            }
-          </select>
+          <app-searchable-select
+            name="nationalityId"
+            [(ngModel)]="customer.nationalityId"
+            [items]="nationalities"
+            placeholder="الجنسية"
+            required
+            #nationalityCtrl="ngModel"
+            [invalid]="submitted() && nationalityCtrl.invalid">
+          </app-searchable-select>
           @if (submitted() && nationalityCtrl.errors?.['required']) {
             <span class="error">مطلوب</span>
           }
@@ -201,13 +203,15 @@
 
         <div class="field-group">
           <label>المنطقة <span class="req">*</span></label>
-          <select name="regionId" [(ngModel)]="customer.regionId" required
-            #regionCtrl="ngModel" [class.invalid]="submitted() && regionCtrl.invalid">
-            <option value="" disabled>المنطقة</option>
-            @for (item of regions; track item.value) {
-              <option [value]="item.value">{{ item.name }}</option>
-            }
-          </select>
+          <app-searchable-select
+            name="regionId"
+            [(ngModel)]="customer.regionId"
+            [items]="regions"
+            placeholder="المنطقة"
+            required
+            #regionCtrl="ngModel"
+            [invalid]="submitted() && regionCtrl.invalid">
+          </app-searchable-select>
           @if (submitted() && regionCtrl.errors?.['required']) {
             <span class="error">مطلوب</span>
           }
@@ -220,13 +224,15 @@
 
         <div class="field-group">
           <label>المدينة <span class="req">*</span></label>
-          <select name="cityId" [(ngModel)]="customer.cityId" required
-            #cityCtrl="ngModel" [class.invalid]="submitted() && cityCtrl.invalid">
-            <option value="" disabled>المدينة</option>
-            @for (item of cities; track item.value) {
-              <option [value]="item.value">{{ item.name }}</option>
-            }
-          </select>
+          <app-searchable-select
+            name="cityId"
+            [(ngModel)]="customer.cityId"
+            [items]="cities"
+            placeholder="المدينة"
+            required
+            #cityCtrl="ngModel"
+            [invalid]="submitted() && cityCtrl.invalid">
+          </app-searchable-select>
           @if (submitted() && cityCtrl.errors?.['required']) {
             <span class="error">مطلوب</span>
           }

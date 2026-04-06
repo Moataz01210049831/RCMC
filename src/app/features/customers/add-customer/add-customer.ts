@@ -3,10 +3,12 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomerService } from '../../../core/services/customer.service';
 import { LookupService, LookupItem } from '../../../core/services/lookup.service';
+import { ToastService } from '../../../core/services/toast.service';
+import { SearchableSelect } from '../../../shared/components/searchable-select/searchable-select';
 
 @Component({
   selector: 'app-add-customer',
-  imports: [FormsModule],
+  imports: [FormsModule, SearchableSelect],
   templateUrl: './add-customer.html',
   styleUrl: './add-customer.scss',
 })
@@ -65,6 +67,7 @@ export class AddCustomer implements OnInit {
     private router: Router,
     private customerService: CustomerService,
     private lookupService: LookupService,
+    private toast: ToastService,
   ) {}
 
   ngOnInit() {
@@ -98,6 +101,7 @@ export class AddCustomer implements OnInit {
     }).subscribe({
       next: () => {
         this.loading.set(false);
+        this.toast.success('تم إضافة العميل بنجاح');
         this.router.navigate(['/dashboard']);
       },
       error: () => {

@@ -1,0 +1,130 @@
+@use '../../../../styles/variables' as *;
+
+.ss-container {
+  position: relative;
+  width: 100%;
+}
+
+// ── Trigger ───────────────────────────────────────────────────────
+.ss-trigger {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid $border;
+  border-radius: $radius-input;
+  background: $bg-input;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.88rem;
+  transition: border-color 0.2s;
+  gap: 6px;
+  user-select: none;
+
+  &:hover        { border-color: $border-dark; }
+  &.open         { border-color: $primary; }
+  &.invalid      { border-color: $error; background: #fff8f8; }
+}
+
+.ss-placeholder { color: $text-placeholder; flex: 1; text-align: right; }
+.ss-value       { flex: 1; color: $text-primary; text-align: right; }
+
+.ss-clear {
+  background: none;
+  border: none;
+  color: $text-muted;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+  flex-shrink: 0;
+
+  &:hover { color: $error; }
+}
+
+.ss-arrow {
+  width: 14px;
+  height: 14px;
+  color: $text-muted;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+
+  &.rotated { transform: rotate(180deg); }
+}
+
+// ── Dropdown ──────────────────────────────────────────────────────
+.ss-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid $border;
+  border-radius: $radius-input;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.ss-search-wrap {
+  position: relative;
+  padding: 8px;
+  border-bottom: 1px solid $border;
+}
+
+.ss-search-icon {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  color: $text-muted;
+  pointer-events: none;
+}
+
+.ss-search {
+  width: 100%;
+  height: 34px;
+  padding: 0 34px 0 10px;
+  border: 1px solid $border;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  background: $bg-input;
+  outline: none;
+  text-align: right;
+  box-sizing: border-box;
+  direction: rtl;
+
+  &:focus { border-color: $primary; }
+  &::placeholder { color: $text-placeholder; }
+}
+
+// ── List ──────────────────────────────────────────────────────────
+.ss-list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.ss-item {
+  padding: 9px 14px;
+  font-size: 0.88rem;
+  color: $text-primary;
+  cursor: pointer;
+  text-align: right;
+  transition: background 0.15s;
+
+  &:hover    { background: $hover-bg; }
+  &.selected { background: rgba($primary, 0.08); color: $primary; font-weight: 600; }
+}
+
+.ss-empty {
+  padding: 12px 14px;
+  font-size: 0.85rem;
+  color: $text-muted;
+  text-align: center;
+}

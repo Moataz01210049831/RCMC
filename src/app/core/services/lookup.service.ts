@@ -2,11 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { LookupItem } from '../models/lookup.model';
 
-export interface LookupItem {
-  name: string;
-  value: string;
-}
+export type { LookupItem };
 
 // TODO: remove dummy data and uncomment HTTP calls when API is ready
 const DUMMY_REGIONS: LookupItem[] = [

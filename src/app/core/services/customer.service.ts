@@ -1,25 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { CreateContactRequest } from '../models/contact.model';
 
-export interface CreateContactRequest {
-  firstName: string;
-  middleName: string;
-  thirdName: string;
-  lastName: string;
-  cityId: string;
-  dateOfBirth: string;
-  email: string;
-  gender: number;
-  identityType: number;
-  identityNumber: string;
-  mobileNumber1: string;
-  mobileNumber2: string;
-  nationalityId: string;
-  preferredContactMethod: number;
-  preferredLanguage: number;
-  regionId: string;
-}
+export type { CreateContactRequest };
 
 @Injectable({ providedIn: 'root' })
 export class CustomerService {

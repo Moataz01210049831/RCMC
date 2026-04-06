@@ -120,7 +120,7 @@ $gold: $accent;
   cursor: pointer;
   transition: background 0.2s, opacity 0.2s;
 
-  &:hover:not(:disabled) { background: darken($green, 8%); }
+  &:hover:not(:disabled) { background: $primary-dark; }
 
   &:disabled {
     opacity: 0.45;
@@ -235,7 +235,7 @@ $gold: $accent;
   background: $green;
   color: #fff;
   border: none;
-  &:hover { background: darken($green, 8%); }
+  &:hover { background: $primary-dark; }
 }
 
 .btn-cancel {

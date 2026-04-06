@@ -38,7 +38,7 @@ $gold: $accent;
   transition: background 0.2s;
 
   svg { width: 16px; height: 16px; }
-  &:hover { background: darken($green, 8%); }
+  &:hover { background: $primary-dark; }
 }
 
 .query {

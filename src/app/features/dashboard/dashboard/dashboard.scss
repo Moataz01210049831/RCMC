@@ -149,7 +149,7 @@ select {
   border: none;
 
   &:hover {
-    background: darken($green, 8%);
+    background: $primary-dark;
   }
 }
 
