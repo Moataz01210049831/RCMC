@@ -26,19 +26,14 @@
 }
 
 .btn-edit {
+  @include btn-base;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
-  padding: 9px 18px;
   background: $primary;
   color: #fff;
   border: none;
-  border-radius: $radius-input;
-  font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
 
   svg { width: 15px; height: 15px; }
   &:hover { background: $primary-dark; }

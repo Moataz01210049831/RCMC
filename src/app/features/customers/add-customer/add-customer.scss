@@ -121,25 +121,13 @@ $gold: $accent;
 }
 
 .btn-verify {
-  height: 32px;
-  width: 111px;
-  padding: 0 28px;
+  @include btn-base;
   background: $green;
   color: #fff;
   border: none;
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 0.5rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s, opacity 0.2s;
 
   &:hover:not(:disabled) { background: $primary-dark; }
-
-  &:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
-  }
+  &:disabled { opacity: 0.45; cursor: not-allowed; }
 }
 
 // ── Date field ────────────────────────────────────────────────────
@@ -231,20 +219,7 @@ $gold: $accent;
     flex-direction: column-reverse;
   }
 
-  button {
-    height: 32px;
-    width: 111px;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 0.88rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-
-    @media (max-width: 480px) {
-      width: 100%;
-    }
-  }
+  button { @include btn-base; }
 }
 
 .btn-save {

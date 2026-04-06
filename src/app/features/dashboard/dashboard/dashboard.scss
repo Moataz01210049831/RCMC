@@ -131,34 +131,19 @@ select {
   display: flex;
   gap: 12px;
 
-  button {
-    flex: 1;
-    padding: 11px;
-    border-radius: 8px;
-    font-family: inherit;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-  }
+  button { @include btn-base; flex: 1; }
 }
 
 .btn-search {
   background: $green;
   color: #fff;
   border: none;
-
-  &:hover {
-    background: $primary-dark;
-  }
+  &:hover { background: $primary-dark; }
 }
 
 .btn-add {
   background: #fff;
   color: #333;
   border: 1px solid $border;
-
-  &:hover {
-    background: #f5f5f5;
-  }
+  &:hover { background: #f5f5f5; }
 }
