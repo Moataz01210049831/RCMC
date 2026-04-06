@@ -1,23 +1,13 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CustomerCard, CustomerCardData } from '../../../shared/components/customer-card/customer-card';
+import { forkJoin } from 'rxjs';
+import { CustomerCard } from '../../../shared/components/customer-card/customer-card';
 import { RelatedEntities } from '../../../shared/components/related-entities/related-entities';
+import { CustomerService } from '../../../core/services/customer.service';
+import { LookupService, LookupItem } from '../../../core/services/lookup.service';
+import { CustomerCardData } from '../../../core/models/customer-card.model';
 
-// Mock — replace with real API call using customer id
-const MOCK_DETAIL: CustomerCardData = {
-  id: 1,
-  fullName: 'أحمد محمد العمري',
-  idNumber: '1234567891',
-  phone: '01127165682',
-  birthDate: '20/09/2025',
-  nationality: 'سعودي',
-  gender: 'ذكر',
-  city: 'الدمام',
-  status: 'نشط',
-  createdAt: '12/2/2025',
-  createdBy: 'عزت م.ك',
-  updatedAt: '12/2/2025 12:23pm',
-};
+const GENDER_LABELS: Record<number, string> = { 1: 'ذكر', 2: 'أنثى' };
 
 @Component({
   selector: 'app-customer-detail',
@@ -28,12 +18,36 @@ const MOCK_DETAIL: CustomerCardData = {
 export class CustomerDetail implements OnInit {
   customer = signal<CustomerCardData | null>(null);
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private customerService: CustomerService,
+    private lookupService: LookupService,
+  ) {}
 
   ngOnInit() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    // TODO: replace with this.http.get(`${environment.apiUrl}/customers/${id}`)
-    this.customer.set({ ...MOCK_DETAIL, id });
+    const id = this.route.snapshot.paramMap.get('id') ?? '';
+
+    forkJoin({
+      contact:       this.customerService.getContact(id),
+      cities:        this.lookupService.getCities(),
+      nationalities: this.lookupService.getCountries(),
+    }).subscribe(({ contact, cities, nationalities }) => {
+      const resolveName = (items: LookupItem[], value: string) =>
+        items.find(i => i.value === value)?.name ?? '-';
+
+      this.customer.set({
+        id:          contact.id,
+        fullName:    [contact.firstName, contact.middleName, contact.thirdName, contact.lastName]
+                       .filter(Boolean).join(' '),
+        idNumber:    contact.identityNumber,
+        phone:       contact.mobileNumber1,
+        birthDate:   contact.dateOfBirth.split('T')[0],
+        nationality: resolveName(nationalities, contact.nationalityId),
+        gender:      GENDER_LABELS[contact.gender] ?? '-',
+        city:        resolveName(cities, contact.cityId),
+      });
+    });
   }
 
   goBack() {

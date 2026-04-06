@@ -1,19 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CustomerCardData } from '../../../core/models/customer-card.model';
 
-export interface CustomerCardData {
-  id: number;
-  fullName: string;
-  idNumber: string;
-  phone: string;
-  birthDate: string;
-  nationality: string;
-  gender: string;
-  city: string;
-  status: string;
-  createdAt: string;
-  createdBy: string;
-  updatedAt: string;
-}
+export type { CustomerCardData };
 
 @Component({
   selector: 'app-customer-card',

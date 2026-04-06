@@ -125,23 +125,33 @@
   </div>
 
   <!-- Bottom meta row -->
-  <div class="meta-row">
-    <div class="meta-item">
-      <span class="meta-label">حالة العميل :</span>
-      <span class="status-badge" [class.active]="customer.status === 'نشط'">{{ customer.status }}</span>
+  @if (customer.status || customer.updatedAt || customer.createdBy || customer.createdAt) {
+    <div class="meta-row">
+      @if (customer.status) {
+        <div class="meta-item">
+          <span class="meta-label">حالة العميل :</span>
+          <span class="status-badge" [class.active]="customer.status === 'نشط'">{{ customer.status }}</span>
+        </div>
+      }
+      @if (customer.updatedAt) {
+        <div class="meta-item">
+          <span class="meta-label">آخر تحديث :</span>
+          <span class="meta-value">{{ customer.updatedAt }}</span>
+        </div>
+      }
+      @if (customer.createdBy) {
+        <div class="meta-item">
+          <span class="meta-label">منشئ السجل :</span>
+          <span class="meta-value">{{ customer.createdBy }}</span>
+        </div>
+      }
+      @if (customer.createdAt) {
+        <div class="meta-item">
+          <span class="meta-label">تاريخ الإنشاء :</span>
+          <span class="meta-value">{{ customer.createdAt }}</span>
+        </div>
+      }
     </div>
-    <div class="meta-item">
-      <span class="meta-label">آخر تحديث :</span>
-      <span class="meta-value">{{ customer.updatedAt }}</span>
-    </div>
-    <div class="meta-item">
-      <span class="meta-label">منشئ السجل :</span>
-      <span class="meta-value">{{ customer.createdBy }}</span>
-    </div>
-    <div class="meta-item">
-      <span class="meta-label">تاريخ الإنشاء :</span>
-      <span class="meta-value">{{ customer.createdAt }}</span>
-    </div>
-  </div>
+  }
 
 </div>
