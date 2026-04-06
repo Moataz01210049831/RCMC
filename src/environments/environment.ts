@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
   useDummyData: true,
-  apiUrl: 'http://localhost:3000/api',
+  apiUrl: 'rcmc.com/api',
 };
