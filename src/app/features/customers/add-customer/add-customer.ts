@@ -1,6 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CustomerService } from '../../../core/services/customer.service';
+import { LookupService, LookupItem } from '../../../core/services/lookup.service';
 
 @Component({
   selector: 'app-add-customer',
@@ -8,66 +10,100 @@ import { Router } from '@angular/router';
   templateUrl: './add-customer.html',
   styleUrl: './add-customer.scss',
 })
-export class AddCustomer {
+export class AddCustomer implements OnInit {
   submitted = signal(false);
-  idVerified = signal(false);
-  idSharedWarning = signal(false);
+  loading = signal(false);
 
-  customer = {
-    idType: '',
-    idNumber: '',
-    birthDate: '',
+  cities: LookupItem[] = [];
+  nationalities: LookupItem[] = [];
+  regions: LookupItem[] = [];
+
+  identityTypes = [
+    { label: 'مواطن', value: 1 },
+    { label: 'مقيم', value: 2 },
+    { label: 'زائر', value: 3 },
+    { label: 'حاج', value: 4 },
+  ];
+
+  customer: {
+    identityType: number | null;
+    identityNumber: string;
+    dateOfBirth: string;
+    firstName: string;
+    middleName: string;
+    thirdName: string;
+    lastName: string;
+    nationalityId: string;
+    gender: number | null;
+    mobileNumber1: string;
+    mobileNumber2: string;
+    preferredLanguage: number | null;
+    preferredContactMethod: number | null;
+    email: string;
+    regionId: string;
+    cityId: string;
+  } = {
+    identityType: null,
+    identityNumber: '',
+    dateOfBirth: '',
     firstName: '',
-    secondName: '',
+    middleName: '',
     thirdName: '',
-    fourthName: '',
-    nationality: '',
-    gender: '',
-    phone: '',
-    phoneAlt: '',
-    preferredContact: '',
-    preferredLang: '',
+    lastName: '',
+    nationalityId: '',
+    gender: null,
+    mobileNumber1: '',
+    mobileNumber2: '',
+    preferredLanguage: null,
+    preferredContactMethod: null,
     email: '',
-    region: '',
-    city: '',
+    regionId: '',
+    cityId: '',
   };
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private customerService: CustomerService,
+    private lookupService: LookupService,
+  ) {}
 
-  get canVerify(): boolean {
-    return !!this.customer.idType && !!this.customer.idNumber && !!this.customer.birthDate;
-  }
-
-  verifyId() {
-    if (!this.canVerify) return;
-
-    // TODO: replace with real API call using idType, idNumber, birthDate
-    const mockData = {
-      firstName:        'أحمد',
-      secondName:       'محمد',
-      thirdName:        'عبدالله',
-      fourthName:       'العمري',
-      nationality:      'SA',
-      gender:           'male',
-      phone:            '0512345678',
-      phoneAlt:         '0598765432',
-      preferredLang:    'ar',
-      preferredContact: 'email',
-      email:            'ahmed.alamri@example.com',
-      region:           'riyadh',
-      city:             'riyadh',
-    };
-
-    Object.assign(this.customer, mockData);
-    this.idSharedWarning.set(true);
-    this.idVerified.set(true);
+  ngOnInit() {
+    this.lookupService.getCities().subscribe({ next: data => this.cities = data });
+    this.lookupService.getCountries().subscribe({ next: data => this.nationalities = data });
+    this.lookupService.getRegions().subscribe({ next: data => this.regions = data });
   }
 
   onSubmit(form: NgForm) {
     this.submitted.set(true);
     if (form.invalid) return;
-    console.log('Customer Data:', this.customer);
-    // TODO: call API
+
+    this.loading.set(true);
+    this.customerService.createContact({
+      firstName: this.customer.firstName,
+      middleName: this.customer.middleName,
+      thirdName: this.customer.thirdName,
+      lastName: this.customer.lastName,
+      cityId: this.customer.cityId,
+      dateOfBirth: this.customer.dateOfBirth,
+      email: this.customer.email,
+      gender: this.customer.gender!,
+      identityType: this.customer.identityType!,
+      identityNumber: this.customer.identityNumber,
+      mobileNumber1: this.customer.mobileNumber1,
+      mobileNumber2: this.customer.mobileNumber2,
+      nationalityId: this.customer.nationalityId,
+      preferredContactMethod: this.customer.preferredContactMethod!,
+      preferredLanguage: this.customer.preferredLanguage!,
+      regionId: this.customer.regionId,
+    }).subscribe({
+      next: () => {
+        this.loading.set(false);
+        this.router.navigate(['/dashboard']);
+      },
+      error: () => {
+        this.loading.set(false);
+      },
+    });
   }
 
   goBack() {
