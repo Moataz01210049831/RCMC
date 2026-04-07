@@ -33,6 +33,10 @@ export class Header {
     this.router.navigate(['/change-password']);
   }
 
+  goToDashboard() {
+    this.router.navigate(['/dashboard']);
+  }
+
   logout() {
     this.dropdownOpen.set(false);
     localStorage.removeItem('token');

@@ -2,7 +2,7 @@
 
   <!-- Right: logo (first child → right in RTL) -->
   <div id="header-right" class="header-right">
-    <img id="header-logo" [src]="config.headerLogo" [alt]="config.appName" class="header-logo" />
+    <img id="header-logo" [src]="config.headerLogo" [alt]="config.appName" class="header-logo" (click)="goToDashboard()" style="cursor: pointer;" />
   </div>
 
   <!-- Left: account + notification (second child → left in RTL) -->
