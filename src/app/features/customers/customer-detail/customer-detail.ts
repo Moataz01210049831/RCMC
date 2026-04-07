@@ -51,7 +51,7 @@ export class CustomerDetail implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/customers/search']);
+    this.router.navigate(['/dashboard']);
   }
 
   edit() {

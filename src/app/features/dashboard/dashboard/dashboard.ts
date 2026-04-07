@@ -20,9 +20,7 @@ export class Dashboard {
       this.noResults.set(true);
       return;
     }
-    this.router.navigate(['/customers/search'], {
-      queryParams: { q: this.searchText, type: this.searchType },
-    });
+    this.router.navigate(['/customers', this.searchText.trim()]);
   }
 
   addClient() {
