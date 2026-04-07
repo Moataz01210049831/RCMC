@@ -1,16 +1,16 @@
-<div class="page-center">
-  <div class="form-card">
+<div id="add-customer-page" class="page-center">
+  <div id="add-customer-form-card" class="form-card">
 
-    <h2 class="card-title">اضافه عميل</h2>
+    <h2 id="add-customer-card-title" class="card-title">اضافه عميل</h2>
 
-    <form #addForm="ngForm" (ngSubmit)="onSubmit(addForm)" novalidate>
+    <form id="add-customer-form" #addForm="ngForm" (ngSubmit)="onSubmit(addForm)" novalidate>
 
       <!-- Row 1: ID Type / ID Number / Birth Date -->
-      <div class="form-row cols-3">
+      <div id="add-customer-row-1" class="form-row cols-3">
 
-        <div class="field-group">
-          <label>نوع الهوية <span class="req">*</span></label>
-          <select name="identityType" [(ngModel)]="customer.identityType" required
+        <div id="add-customer-field-identity-type" class="field-group">
+          <label id="add-customer-label-identity-type">نوع الهوية <span class="req">*</span></label>
+          <select id="add-customer-select-identity-type" name="identityType" [(ngModel)]="customer.identityType" required
             #idTypeCtrl="ngModel" [class.invalid]="submitted() && idTypeCtrl.invalid">
             <option [ngValue]="null" disabled>نوع الهوية</option>
             @for (type of identityTypes; track type.value) {
@@ -18,27 +18,27 @@
             }
           </select>
           @if (submitted() && idTypeCtrl.errors?.['required']) {
-            <span class="error">مطلوب</span>
+            <span id="add-customer-error-identity-type" class="error">مطلوب</span>
           }
         </div>
 
-        <div class="field-group">
-          <label>رقم الهوية <span class="req">*</span></label>
-          <input type="text" name="identityNumber" [(ngModel)]="customer.identityNumber"
+        <div id="add-customer-field-identity-number" class="field-group">
+          <label id="add-customer-label-identity-number">رقم الهوية <span class="req">*</span></label>
+          <input id="add-customer-input-identity-number" type="text" name="identityNumber" [(ngModel)]="customer.identityNumber"
             required maxlength="10" placeholder="رقم الهوية"
             #idCtrl="ngModel" [class.invalid]="submitted() && idCtrl.invalid" />
           @if (submitted() && idCtrl.errors?.['required']) {
-            <span class="error">مطلوب</span>
+            <span id="add-customer-error-identity-number" class="error">مطلوب</span>
           }
         </div>
 
-        <div class="field-group">
-          <label>تاريخ الميلاد <span class="req">*</span></label>
-          <div class="date-wrapper" (click)="dateInput.showPicker()">
-            <input type="date" name="dateOfBirth" [(ngModel)]="customer.dateOfBirth"
+        <div id="add-customer-field-dob" class="field-group">
+          <label id="add-customer-label-dob">تاريخ الميلاد <span class="req">*</span></label>
+          <div id="add-customer-date-wrapper" class="date-wrapper" (click)="dateInput.showPicker()">
+            <input id="add-customer-input-dob" type="date" name="dateOfBirth" [(ngModel)]="customer.dateOfBirth"
               required placeholder="YYYY-MM-DD"
               #dateInput #dobCtrl="ngModel" [class.invalid]="submitted() && dobCtrl.invalid" />
-            <svg class="cal-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+            <svg id="add-customer-cal-icon" class="cal-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
               <line x1="16" y1="2" x2="16" y2="6"/>
@@ -47,67 +47,67 @@
             </svg>
           </div>
           @if (submitted() && dobCtrl.errors?.['required']) {
-            <span class="error">مطلوب</span>
+            <span id="add-customer-error-dob" class="error">مطلوب</span>
           }
         </div>
 
       </div>
 
       <!-- Verify row -->
-      <div class="verify-row">
-        <button type="button" class="btn-verify" (click)="verifyId()" [disabled]="!canVerify">تحقق</button>
+      <div id="add-customer-verify-row" class="verify-row">
+        <button id="add-customer-btn-verify" type="button" class="btn-verify" (click)="verifyId()" [disabled]="!canVerify">تحقق</button>
       </div>
 
       <!-- Row 2: Name fields (1st / 2nd / 3rd) -->
-      <div class="form-row cols-3">
+      <div id="add-customer-row-2" class="form-row cols-3">
 
-        <div class="field-group">
-          <label>الاسم الاول <span class="req">*</span></label>
-          <input type="text" name="firstName" [(ngModel)]="customer.firstName"
+        <div id="add-customer-field-firstname" class="field-group">
+          <label id="add-customer-label-firstname">الاسم الاول <span class="req">*</span></label>
+          <input id="add-customer-input-firstname" type="text" name="firstName" [(ngModel)]="customer.firstName"
             required placeholder="الاسم الاول"
             #firstNameCtrl="ngModel" [class.invalid]="submitted() && firstNameCtrl.invalid" />
           @if (submitted() && firstNameCtrl.errors?.['required']) {
-            <span class="error">مطلوب</span>
+            <span id="add-customer-error-firstname" class="error">مطلوب</span>
           }
         </div>
 
-        <div class="field-group">
-          <label>الاسم الثاني <span class="req">*</span></label>
-          <input type="text" name="middleName" [(ngModel)]="customer.middleName"
+        <div id="add-customer-field-middlename" class="field-group">
+          <label id="add-customer-label-middlename">الاسم الثاني <span class="req">*</span></label>
+          <input id="add-customer-input-middlename" type="text" name="middleName" [(ngModel)]="customer.middleName"
             required placeholder="الاسم الثاني"
             #middleNameCtrl="ngModel" [class.invalid]="submitted() && middleNameCtrl.invalid" />
           @if (submitted() && middleNameCtrl.errors?.['required']) {
-            <span class="error">مطلوب</span>
+            <span id="add-customer-error-middlename" class="error">مطلوب</span>
           }
         </div>
 
-        <div class="field-group">
-          <label>الاسم الثالث <span class="req">*</span></label>
-          <input type="text" name="thirdName" [(ngModel)]="customer.thirdName"
+        <div id="add-customer-field-thirdname" class="field-group">
+          <label id="add-customer-label-thirdname">الاسم الثالث <span class="req">*</span></label>
+          <input id="add-customer-input-thirdname" type="text" name="thirdName" [(ngModel)]="customer.thirdName"
             required placeholder="الاسم الثالث"
             #thirdNameCtrl="ngModel" [class.invalid]="submitted() && thirdNameCtrl.invalid" />
           @if (submitted() && thirdNameCtrl.errors?.['required']) {
-            <span class="error">مطلوب</span>
+            <span id="add-customer-error-thirdname" class="error">مطلوب</span>
           }
         </div>
 
       </div>
 
       <!-- Row 3: 4th Name / Nationality / Gender -->
-      <div class="form-row cols-3">
+      <div id="add-customer-row-3" class="form-row cols-3">
 
-        <div class="field-group">
-          <label>الاسم الرابع <span class="req">*</span></label>
-          <input type="text" name="lastName" [(ngModel)]="customer.lastName"
+        <div id="add-customer-field-lastname" class="field-group">
+          <label id="add-customer-label-lastname">الاسم الرابع <span class="req">*</span></label>
+          <input id="add-customer-input-lastname" type="text" name="lastName" [(ngModel)]="customer.lastName"
             required placeholder="الاسم الرابع"
             #lastNameCtrl="ngModel" [class.invalid]="submitted() && lastNameCtrl.invalid" />
           @if (submitted() && lastNameCtrl.errors?.['required']) {
-            <span class="error">مطلوب</span>
+            <span id="add-customer-error-lastname" class="error">مطلوب</span>
           }
         </div>
 
-        <div class="field-group">
-          <label>الجنسية <span class="req">*</span></label>
+        <div id="add-customer-field-nationality" class="field-group">
+          <label id="add-customer-label-nationality">الجنسية <span class="req">*</span></label>
           <app-searchable-select
             name="nationalityId"
             [(ngModel)]="customer.nationalityId"
@@ -118,96 +118,96 @@
             [invalid]="submitted() && nationalityCtrl.invalid">
           </app-searchable-select>
           @if (submitted() && nationalityCtrl.errors?.['required']) {
-            <span class="error">مطلوب</span>
+            <span id="add-customer-error-nationality" class="error">مطلوب</span>
           }
         </div>
 
-        <div class="field-group">
-          <label>الجنس <span class="req">*</span></label>
-          <div class="radio-group" [class.invalid]="submitted() && genderCtrl.invalid">
-            <label class="radio-label">
-              <input type="radio" name="gender" [(ngModel)]="customer.gender" [value]="1"
+        <div id="add-customer-field-gender" class="field-group">
+          <label id="add-customer-label-gender">الجنس <span class="req">*</span></label>
+          <div id="add-customer-radio-group-gender" class="radio-group" [class.invalid]="submitted() && genderCtrl.invalid">
+            <label id="add-customer-radio-label-male" class="radio-label">
+              <input id="add-customer-radio-male" type="radio" name="gender" [(ngModel)]="customer.gender" [value]="1"
                 required #genderCtrl="ngModel" />
-              <span class="radio-custom" [class.checked]="customer.gender === 1"></span>
+              <span id="add-customer-radio-custom-male" class="radio-custom" [class.checked]="customer.gender === 1"></span>
               ذكر
             </label>
-            <label class="radio-label">
-              <input type="radio" name="gender" [(ngModel)]="customer.gender" [value]="2" />
-              <span class="radio-custom" [class.checked]="customer.gender === 2"></span>
+            <label id="add-customer-radio-label-female" class="radio-label">
+              <input id="add-customer-radio-female" type="radio" name="gender" [(ngModel)]="customer.gender" [value]="2" />
+              <span id="add-customer-radio-custom-female" class="radio-custom" [class.checked]="customer.gender === 2"></span>
               أنثى
             </label>
           </div>
           @if (submitted() && genderCtrl.errors?.['required']) {
-            <span class="error">مطلوب</span>
+            <span id="add-customer-error-gender" class="error">مطلوب</span>
           }
         </div>
 
       </div>
 
       <!-- Row 4: Mobile 1 / Mobile 2 / Preferred Language -->
-      <div class="form-row cols-3">
+      <div id="add-customer-row-4" class="form-row cols-3">
 
-        <div class="field-group">
-          <label>رقم الجوال <span class="req">*</span></label>
-          <input type="text" name="mobileNumber1" [(ngModel)]="customer.mobileNumber1"
+        <div id="add-customer-field-mobile1" class="field-group">
+          <label id="add-customer-label-mobile1">رقم الجوال <span class="req">*</span></label>
+          <input id="add-customer-input-mobile1" type="text" name="mobileNumber1" [(ngModel)]="customer.mobileNumber1"
             required maxlength="10" placeholder="05XXXXXXXX"
             #phoneCtrl="ngModel" [class.invalid]="submitted() && phoneCtrl.invalid" />
           @if (submitted() && phoneCtrl.errors?.['required']) {
-            <span class="error">مطلوب</span>
+            <span id="add-customer-error-mobile1" class="error">مطلوب</span>
           }
         </div>
 
-        <div class="field-group">
-          <label>رقم جوال اخر</label>
-          <input type="text" name="mobileNumber2" [(ngModel)]="customer.mobileNumber2"
+        <div id="add-customer-field-mobile2" class="field-group">
+          <label id="add-customer-label-mobile2">رقم جوال اخر</label>
+          <input id="add-customer-input-mobile2" type="text" name="mobileNumber2" [(ngModel)]="customer.mobileNumber2"
             maxlength="10" placeholder="05XXXXXXXX" />
         </div>
 
-        <div class="field-group">
-          <label>اللغة المفضلة <span class="req">*</span></label>
-          <select name="preferredLanguage" [(ngModel)]="customer.preferredLanguage" required
+        <div id="add-customer-field-language" class="field-group">
+          <label id="add-customer-label-language">اللغة المفضلة <span class="req">*</span></label>
+          <select id="add-customer-select-language" name="preferredLanguage" [(ngModel)]="customer.preferredLanguage" required
             #langCtrl="ngModel" [class.invalid]="submitted() && langCtrl.invalid">
             <option [ngValue]="null" disabled>اللغة المفضلة</option>
             <option [ngValue]="0">العربية</option>
             <option [ngValue]="1">الإنجليزية</option>
           </select>
           @if (submitted() && langCtrl.errors?.['required']) {
-            <span class="error">مطلوب</span>
+            <span id="add-customer-error-language" class="error">مطلوب</span>
           }
         </div>
 
       </div>
 
       <!-- Row 5: Preferred Contact / Email / Region -->
-      <div class="form-row cols-3">
+      <div id="add-customer-row-5" class="form-row cols-3">
 
-        <div class="field-group">
-          <label>قناة التواصل المفضلة <span class="req">*</span></label>
-          <select name="preferredContactMethod" [(ngModel)]="customer.preferredContactMethod" required
+        <div id="add-customer-field-contact" class="field-group">
+          <label id="add-customer-label-contact">قناة التواصل المفضلة <span class="req">*</span></label>
+          <select id="add-customer-select-contact" name="preferredContactMethod" [(ngModel)]="customer.preferredContactMethod" required
             #contactCtrl="ngModel" [class.invalid]="submitted() && contactCtrl.invalid">
             <option [ngValue]="null" disabled>قناة التواصل المفضلة</option>
             <option [ngValue]="1">بريد الإلكتروني</option>
             <option [ngValue]="2">جوال</option>
           </select>
           @if (submitted() && contactCtrl.errors?.['required']) {
-            <span class="error">مطلوب</span>
+            <span id="add-customer-error-contact" class="error">مطلوب</span>
           }
         </div>
 
-        <div class="field-group">
-          <label>البريد الإلكتروني <span class="req">*</span></label>
-          <input type="email" name="email" [(ngModel)]="customer.email"
+        <div id="add-customer-field-email" class="field-group">
+          <label id="add-customer-label-email">البريد الإلكتروني <span class="req">*</span></label>
+          <input id="add-customer-input-email" type="email" name="email" [(ngModel)]="customer.email"
             required placeholder="البريد الإلكتروني"
             #emailCtrl="ngModel" [class.invalid]="submitted() && emailCtrl.invalid" />
           @if (submitted() && emailCtrl.errors?.['required']) {
-            <span class="error">مطلوب</span>
+            <span id="add-customer-error-email-required" class="error">مطلوب</span>
           } @else if (submitted() && emailCtrl.errors?.['email']) {
-            <span class="error">البريد غير صحيح</span>
+            <span id="add-customer-error-email-invalid" class="error">البريد غير صحيح</span>
           }
         </div>
 
-        <div class="field-group">
-          <label>المنطقة <span class="req">*</span></label>
+        <div id="add-customer-field-region" class="field-group">
+          <label id="add-customer-label-region">المنطقة <span class="req">*</span></label>
           <app-searchable-select
             name="regionId"
             [(ngModel)]="customer.regionId"
@@ -218,17 +218,17 @@
             [invalid]="submitted() && regionCtrl.invalid">
           </app-searchable-select>
           @if (submitted() && regionCtrl.errors?.['required']) {
-            <span class="error">مطلوب</span>
+            <span id="add-customer-error-region" class="error">مطلوب</span>
           }
         </div>
 
       </div>
 
       <!-- Row 6: City -->
-      <div class="form-row cols-3">
+      <div id="add-customer-row-6" class="form-row cols-3">
 
-        <div class="field-group">
-          <label>المدينة <span class="req">*</span></label>
+        <div id="add-customer-field-city" class="field-group">
+          <label id="add-customer-label-city">المدينة <span class="req">*</span></label>
           <app-searchable-select
             name="cityId"
             [(ngModel)]="customer.cityId"
@@ -239,18 +239,18 @@
             [invalid]="submitted() && cityCtrl.invalid">
           </app-searchable-select>
           @if (submitted() && cityCtrl.errors?.['required']) {
-            <span class="error">مطلوب</span>
+            <span id="add-customer-error-city" class="error">مطلوب</span>
           }
         </div>
 
       </div>
 
       <!-- Actions -->
-      <div class="form-actions">
-        <button type="submit" class="btn-save" [disabled]="loading()">
+      <div id="add-customer-form-actions" class="form-actions">
+        <button id="add-customer-btn-save" type="submit" class="btn-save" [disabled]="loading()">
           {{ loading() ? '...' : 'اضافه' }}
         </button>
-        <button type="button" class="btn-cancel" (click)="goBack()" [disabled]="loading()">رجوع</button>
+        <button id="add-customer-btn-cancel" type="button" class="btn-cancel" (click)="goBack()" [disabled]="loading()">رجوع</button>
       </div>
 
     </form>

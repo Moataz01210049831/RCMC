@@ -1,40 +1,40 @@
-<div class="page-center">
-  <div class="service-card">
+<div id="dashboard-page" class="page-center">
+  <div id="dashboard-service-card" class="service-card">
 
     <!-- Card Header -->
-    <div class="card-header">
-      <h2 class="card-title">خدماتي</h2>
-      <button class="close-btn" aria-label="إغلاق">&#x2715;</button>
+    <div id="dashboard-card-header" class="card-header">
+      <h2 id="dashboard-card-title" class="card-title">خدماتي</h2>
+      <button id="dashboard-close-btn" class="close-btn" aria-label="إغلاق">&#x2715;</button>
     </div>
 
     <!-- Search Row -->
-    <div class="search-row">
-      <div class="search-input-wrapper">
-        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+    <div id="dashboard-search-row" class="search-row">
+      <div id="dashboard-search-input-wrapper" class="search-input-wrapper">
+        <svg id="dashboard-search-icon" class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
           fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"/>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          <circle id="dashboard-search-icon-circle" cx="11" cy="11" r="8"/>
+          <line id="dashboard-search-icon-line" x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
-        <input type="text" [(ngModel)]="searchText" placeholder="البحث..." />
+        <input id="dashboard-search-input" type="text" [(ngModel)]="searchText" placeholder="البحث..." />
       </div>
 
-      <select [(ngModel)]="searchType">
-        <option value="id">رقم الهوية</option>
-        <option value="name">الاسم</option>
-        <option value="phone">رقم الجوال</option>
+      <select id="dashboard-search-type" [(ngModel)]="searchType">
+        <option id="dashboard-search-type-id" value="id">رقم الهوية</option>
+        <option id="dashboard-search-type-name" value="name">الاسم</option>
+        <option id="dashboard-search-type-phone" value="phone">رقم الجوال</option>
       </select>
     </div>
 
 
     <!-- No Results -->
     @if (noResults()) {
-      <p class="no-results">لا توجد بيانات بحث</p>
+      <p id="dashboard-no-results" class="no-results">لا توجد بيانات بحث</p>
     }
 
     <!-- Actions -->
-    <div class="card-actions">
-      <button class="btn-search" (click)="search()">بحث</button>
-      <button class="btn-add" (click)="addClient()">اضافه عميل</button>
+    <div id="dashboard-card-actions" class="card-actions">
+      <button id="dashboard-btn-search" class="btn-search" (click)="search()">بحث</button>
+      <button id="dashboard-btn-add" class="btn-add" (click)="addClient()">اضافه عميل</button>
     </div>
 
   </div>

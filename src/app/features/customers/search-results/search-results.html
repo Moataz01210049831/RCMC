@@ -1,57 +1,59 @@
-<div class="results-page">
+<div id="search-results-page" class="results-page">
 
-  <div class="page-header">
-    <h2 class="page-title">نتائج البحث عن: <span class="query">{{ query() }}</span></h2>
-    <button class="btn-add" (click)="addCustomer()">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+  <div id="search-results-page-header" class="page-header">
+    <h2 id="search-results-page-title" class="page-title">نتائج البحث عن: <span id="search-results-query" class="query">{{ query() }}</span></h2>
+    <button id="search-results-btn-add" class="btn-add" (click)="addCustomer()">
+      <svg id="search-results-add-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2">
-        <line x1="12" y1="5" x2="12" y2="19"/>
-        <line x1="5" y1="12" x2="19" y2="12"/>
+        <line id="search-results-add-icon-v" x1="12" y1="5" x2="12" y2="19"/>
+        <line id="search-results-add-icon-h" x1="5" y1="12" x2="19" y2="12"/>
       </svg>
       إضافة عميل
     </button>
   </div>
 
   @if (results().length === 0) {
-    <div class="empty-state">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+    <div id="search-results-empty-state" class="empty-state">
+      <svg id="search-results-empty-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="1.5">
-        <circle cx="11" cy="11" r="8"/>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        <circle id="search-results-empty-icon-circle" cx="11" cy="11" r="8"/>
+        <line id="search-results-empty-icon-line" x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
-      <p>لا توجد نتائج مطابقة للبحث</p>
+      <p id="search-results-empty-text">لا توجد نتائج مطابقة للبحث</p>
     </div>
   } @else {
-    <div class="table-card">
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>الاسم الكامل</th>
-            <th>رقم الهوية</th>
-            <th>نوع الهوية</th>
-            <th>رقم الجوال</th>
-            <th>الإجراءات</th>
+    <div id="search-results-table-card" class="table-card">
+      <table id="search-results-table">
+        <thead id="search-results-thead">
+          <tr id="search-results-thead-row">
+            <th id="search-results-th-index">#</th>
+            <th id="search-results-th-fullname">الاسم الكامل</th>
+            <th id="search-results-th-idnumber">رقم الهوية</th>
+            <th id="search-results-th-idtype">نوع الهوية</th>
+            <th id="search-results-th-phone">رقم الجوال</th>
+            <th id="search-results-th-actions">الإجراءات</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="search-results-tbody">
           @for (customer of results(); track customer.id; let i = $index) {
-            <tr>
-              <td>{{ i + 1 }}</td>
-              <td>{{ customer.fullName }}</td>
-              <td>{{ customer.idNumber }}</td>
-              <td>{{ customer.idType }}</td>
-              <td>{{ customer.phone }}</td>
-              <td>
-                <div class="actions">
-                  <button class="action-btn view" title="عرض" (click)="viewCustomer(customer.id)">
+            <tr [attr.id]="'search-results-row-' + customer.id">
+              <td [attr.id]="'search-results-cell-index-' + customer.id">{{ i + 1 }}</td>
+              <td [attr.id]="'search-results-cell-fullname-' + customer.id">{{ customer.fullName }}</td>
+              <td [attr.id]="'search-results-cell-idnumber-' + customer.id">{{ customer.idNumber }}</td>
+              <td [attr.id]="'search-results-cell-idtype-' + customer.id">{{ customer.idType }}</td>
+              <td [attr.id]="'search-results-cell-phone-' + customer.id">{{ customer.phone }}</td>
+              <td [attr.id]="'search-results-cell-actions-' + customer.id">
+                <div class="actions" [attr.id]="'search-results-actions-' + customer.id">
+                  <button class="action-btn view" title="عرض"
+                    [attr.id]="'search-results-btn-view-' + customer.id"
+                    (click)="viewCustomer(customer.id)">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                       stroke="currentColor" stroke-width="2">
                       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                       <circle cx="12" cy="12" r="3"/>
                     </svg>
                   </button>
-                  <button class="action-btn edit" title="تعديل">
+                  <button class="action-btn edit" title="تعديل" [attr.id]="'search-results-btn-edit-' + customer.id">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                       stroke="currentColor" stroke-width="2">
                       <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
@@ -67,11 +69,11 @@
     </div>
   }
 
-  <button class="btn-back" (click)="goBack()">
+  <button id="search-results-btn-back" class="btn-back" (click)="goBack()">
     رجوع
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+    <svg id="search-results-back-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
       stroke="currentColor" stroke-width="2">
-      <polyline points="15 18 9 12 15 6"/>
+      <polyline id="search-results-back-icon-polyline" points="15 18 9 12 15 6"/>
     </svg>
   </button>
 

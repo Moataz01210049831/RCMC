@@ -1,35 +1,36 @@
-<div class="ss-container">
+<div id="ss-container" class="ss-container">
 
   <!-- Trigger -->
-  <div class="ss-trigger"
+  <div id="ss-trigger" class="ss-trigger"
     [class.open]="isOpen"
     [class.invalid]="invalid"
     [class.has-value]="selectedValue"
     (click)="open()">
 
     @if (selectedValue) {
-      <span class="ss-value">{{ selectedLabel }}</span>
-      <button type="button" class="ss-clear" (click)="clear($event)">×</button>
+      <span id="ss-value" class="ss-value">{{ selectedLabel }}</span>
+      <button id="ss-clear-btn" type="button" class="ss-clear" (click)="clear($event)">×</button>
     } @else {
-      <span class="ss-placeholder">{{ placeholder }}</span>
+      <span id="ss-placeholder" class="ss-placeholder">{{ placeholder }}</span>
     }
 
-    <svg class="ss-arrow" [class.rotated]="isOpen"
+    <svg id="ss-arrow" class="ss-arrow" [class.rotated]="isOpen"
       xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
       fill="none" stroke="currentColor" stroke-width="2.5">
-      <polyline points="6 9 12 15 18 9"/>
+      <polyline id="ss-arrow-polyline" points="6 9 12 15 18 9"/>
     </svg>
   </div>
 
   <!-- Dropdown -->
   @if (isOpen) {
-    <div class="ss-dropdown">
-      <div class="ss-search-wrap">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+    <div id="ss-dropdown" class="ss-dropdown">
+      <div id="ss-search-wrap" class="ss-search-wrap">
+        <svg id="ss-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
           fill="none" stroke="currentColor" stroke-width="2" class="ss-search-icon">
-          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          <circle id="ss-search-icon-circle" cx="11" cy="11" r="8"/><line id="ss-search-icon-line" x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
         <input
+          id="ss-search-input"
           type="text"
           class="ss-search"
           [(ngModel)]="searchText"
@@ -39,15 +40,16 @@
           autofocus />
       </div>
 
-      <ul class="ss-list">
+      <ul id="ss-list" class="ss-list">
         @for (item of filtered; track item.value) {
           <li class="ss-item"
+            [attr.id]="'ss-item-' + item.value"
             [class.selected]="item.value === selectedValue"
             (click)="select(item)">
             {{ item.name }}
           </li>
         } @empty {
-          <li class="ss-empty">لا توجد نتائج</li>
+          <li id="ss-empty" class="ss-empty">لا توجد نتائج</li>
         }
       </ul>
     </div>

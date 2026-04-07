@@ -1,17 +1,19 @@
-<div class="related-entities">
+<div id="related-entities" class="related-entities">
 
-  <h3 class="section-title">الكيانات المرتبطة</h3>
+  <h3 id="related-entities-title" class="section-title">الكيانات المرتبطة</h3>
 
   <!-- Entity tabs -->
-  <div class="entity-tabs">
+  <div id="related-entities-tabs" class="entity-tabs">
     @for (entity of entities; track entity.id) {
-      <div class="entity-tab" [class.active]="selectedEntityId() === entity.id"
+      <div class="entity-tab"
+        [attr.id]="'related-entity-tab-' + entity.id"
+        [class.active]="selectedEntityId() === entity.id"
         (click)="selectEntity(entity.id)">
-        <div class="entity-text">
-          <span class="entity-name">{{ entity.name }}</span>
-          <span class="entity-number">{{ entity.number }}</span>
+        <div class="entity-text" [attr.id]="'related-entity-text-' + entity.id">
+          <span class="entity-name" [attr.id]="'related-entity-name-' + entity.id">{{ entity.name }}</span>
+          <span class="entity-number" [attr.id]="'related-entity-number-' + entity.id">{{ entity.number }}</span>
         </div>
-        <button class="tab-arrow">
+        <button class="tab-arrow" [attr.id]="'related-entity-tab-arrow-' + entity.id">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2">
             <polyline points="15 18 9 12 15 6"/>
@@ -22,12 +24,12 @@
   </div>
 
   <!-- Service cards grid -->
-  <div class="service-grid">
+  <div id="related-entities-service-grid" class="service-grid">
     @for (card of activeServiceCards(); track card.title) {
-      <div class="service-card">
+      <div class="service-card" [attr.id]="'related-service-card-' + card.title">
 
         <!-- Bulb icon top right -->
-        <div class="bulb-icon">
+        <div class="bulb-icon" [attr.id]="'related-service-bulb-' + card.title">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="1.5">
             <path d="M9 21h6M12 3a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V17a1 1 0 0 1-1 1H10a1 1 0 0 1-1-1v-2.8C7.21 13.16 6 11.22 6 9a6 6 0 0 1 6-6z"/>
@@ -35,10 +37,10 @@
         </div>
 
         <!-- Title row: arrow + name + count -->
-        <div class="service-title-row">
-          <div class="title-group">
-            <span class="service-title">{{ card.title }}</span>
-            <span class="service-count">{{ card.count }}</span>
+        <div class="service-title-row" [attr.id]="'related-service-title-row-' + card.title">
+          <div class="title-group" [attr.id]="'related-service-title-group-' + card.title">
+            <span class="service-title" [attr.id]="'related-service-title-' + card.title">{{ card.title }}</span>
+            <span class="service-count" [attr.id]="'related-service-count-' + card.title">{{ card.count }}</span>
           </div>
           <svg class="title-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2">
@@ -46,14 +48,14 @@
           </svg>
         </div>
 
-        <p class="service-desc">{{ card.description }}</p>
+        <p class="service-desc" [attr.id]="'related-service-desc-' + card.title">{{ card.description }}</p>
 
         <!-- Items -->
-        <div class="service-items">
+        <div class="service-items" [attr.id]="'related-service-items-' + card.title">
           @for (item of card.items; track item.code) {
-            <div class="service-item">
-              <span class="item-code">{{ item.code }}</span>
-              <span class="item-status">
+            <div class="service-item" [attr.id]="'related-service-item-' + item.code">
+              <span class="item-code" [attr.id]="'related-service-item-code-' + item.code">{{ item.code }}</span>
+              <span class="item-status" [attr.id]="'related-service-item-status-' + item.code">
                 <span class="status-dot"></span>
                 {{ item.status }}
               </span>
@@ -61,7 +63,7 @@
           }
         </div>
 
-       
+
 
       </div>
     }
