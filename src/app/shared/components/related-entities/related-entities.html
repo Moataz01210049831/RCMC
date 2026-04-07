@@ -28,12 +28,23 @@
     @for (card of activeServiceCards(); track card.title) {
       <div class="service-card" [attr.id]="'related-service-card-' + card.title">
 
-        <!-- Bulb icon top right -->
+        <!-- Card type icon top right -->
         <div class="bulb-icon" [attr.id]="'related-service-bulb-' + card.title">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="1.5">
-            <path d="M9 21h6M12 3a6 6 0 0 1 6 6c0 2.22-1.21 4.16-3 5.2V17a1 1 0 0 1-1 1H10a1 1 0 0 1-1-1v-2.8C7.21 13.16 6 11.22 6 9a6 6 0 0 1 6-6z"/>
-          </svg>
+          @switch (card.title) {
+            @case ('الطلبات') {
+              <img src="images/icons/element4.png" alt="طلبات" class="service-icon" [attr.id]="'related-service-icon-' + card.title"/>
+            }
+            @case ('الاستفسارات') {
+              <img src="images/icons/element3.png" alt="استفسارات" class="service-icon" [attr.id]="'related-service-icon-' + card.title"/>
+           
+            }
+            @case ('الاقتراحات') {
+              <img src="images/icons/element2.png" alt="اقتراحات" class="service-icon" [attr.id]="'related-service-icon-' + card.title"/>
+            }
+            @case ('الشكاوي') {
+             <img src="images/icons/element1.png" alt="شكاوي" class="service-icon" [attr.id]="'related-service-icon-' + card.title"/>
+            }
+          }
         </div>
 
         <!-- Title row: arrow + name + count -->

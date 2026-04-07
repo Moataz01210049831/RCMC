@@ -110,6 +110,11 @@
     height: 32px;
     color: $accent;
   }
+  img.service-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
 }
 
 // Title + count on right, arrow on left
