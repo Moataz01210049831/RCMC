@@ -120,6 +120,11 @@ $gold: $accent;
   }
 }
 
+.hint {
+  font-size: 0.75rem;
+  color: #888;
+}
+
 .btn-verify {
   @include btn-base;
   background: $green;

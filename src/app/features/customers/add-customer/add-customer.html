@@ -29,6 +29,8 @@
             #idCtrl="ngModel" [class.invalid]="submitted() && idCtrl.invalid" />
           @if (submitted() && idCtrl.errors?.['required']) {
             <span id="add-customer-error-identity-number" class="error">مطلوب</span>
+          } @else if (!verified()) {
+            <span id="add-customer-hint-identity-number" class="hint">لن نشارك هذا مع أي شخص آخر</span>
           }
         </div>
 
@@ -58,6 +60,7 @@
         <button id="add-customer-btn-verify" type="button" class="btn-verify" (click)="verifyId()" [disabled]="!canVerify">تحقق</button>
       </div>
 
+      @if (verified()) {
       <!-- Row 2: Name fields (1st / 2nd / 3rd) -->
       <div id="add-customer-row-2" class="form-row cols-3">
 
@@ -252,6 +255,7 @@
         </button>
         <button id="add-customer-btn-cancel" type="button" class="btn-cancel" (click)="goBack()" [disabled]="loading()">رجوع</button>
       </div>
+      }
 
     </form>
   </div>

@@ -15,6 +15,7 @@ import { SearchableSelect } from '../../../shared/components/searchable-select/s
 export class AddCustomer implements OnInit {
   submitted = signal(false);
   loading = signal(false);
+  verified = signal(false);
 
   cities: LookupItem[] = [];
   nationalities: LookupItem[] = [];
@@ -77,6 +78,7 @@ export class AddCustomer implements OnInit {
   verifyId() {
     if (!this.canVerify) return;
     // TODO: call verify API
+    this.verified.set(true);
   }
 
   ngOnInit() {
