@@ -235,6 +235,7 @@ $gold: $accent;
 }
 
 .btn-cancel {
+  @include btn-base;
   background: #fff;
   color: #333;
   border: 1px solid $border;
