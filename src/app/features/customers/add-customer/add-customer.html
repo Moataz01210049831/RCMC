@@ -20,6 +20,9 @@
           @if (submitted() && idTypeCtrl.errors?.['required']) {
             <span id="add-customer-error-identity-type" class="error">مطلوب</span>
           }
+           @if (verified()) {
+            <span id="add-customer-hint-identity-number" class="hint">لن نشارك هذا مع أي شخص آخر</span>
+          }
         </div>
 
         <div id="add-customer-field-identity-number" class="field-group">
@@ -30,7 +33,7 @@
           @if (submitted() && idCtrl.errors?.['required']) {
             <span id="add-customer-error-identity-number" class="error">مطلوب</span>
           }
-          @if (!verified()) {
+          @if (verified()) {
             <span id="add-customer-hint-identity-number" class="hint">لن نشارك هذا مع أي شخص آخر</span>
           }
         </div>
