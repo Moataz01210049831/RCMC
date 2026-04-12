@@ -1,6 +1,8 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from '../../../core/services/customer.service';
+import { TranslationService } from '../../../core/services/translation.service';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import type { SearchContactsRequest } from '../../../core/models/contact.model';
 
 interface Customer {
@@ -11,15 +13,15 @@ interface Customer {
   idType: string;
 }
 
-const IDENTITY_TYPE_MAP: Record<number, string> = {
-  1: 'هوية وطنية',
-  2: 'إقامة',
-  3: 'جواز سفر',
+const IDENTITY_TYPE_KEYS: Record<number, string> = {
+  1: 'identityType.nationalId',
+  2: 'identityType.iqama',
+  3: 'identityType.passport',
 };
 
 @Component({
   selector: 'app-search-results',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './search-results.html',
   styleUrl: './search-results.scss',
 })
@@ -32,6 +34,7 @@ export class SearchResults implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private customerService: CustomerService,
+    private t: TranslationService,
   ) {}
 
   ngOnInit() {
@@ -66,7 +69,7 @@ export class SearchResults implements OnInit {
             fullName: `${c.firstName} ${c.middleName} ${c.thirdName} ${c.lastName}`.trim(),
             idNumber: c.identityNumber,
             phone: c.mobileNumber1,
-            idType: IDENTITY_TYPE_MAP[c.identityType] ?? 'أخرى',
+            idType: this.t.translate(IDENTITY_TYPE_KEYS[c.identityType]) || this.t.translate('identityType.other'),
           }));
           this.results.set(customers);
           this.loading.set(false);

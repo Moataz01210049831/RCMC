@@ -1,0 +1,132 @@
+export const en: Record<string, string> = {
+  // ── Common ──────────────────────────────────────────────────────
+  'common.search': 'Search',
+  'common.searching': 'Searching...',
+  'common.back': 'Back',
+  'common.save': 'Save',
+  'common.cancel': 'Cancel',
+  'common.close': 'Close',
+  'common.add': 'Add',
+  'common.edit': 'Edit',
+  'common.required': 'Required',
+  'common.noData': 'No search results found',
+  'common.loading': 'Loading...',
+
+  // ── Login ───────────────────────────────────────────────────────
+  'login.title': 'Sign In',
+  'login.username': 'Username',
+  'login.usernamePlaceholder': 'Username',
+  'login.usernameRequired': 'Username is required',
+  'login.usernameMinLength': 'Username must be at least 3 characters',
+  'login.password': 'Password',
+  'login.passwordPlaceholder': 'Password',
+  'login.passwordRequired': 'Password is required',
+  'login.passwordMinLength': 'Password must be at least 6 characters',
+  'login.submit': 'Sign In',
+
+  // ── Header ──────────────────────────────────────────────────────
+  'header.notifications': 'Notifications',
+  'header.changePassword': 'Change Password',
+  'header.logout': 'Logout',
+
+  // ── Dashboard ───────────────────────────────────────────────────
+  'dashboard.myServices': 'My Services',
+  'dashboard.searchPlaceholder': 'Search...',
+  'dashboard.identityNumber': 'Identity Number',
+  'dashboard.name': 'Name',
+  'dashboard.phoneNumber': 'Phone Number',
+  'dashboard.addCustomer': 'Add Customer',
+
+  // ── Add/Edit Customer ───────────────────────────────────────────
+  'customer.addTitle': 'Add Customer',
+  'customer.editTitle': 'Edit Customer',
+  'customer.identityType': 'Identity Type',
+  'customer.identityNumber': 'Identity Number',
+  'customer.dateOfBirth': 'Date of Birth',
+  'customer.verify': 'Verify',
+  'customer.firstName': 'First Name',
+  'customer.middleName': 'Second Name',
+  'customer.thirdName': 'Third Name',
+  'customer.lastName': 'Last Name',
+  'customer.nationality': 'Nationality',
+  'customer.gender': 'Gender',
+  'customer.male': 'Male',
+  'customer.female': 'Female',
+  'customer.mobile1': 'Mobile Number',
+  'customer.mobile2': 'Other Mobile',
+  'customer.preferredLanguage': 'Preferred Language',
+  'customer.arabic': 'Arabic',
+  'customer.english': 'English',
+  'customer.preferredContact': 'Preferred Contact Method',
+  'customer.email': 'Email',
+  'customer.emailInvalid': 'Invalid email address',
+  'customer.region': 'Region',
+  'customer.city': 'City',
+  'customer.phonePlaceholder': '05XXXXXXXX',
+  'customer.emailPlaceholder': 'example@domain.com',
+  'customer.contactEmail': 'Email',
+  'customer.contactPhone': 'Mobile',
+  'customer.phoneOnlyNumbers': 'Numbers only',
+  'customer.dobFuture': 'Cannot select today or a future date',
+  'customer.identityHint': 'We will not share this with anyone',
+  'customer.editButton': 'Edit',
+  'customer.addButton': 'Add',
+
+  // ── Identity Types ──────────────────────────────────────────────
+  'identityType.citizen': 'Citizen',
+  'identityType.resident': 'Resident',
+  'identityType.visitor': 'Visitor',
+  'identityType.pilgrim': 'Pilgrim',
+  'identityType.nationalId': 'National ID',
+  'identityType.iqama': 'Iqama',
+  'identityType.passport': 'Passport',
+  'identityType.other': 'Other',
+
+  // ── Customer Card ───────────────────────────────────────────────
+  'customerCard.title': 'Customer Information',
+  'customerCard.addEntity': 'Add Business Entity',
+  'customerCard.editData': 'Edit Data',
+  'customerCard.fullName': 'Name',
+  'customerCard.idNumber': 'Identity Number',
+  'customerCard.phone': 'Mobile Number',
+  'customerCard.birthDate': 'Date of Birth',
+  'customerCard.nationality': 'Nationality',
+  'customerCard.gender': 'Gender',
+  'customerCard.city': 'City',
+  'customerCard.status': 'Customer Status:',
+  'customerCard.lastUpdate': 'Last Update:',
+  'customerCard.createdBy': 'Created By:',
+  'customerCard.createdDate': 'Created Date:',
+
+  // ── Related Entities ────────────────────────────────────────────
+  'relatedEntities.title': 'Related Entities',
+  'relatedEntities.requests': 'Requests',
+  'relatedEntities.inquiries': 'Inquiries',
+  'relatedEntities.suggestions': 'Suggestions',
+  'relatedEntities.complaints': 'Complaints',
+
+  // ── Search Results ──────────────────────────────────────────────
+  'searchResults.title': 'Search results for:',
+  'searchResults.noResults': 'No matching results found',
+  'searchResults.thIndex': '#',
+  'searchResults.thFullName': 'Full Name',
+  'searchResults.thIdNumber': 'Identity Number',
+  'searchResults.thIdType': 'Identity Type',
+  'searchResults.thPhone': 'Mobile Number',
+  'searchResults.thActions': 'Actions',
+  'searchResults.addCustomer': 'Add Customer',
+
+  // ── Confirm Dialog ──────────────────────────────────────────────
+  'confirm.addTitle': 'Confirm Add Customer',
+  'confirm.editTitle': 'Confirm Edit',
+  'confirm.addMessage': 'Are you sure you want to add this customer?',
+  'confirm.editMessage': 'Are you sure you want to edit this customer?',
+
+  // ── Toast Messages ──────────────────────────────────────────────
+  'toast.addSuccess': 'Customer added successfully',
+  'toast.editSuccess': 'Customer updated successfully',
+  'toast.loadError': 'Error loading customer data',
+
+  // ── App Config ──────────────────────────────────────────────────
+  'app.name': 'Ministry of Commerce',
+};

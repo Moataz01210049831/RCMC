@@ -1,10 +1,12 @@
 import { Component, signal, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppConfig } from '../../../core/config/app-config';
+import { TranslationService } from '../../../core/services/translation.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
@@ -14,7 +16,7 @@ export class Header {
   readonly config = AppConfig;
   user = { name: 'عائدة كما', role: 'مشرف', initials: 'AG' };
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public t: TranslationService) {}
 
   toggleDropdown() {
     this.dropdownOpen.update(v => !v);

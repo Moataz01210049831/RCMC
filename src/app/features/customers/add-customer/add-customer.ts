@@ -6,10 +6,12 @@ import { LookupService, LookupItem } from '../../../core/services/lookup.service
 import { ToastService } from '../../../core/services/toast.service';
 import { SearchableSelect } from '../../../shared/components/searchable-select/searchable-select';
 import { ConfirmDialog } from '../../../shared/components/confirm-dialog/confirm-dialog';
+import { TranslationService } from '../../../core/services/translation.service';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-add-customer',
-  imports: [FormsModule, SearchableSelect, ConfirmDialog],
+  imports: [FormsModule, SearchableSelect, ConfirmDialog, TranslatePipe],
   templateUrl: './add-customer.html',
   styleUrl: './add-customer.scss',
 })
@@ -26,10 +28,10 @@ export class AddCustomer implements OnInit {
   regions: LookupItem[] = [];
 
   identityTypes = [
-    { label: 'مواطن', value: 1 },
-    { label: 'مقيم', value: 2 },
-    { label: 'زائر', value: 3 },
-    { label: 'حاج', value: 4 },
+    { labelKey: 'identityType.citizen', value: 1 },
+    { labelKey: 'identityType.resident', value: 2 },
+    { labelKey: 'identityType.visitor', value: 3 },
+    { labelKey: 'identityType.pilgrim', value: 4 },
   ];
 
   customer: {
@@ -74,6 +76,7 @@ export class AddCustomer implements OnInit {
     private customerService: CustomerService,
     private lookupService: LookupService,
     private toast: ToastService,
+    public t: TranslationService,
   ) {}
 
   get maxDate(): string {
@@ -132,7 +135,7 @@ export class AddCustomer implements OnInit {
       },
       error: () => {
         this.loading.set(false);
-        this.toast.success('حدث خطأ في تحميل بيانات العميل');
+        this.toast.success(this.t.translate('toast.loadError'));
       },
     });
   }
@@ -170,7 +173,7 @@ export class AddCustomer implements OnInit {
       this.customerService.updateContact({ id: this.customerId, ...contactData }).subscribe({
         next: () => {
           this.loading.set(false);
-          this.toast.success('تم تعديل بيانات العميل بنجاح');
+          this.toast.success(this.t.translate('toast.editSuccess'));
           this.router.navigate(['/customers', this.customerId]);
         },
         error: () => {
@@ -181,7 +184,7 @@ export class AddCustomer implements OnInit {
       this.customerService.createContact(contactData).subscribe({
         next: () => {
           this.loading.set(false);
-          this.toast.success('تم إضافة العميل بنجاح');
+          this.toast.success(this.t.translate('toast.addSuccess'));
           this.router.navigate(['/dashboard']);
         },
         error: () => {

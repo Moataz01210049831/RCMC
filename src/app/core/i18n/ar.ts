@@ -1,0 +1,132 @@
+export const ar: Record<string, string> = {
+  // ── Common ──────────────────────────────────────────────────────
+  'common.search': 'بحث',
+  'common.searching': 'جاري البحث...',
+  'common.back': 'رجوع',
+  'common.save': 'حفظ',
+  'common.cancel': 'إلغاء',
+  'common.close': 'إغلاق',
+  'common.add': 'اضافه',
+  'common.edit': 'تعديل',
+  'common.required': 'مطلوب',
+  'common.noData': 'لا توجد بيانات بحث',
+  'common.loading': 'جاري التحميل...',
+
+  // ── Login ───────────────────────────────────────────────────────
+  'login.title': 'تسجيل الدخول',
+  'login.username': 'اسم المستخدم',
+  'login.usernamePlaceholder': 'اسم المستخدم',
+  'login.usernameRequired': 'اسم المستخدم مطلوب',
+  'login.usernameMinLength': 'يجب أن يكون اسم المستخدم 3 أحرف على الأقل',
+  'login.password': 'كلمة المرور',
+  'login.passwordPlaceholder': 'كلمة المرور',
+  'login.passwordRequired': 'كلمة المرور مطلوبة',
+  'login.passwordMinLength': 'يجب أن تكون كلمة المرور 6 أحرف على الأقل',
+  'login.submit': 'تسجيل الدخول',
+
+  // ── Header ──────────────────────────────────────────────────────
+  'header.notifications': 'التنبيهات',
+  'header.changePassword': 'تغيير كلمة المرور',
+  'header.logout': 'تسجيل الخروج',
+
+  // ── Dashboard ───────────────────────────────────────────────────
+  'dashboard.myServices': 'خدماتي',
+  'dashboard.searchPlaceholder': 'البحث...',
+  'dashboard.identityNumber': 'رقم الهوية',
+  'dashboard.name': 'الاسم',
+  'dashboard.phoneNumber': 'رقم الجوال',
+  'dashboard.addCustomer': 'اضافه عميل',
+
+  // ── Add/Edit Customer ───────────────────────────────────────────
+  'customer.addTitle': 'اضافه عميل',
+  'customer.editTitle': 'تعديل بيانات العميل',
+  'customer.identityType': 'نوع الهوية',
+  'customer.identityNumber': 'رقم الهوية',
+  'customer.dateOfBirth': 'تاريخ الميلاد',
+  'customer.verify': 'تحقق',
+  'customer.firstName': 'الاسم الاول',
+  'customer.middleName': 'الاسم الثاني',
+  'customer.thirdName': 'الاسم الثالث',
+  'customer.lastName': 'الاسم الرابع',
+  'customer.nationality': 'الجنسية',
+  'customer.gender': 'الجنس',
+  'customer.male': 'ذكر',
+  'customer.female': 'أنثى',
+  'customer.mobile1': 'رقم الجوال',
+  'customer.mobile2': 'رقم جوال اخر',
+  'customer.preferredLanguage': 'اللغة المفضلة',
+  'customer.arabic': 'العربية',
+  'customer.english': 'الإنجليزية',
+  'customer.preferredContact': 'قناة التواصل المفضلة',
+  'customer.email': 'البريد الإلكتروني',
+  'customer.emailInvalid': 'البريد غير صحيح',
+  'customer.region': 'المنطقة',
+  'customer.city': 'المدينة',
+  'customer.phonePlaceholder': '05XXXXXXXX',
+  'customer.emailPlaceholder': 'example@domain.com',
+  'customer.contactEmail': 'بريد الإلكتروني',
+  'customer.contactPhone': 'جوال',
+  'customer.phoneOnlyNumbers': 'يجب إدخال أرقام فقط',
+  'customer.dobFuture': 'لا يمكن اختيار تاريخ اليوم أو تاريخ مستقبلي',
+  'customer.identityHint': 'لن نشارك هذا مع أي شخص آخر',
+  'customer.editButton': 'تعديل',
+  'customer.addButton': 'اضافه',
+
+  // ── Identity Types ──────────────────────────────────────────────
+  'identityType.citizen': 'مواطن',
+  'identityType.resident': 'مقيم',
+  'identityType.visitor': 'زائر',
+  'identityType.pilgrim': 'حاج',
+  'identityType.nationalId': 'هوية وطنية',
+  'identityType.iqama': 'إقامة',
+  'identityType.passport': 'جواز سفر',
+  'identityType.other': 'أخرى',
+
+  // ── Customer Card ───────────────────────────────────────────────
+  'customerCard.title': 'بيانات العميل',
+  'customerCard.addEntity': 'اضافة كيان تجاري',
+  'customerCard.editData': 'تعديل بيانات',
+  'customerCard.fullName': 'الاسم',
+  'customerCard.idNumber': 'رقم الهوية',
+  'customerCard.phone': 'رقم الجوال',
+  'customerCard.birthDate': 'تاريخ الميلاد',
+  'customerCard.nationality': 'الجنسية',
+  'customerCard.gender': 'الجنس',
+  'customerCard.city': 'المدينة',
+  'customerCard.status': 'حالة العميل :',
+  'customerCard.lastUpdate': 'آخر تحديث :',
+  'customerCard.createdBy': 'منشئ السجل :',
+  'customerCard.createdDate': 'تاريخ الإنشاء :',
+
+  // ── Related Entities ────────────────────────────────────────────
+  'relatedEntities.title': 'الكيانات المرتبطة',
+  'relatedEntities.requests': 'الطلبات',
+  'relatedEntities.inquiries': 'الاستفسارات',
+  'relatedEntities.suggestions': 'الاقتراحات',
+  'relatedEntities.complaints': 'الشكاوي',
+
+  // ── Search Results ──────────────────────────────────────────────
+  'searchResults.title': 'نتائج البحث عن:',
+  'searchResults.noResults': 'لا توجد نتائج مطابقة للبحث',
+  'searchResults.thIndex': '#',
+  'searchResults.thFullName': 'الاسم الكامل',
+  'searchResults.thIdNumber': 'رقم الهوية',
+  'searchResults.thIdType': 'نوع الهوية',
+  'searchResults.thPhone': 'رقم الجوال',
+  'searchResults.thActions': 'الإجراءات',
+  'searchResults.addCustomer': 'إضافة عميل',
+
+  // ── Confirm Dialog ──────────────────────────────────────────────
+  'confirm.addTitle': 'تأكيد إضافة العميل',
+  'confirm.editTitle': 'تأكيد تعديل البيانات',
+  'confirm.addMessage': 'هل أنت متأكد من إضافة العميل؟',
+  'confirm.editMessage': 'هل أنت متأكد من تعديل بيانات العميل؟',
+
+  // ── Toast Messages ──────────────────────────────────────────────
+  'toast.addSuccess': 'تم إضافة العميل بنجاح',
+  'toast.editSuccess': 'تم تعديل بيانات العميل بنجاح',
+  'toast.loadError': 'حدث خطأ في تحميل بيانات العميل',
+
+  // ── App Config ──────────────────────────────────────────────────
+  'app.name': 'وزارة التجارة',
+};

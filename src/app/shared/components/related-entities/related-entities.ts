@@ -1,4 +1,5 @@
 import { Component, signal, computed } from '@angular/core';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 interface ServiceItem {
   code: string;
@@ -21,7 +22,7 @@ interface Entity {
 
 @Component({
   selector: 'app-related-entities',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './related-entities.html',
   styleUrl: './related-entities.scss',
 })

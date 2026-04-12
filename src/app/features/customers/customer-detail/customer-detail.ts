@@ -6,12 +6,14 @@ import { RelatedEntities } from '../../../shared/components/related-entities/rel
 import { CustomerService } from '../../../core/services/customer.service';
 import { LookupService, LookupItem } from '../../../core/services/lookup.service';
 import { CustomerCardData } from '../../../core/models/customer-card.model';
+import { TranslationService } from '../../../core/services/translation.service';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
-const GENDER_LABELS: Record<number, string> = { 1: 'ذكر', 2: 'أنثى' };
+const GENDER_KEYS: Record<number, string> = { 1: 'customer.male', 2: 'customer.female' };
 
 @Component({
   selector: 'app-customer-detail',
-  imports: [CustomerCard, RelatedEntities],
+  imports: [CustomerCard, RelatedEntities, TranslatePipe],
   templateUrl: './customer-detail.html',
   styleUrl: './customer-detail.scss',
 })
@@ -23,6 +25,7 @@ export class CustomerDetail implements OnInit {
     private router: Router,
     private customerService: CustomerService,
     private lookupService: LookupService,
+    private t: TranslationService,
   ) {}
 
   ngOnInit() {
@@ -44,7 +47,7 @@ export class CustomerDetail implements OnInit {
         phone:       contact.mobileNumber1,
         birthDate:   contact.dateOfBirth.split('T')[0],
         nationality: resolveName(nationalities, contact.nationalityId),
-        gender:      GENDER_LABELS[contact.gender] ?? '-',
+        gender:      this.t.translate(GENDER_KEYS[contact.gender]) || '-',
         city:        resolveName(cities, contact.cityId),
       });
     });

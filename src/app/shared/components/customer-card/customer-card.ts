@@ -1,11 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CustomerCardData } from '../../../core/models/customer-card.model';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 export type { CustomerCardData };
 
 @Component({
   selector: 'app-customer-card',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './customer-card.html',
   styleUrl: './customer-card.scss',
 })

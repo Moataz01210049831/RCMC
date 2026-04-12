@@ -2,11 +2,13 @@ import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomerService } from '../../../core/services/customer.service';
+import { TranslationService } from '../../../core/services/translation.service';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import type { SearchContactsRequest } from '../../../core/models/contact.model';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [FormsModule],
+  imports: [FormsModule, TranslatePipe],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -16,7 +18,7 @@ export class Dashboard {
   noResults = signal(false);
   searching = signal(false);
 
-  constructor(private router: Router, private customerService: CustomerService) {}
+  constructor(private router: Router, private customerService: CustomerService, public t: TranslationService) {}
 
   search() {
     const q = this.searchText.trim();

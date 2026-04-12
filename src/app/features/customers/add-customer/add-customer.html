@@ -1,7 +1,7 @@
 <div id="add-customer-page" class="page-center">
   <div id="add-customer-form-card" class="form-card">
 
-    <h2 id="add-customer-card-title" class="card-title">{{ isEditMode() ? 'تعديل بيانات العميل' : 'اضافه عميل' }}</h2>
+    <h2 id="add-customer-card-title" class="card-title">{{ (isEditMode() ? 'customer.editTitle' : 'customer.addTitle') | translate }}</h2>
 
     <form id="add-customer-form" #addForm="ngForm" (ngSubmit)="onSubmit(addForm)" novalidate>
 
@@ -9,37 +9,37 @@
       <div id="add-customer-row-1" class="form-row cols-3">
 
         <div id="add-customer-field-identity-type" class="field-group">
-          <label id="add-customer-label-identity-type">نوع الهوية <span class="req">*</span></label>
+          <label id="add-customer-label-identity-type">{{ 'customer.identityType' | translate }} <span class="req">*</span></label>
           <select id="add-customer-select-identity-type" name="identityType" [(ngModel)]="customer.identityType" required
             #idTypeCtrl="ngModel" [class.invalid]="submitted() && idTypeCtrl.invalid">
-            <option [ngValue]="null" disabled>نوع الهوية</option>
+            <option [ngValue]="null" disabled>{{ 'customer.identityType' | translate }}</option>
             @for (type of identityTypes; track type.value) {
-              <option [ngValue]="type.value">{{ type.label }}</option>
+              <option [ngValue]="type.value">{{ type.labelKey | translate }}</option>
             }
           </select>
           @if (submitted() && idTypeCtrl.errors?.['required']) {
-            <span id="add-customer-error-identity-type" class="error">مطلوب</span>
+            <span id="add-customer-error-identity-type" class="error">{{ 'common.required' | translate }}</span>
           }
            @if (verified()) {
-            <span id="add-customer-hint-identity-number" class="hint">لن نشارك هذا مع أي شخص آخر</span>
+            <span id="add-customer-hint-identity-number" class="hint">{{ 'customer.identityHint' | translate }}</span>
           }
         </div>
 
         <div id="add-customer-field-identity-number" class="field-group">
-          <label id="add-customer-label-identity-number">رقم الهوية <span class="req">*</span></label>
+          <label id="add-customer-label-identity-number">{{ 'customer.identityNumber' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-identity-number" type="text" name="identityNumber" [(ngModel)]="customer.identityNumber"
-            required maxlength="10" placeholder="رقم الهوية"
+            required maxlength="10" [placeholder]="'customer.identityNumber' | translate"
             #idCtrl="ngModel" [class.invalid]="submitted() && idCtrl.invalid" />
           @if (submitted() && idCtrl.errors?.['required']) {
-            <span id="add-customer-error-identity-number" class="error">مطلوب</span>
+            <span id="add-customer-error-identity-number" class="error">{{ 'common.required' | translate }}</span>
           }
           @if (verified()) {
-            <span id="add-customer-hint-identity-number" class="hint">لن نشارك هذا مع أي شخص آخر</span>
+            <span id="add-customer-hint-identity-number" class="hint">{{ 'customer.identityHint' | translate }}</span>
           }
         </div>
 
         <div id="add-customer-field-dob" class="field-group">
-          <label id="add-customer-label-dob">تاريخ الميلاد <span class="req">*</span></label>
+          <label id="add-customer-label-dob">{{ 'customer.dateOfBirth' | translate }} <span class="req">*</span></label>
           <div id="add-customer-date-wrapper" class="date-wrapper" (click)="dateInput.showPicker()">
             <input id="add-customer-input-dob" type="date" name="dateOfBirth" [(ngModel)]="customer.dateOfBirth"
               required [max]="maxDate" placeholder="YYYY-MM-DD"
@@ -53,9 +53,9 @@
             </svg>
           </div>
           @if (submitted() && dobCtrl.errors?.['required']) {
-            <span id="add-customer-error-dob" class="error">مطلوب</span>
+            <span id="add-customer-error-dob" class="error">{{ 'common.required' | translate }}</span>
           } @else if (submitted() && dobCtrl.errors?.['max']) {
-            <span id="add-customer-error-dob-future" class="error">لا يمكن اختيار تاريخ اليوم أو تاريخ مستقبلي</span>
+            <span id="add-customer-error-dob-future" class="error">{{ 'customer.dobFuture' | translate }}</span>
           }
         </div>
 
@@ -63,8 +63,8 @@
 
       <!-- Verify row -->
       <div id="add-customer-verify-row" class="verify-row">
-        <button id="add-customer-btn-verify" type="button" class="btn-verify" (click)="verifyId()" [disabled]="!canVerify">تحقق</button>
-        <button id="add-customer-btn-back" type="button" class="btn-cancel" (click)="goBack()">رجوع</button>
+        <button id="add-customer-btn-verify" type="button" class="btn-verify" (click)="verifyId()" [disabled]="!canVerify">{{ 'customer.verify' | translate }}</button>
+        <button id="add-customer-btn-back" type="button" class="btn-cancel" (click)="goBack()">{{ 'common.back' | translate }}</button>
       </div>
 
       @if (verified()) {
@@ -72,32 +72,32 @@
       <div id="add-customer-row-2" class="form-row cols-3">
 
         <div id="add-customer-field-firstname" class="field-group">
-          <label id="add-customer-label-firstname">الاسم الاول <span class="req">*</span></label>
+          <label id="add-customer-label-firstname">{{ 'customer.firstName' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-firstname" type="text" name="firstName" [(ngModel)]="customer.firstName"
-            required placeholder="الاسم الاول"
+            required [placeholder]="'customer.firstName' | translate"
             #firstNameCtrl="ngModel" [class.invalid]="submitted() && firstNameCtrl.invalid" />
           @if (submitted() && firstNameCtrl.errors?.['required']) {
-            <span id="add-customer-error-firstname" class="error">مطلوب</span>
+            <span id="add-customer-error-firstname" class="error">{{ 'common.required' | translate }}</span>
           }
         </div>
 
         <div id="add-customer-field-middlename" class="field-group">
-          <label id="add-customer-label-middlename">الاسم الثاني <span class="req">*</span></label>
+          <label id="add-customer-label-middlename">{{ 'customer.middleName' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-middlename" type="text" name="middleName" [(ngModel)]="customer.middleName"
-            required placeholder="الاسم الثاني"
+            required [placeholder]="'customer.middleName' | translate"
             #middleNameCtrl="ngModel" [class.invalid]="submitted() && middleNameCtrl.invalid" />
           @if (submitted() && middleNameCtrl.errors?.['required']) {
-            <span id="add-customer-error-middlename" class="error">مطلوب</span>
+            <span id="add-customer-error-middlename" class="error">{{ 'common.required' | translate }}</span>
           }
         </div>
 
         <div id="add-customer-field-thirdname" class="field-group">
-          <label id="add-customer-label-thirdname">الاسم الثالث <span class="req">*</span></label>
+          <label id="add-customer-label-thirdname">{{ 'customer.thirdName' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-thirdname" type="text" name="thirdName" [(ngModel)]="customer.thirdName"
-            required placeholder="الاسم الثالث"
+            required [placeholder]="'customer.thirdName' | translate"
             #thirdNameCtrl="ngModel" [class.invalid]="submitted() && thirdNameCtrl.invalid" />
           @if (submitted() && thirdNameCtrl.errors?.['required']) {
-            <span id="add-customer-error-thirdname" class="error">مطلوب</span>
+            <span id="add-customer-error-thirdname" class="error">{{ 'common.required' | translate }}</span>
           }
         </div>
 
@@ -107,48 +107,48 @@
       <div id="add-customer-row-3" class="form-row cols-3">
 
         <div id="add-customer-field-lastname" class="field-group">
-          <label id="add-customer-label-lastname">الاسم الرابع <span class="req">*</span></label>
+          <label id="add-customer-label-lastname">{{ 'customer.lastName' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-lastname" type="text" name="lastName" [(ngModel)]="customer.lastName"
-            required placeholder="الاسم الرابع"
+            required [placeholder]="'customer.lastName' | translate"
             #lastNameCtrl="ngModel" [class.invalid]="submitted() && lastNameCtrl.invalid" />
           @if (submitted() && lastNameCtrl.errors?.['required']) {
-            <span id="add-customer-error-lastname" class="error">مطلوب</span>
+            <span id="add-customer-error-lastname" class="error">{{ 'common.required' | translate }}</span>
           }
         </div>
 
         <div id="add-customer-field-nationality" class="field-group">
-          <label id="add-customer-label-nationality">الجنسية <span class="req">*</span></label>
+          <label id="add-customer-label-nationality">{{ 'customer.nationality' | translate }} <span class="req">*</span></label>
           <app-searchable-select
             name="nationalityId"
             [(ngModel)]="customer.nationalityId"
             [items]="nationalities"
-            placeholder="الجنسية"
+            [placeholder]="'customer.nationality' | translate"
             required
             #nationalityCtrl="ngModel"
             [invalid]="submitted() && nationalityCtrl.invalid">
           </app-searchable-select>
           @if (submitted() && nationalityCtrl.errors?.['required']) {
-            <span id="add-customer-error-nationality" class="error">مطلوب</span>
+            <span id="add-customer-error-nationality" class="error">{{ 'common.required' | translate }}</span>
           }
         </div>
 
         <div id="add-customer-field-gender" class="field-group">
-          <label id="add-customer-label-gender">الجنس <span class="req">*</span></label>
+          <label id="add-customer-label-gender">{{ 'customer.gender' | translate }} <span class="req">*</span></label>
           <div id="add-customer-radio-group-gender" class="radio-group" [class.invalid]="submitted() && genderCtrl.invalid">
             <label id="add-customer-radio-label-male" class="radio-label">
               <input id="add-customer-radio-male" type="radio" name="gender" [(ngModel)]="customer.gender" [value]="1"
                 required #genderCtrl="ngModel" />
               <span id="add-customer-radio-custom-male" class="radio-custom" [class.checked]="customer.gender === 1"></span>
-              ذكر
+              {{ 'customer.male' | translate }}
             </label>
             <label id="add-customer-radio-label-female" class="radio-label">
               <input id="add-customer-radio-female" type="radio" name="gender" [(ngModel)]="customer.gender" [value]="2" />
               <span id="add-customer-radio-custom-female" class="radio-custom" [class.checked]="customer.gender === 2"></span>
-              أنثى
+              {{ 'customer.female' | translate }}
             </label>
           </div>
           @if (submitted() && genderCtrl.errors?.['required']) {
-            <span id="add-customer-error-gender" class="error">مطلوب</span>
+            <span id="add-customer-error-gender" class="error">{{ 'common.required' | translate }}</span>
           }
         </div>
 
@@ -158,37 +158,37 @@
       <div id="add-customer-row-4" class="form-row cols-3">
 
         <div id="add-customer-field-mobile1" class="field-group">
-          <label id="add-customer-label-mobile1">رقم الجوال <span class="req">*</span></label>
+          <label id="add-customer-label-mobile1">{{ 'customer.mobile1' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-mobile1" type="text" name="mobileNumber1" [(ngModel)]="customer.mobileNumber1"
-            required maxlength="10" pattern="[0-9]+" placeholder="05XXXXXXXX"
+            required maxlength="10" pattern="[0-9]+" [placeholder]="'customer.phonePlaceholder' | translate"
             #phoneCtrl="ngModel" [class.invalid]="submitted() && phoneCtrl.invalid" />
           @if (submitted() && phoneCtrl.errors?.['required']) {
-            <span id="add-customer-error-mobile1" class="error">مطلوب</span>
+            <span id="add-customer-error-mobile1" class="error">{{ 'common.required' | translate }}</span>
           } @else if (submitted() && phoneCtrl.errors?.['pattern']) {
-            <span id="add-customer-error-mobile1-pattern" class="error">يجب إدخال أرقام فقط</span>
+            <span id="add-customer-error-mobile1-pattern" class="error">{{ 'customer.phoneOnlyNumbers' | translate }}</span>
           }
         </div>
 
         <div id="add-customer-field-mobile2" class="field-group">
-          <label id="add-customer-label-mobile2">رقم جوال اخر</label>
+          <label id="add-customer-label-mobile2">{{ 'customer.mobile2' | translate }}</label>
           <input id="add-customer-input-mobile2" type="text" name="mobileNumber2" [(ngModel)]="customer.mobileNumber2"
-            maxlength="10" pattern="[0-9]+" placeholder="05XXXXXXXX"
+            maxlength="10" pattern="[0-9]+" [placeholder]="'customer.phonePlaceholder' | translate"
             #phone2Ctrl="ngModel" [class.invalid]="submitted() && phone2Ctrl.invalid" />
           @if (submitted() && phone2Ctrl.errors?.['pattern']) {
-            <span id="add-customer-error-mobile2-pattern" class="error">يجب إدخال أرقام فقط</span>
+            <span id="add-customer-error-mobile2-pattern" class="error">{{ 'customer.phoneOnlyNumbers' | translate }}</span>
           }
         </div>
 
         <div id="add-customer-field-language" class="field-group">
-          <label id="add-customer-label-language">اللغة المفضلة <span class="req">*</span></label>
+          <label id="add-customer-label-language">{{ 'customer.preferredLanguage' | translate }} <span class="req">*</span></label>
           <select id="add-customer-select-language" name="preferredLanguage" [(ngModel)]="customer.preferredLanguage" required
             #langCtrl="ngModel" [class.invalid]="submitted() && langCtrl.invalid">
-            <option [ngValue]="null" disabled>اللغة المفضلة</option>
-            <option [ngValue]="0">العربية</option>
-            <option [ngValue]="1">الإنجليزية</option>
+            <option [ngValue]="null" disabled>{{ 'customer.preferredLanguage' | translate }}</option>
+            <option [ngValue]="0">{{ 'customer.arabic' | translate }}</option>
+            <option [ngValue]="1">{{ 'customer.english' | translate }}</option>
           </select>
           @if (submitted() && langCtrl.errors?.['required']) {
-            <span id="add-customer-error-language" class="error">مطلوب</span>
+            <span id="add-customer-error-language" class="error">{{ 'common.required' | translate }}</span>
           }
         </div>
 
@@ -198,43 +198,43 @@
       <div id="add-customer-row-5" class="form-row cols-3">
 
         <div id="add-customer-field-contact" class="field-group">
-          <label id="add-customer-label-contact">قناة التواصل المفضلة <span class="req">*</span></label>
+          <label id="add-customer-label-contact">{{ 'customer.preferredContact' | translate }} <span class="req">*</span></label>
           <select id="add-customer-select-contact" name="preferredContactMethod" [(ngModel)]="customer.preferredContactMethod" required
             #contactCtrl="ngModel" [class.invalid]="submitted() && contactCtrl.invalid">
-            <option [ngValue]="null" disabled>قناة التواصل المفضلة</option>
-            <option [ngValue]="1">بريد الإلكتروني</option>
-            <option [ngValue]="2">جوال</option>
+            <option [ngValue]="null" disabled>{{ 'customer.preferredContact' | translate }}</option>
+            <option [ngValue]="1">{{ 'customer.contactEmail' | translate }}</option>
+            <option [ngValue]="2">{{ 'customer.contactPhone' | translate }}</option>
           </select>
           @if (submitted() && contactCtrl.errors?.['required']) {
-            <span id="add-customer-error-contact" class="error">مطلوب</span>
+            <span id="add-customer-error-contact" class="error">{{ 'common.required' | translate }}</span>
           }
         </div>
 
         <div id="add-customer-field-email" class="field-group">
-          <label id="add-customer-label-email">البريد الإلكتروني <span class="req">*</span></label>
+          <label id="add-customer-label-email">{{ 'customer.email' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-email" type="email" name="email" [(ngModel)]="customer.email"
-            required pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="example@domain.com"
+            required pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" [placeholder]="'customer.emailPlaceholder' | translate"
             #emailCtrl="ngModel" [class.invalid]="submitted() && emailCtrl.invalid" />
           @if (submitted() && emailCtrl.errors?.['required']) {
-            <span id="add-customer-error-email-required" class="error">مطلوب</span>
+            <span id="add-customer-error-email-required" class="error">{{ 'common.required' | translate }}</span>
           } @else if (submitted() && (emailCtrl.errors?.['email'] || emailCtrl.errors?.['pattern'])) {
-            <span id="add-customer-error-email-invalid" class="error">البريد غير صحيح</span>
+            <span id="add-customer-error-email-invalid" class="error">{{ 'customer.emailInvalid' | translate }}</span>
           }
         </div>
 
         <div id="add-customer-field-region" class="field-group">
-          <label id="add-customer-label-region">المنطقة <span class="req">*</span></label>
+          <label id="add-customer-label-region">{{ 'customer.region' | translate }} <span class="req">*</span></label>
           <app-searchable-select
             name="regionId"
             [(ngModel)]="customer.regionId"
             [items]="regions"
-            placeholder="المنطقة"
+            [placeholder]="'customer.region' | translate"
             required
             #regionCtrl="ngModel"
             [invalid]="submitted() && regionCtrl.invalid">
           </app-searchable-select>
           @if (submitted() && regionCtrl.errors?.['required']) {
-            <span id="add-customer-error-region" class="error">مطلوب</span>
+            <span id="add-customer-error-region" class="error">{{ 'common.required' | translate }}</span>
           }
         </div>
 
@@ -244,18 +244,18 @@
       <div id="add-customer-row-6" class="form-row cols-3">
 
         <div id="add-customer-field-city" class="field-group">
-          <label id="add-customer-label-city">المدينة <span class="req">*</span></label>
+          <label id="add-customer-label-city">{{ 'customer.city' | translate }} <span class="req">*</span></label>
           <app-searchable-select
             name="cityId"
             [(ngModel)]="customer.cityId"
             [items]="cities"
-            placeholder="المدينة"
+            [placeholder]="'customer.city' | translate"
             required
             #cityCtrl="ngModel"
             [invalid]="submitted() && cityCtrl.invalid">
           </app-searchable-select>
           @if (submitted() && cityCtrl.errors?.['required']) {
-            <span id="add-customer-error-city" class="error">مطلوب</span>
+            <span id="add-customer-error-city" class="error">{{ 'common.required' | translate }}</span>
           }
         </div>
 
@@ -264,9 +264,9 @@
       <!-- Actions -->
       <div id="add-customer-form-actions" class="form-actions">
         <button id="add-customer-btn-save" type="submit" class="btn-save" [disabled]="loading()">
-          {{ loading() ? '...' : (isEditMode() ? 'تعديل' : 'اضافه') }}
+          {{ loading() ? '...' : ((isEditMode() ? 'customer.editButton' : 'customer.addButton') | translate) }}
         </button>
-        <button id="add-customer-btn-cancel" type="button" class="btn-cancel" (click)="goBack()" [disabled]="loading()">رجوع</button>
+        <button id="add-customer-btn-cancel" type="button" class="btn-cancel" (click)="goBack()" [disabled]="loading()">{{ 'common.back' | translate }}</button>
       </div>
       }
 
@@ -276,10 +276,10 @@
 
 <app-confirm-dialog
   [open]="showConfirm()"
-  [title]="isEditMode() ? 'تأكيد تعديل البيانات' : 'تأكيد إضافة العميل'"
-  [message]="isEditMode() ? 'هل أنت متأكد من تعديل بيانات العميل؟' : 'هل أنت متأكد من إضافة العميل؟'"
-  [confirmText]="isEditMode() ? 'تعديل' : 'حفظ'"
-  cancelText="إلغاء"
+  [title]="(isEditMode() ? 'confirm.editTitle' : 'confirm.addTitle') | translate"
+  [message]="(isEditMode() ? 'confirm.editMessage' : 'confirm.addMessage') | translate"
+  [confirmText]="(isEditMode() ? 'common.edit' : 'common.save') | translate"
+  [cancelText]="'common.cancel' | translate"
   (confirm)="onConfirmSubmit()"
   (cancel)="onCancelConfirm()"
 />
