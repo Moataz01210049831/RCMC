@@ -12,7 +12,11 @@
     </button>
   </div>
 
-  @if (results().length === 0) {
+  @if (loading()) {
+    <div id="search-results-loading" class="empty-state">
+      <p>جاري البحث...</p>
+    </div>
+  } @else if (results().length === 0) {
     <div id="search-results-empty-state" class="empty-state">
       <svg id="search-results-empty-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="1.5">

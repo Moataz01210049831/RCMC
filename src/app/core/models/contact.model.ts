@@ -36,3 +36,18 @@ export interface ContactResponse {
   preferredLanguage: number;
   regionId: string;
 }
+
+export interface SearchContactsRequest {
+  identityNumber?: string;
+  name?: string;
+  mobileNumber?: string;
+  pageNumber: number;
+  pageSize: number;
+}
+
+export interface SearchContactsResponse {
+  items: ContactResponse[];
+  totalCount: number;
+  pageNumber: number;
+  pageSize: number;
+}

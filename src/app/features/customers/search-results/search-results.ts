@@ -1,20 +1,21 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CustomerService } from '../../../core/services/customer.service';
+import type { SearchContactsRequest } from '../../../core/models/contact.model';
 
 interface Customer {
-  id: number;
+  id: string;
   fullName: string;
   idNumber: string;
   phone: string;
   idType: string;
 }
 
-// Mock data — replace with real API call
-const MOCK_CUSTOMERS: Customer[] = [
-  { id: 1, fullName: 'أحمد محمد العمري',      idNumber: '1234567890', phone: '0512345678', idType: 'هوية وطنية' },
-  { id: 2, fullName: 'سارة عبدالله الزهراني', idNumber: '2345678901', phone: '0523456789', idType: 'هوية وطنية' },
-  { id: 3, fullName: 'خالد سعيد القحطاني',   idNumber: '3456789012', phone: '0534567890', idType: 'إقامة' },
-];
+const IDENTITY_TYPE_MAP: Record<number, string> = {
+  1: 'هوية وطنية',
+  2: 'إقامة',
+  3: 'جواز سفر',
+};
 
 @Component({
   selector: 'app-search-results',
@@ -25,8 +26,13 @@ const MOCK_CUSTOMERS: Customer[] = [
 export class SearchResults implements OnInit {
   query = signal('');
   results = signal<Customer[]>([]);
+  loading = signal(false);
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private customerService: CustomerService,
+  ) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -34,13 +40,42 @@ export class SearchResults implements OnInit {
       const type = params['type'] ?? 'id';
       this.query.set(q);
 
-      // TODO: replace with real API call using q + type
-      const filtered = MOCK_CUSTOMERS.filter(c =>
-        type === 'id'
-          ? c.idNumber.includes(q)
-          : c.fullName.includes(q)
-      );
-      this.results.set(filtered);
+      if (!q) {
+        this.results.set([]);
+        return;
+      }
+
+      const request: SearchContactsRequest = {
+        pageNumber: 1,
+        pageSize: 5,
+      };
+
+      if (type === 'id') {
+        request.identityNumber = q;
+      } else if (type === 'name') {
+        request.name = q;
+      } else if (type === 'phone') {
+        request.mobileNumber = q;
+      }
+
+      this.loading.set(true);
+      this.customerService.searchContacts(request).subscribe({
+        next: (response) => {
+          const customers: Customer[] = response.items.map(c => ({
+            id: c.id,
+            fullName: `${c.firstName} ${c.middleName} ${c.thirdName} ${c.lastName}`.trim(),
+            idNumber: c.identityNumber,
+            phone: c.mobileNumber1,
+            idType: IDENTITY_TYPE_MAP[c.identityType] ?? 'أخرى',
+          }));
+          this.results.set(customers);
+          this.loading.set(false);
+        },
+        error: () => {
+          this.results.set([]);
+          this.loading.set(false);
+        },
+      });
     });
   }
 
@@ -52,7 +87,7 @@ export class SearchResults implements OnInit {
     this.router.navigate(['/customers/add']);
   }
 
-  viewCustomer(id: number) {
+  viewCustomer(id: string) {
     this.router.navigate(['/customers', id]);
   }
 }
