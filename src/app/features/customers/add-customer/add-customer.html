@@ -42,7 +42,7 @@
           <label id="add-customer-label-dob">تاريخ الميلاد <span class="req">*</span></label>
           <div id="add-customer-date-wrapper" class="date-wrapper" (click)="dateInput.showPicker()">
             <input id="add-customer-input-dob" type="date" name="dateOfBirth" [(ngModel)]="customer.dateOfBirth"
-              required placeholder="YYYY-MM-DD"
+              required [max]="maxDate" placeholder="YYYY-MM-DD"
               #dateInput #dobCtrl="ngModel" [class.invalid]="submitted() && dobCtrl.invalid" />
             <svg id="add-customer-cal-icon" class="cal-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2">
@@ -54,6 +54,8 @@
           </div>
           @if (submitted() && dobCtrl.errors?.['required']) {
             <span id="add-customer-error-dob" class="error">مطلوب</span>
+          } @else if (submitted() && dobCtrl.errors?.['max']) {
+            <span id="add-customer-error-dob-future" class="error">لا يمكن اختيار تاريخ اليوم أو تاريخ مستقبلي</span>
           }
         </div>
 

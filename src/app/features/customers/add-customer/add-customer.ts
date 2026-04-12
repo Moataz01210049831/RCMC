@@ -76,6 +76,12 @@ export class AddCustomer implements OnInit {
     private toast: ToastService,
   ) {}
 
+  get maxDate(): string {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    return yesterday.toISOString().split('T')[0];
+  }
+
   get canVerify(): boolean {
     return !!this.customer.identityType && !!this.customer.identityNumber && !!this.customer.dateOfBirth;
   }
