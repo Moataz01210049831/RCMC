@@ -42,8 +42,8 @@
 }
 
 .info-icon {
-  width: 64px;
-  height: 64px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   background: #f0f0f0;
   display: flex;
@@ -51,8 +51,8 @@
   justify-content: center;
 
   svg {
-    width: 36px;
-    height: 36px;
+    width: 25px;
+    height: 25px;
     color: $text-primary;
   }
 }
