@@ -160,17 +160,23 @@
         <div id="add-customer-field-mobile1" class="field-group">
           <label id="add-customer-label-mobile1">رقم الجوال <span class="req">*</span></label>
           <input id="add-customer-input-mobile1" type="text" name="mobileNumber1" [(ngModel)]="customer.mobileNumber1"
-            required maxlength="10" placeholder="05XXXXXXXX"
+            required maxlength="10" pattern="[0-9]+" placeholder="05XXXXXXXX"
             #phoneCtrl="ngModel" [class.invalid]="submitted() && phoneCtrl.invalid" />
           @if (submitted() && phoneCtrl.errors?.['required']) {
             <span id="add-customer-error-mobile1" class="error">مطلوب</span>
+          } @else if (submitted() && phoneCtrl.errors?.['pattern']) {
+            <span id="add-customer-error-mobile1-pattern" class="error">يجب إدخال أرقام فقط</span>
           }
         </div>
 
         <div id="add-customer-field-mobile2" class="field-group">
           <label id="add-customer-label-mobile2">رقم جوال اخر</label>
           <input id="add-customer-input-mobile2" type="text" name="mobileNumber2" [(ngModel)]="customer.mobileNumber2"
-            maxlength="10" placeholder="05XXXXXXXX" />
+            maxlength="10" pattern="[0-9]+" placeholder="05XXXXXXXX"
+            #phone2Ctrl="ngModel" [class.invalid]="submitted() && phone2Ctrl.invalid" />
+          @if (submitted() && phone2Ctrl.errors?.['pattern']) {
+            <span id="add-customer-error-mobile2-pattern" class="error">يجب إدخال أرقام فقط</span>
+          }
         </div>
 
         <div id="add-customer-field-language" class="field-group">
