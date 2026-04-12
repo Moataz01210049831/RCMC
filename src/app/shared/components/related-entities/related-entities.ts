@@ -26,7 +26,7 @@ interface Entity {
   styleUrl: './related-entities.scss',
 })
 export class RelatedEntities {
-  selectedEntityId = signal(2);
+  selectedEntityId = signal(1);
 
   entities: Entity[] = [
     {
