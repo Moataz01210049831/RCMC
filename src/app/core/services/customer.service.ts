@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { of } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { ContactResponse, CreateContactRequest, SearchContactsRequest, SearchContactsResponse } from '../models/contact.model';
+import { ContactResponse, CreateContactRequest, UpdateContactRequest, UpdateContactResponse, SearchContactsRequest, SearchContactsResponse } from '../models/contact.model';
 import { DUMMY_CONTACT } from '../dummy-data/contact.dummy';
 
-export type { CreateContactRequest, ContactResponse, SearchContactsRequest, SearchContactsResponse };
+export type { CreateContactRequest, ContactResponse, UpdateContactRequest, UpdateContactResponse, SearchContactsRequest, SearchContactsResponse };
 
 @Injectable({ providedIn: 'root' })
 export class CustomerService {
@@ -22,6 +22,13 @@ export class CustomerService {
       return of({ ...DUMMY_CONTACT, id });
     }
     return this.http.get<ContactResponse>(`${this.apiUrl}/contacts/${id}`);
+  }
+
+  updateContact(data: UpdateContactRequest) {
+    if (environment.useDummyData) {
+      return of<UpdateContactResponse>({ success: true, message: 'Customer updated successfully', data: null, errors: null });
+    }
+    return this.http.put<UpdateContactResponse>(`${this.apiUrl}/customers`, data);
   }
 
   searchContacts(request: SearchContactsRequest) {

@@ -1,7 +1,7 @@
 <div id="add-customer-page" class="page-center">
   <div id="add-customer-form-card" class="form-card">
 
-    <h2 id="add-customer-card-title" class="card-title">اضافه عميل</h2>
+    <h2 id="add-customer-card-title" class="card-title">{{ isEditMode() ? 'تعديل بيانات العميل' : 'اضافه عميل' }}</h2>
 
     <form id="add-customer-form" #addForm="ngForm" (ngSubmit)="onSubmit(addForm)" novalidate>
 
@@ -256,7 +256,7 @@
       <!-- Actions -->
       <div id="add-customer-form-actions" class="form-actions">
         <button id="add-customer-btn-save" type="submit" class="btn-save" [disabled]="loading()">
-          {{ loading() ? '...' : 'اضافه' }}
+          {{ loading() ? '...' : (isEditMode() ? 'تعديل' : 'اضافه') }}
         </button>
         <button id="add-customer-btn-cancel" type="button" class="btn-cancel" (click)="goBack()" [disabled]="loading()">رجوع</button>
       </div>

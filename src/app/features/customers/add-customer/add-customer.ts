@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from '../../../core/services/customer.service';
 import { LookupService, LookupItem } from '../../../core/services/lookup.service';
 import { ToastService } from '../../../core/services/toast.service';
@@ -16,6 +16,8 @@ export class AddCustomer implements OnInit {
   submitted = signal(false);
   loading = signal(false);
   verified = signal(false);
+  isEditMode = signal(false);
+  customerId = '';
 
   cities: LookupItem[] = [];
   nationalities: LookupItem[] = [];
@@ -65,6 +67,7 @@ export class AddCustomer implements OnInit {
   };
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private customerService: CustomerService,
     private lookupService: LookupService,
@@ -85,6 +88,45 @@ export class AddCustomer implements OnInit {
     this.lookupService.getCities().subscribe({ next: data => this.cities = data });
     this.lookupService.getCountries().subscribe({ next: data => this.nationalities = data });
     this.lookupService.getRegions().subscribe({ next: data => this.regions = data });
+
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.isEditMode.set(true);
+      this.customerId = id;
+      this.loadCustomerData(id);
+    }
+  }
+
+  private loadCustomerData(id: string) {
+    this.loading.set(true);
+    this.customerService.getContact(id).subscribe({
+      next: (contact) => {
+        this.customer = {
+          identityType: contact.identityType,
+          identityNumber: contact.identityNumber,
+          dateOfBirth: contact.dateOfBirth.split('T')[0],
+          firstName: contact.firstName,
+          middleName: contact.middleName,
+          thirdName: contact.thirdName,
+          lastName: contact.lastName,
+          nationalityId: contact.nationalityId,
+          gender: contact.gender,
+          mobileNumber1: contact.mobileNumber1,
+          mobileNumber2: contact.mobileNumber2,
+          preferredLanguage: contact.preferredLanguage,
+          preferredContactMethod: contact.preferredContactMethod,
+          email: contact.email,
+          regionId: contact.regionId,
+          cityId: contact.cityId,
+        };
+        this.verified.set(true);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.loading.set(false);
+        this.toast.success('حدث خطأ في تحميل بيانات العميل');
+      },
+    });
   }
 
   onSubmit(form: NgForm) {
@@ -92,7 +134,8 @@ export class AddCustomer implements OnInit {
     if (form.invalid) return;
 
     this.loading.set(true);
-    this.customerService.createContact({
+
+    const contactData = {
       firstName: this.customer.firstName,
       middleName: this.customer.middleName,
       thirdName: this.customer.thirdName,
@@ -109,19 +152,38 @@ export class AddCustomer implements OnInit {
       preferredContactMethod: this.customer.preferredContactMethod!,
       preferredLanguage: this.customer.preferredLanguage!,
       regionId: this.customer.regionId,
-    }).subscribe({
-      next: () => {
-        this.loading.set(false);
-        this.toast.success('تم إضافة العميل بنجاح');
-        this.router.navigate(['/dashboard']);
-      },
-      error: () => {
-        this.loading.set(false);
-      },
-    });
+    };
+
+    if (this.isEditMode()) {
+      this.customerService.updateContact({ id: this.customerId, ...contactData }).subscribe({
+        next: () => {
+          this.loading.set(false);
+          this.toast.success('تم تعديل بيانات العميل بنجاح');
+          this.router.navigate(['/customers', this.customerId]);
+        },
+        error: () => {
+          this.loading.set(false);
+        },
+      });
+    } else {
+      this.customerService.createContact(contactData).subscribe({
+        next: () => {
+          this.loading.set(false);
+          this.toast.success('تم إضافة العميل بنجاح');
+          this.router.navigate(['/dashboard']);
+        },
+        error: () => {
+          this.loading.set(false);
+        },
+      });
+    }
   }
 
   goBack() {
-    this.router.navigate(['/dashboard']);
+    if (this.isEditMode()) {
+      this.router.navigate(['/customers', this.customerId]);
+    } else {
+      this.router.navigate(['/dashboard']);
+    }
   }
 }

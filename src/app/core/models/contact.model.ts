@@ -37,6 +37,17 @@ export interface ContactResponse {
   regionId: string;
 }
 
+export interface UpdateContactRequest extends CreateContactRequest {
+  id: string;
+}
+
+export interface UpdateContactResponse {
+  success: boolean;
+  message: string;
+  data: unknown;
+  errors: unknown;
+}
+
 export interface SearchContactsRequest {
   identityNumber?: string;
   name?: string;
