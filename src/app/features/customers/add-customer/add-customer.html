@@ -265,3 +265,13 @@
     </form>
   </div>
 </div>
+
+<app-confirm-dialog
+  [open]="showConfirm()"
+  [title]="isEditMode() ? 'تأكيد تعديل البيانات' : 'تأكيد إضافة العميل'"
+  [message]="isEditMode() ? 'هل أنت متأكد من تعديل بيانات العميل؟' : 'هل أنت متأكد من إضافة العميل؟'"
+  [confirmText]="isEditMode() ? 'تعديل' : 'حفظ'"
+  cancelText="إلغاء"
+  (confirm)="onConfirmSubmit()"
+  (cancel)="onCancelConfirm()"
+/>

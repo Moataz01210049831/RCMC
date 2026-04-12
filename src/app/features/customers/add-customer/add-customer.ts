@@ -5,10 +5,11 @@ import { CustomerService } from '../../../core/services/customer.service';
 import { LookupService, LookupItem } from '../../../core/services/lookup.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { SearchableSelect } from '../../../shared/components/searchable-select/searchable-select';
+import { ConfirmDialog } from '../../../shared/components/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-add-customer',
-  imports: [FormsModule, SearchableSelect],
+  imports: [FormsModule, SearchableSelect, ConfirmDialog],
   templateUrl: './add-customer.html',
   styleUrl: './add-customer.scss',
 })
@@ -17,6 +18,7 @@ export class AddCustomer implements OnInit {
   loading = signal(false);
   verified = signal(false);
   isEditMode = signal(false);
+  showConfirm = signal(false);
   customerId = '';
 
   cities: LookupItem[] = [];
@@ -132,7 +134,11 @@ export class AddCustomer implements OnInit {
   onSubmit(form: NgForm) {
     this.submitted.set(true);
     if (form.invalid) return;
+    this.showConfirm.set(true);
+  }
 
+  onConfirmSubmit() {
+    this.showConfirm.set(false);
     this.loading.set(true);
 
     const contactData = {
@@ -177,6 +183,10 @@ export class AddCustomer implements OnInit {
         },
       });
     }
+  }
+
+  onCancelConfirm() {
+    this.showConfirm.set(false);
   }
 
   goBack() {
