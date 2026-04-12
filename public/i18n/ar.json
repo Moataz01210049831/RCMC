@@ -1,0 +1,142 @@
+{
+  "APP": {
+    "NAME": "وزارة التجارة",
+    "NAME_EN": "Ministry of Commerce",
+    "BROWSER_TITLE": "وزارة التجارة | RCMC"
+  },
+  "COMMON": {
+    "REQUIRED": "مطلوب",
+    "BACK": "رجوع",
+    "SAVE": "حفظ",
+    "CANCEL": "إلغاء",
+    "EDIT": "تعديل",
+    "ADD": "اضافه",
+    "SEARCH": "بحث",
+    "SEARCHING": "جاري البحث...",
+    "CLOSE": "إغلاق",
+    "NO_RESULTS": "لا توجد نتائج",
+    "VIEW": "عرض",
+    "CONFIRM": "تأكيد",
+    "DELETE": "حذف",
+    "NUMBERS_ONLY": "يجب إدخال أرقام فقط",
+    "INVALID_EMAIL": "البريد غير صحيح"
+  },
+  "HEADER": {
+    "NOTIFICATIONS": "التنبيهات",
+    "ALERTS": "الإشعارات",
+    "CHANGE_PASSWORD": "تغيير كلمة المرور",
+    "LOGOUT": "تسجيل الخروج"
+  },
+  "LOGIN": {
+    "TITLE": "تسجيل الدخول",
+    "USERNAME": "اسم المستخدم",
+    "USERNAME_PLACEHOLDER": "اسم المستخدم",
+    "PASSWORD": "كلمة المرور",
+    "PASSWORD_PLACEHOLDER": "كلمة المرور",
+    "SUBMIT": "تسجيل الدخول",
+    "USERNAME_REQUIRED": "اسم المستخدم مطلوب",
+    "USERNAME_MIN": "يجب أن يكون اسم المستخدم 3 أحرف على الأقل",
+    "PASSWORD_REQUIRED": "كلمة المرور مطلوبة",
+    "PASSWORD_MIN": "يجب أن تكون كلمة المرور 6 أحرف على الأقل"
+  },
+  "DASHBOARD": {
+    "MY_SERVICES": "خدماتي",
+    "SEARCH_PLACEHOLDER": "البحث...",
+    "ID_NUMBER": "رقم الهوية",
+    "NAME": "الاسم",
+    "PHONE_NUMBER": "رقم الجوال",
+    "NO_SEARCH_DATA": "لا توجد بيانات بحث",
+    "ADD_CUSTOMER": "اضافه عميل"
+  },
+  "CUSTOMER": {
+    "ADD_TITLE": "اضافه عميل",
+    "EDIT_TITLE": "تعديل بيانات العميل",
+    "IDENTITY_TYPE": "نوع الهوية",
+    "IDENTITY_NUMBER": "رقم الهوية",
+    "DATE_OF_BIRTH": "تاريخ الميلاد",
+    "NO_FUTURE_DATE": "لا يمكن اختيار تاريخ اليوم أو تاريخ مستقبلي",
+    "VERIFY": "تحقق",
+    "HINT_NO_SHARE": "لن نشارك هذا مع أي شخص آخر",
+    "FIRST_NAME": "الاسم الاول",
+    "SECOND_NAME": "الاسم الثاني",
+    "THIRD_NAME": "الاسم الثالث",
+    "FOURTH_NAME": "الاسم الرابع",
+    "NATIONALITY": "الجنسية",
+    "GENDER": "الجنس",
+    "MALE": "ذكر",
+    "FEMALE": "أنثى",
+    "MOBILE_NUMBER": "رقم الجوال",
+    "OTHER_MOBILE": "رقم جوال اخر",
+    "PREFERRED_LANGUAGE": "اللغة المفضلة",
+    "ARABIC": "العربية",
+    "ENGLISH": "الإنجليزية",
+    "PREFERRED_CONTACT": "قناة التواصل المفضلة",
+    "EMAIL_OPTION": "بريد الإلكتروني",
+    "MOBILE_OPTION": "جوال",
+    "EMAIL": "البريد الإلكتروني",
+    "REGION": "المنطقة",
+    "CITY": "المدينة",
+    "CONFIRM_EDIT_TITLE": "تأكيد تعديل البيانات",
+    "CONFIRM_ADD_TITLE": "تأكيد إضافة العميل",
+    "CONFIRM_EDIT_MSG": "هل أنت متأكد من تعديل بيانات العميل؟",
+    "CONFIRM_ADD_MSG": "هل أنت متأكد من إضافة العميل؟",
+    "EDIT_SUCCESS": "تم تعديل بيانات العميل بنجاح",
+    "ADD_SUCCESS": "تم إضافة العميل بنجاح",
+    "LOAD_ERROR": "حدث خطأ في تحميل بيانات العميل",
+    "ADD_CUSTOMER": "إضافة عميل",
+    "FULL_NAME": "الاسم الكامل",
+    "ACTIONS": "الإجراءات",
+    "SEARCH_RESULTS_FOR": "نتائج البحث عن:",
+    "NO_MATCHING_RESULTS": "لا توجد نتائج مطابقة للبحث",
+    "CUSTOMER_DATA": "بيانات العميل",
+    "ADD_BUSINESS_ENTITY": "اضافة كيان تجاري",
+    "EDIT_DATA": "تعديل بيانات",
+    "CUSTOMER_STATUS": "حالة العميل :",
+    "LAST_UPDATE": "آخر تحديث :",
+    "RECORD_CREATOR": "منشئ السجل :",
+    "CREATION_DATE": "تاريخ الإنشاء :"
+  },
+  "IDENTITY_TYPES": {
+    "CITIZEN": "مواطن",
+    "RESIDENT": "مقيم",
+    "VISITOR": "زائر",
+    "PILGRIM": "حاج",
+    "NATIONAL_ID": "هوية وطنية",
+    "RESIDENCE": "إقامة",
+    "PASSPORT": "جواز سفر",
+    "OTHER": "أخرى"
+  },
+  "ENTITIES": {
+    "RELATED_ENTITIES": "الكيانات المرتبطة",
+    "REQUESTS": "الطلبات",
+    "INQUIRIES": "الاستفسارات",
+    "SUGGESTIONS": "الاقتراحات",
+    "COMPLAINTS": "الشكاوي",
+    "ADDITIONAL_TEXT": "نص إضافي لمحتوى البطاقة",
+    "INDIVIDUAL": "فرد",
+    "BUSINESS_NAME": "العرض للتقن"
+  },
+  "STATUS": {
+    "NEW": "جديد",
+    "CLOSED": "مغلق",
+    "IN_PROGRESS": "قيد المعالجة",
+    "REOPENED": "اعادة فتح"
+  },
+  "CONFIRM_DIALOG": {
+    "TITLE": "تأكيد العملية",
+    "MESSAGE": "هل أنت متأكد من المتابعة؟"
+  },
+  "TOAST": {
+    "SUCCESS_TITLE": "تمت العملية بنجاح",
+    "ERROR_TITLE": "حدث خطأ",
+    "UNEXPECTED_ERROR": "حدث خطأ غير متوقع"
+  },
+  "SEARCHABLE_SELECT": {
+    "CHOOSE": "اختر...",
+    "SEARCH": "بحث..."
+  },
+  "LANG": {
+    "AR": "العربية",
+    "EN": "English"
+  }
+}

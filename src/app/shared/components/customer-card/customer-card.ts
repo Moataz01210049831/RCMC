@@ -1,11 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { CustomerCardData } from '../../../core/models/customer-card.model';
 
 export type { CustomerCardData };
 
 @Component({
   selector: 'app-customer-card',
-  imports: [],
+  imports: [TranslateModule],
   templateUrl: './customer-card.html',
   styleUrl: './customer-card.scss',
 })

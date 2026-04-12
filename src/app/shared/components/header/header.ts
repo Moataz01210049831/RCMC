@@ -1,10 +1,12 @@
 import { Component, signal, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { AppConfig } from '../../../core/config/app-config';
+import { LanguageService } from '../../../core/services/language.service';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [TranslateModule],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
@@ -14,10 +16,14 @@ export class Header {
   readonly config = AppConfig;
   user = { name: 'عائدة كما', role: 'مشرف', initials: 'AG' };
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public langService: LanguageService) {}
 
   toggleDropdown() {
     this.dropdownOpen.update(v => !v);
+  }
+
+  toggleLang() {
+    this.langService.toggleLang();
   }
 
   @HostListener('document:click', ['$event'])

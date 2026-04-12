@@ -2,15 +2,15 @@
   <!-- Right Panel -->
   <div id="login-right-panel" class="right-panel">
     <form id="login-form" class="login-form" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
-      <h2 id="login-form-title" class="form-title">تسجيل الدخول</h2>
+      <h2 id="login-form-title" class="form-title">{{ 'LOGIN.TITLE' | translate }}</h2>
 
       <!-- Username -->
       <div id="login-username-group" class="field-group">
-        <label id="login-username-label" for="username">اسم المستخدم</label>
+        <label id="login-username-label" for="username">{{ 'LOGIN.USERNAME' | translate }}</label>
         <input
           id="username"
           type="text"
-          placeholder="اسم المستخدم"
+          [placeholder]="'LOGIN.USERNAME_PLACEHOLDER' | translate"
           [(ngModel)]="username"
           name="username"
           required
@@ -19,20 +19,20 @@
           [class.invalid]="submitted() && usernameCtrl.invalid"
         />
         @if (submitted() && usernameCtrl.errors?.['required']) {
-          <span id="login-username-error-required" class="error">اسم المستخدم مطلوب</span>
+          <span id="login-username-error-required" class="error">{{ 'LOGIN.USERNAME_REQUIRED' | translate }}</span>
         } @else if (submitted() && usernameCtrl.errors?.['minlength']) {
-          <span id="login-username-error-minlength" class="error">يجب أن يكون اسم المستخدم 3 أحرف على الأقل</span>
+          <span id="login-username-error-minlength" class="error">{{ 'LOGIN.USERNAME_MIN' | translate }}</span>
         }
       </div>
 
       <!-- Password -->
       <div id="login-password-group" class="field-group">
-        <label id="login-password-label" for="password">كلمة المرور</label>
+        <label id="login-password-label" for="password">{{ 'LOGIN.PASSWORD' | translate }}</label>
         <div id="login-password-wrapper" class="password-wrapper">
           <input
             id="password"
             [type]="showPassword() ? 'text' : 'password'"
-            placeholder="كلمة المرور"
+            [placeholder]="'LOGIN.PASSWORD_PLACEHOLDER' | translate"
             [(ngModel)]="password"
             name="password"
             required
@@ -55,13 +55,13 @@
           </button>
         </div>
         @if (submitted() && passwordCtrl.errors?.['required']) {
-          <span id="login-password-error-required" class="error">كلمة المرور مطلوبة</span>
+          <span id="login-password-error-required" class="error">{{ 'LOGIN.PASSWORD_REQUIRED' | translate }}</span>
         } @else if (submitted() && passwordCtrl.errors?.['minlength']) {
-          <span id="login-password-error-minlength" class="error">يجب أن تكون كلمة المرور 6 أحرف على الأقل</span>
+          <span id="login-password-error-minlength" class="error">{{ 'LOGIN.PASSWORD_MIN' | translate }}</span>
         }
       </div>
 
-      <button id="login-submit-btn" type="submit" class="btn-login">تسجيل الدخول</button>
+      <button id="login-submit-btn" type="submit" class="btn-login">{{ 'LOGIN.SUBMIT' | translate }}</button>
     </form>
   </div>
 

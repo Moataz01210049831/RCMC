@@ -11,7 +11,7 @@
       <span id="ss-value" class="ss-value">{{ selectedLabel }}</span>
       <button id="ss-clear-btn" type="button" class="ss-clear" (click)="clear($event)">×</button>
     } @else {
-      <span id="ss-placeholder" class="ss-placeholder">{{ placeholder }}</span>
+      <span id="ss-placeholder" class="ss-placeholder">{{ placeholder || ('SEARCHABLE_SELECT.CHOOSE' | translate) }}</span>
     }
 
     <svg id="ss-arrow" class="ss-arrow" [class.rotated]="isOpen"
@@ -35,7 +35,7 @@
           class="ss-search"
           [(ngModel)]="searchText"
           [ngModelOptions]="{standalone: true}"
-          placeholder="بحث..."
+          [placeholder]="'SEARCHABLE_SELECT.SEARCH' | translate"
           (click)="$event.stopPropagation()"
           autofocus />
       </div>
@@ -49,7 +49,7 @@
             {{ item.name }}
           </li>
         } @empty {
-          <li id="ss-empty" class="ss-empty">لا توجد نتائج</li>
+          <li id="ss-empty" class="ss-empty">{{ 'COMMON.NO_RESULTS' | translate }}</li>
         }
       </ul>
     </div>

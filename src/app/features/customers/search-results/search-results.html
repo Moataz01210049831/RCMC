@@ -1,20 +1,20 @@
 <div id="search-results-page" class="results-page">
 
   <div id="search-results-page-header" class="page-header">
-    <h2 id="search-results-page-title" class="page-title">نتائج البحث عن: <span id="search-results-query" class="query">{{ query() }}</span></h2>
+    <h2 id="search-results-page-title" class="page-title">{{ 'CUSTOMER.SEARCH_RESULTS_FOR' | translate }} <span id="search-results-query" class="query">{{ query() }}</span></h2>
     <button id="search-results-btn-add" class="btn-add" (click)="addCustomer()">
       <svg id="search-results-add-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" stroke-width="2">
         <line id="search-results-add-icon-v" x1="12" y1="5" x2="12" y2="19"/>
         <line id="search-results-add-icon-h" x1="5" y1="12" x2="19" y2="12"/>
       </svg>
-      إضافة عميل
+      {{ 'CUSTOMER.ADD_CUSTOMER' | translate }}
     </button>
   </div>
 
   @if (loading()) {
     <div id="search-results-loading" class="empty-state">
-      <p>جاري البحث...</p>
+      <p>{{ 'COMMON.SEARCHING' | translate }}</p>
     </div>
   } @else if (results().length === 0) {
     <div id="search-results-empty-state" class="empty-state">
@@ -23,7 +23,7 @@
         <circle id="search-results-empty-icon-circle" cx="11" cy="11" r="8"/>
         <line id="search-results-empty-icon-line" x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
-      <p id="search-results-empty-text">لا توجد نتائج مطابقة للبحث</p>
+      <p id="search-results-empty-text">{{ 'CUSTOMER.NO_MATCHING_RESULTS' | translate }}</p>
     </div>
   } @else {
     <div id="search-results-table-card" class="table-card">
@@ -31,11 +31,11 @@
         <thead id="search-results-thead">
           <tr id="search-results-thead-row">
             <th id="search-results-th-index">#</th>
-            <th id="search-results-th-fullname">الاسم الكامل</th>
-            <th id="search-results-th-idnumber">رقم الهوية</th>
-            <th id="search-results-th-idtype">نوع الهوية</th>
-            <th id="search-results-th-phone">رقم الجوال</th>
-            <th id="search-results-th-actions">الإجراءات</th>
+            <th id="search-results-th-fullname">{{ 'CUSTOMER.FULL_NAME' | translate }}</th>
+            <th id="search-results-th-idnumber">{{ 'CUSTOMER.IDENTITY_NUMBER' | translate }}</th>
+            <th id="search-results-th-idtype">{{ 'CUSTOMER.IDENTITY_TYPE' | translate }}</th>
+            <th id="search-results-th-phone">{{ 'CUSTOMER.MOBILE_NUMBER' | translate }}</th>
+            <th id="search-results-th-actions">{{ 'CUSTOMER.ACTIONS' | translate }}</th>
           </tr>
         </thead>
         <tbody id="search-results-tbody">
@@ -48,7 +48,7 @@
               <td [attr.id]="'search-results-cell-phone-' + customer.id">{{ customer.phone }}</td>
               <td [attr.id]="'search-results-cell-actions-' + customer.id">
                 <div class="actions" [attr.id]="'search-results-actions-' + customer.id">
-                  <button class="action-btn view" title="عرض"
+                  <button class="action-btn view" [title]="'COMMON.VIEW' | translate"
                     [attr.id]="'search-results-btn-view-' + customer.id"
                     (click)="viewCustomer(customer.id)">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -57,7 +57,7 @@
                       <circle cx="12" cy="12" r="3"/>
                     </svg>
                   </button>
-                  <button class="action-btn edit" title="تعديل" [attr.id]="'search-results-btn-edit-' + customer.id">
+                  <button class="action-btn edit" [title]="'COMMON.EDIT' | translate" [attr.id]="'search-results-btn-edit-' + customer.id">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                       stroke="currentColor" stroke-width="2">
                       <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
@@ -74,7 +74,7 @@
   }
 
   <button id="search-results-btn-back" class="btn-back" (click)="goBack()">
-    رجوع
+    {{ 'COMMON.BACK' | translate }}
     <svg id="search-results-back-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
       stroke="currentColor" stroke-width="2">
       <polyline id="search-results-back-icon-polyline" points="15 18 9 12 15 6"/>

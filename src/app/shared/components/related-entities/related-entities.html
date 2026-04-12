@@ -1,6 +1,6 @@
 <div id="related-entities" class="related-entities">
 
-  <h3 id="related-entities-title" class="section-title">الكيانات المرتبطة</h3>
+  <h3 id="related-entities-title" class="section-title">{{ 'ENTITIES.RELATED_ENTITIES' | translate }}</h3>
 
   <!-- Entity tabs -->
   <div id="related-entities-tabs" class="entity-tabs">
@@ -10,7 +10,7 @@
         [class.active]="selectedEntityId() === entity.id"
         (click)="selectEntity(entity.id)">
         <div class="entity-text" [attr.id]="'related-entity-text-' + entity.id">
-          <span class="entity-name" [attr.id]="'related-entity-name-' + entity.id">{{ entity.name }}</span>
+          <span class="entity-name" [attr.id]="'related-entity-name-' + entity.id">{{ entity.nameKey | translate }}</span>
           <span class="entity-number" [attr.id]="'related-entity-number-' + entity.id">{{ entity.number }}</span>
         </div>
         <button class="tab-arrow" [attr.id]="'related-entity-tab-arrow-' + entity.id">
@@ -25,33 +25,32 @@
 
   <!-- Service cards grid -->
   <div id="related-entities-service-grid" class="service-grid">
-    @for (card of activeServiceCards(); track card.title) {
-      <div class="service-card" [attr.id]="'related-service-card-' + card.title">
+    @for (card of activeServiceCards(); track card.titleKey) {
+      <div class="service-card" [attr.id]="'related-service-card-' + card.titleKey">
 
         <!-- Card type icon top right -->
-        <div class="bulb-icon" [attr.id]="'related-service-bulb-' + card.title">
-          @switch (card.title) {
-            @case ('الطلبات') {
-              <img src="images/icons/element4.png" alt="طلبات" class="service-icon" [attr.id]="'related-service-icon-' + card.title"/>
+        <div class="bulb-icon" [attr.id]="'related-service-bulb-' + card.titleKey">
+          @switch (card.titleKey) {
+            @case ('ENTITIES.REQUESTS') {
+              <img src="images/icons/element4.png" [alt]="'ENTITIES.REQUESTS' | translate" class="service-icon" [attr.id]="'related-service-icon-' + card.titleKey"/>
             }
-            @case ('الاستفسارات') {
-              <img src="images/icons/element3.png" alt="استفسارات" class="service-icon" [attr.id]="'related-service-icon-' + card.title"/>
-           
+            @case ('ENTITIES.INQUIRIES') {
+              <img src="images/icons/element3.png" [alt]="'ENTITIES.INQUIRIES' | translate" class="service-icon" [attr.id]="'related-service-icon-' + card.titleKey"/>
             }
-            @case ('الاقتراحات') {
-              <img src="images/icons/element2.png" alt="اقتراحات" class="service-icon" [attr.id]="'related-service-icon-' + card.title"/>
+            @case ('ENTITIES.SUGGESTIONS') {
+              <img src="images/icons/element2.png" [alt]="'ENTITIES.SUGGESTIONS' | translate" class="service-icon" [attr.id]="'related-service-icon-' + card.titleKey"/>
             }
-            @case ('الشكاوي') {
-             <img src="images/icons/element1.png" alt="شكاوي" class="service-icon" [attr.id]="'related-service-icon-' + card.title"/>
+            @case ('ENTITIES.COMPLAINTS') {
+             <img src="images/icons/element1.png" [alt]="'ENTITIES.COMPLAINTS' | translate" class="service-icon" [attr.id]="'related-service-icon-' + card.titleKey"/>
             }
           }
         </div>
 
         <!-- Title row: arrow + name + count -->
-        <div class="service-title-row" [attr.id]="'related-service-title-row-' + card.title">
-          <div class="title-group" [attr.id]="'related-service-title-group-' + card.title">
-            <span class="service-title" [attr.id]="'related-service-title-' + card.title">{{ card.title }}</span>
-            <span class="service-count" [attr.id]="'related-service-count-' + card.title">{{ card.count }}</span>
+        <div class="service-title-row" [attr.id]="'related-service-title-row-' + card.titleKey">
+          <div class="title-group" [attr.id]="'related-service-title-group-' + card.titleKey">
+            <span class="service-title" [attr.id]="'related-service-title-' + card.titleKey">{{ card.titleKey | translate }}</span>
+            <span class="service-count" [attr.id]="'related-service-count-' + card.titleKey">{{ card.count }}</span>
           </div>
           <svg class="title-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2">
@@ -59,16 +58,16 @@
           </svg>
         </div>
 
-        <p class="service-desc" [attr.id]="'related-service-desc-' + card.title">{{ card.description }}</p>
+        <p class="service-desc" [attr.id]="'related-service-desc-' + card.titleKey">{{ card.descriptionKey | translate }}</p>
 
         <!-- Items -->
-        <div class="service-items" [attr.id]="'related-service-items-' + card.title">
+        <div class="service-items" [attr.id]="'related-service-items-' + card.titleKey">
           @for (item of card.items; track item.code) {
             <div class="service-item" [attr.id]="'related-service-item-' + item.code">
               <span class="item-code" [attr.id]="'related-service-item-code-' + item.code">{{ item.code }}</span>
               <span class="item-status" [attr.id]="'related-service-item-status-' + item.code">
                 <span class="status-dot"></span>
-                {{ item.status }}
+                {{ item.statusKey | translate }}
               </span>
             </div>
           }

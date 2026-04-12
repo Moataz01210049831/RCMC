@@ -1,0 +1,142 @@
+{
+  "APP": {
+    "NAME": "Ministry of Commerce",
+    "NAME_EN": "Ministry of Commerce",
+    "BROWSER_TITLE": "Ministry of Commerce | RCMC"
+  },
+  "COMMON": {
+    "REQUIRED": "Required",
+    "BACK": "Back",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "EDIT": "Edit",
+    "ADD": "Add",
+    "SEARCH": "Search",
+    "SEARCHING": "Searching...",
+    "CLOSE": "Close",
+    "NO_RESULTS": "No results found",
+    "VIEW": "View",
+    "CONFIRM": "Confirm",
+    "DELETE": "Delete",
+    "NUMBERS_ONLY": "Numbers only",
+    "INVALID_EMAIL": "Invalid email"
+  },
+  "HEADER": {
+    "NOTIFICATIONS": "Notifications",
+    "ALERTS": "Alerts",
+    "CHANGE_PASSWORD": "Change Password",
+    "LOGOUT": "Logout"
+  },
+  "LOGIN": {
+    "TITLE": "Login",
+    "USERNAME": "Username",
+    "USERNAME_PLACEHOLDER": "Username",
+    "PASSWORD": "Password",
+    "PASSWORD_PLACEHOLDER": "Password",
+    "SUBMIT": "Login",
+    "USERNAME_REQUIRED": "Username is required",
+    "USERNAME_MIN": "Username must be at least 3 characters",
+    "PASSWORD_REQUIRED": "Password is required",
+    "PASSWORD_MIN": "Password must be at least 6 characters"
+  },
+  "DASHBOARD": {
+    "MY_SERVICES": "My Services",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "ID_NUMBER": "ID Number",
+    "NAME": "Name",
+    "PHONE_NUMBER": "Phone Number",
+    "NO_SEARCH_DATA": "No search data found",
+    "ADD_CUSTOMER": "Add Customer"
+  },
+  "CUSTOMER": {
+    "ADD_TITLE": "Add Customer",
+    "EDIT_TITLE": "Edit Customer Data",
+    "IDENTITY_TYPE": "Identity Type",
+    "IDENTITY_NUMBER": "ID Number",
+    "DATE_OF_BIRTH": "Date of Birth",
+    "NO_FUTURE_DATE": "Cannot select today or a future date",
+    "VERIFY": "Verify",
+    "HINT_NO_SHARE": "We won't share this with anyone else",
+    "FIRST_NAME": "First Name",
+    "SECOND_NAME": "Second Name",
+    "THIRD_NAME": "Third Name",
+    "FOURTH_NAME": "Fourth Name",
+    "NATIONALITY": "Nationality",
+    "GENDER": "Gender",
+    "MALE": "Male",
+    "FEMALE": "Female",
+    "MOBILE_NUMBER": "Mobile Number",
+    "OTHER_MOBILE": "Other Mobile",
+    "PREFERRED_LANGUAGE": "Preferred Language",
+    "ARABIC": "Arabic",
+    "ENGLISH": "English",
+    "PREFERRED_CONTACT": "Preferred Contact Method",
+    "EMAIL_OPTION": "Email",
+    "MOBILE_OPTION": "Mobile",
+    "EMAIL": "Email",
+    "REGION": "Region",
+    "CITY": "City",
+    "CONFIRM_EDIT_TITLE": "Confirm Edit",
+    "CONFIRM_ADD_TITLE": "Confirm Add Customer",
+    "CONFIRM_EDIT_MSG": "Are you sure you want to edit the customer data?",
+    "CONFIRM_ADD_MSG": "Are you sure you want to add this customer?",
+    "EDIT_SUCCESS": "Customer data updated successfully",
+    "ADD_SUCCESS": "Customer added successfully",
+    "LOAD_ERROR": "Error loading customer data",
+    "ADD_CUSTOMER": "Add Customer",
+    "FULL_NAME": "Full Name",
+    "ACTIONS": "Actions",
+    "SEARCH_RESULTS_FOR": "Search results for:",
+    "NO_MATCHING_RESULTS": "No matching results found",
+    "CUSTOMER_DATA": "Customer Data",
+    "ADD_BUSINESS_ENTITY": "Add Business Entity",
+    "EDIT_DATA": "Edit Data",
+    "CUSTOMER_STATUS": "Customer Status:",
+    "LAST_UPDATE": "Last Update:",
+    "RECORD_CREATOR": "Record Creator:",
+    "CREATION_DATE": "Creation Date:"
+  },
+  "IDENTITY_TYPES": {
+    "CITIZEN": "Citizen",
+    "RESIDENT": "Resident",
+    "VISITOR": "Visitor",
+    "PILGRIM": "Pilgrim",
+    "NATIONAL_ID": "National ID",
+    "RESIDENCE": "Residence Permit",
+    "PASSPORT": "Passport",
+    "OTHER": "Other"
+  },
+  "ENTITIES": {
+    "RELATED_ENTITIES": "Related Entities",
+    "REQUESTS": "Requests",
+    "INQUIRIES": "Inquiries",
+    "SUGGESTIONS": "Suggestions",
+    "COMPLAINTS": "Complaints",
+    "ADDITIONAL_TEXT": "Additional card content text",
+    "INDIVIDUAL": "Individual",
+    "BUSINESS_NAME": "Business Name"
+  },
+  "STATUS": {
+    "NEW": "New",
+    "CLOSED": "Closed",
+    "IN_PROGRESS": "In Progress",
+    "REOPENED": "Reopened"
+  },
+  "CONFIRM_DIALOG": {
+    "TITLE": "Confirm Action",
+    "MESSAGE": "Are you sure you want to continue?"
+  },
+  "TOAST": {
+    "SUCCESS_TITLE": "Operation completed successfully",
+    "ERROR_TITLE": "An error occurred",
+    "UNEXPECTED_ERROR": "An unexpected error occurred"
+  },
+  "SEARCHABLE_SELECT": {
+    "CHOOSE": "Choose...",
+    "SEARCH": "Search..."
+  },
+  "LANG": {
+    "AR": "العربية",
+    "EN": "English"
+  }
+}

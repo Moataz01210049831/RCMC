@@ -1,11 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { AppConfig } from '../../../core/config/app-config';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule],
+  imports: [FormsModule, TranslateModule],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })

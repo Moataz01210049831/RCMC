@@ -6,11 +6,12 @@ import {
   Input,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { LookupItem } from '../../../core/services/lookup.service';
 
 @Component({
   selector: 'app-searchable-select',
-  imports: [FormsModule],
+  imports: [FormsModule, TranslateModule],
   templateUrl: './searchable-select.html',
   styleUrl: './searchable-select.scss',
   providers: [
@@ -23,7 +24,7 @@ import { LookupItem } from '../../../core/services/lookup.service';
 })
 export class SearchableSelect implements ControlValueAccessor {
   @Input() items: LookupItem[] = [];
-  @Input() placeholder = 'اختر...';
+  @Input() placeholder = '';
   @Input() invalid: boolean | null = false;
 
   searchText = '';

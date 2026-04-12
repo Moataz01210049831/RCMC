@@ -1,17 +1,18 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CustomerCard } from '../../../shared/components/customer-card/customer-card';
 import { RelatedEntities } from '../../../shared/components/related-entities/related-entities';
 import { CustomerService } from '../../../core/services/customer.service';
 import { LookupService, LookupItem } from '../../../core/services/lookup.service';
 import { CustomerCardData } from '../../../core/models/customer-card.model';
 
-const GENDER_LABELS: Record<number, string> = { 1: 'ذكر', 2: 'أنثى' };
+const GENDER_KEYS: Record<number, string> = { 1: 'CUSTOMER.MALE', 2: 'CUSTOMER.FEMALE' };
 
 @Component({
   selector: 'app-customer-detail',
-  imports: [CustomerCard, RelatedEntities],
+  imports: [TranslateModule, CustomerCard, RelatedEntities],
   templateUrl: './customer-detail.html',
   styleUrl: './customer-detail.scss',
 })
@@ -23,6 +24,7 @@ export class CustomerDetail implements OnInit {
     private router: Router,
     private customerService: CustomerService,
     private lookupService: LookupService,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit() {
@@ -44,7 +46,7 @@ export class CustomerDetail implements OnInit {
         phone:       contact.mobileNumber1,
         birthDate:   contact.dateOfBirth.split('T')[0],
         nationality: resolveName(nationalities, contact.nationalityId),
-        gender:      GENDER_LABELS[contact.gender] ?? '-',
+        gender:      this.translate.instant(GENDER_KEYS[contact.gender] ?? '-'),
         city:        resolveName(cities, contact.cityId),
       });
     });

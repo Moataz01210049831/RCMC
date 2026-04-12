@@ -1,17 +1,18 @@
 import { Component, input, output } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-confirm-dialog',
-  imports: [],
+  imports: [TranslateModule],
   templateUrl: './confirm-dialog.html',
   styleUrl: './confirm-dialog.scss',
 })
 export class ConfirmDialog {
   open = input(false);
-  title = input('تأكيد العملية');
-  message = input('هل أنت متأكد من المتابعة؟');
-  confirmText = input('حفظ');
-  cancelText = input('إلغاء');
+  title = input('');
+  message = input('');
+  confirmText = input('');
+  cancelText = input('');
 
   confirm = output<void>();
   cancel = output<void>();
