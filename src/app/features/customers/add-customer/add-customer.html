@@ -74,7 +74,7 @@
         <div id="add-customer-field-firstname" class="field-group">
           <label id="add-customer-label-firstname">{{ 'CUSTOMER.FIRST_NAME' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-firstname" type="text" name="firstName" [(ngModel)]="customer.firstName"
-            required [placeholder]="'CUSTOMER.FIRST_NAME' | translate"
+            required maxlength="50" [placeholder]="'CUSTOMER.FIRST_NAME' | translate"
             #firstNameCtrl="ngModel" [class.invalid]="submitted() && firstNameCtrl.invalid" />
           @if (submitted() && firstNameCtrl.errors?.['required']) {
             <span id="add-customer-error-firstname" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
@@ -84,7 +84,7 @@
         <div id="add-customer-field-middlename" class="field-group">
           <label id="add-customer-label-middlename">{{ 'CUSTOMER.SECOND_NAME' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-middlename" type="text" name="middleName" [(ngModel)]="customer.middleName"
-            required [placeholder]="'CUSTOMER.SECOND_NAME' | translate"
+            required maxlength="50" [placeholder]="'CUSTOMER.SECOND_NAME' | translate"
             #middleNameCtrl="ngModel" [class.invalid]="submitted() && middleNameCtrl.invalid" />
           @if (submitted() && middleNameCtrl.errors?.['required']) {
             <span id="add-customer-error-middlename" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
@@ -94,7 +94,7 @@
         <div id="add-customer-field-thirdname" class="field-group">
           <label id="add-customer-label-thirdname">{{ 'CUSTOMER.THIRD_NAME' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-thirdname" type="text" name="thirdName" [(ngModel)]="customer.thirdName"
-            required [placeholder]="'CUSTOMER.THIRD_NAME' | translate"
+            required maxlength="50" [placeholder]="'CUSTOMER.THIRD_NAME' | translate"
             #thirdNameCtrl="ngModel" [class.invalid]="submitted() && thirdNameCtrl.invalid" />
           @if (submitted() && thirdNameCtrl.errors?.['required']) {
             <span id="add-customer-error-thirdname" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
@@ -109,7 +109,7 @@
         <div id="add-customer-field-lastname" class="field-group">
           <label id="add-customer-label-lastname">{{ 'CUSTOMER.FOURTH_NAME' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-lastname" type="text" name="lastName" [(ngModel)]="customer.lastName"
-            required [placeholder]="'CUSTOMER.FOURTH_NAME' | translate"
+            required maxlength="50" [placeholder]="'CUSTOMER.FOURTH_NAME' | translate"
             #lastNameCtrl="ngModel" [class.invalid]="submitted() && lastNameCtrl.invalid" />
           @if (submitted() && lastNameCtrl.errors?.['required']) {
             <span id="add-customer-error-lastname" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
@@ -213,7 +213,7 @@
         <div id="add-customer-field-email" class="field-group">
           <label id="add-customer-label-email">{{ 'CUSTOMER.EMAIL' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-email" type="email" name="email" [(ngModel)]="customer.email"
-            required pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="example@domain.com"
+            required maxlength="50" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="example@domain.com"
             #emailCtrl="ngModel" [class.invalid]="submitted() && emailCtrl.invalid" />
           @if (submitted() && emailCtrl.errors?.['required']) {
             <span id="add-customer-error-email-required" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
