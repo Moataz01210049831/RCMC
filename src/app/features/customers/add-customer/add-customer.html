@@ -207,11 +207,11 @@
         <div id="add-customer-field-email" class="field-group">
           <label id="add-customer-label-email">البريد الإلكتروني <span class="req">*</span></label>
           <input id="add-customer-input-email" type="email" name="email" [(ngModel)]="customer.email"
-            required placeholder="البريد الإلكتروني"
+            required pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="example@domain.com"
             #emailCtrl="ngModel" [class.invalid]="submitted() && emailCtrl.invalid" />
           @if (submitted() && emailCtrl.errors?.['required']) {
             <span id="add-customer-error-email-required" class="error">مطلوب</span>
-          } @else if (submitted() && emailCtrl.errors?.['email']) {
+          } @else if (submitted() && (emailCtrl.errors?.['email'] || emailCtrl.errors?.['pattern'])) {
             <span id="add-customer-error-email-invalid" class="error">البريد غير صحيح</span>
           }
         </div>
