@@ -1,4 +1,5 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, input } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 interface ServiceItem {
@@ -20,6 +21,13 @@ interface Entity {
   serviceCards: ServiceCard[];
 }
 
+const TITLE_TO_TYPE: Record<string, string> = {
+  'ENTITIES.COMPLAINTS': 'complaints',
+  'ENTITIES.REQUESTS': 'requests',
+  'ENTITIES.INQUIRIES': 'inquiries',
+  'ENTITIES.SUGGESTIONS': 'suggestions',
+};
+
 @Component({
   selector: 'app-related-entities',
   imports: [TranslateModule],
@@ -27,7 +35,17 @@ interface Entity {
   styleUrl: './related-entities.scss',
 })
 export class RelatedEntities {
+  customerId = input<string>('');
   selectedEntityId = signal(1);
+
+  constructor(private router: Router) {}
+
+  openTickets(titleKey: string) {
+    const type = TITLE_TO_TYPE[titleKey];
+    if (type && this.customerId()) {
+      this.router.navigate(['/customers', this.customerId(), 'tickets', type]);
+    }
+  }
 
   entities: Entity[] = [
     {

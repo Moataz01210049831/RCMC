@@ -7,7 +7,7 @@
       (addEntity)="addEntity()"
     />
 
-    <app-related-entities />
+    <app-related-entities [customerId]="c.id" />
 
     <button id="customer-detail-btn-back" class="btn-back" (click)="goBack()">
       {{ 'COMMON.BACK' | translate }}

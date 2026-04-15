@@ -26,7 +26,8 @@
   <!-- Service cards grid -->
   <div id="related-entities-service-grid" class="service-grid">
     @for (card of activeServiceCards(); track card.titleKey) {
-      <div class="service-card" [attr.id]="'related-service-card-' + card.titleKey">
+      <div class="service-card" [attr.id]="'related-service-card-' + card.titleKey"
+        (click)="openTickets(card.titleKey)" style="cursor: pointer;">
 
         <!-- Card type icon top right -->
         <div class="bulb-icon" [attr.id]="'related-service-bulb-' + card.titleKey">

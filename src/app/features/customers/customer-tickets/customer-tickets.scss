@@ -1,0 +1,280 @@
+@use '../../../../styles/variables' as *;
+
+.tickets-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tickets-body {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 20px;
+
+  @media (max-width: 960px) { grid-template-columns: 1fr; }
+}
+
+.tickets-sidebar { order: -1; }
+.detail-card { order: 1; }
+
+// ── Detail card ───────────────────────────────────────────────────
+.detail-card {
+  background: $bg-card;
+  border: 1px solid $border;
+  box-shadow: $shadow-card;
+  border-radius: $radius-card;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.detail-code {
+  color: $accent;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px 20px;
+
+  @media (max-width: 1200px) { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 700px)  { grid-template-columns: repeat(2, 1fr); }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid $border;
+  border-radius: $radius-input;
+}
+
+.label {
+  font-size: 0.72rem;
+  color: $text-muted;
+  font-weight: 600;
+}
+
+.value {
+  font-size: 0.88rem;
+  color: $text-primary;
+  font-weight: 600;
+
+  &.link { color: $accent; }
+}
+
+.description-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  border: 1px solid $border;
+  border-radius: $radius-input;
+}
+
+.description-text {
+  margin: 0;
+  font-size: 0.85rem;
+  color: $text-secondary;
+  line-height: 1.7;
+}
+
+// ── Sidebar ───────────────────────────────────────────────────────
+.tickets-sidebar {
+  background: $bg-card;
+  border: 1px solid $border;
+  box-shadow: $shadow-card;
+  border-radius: $radius-card;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sidebar-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: $accent;
+  text-align: right;
+}
+
+.sidebar-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid $border;
+  border-radius: $radius-input;
+  padding: 0 10px;
+  background: $bg-input;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    color: $text-muted;
+    flex-shrink: 0;
+  }
+
+  input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 8px 10px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    color: $text-primary;
+
+    &::placeholder { color: $text-placeholder; }
+  }
+}
+
+.sidebar-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  border-bottom: 1px solid $border;
+  padding-bottom: 10px;
+}
+
+.sidebar-tab {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 0.82rem;
+  color: $text-muted;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: color 0.15s, background 0.15s;
+
+  &:hover { background: $hover-bg; }
+
+  &.active {
+    color: $primary;
+    border-bottom: 2px solid $primary;
+    border-radius: 0;
+  }
+}
+
+.btn-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: $primary;
+  color: #fff;
+  border: none;
+  border-radius: $radius-input;
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover { background: $primary-dark; }
+
+  .plus {
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+}
+
+.list-heading {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: $text-primary;
+  text-align: right;
+}
+
+.ticket-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.ticket-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid $border;
+  border-radius: $radius-input;
+  background: $bg-card;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s, background 0.15s;
+
+  &:hover { background: $hover-bg; }
+
+  &.active {
+    border-color: $primary;
+    border-width: 2px;
+    padding: 9px 11px;
+  }
+
+  .arrow {
+    width: 14px;
+    height: 14px;
+    color: $text-muted;
+    flex-shrink: 0;
+  }
+
+  .ticket-code {
+    color: $accent;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex: 1;
+    text-align: right;
+  }
+
+  .ticket-status {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: $primary;
+    font-size: 0.75rem;
+    font-weight: 600;
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: $primary;
+    }
+  }
+}
+
+// ── Back button ───────────────────────────────────────────────────
+.btn-back {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-input;
+  font-family: inherit;
+  font-size: 0.88rem;
+  color: $text-muted;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  svg { width: 15px; height: 15px; }
+  &:hover { background: $hover-bg; }
+}

@@ -1,0 +1,168 @@
+@use '../../../../../styles/variables' as *;
+
+.add-form {
+  background: $bg-card;
+  border: 1px solid $border;
+  box-shadow: $shadow-card;
+  border-radius: $radius-card;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.add-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: $accent;
+  text-align: right;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 10px 0 4px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: $text-muted;
+
+  .step-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid $border;
+    background: $bg-card;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: $text-muted;
+  }
+
+  .step-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+
+  &.active {
+    .step-circle {
+      background: $primary;
+      color: #fff;
+      border-color: $primary;
+    }
+    .step-label { color: $primary; }
+  }
+
+  &.done {
+    .step-circle {
+      background: $primary;
+      color: #fff;
+      border-color: $primary;
+    }
+    .step-label { color: $text-primary; }
+  }
+}
+
+.step-line {
+  flex: 1;
+  height: 1px;
+  background: $border;
+
+  &.filled { background: $primary; }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 20px;
+
+  @media (max-width: 700px) { grid-template-columns: 1fr; }
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: $text-primary;
+    text-align: right;
+
+    .req { color: $error; margin-inline-start: 2px; }
+  }
+
+  select {
+    height: 38px;
+    padding: 0 12px;
+    border: 1px solid $border;
+    border-radius: $radius-input;
+    background: $bg-input;
+    font-family: inherit;
+    font-size: 0.85rem;
+    color: $text-primary;
+    outline: none;
+
+    &:focus { border-color: $primary; }
+  }
+}
+
+.placeholder-step {
+  grid-template-columns: 1fr;
+  color: $text-muted;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+  justify-content: flex-end;
+
+  .btn-next, .btn-prev, .btn-cancel {
+    height: 36px;
+    min-width: 90px;
+    padding: 0 18px;
+    border-radius: $radius-input;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, opacity 0.2s;
+  }
+
+  .btn-next {
+    background: $primary;
+    color: #fff;
+    border: none;
+
+    &:hover { background: $primary-dark; }
+  }
+
+  .btn-prev {
+    background: $bg-card;
+    color: $text-primary;
+    border: 1px solid $border;
+
+    &:hover { background: $hover-bg; }
+  }
+
+  .btn-cancel {
+    background: $bg-card;
+    color: $text-muted;
+    border: 1px solid $border;
+
+    &:hover { background: $hover-bg; }
+  }
+}
