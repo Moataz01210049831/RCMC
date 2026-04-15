@@ -117,26 +117,29 @@
           }
         </div>
 
-        <button type="button" class="btn-add" (click)="onAdd()">
-          <span class="plus">+</span>
-          {{ addLabel() | translate }}
-        </button>
-
-        <h4 class="list-heading">{{ activeTabLabel() | translate }}</h4>
+        <div class="list-header">
+          <h4 class="list-heading">{{ activeTabLabel() | translate }}</h4>
+          <button type="button" class="btn-add" (click)="onAdd()">
+            <span class="plus">+</span>
+            {{ addLabel() | translate }}
+          </button>
+          
+        </div>
 
         <div class="ticket-list">
           @for (t of tickets(); track t.code) {
             <button type="button" class="ticket-item"
               [class.active]="(activeTicket()?.code) === t.code"
               (click)="selectTicket(t.code)">
-              <svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="15 18 9 12 15 6"/>
-              </svg>
+             
               <span class="ticket-code">{{ t.code }}</span>
               <span class="ticket-status">
                 <span class="status-dot"></span>
                 {{ t.statusKey | translate }}
               </span>
+               <svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
             </button>
           }
         </div>

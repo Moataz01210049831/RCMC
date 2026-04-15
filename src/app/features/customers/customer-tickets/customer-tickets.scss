@@ -140,7 +140,7 @@
 
 .sidebar-tabs {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 6px;
   border-bottom: 1px solid $border;
   padding-bottom: 10px;
@@ -191,11 +191,18 @@
   }
 }
 
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
 .list-heading {
   margin: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: $text-primary;
+  color: $accent;
   text-align: right;
 }
 
@@ -218,13 +225,14 @@
   cursor: pointer;
   font-family: inherit;
   transition: border-color 0.15s, background 0.15s;
-
+justify-content: space-between;
   &:hover { background: $hover-bg; }
 
   &.active {
     border-color: $primary;
     border-width: 2px;
     padding: 9px 11px;
+    justify-content: space-between;
   }
 
   .arrow {
@@ -238,7 +246,6 @@
     color: $accent;
     font-weight: 700;
     font-size: 0.85rem;
-    flex: 1;
     text-align: right;
   }
 
