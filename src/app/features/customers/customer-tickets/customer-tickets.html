@@ -1,158 +1,88 @@
-@if (customer(); as c) {
-  <div id="customer-tickets-page" class="tickets-page">
+<app-tickets-layout
+  (activeTicketChange)="onActiveTicketChange($event)"
+  (addClick)="onAddClick($event)"
+  (tabChange)="onTabChange($event)">
 
-    <app-customer-card
-      [customer]="c"
-      (edit)="editCustomer()"
-      (addEntity)="addEntity()"
+  @if (mode() === 'add') {
+    <app-add-ticket
+      [type]="activeType()"
+      (cancel)="cancelAdd()"
+      (submitted)="onAddSubmitted()"
     />
-
-    <div id="customer-tickets-body" class="tickets-body">
-
-      <!-- Left: ticket detail OR add form -->
-      @if (mode() === 'add') {
-        <app-add-ticket
-          [type]="activeType()"
-          (cancel)="cancelAdd()"
-          (submitted)="onAddSubmitted()"
-        />
-      } @else {
-      <div id="customer-tickets-detail" class="detail-card">
-        @if (activeTicket(); as t) {
-          <div class="detail-header">
-            <span class="detail-code">{{ t.code }}</span>
-          </div>
-
-          <div class="detail-grid">
-            <div class="field">
-              <span class="label">{{ 'TICKETS.ENTITY_TYPE' | translate }}</span>
-              <span class="value">{{ t.entityType }}</span>
-            </div>
-            <div class="field">
-              <span class="label">{{ 'TICKETS.ENTITY_ID' | translate }}</span>
-              <span class="value link">{{ t.entityId }}</span>
-            </div>
-            <div class="field">
-              <span class="label">{{ 'TICKETS.MAIN_CLASSIFICATION' | translate }}</span>
-              <span class="value">{{ t.mainClassification }}</span>
-            </div>
-            <div class="field">
-              <span class="label">{{ 'TICKETS.SUB_CLASSIFICATION' | translate }}</span>
-              <span class="value">{{ t.subClassification }}</span>
-            </div>
-            <div class="field">
-              <span class="label">{{ 'TICKETS.TICKET_CHANNEL' | translate }}</span>
-              <span class="value">{{ t.channel }}</span>
-            </div>
-            <div class="field">
-              <span class="label">{{ 'TICKETS.REQUIREMENTS' | translate }}</span>
-              <span class="value">{{ t.requirements }}</span>
-            </div>
-            <div class="field">
-              <span class="label">{{ 'TICKETS.BRANCH' | translate }}</span>
-              <span class="value link">{{ t.branch }}</span>
-            </div>
-            <div class="field">
-              <span class="label">{{ 'TICKETS.MAIN_SERVICE' | translate }}</span>
-              <span class="value">{{ t.mainService }}</span>
-            </div>
-            <div class="field">
-              <span class="label">{{ 'TICKETS.SUB_SERVICE' | translate }}</span>
-              <span class="value">{{ t.subService }}</span>
-            </div>
-            <div class="field">
-              <span class="label">{{ 'TICKETS.STATUS' | translate }}</span>
-              <span class="value link">{{ t.statusKey | translate }}</span>
-            </div>
-            <div class="field">
-              <span class="label">{{ 'TICKETS.CREATED_AT' | translate }}</span>
-              <span class="value">{{ t.createdAt }}</span>
-            </div>
-            <div class="field">
-              <span class="label">{{ 'TICKETS.CREATED_BY' | translate }}</span>
-              <span class="value">{{ t.createdBy }}</span>
-            </div>
-            <div class="field">
-              <span class="label">{{ 'TICKETS.UPDATED_AT' | translate }}</span>
-              <span class="value">{{ t.updatedAt }}</span>
-            </div>
-            <div class="field">
-              <span class="label">{{ 'TICKETS.UPDATED_BY' | translate }}</span>
-              <span class="value">{{ t.updatedBy }}</span>
-            </div>
-            <div class="field">
-              <span class="label">{{ 'TICKETS.SLA' | translate }}</span>
-              <span class="value">{{ t.slaDue }}</span>
-            </div>
-          </div>
-
-          <div class="description-block">
-            <span class="label">{{ 'TICKETS.DESCRIPTION' | translate }}</span>
-            <p class="description-text">{{ t.description }}</p>
-          </div>
-        }
+  } @else if (activeTicket(); as t) {
+    <div class="detail-card">
+      <div class="detail-header">
+        <span class="detail-code">{{ t.code }}</span>
       </div>
-      }
 
-      <!-- Right: tabs + list -->
-      <aside id="customer-tickets-sidebar" class="tickets-sidebar">
-        <h3 class="sidebar-title">{{ 'TICKETS.TICKETS' | translate }}</h3>
-
-        <div class="sidebar-search">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"/>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-          <input type="text" [placeholder]="'TICKETS.SEARCH' | translate"
-            [value]="searchTerm()" (input)="onSearchInput($event)" />
+      <div class="detail-grid">
+        <div class="field">
+          <span class="label">{{ 'TICKETS.ENTITY_TYPE' | translate }}</span>
+          <span class="value">{{ t.entityType }}</span>
         </div>
-
-        <div class="sidebar-tabs">
-          @for (tab of tabs; track tab.type) {
-            <button type="button" class="sidebar-tab"
-              [class.active]="activeType() === tab.type"
-              (click)="selectTab(tab.type)">
-              {{ tab.labelKey | translate }}
-            </button>
-          }
+        <div class="field">
+          <span class="label">{{ 'TICKETS.ENTITY_ID' | translate }}</span>
+          <span class="value link">{{ t.entityId }}</span>
         </div>
-
-        <div class="list-header">
-          <h4 class="list-heading">{{ activeTabLabel() | translate }}</h4>
-          <button type="button" class="btn-add" (click)="onAdd()">
-            <span class="plus">+</span>
-            {{ addLabel() | translate }}
-          </button>
-          
+        <div class="field">
+          <span class="label">{{ 'TICKETS.MAIN_CLASSIFICATION' | translate }}</span>
+          <span class="value">{{ t.mainClassification }}</span>
         </div>
-
-        <div class="ticket-list">
-          @for (t of tickets(); track t.code) {
-            <button type="button" class="ticket-item"
-              [class.active]="(activeTicket()?.code) === t.code"
-              (click)="selectTicket(t.code)">
-             
-              <span class="ticket-code">{{ t.code }}</span>
-              <span class="ticket-status">
-                <span class="status-dot"></span>
-                {{ t.statusKey | translate }}
-              </span>
-               <svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="15 18 9 12 15 6"/>
-              </svg>
-            </button>
-          }
+        <div class="field">
+          <span class="label">{{ 'TICKETS.SUB_CLASSIFICATION' | translate }}</span>
+          <span class="value">{{ t.subClassification }}</span>
         </div>
-      </aside>
+        <div class="field">
+          <span class="label">{{ 'TICKETS.TICKET_CHANNEL' | translate }}</span>
+          <span class="value">{{ t.channel }}</span>
+        </div>
+        <div class="field">
+          <span class="label">{{ 'TICKETS.REQUIREMENTS' | translate }}</span>
+          <span class="value">{{ t.requirements }}</span>
+        </div>
+        <div class="field">
+          <span class="label">{{ 'TICKETS.BRANCH' | translate }}</span>
+          <span class="value link">{{ t.branch }}</span>
+        </div>
+        <div class="field">
+          <span class="label">{{ 'TICKETS.MAIN_SERVICE' | translate }}</span>
+          <span class="value">{{ t.mainService }}</span>
+        </div>
+        <div class="field">
+          <span class="label">{{ 'TICKETS.SUB_SERVICE' | translate }}</span>
+          <span class="value">{{ t.subService }}</span>
+        </div>
+        <div class="field">
+          <span class="label">{{ 'TICKETS.STATUS' | translate }}</span>
+          <span class="value link">{{ t.statusKey | translate }}</span>
+        </div>
+        <div class="field">
+          <span class="label">{{ 'TICKETS.CREATED_AT' | translate }}</span>
+          <span class="value">{{ t.createdAt }}</span>
+        </div>
+        <div class="field">
+          <span class="label">{{ 'TICKETS.CREATED_BY' | translate }}</span>
+          <span class="value">{{ t.createdBy }}</span>
+        </div>
+        <div class="field">
+          <span class="label">{{ 'TICKETS.UPDATED_AT' | translate }}</span>
+          <span class="value">{{ t.updatedAt }}</span>
+        </div>
+        <div class="field">
+          <span class="label">{{ 'TICKETS.UPDATED_BY' | translate }}</span>
+          <span class="value">{{ t.updatedBy }}</span>
+        </div>
+        <div class="field">
+          <span class="label">{{ 'TICKETS.SLA' | translate }}</span>
+          <span class="value">{{ t.slaDue }}</span>
+        </div>
+      </div>
 
+      <div class="description-block">
+        <span class="label">{{ 'TICKETS.DESCRIPTION' | translate }}</span>
+        <p class="description-text">{{ t.description }}</p>
+      </div>
     </div>
+  }
 
-    <button id="customer-tickets-btn-back" class="btn-back" (click)="goBack()">
-      {{ 'COMMON.BACK' | translate }}
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="15 18 9 12 15 6"/>
-      </svg>
-    </button>
-
-  </div>
-}
+</app-tickets-layout>

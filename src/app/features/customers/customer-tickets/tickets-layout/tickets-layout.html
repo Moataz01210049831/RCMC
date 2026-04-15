@@ -1,0 +1,76 @@
+@if (customer(); as c) {
+  <div class="tickets-page">
+
+    <app-customer-card
+      [customer]="c"
+      (edit)="editCustomer()"
+      (addEntity)="addEntity()"
+    />
+
+    <div class="tickets-body">
+
+      <!-- Left: projected content -->
+      <div class="tickets-content">
+        <ng-content />
+      </div>
+
+      <!-- Right: tabs + list -->
+      <aside class="tickets-sidebar">
+        <h3 class="sidebar-title">{{ 'TICKETS.TICKETS' | translate }}</h3>
+
+        <div class="sidebar-search">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="text" [placeholder]="'TICKETS.SEARCH' | translate"
+            [value]="searchTerm()" (input)="onSearchInput($event)" />
+        </div>
+
+        <div class="sidebar-tabs">
+          @for (tab of tabs; track tab.type) {
+            <button type="button" class="sidebar-tab"
+              [class.active]="activeType() === tab.type"
+              (click)="selectTab(tab.type)">
+              {{ tab.labelKey | translate }}
+            </button>
+          }
+        </div>
+
+        <div class="list-header">
+          <h4 class="list-heading">{{ activeTabLabel() | translate }}</h4>
+          <button type="button" class="btn-add" (click)="onAdd()">
+            <span class="plus">+</span>
+            {{ addLabel() | translate }}
+          </button>
+        </div>
+
+        <div class="ticket-list">
+          @for (t of tickets(); track t.code) {
+            <button type="button" class="ticket-item"
+              [class.active]="(activeTicket()?.code) === t.code"
+              (click)="selectTicket(t.code)">
+              <span class="ticket-code">{{ t.code }}</span>
+              <span class="ticket-status">
+                <span class="status-dot"></span>
+                {{ t.statusKey | translate }}
+              </span>
+              <svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+            </button>
+          }
+        </div>
+      </aside>
+
+    </div>
+
+    <button class="btn-back" (click)="goBack()">
+      {{ 'COMMON.BACK' | translate }}
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+
+  </div>
+}
