@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, signal, computed } from '@angular/core';
+import { Component, EventEmitter, Output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { LookupItem } from '../../../../../core/services/lookup.service';
@@ -36,18 +36,59 @@ export class AddComplaint {
   };
 
   // Step 1 options
-  serviceProviders = [
+  serviceProviders: LookupItem[] = [
     { value: 'moc',          name: 'وزارة التجارة' },
     { value: 'municipality', name: 'الأمانة' },
   ];
-  mainServices = [
-    { value: 'commercial', name: 'سجل تجاري' },
-    { value: 'license',    name: 'ترخيص' },
-  ];
-  subServices = [
-    { value: 'print', name: 'طباعة السجل التجاري' },
-    { value: 'renew', name: 'تجديد السجل التجاري' },
-  ];
+
+  private mainServicesByProvider: Record<string, LookupItem[]> = {
+    moc: [
+      { value: 'commercial', name: 'سجل تجاري' },
+      { value: 'license',    name: 'ترخيص' },
+    ],
+    municipality: [
+      { value: 'permit',     name: 'تصريح بناء' },
+      { value: 'inspection', name: 'فحص المنشأة' },
+    ],
+  };
+
+  private subServicesByMain: Record<string, LookupItem[]> = {
+    commercial:  [
+      { value: 'print', name: 'طباعة السجل التجاري' },
+      { value: 'renew', name: 'تجديد السجل التجاري' },
+    ],
+    license: [
+      { value: 'new_license', name: 'إصدار ترخيص جديد' },
+      { value: 'renew_license', name: 'تجديد ترخيص' },
+    ],
+    permit: [
+      { value: 'new_permit', name: 'تصريح جديد' },
+      { value: 'renew_permit', name: 'تجديد تصريح' },
+    ],
+    inspection: [
+      { value: 'initial', name: 'فحص أولي' },
+      { value: 'followup', name: 'فحص متابعة' },
+    ],
+  };
+
+  get mainServices(): LookupItem[] {
+    const provider = this.form.serviceProviderId;
+    return provider ? (this.mainServicesByProvider[provider] ?? []) : [];
+  }
+
+  get subServices(): LookupItem[] {
+    const main = this.form.mainServiceId;
+    return main ? (this.subServicesByMain[main] ?? []) : [];
+  }
+
+  onServiceProviderChange() {
+    this.form.mainServiceId = null;
+    this.form.subServiceId = null;
+  }
+
+  onMainServiceChange() {
+    this.form.subServiceId = null;
+  }
 
   // Step 2 options
   mainClassifications: LookupItem[] = [
@@ -55,7 +96,6 @@ export class AddComplaint {
     { value: 'employee', name: 'سلوك موظف' },
   ];
 
-  // Sub options keyed by main value — "connected" dropdown
   private subByMain: Record<string, LookupItem[]> = {
     service:  [
       { value: 'delay',  name: 'تأخر في الإنجاز' },
@@ -73,6 +113,15 @@ export class AddComplaint {
     { value: 'dm', name: 'الدمام' },
   ];
 
+  get subClassifications(): LookupItem[] {
+    const main = this.form.mainClassificationId;
+    return main ? (this.subByMain[main] ?? []) : [];
+  }
+
+  onMainClassificationChange() {
+    this.form.subClassificationId = null;
+  }
+
   // Step 3 options
   relatedTicketOptions: LookupItem[] = [
     { value: 'T-001', name: 'T-001' },
@@ -82,14 +131,13 @@ export class AddComplaint {
     { value: 'T-005', name: 'T-005' },
   ];
 
-  subClassifications = computed<LookupItem[]>(() => {
-    const main = this.form.mainClassificationId;
-    return main ? (this.subByMain[main] ?? []) : [];
-  });
+  // Validation
+  get step1Valid(): boolean {
+    return !!this.form.serviceProviderId && !!this.form.mainServiceId && !!this.form.subServiceId;
+  }
 
-  // Reset sub when main changes
-  onMainClassificationChange() {
-    this.form.subClassificationId = null;
+  get step2Valid(): boolean {
+    return !!this.form.mainClassificationId && !!this.form.subClassificationId && !!this.form.regionId;
   }
 
   steps = [
@@ -98,7 +146,15 @@ export class AddComplaint {
     { index: 3, labelKey: 'TICKETS.STEP_EXTRA_DETAILS' },
   ];
 
+  get canProceed(): boolean {
+    const step = this.currentStep();
+    if (step === 1) return this.step1Valid;
+    if (step === 2) return this.step2Valid;
+    return true;
+  }
+
   next() {
+    if (!this.canProceed) return;
     if (this.currentStep() < 3) {
       this.currentStep.set((this.currentStep() + 1) as 1 | 2 | 3);
     } else {

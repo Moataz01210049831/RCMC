@@ -194,6 +194,7 @@
     border: none;
 
     &:hover { background: $primary-dark; }
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
   }
 
   .btn-prev {

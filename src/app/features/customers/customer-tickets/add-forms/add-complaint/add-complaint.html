@@ -23,14 +23,16 @@
         <label>{{ 'TICKETS.SERVICE_PROVIDER' | translate }} <span class="req">*</span></label>
         <app-searchable-select name="serviceProvider"
           [(ngModel)]="form.serviceProviderId"
+          (ngModelChange)="onServiceProviderChange()"
           [items]="serviceProviders"
           [placeholder]="'TICKETS.SERVICE_PROVIDER_PLACEHOLDER' | translate">
         </app-searchable-select>
       </div>
       <div class="field-group">
-        <label>{{ 'TICKETS.MAIN_SERVICE_PLACEHOLDER' | translate }} <span class="req">*</span></label>
+        <label>{{ 'TICKETS.MAIN_SERVICE' | translate }} <span class="req">*</span></label>
         <app-searchable-select name="mainService"
           [(ngModel)]="form.mainServiceId"
+          (ngModelChange)="onMainServiceChange()"
           [items]="mainServices"
           [placeholder]="'TICKETS.MAIN_SERVICE_PLACEHOLDER' | translate">
         </app-searchable-select>
@@ -59,7 +61,7 @@
         <label>{{ 'TICKETS.SUB_CLASSIFICATION' | translate }} <span class="req">*</span></label>
         <app-searchable-select name="subClassification"
           [(ngModel)]="form.subClassificationId"
-          [items]="subClassifications()"
+          [items]="subClassifications"
           [placeholder]="'TICKETS.SUB_CLASSIFICATION_PLACEHOLDER' | translate">
         </app-searchable-select>
       </div>
@@ -122,7 +124,7 @@
     @if (currentStep() > 1) {
       <button type="button" class="btn-prev" (click)="prev()">{{ 'TICKETS.PREVIOUS' | translate }}</button>
     }
-    <button type="button" class="btn-next" (click)="next()">
+    <button type="button" class="btn-next" [disabled]="!canProceed" (click)="next()">
       {{ (currentStep() === 3 ? 'TICKETS.SUBMIT' : 'TICKETS.NEXT') | translate }}
     </button>
   </div>
