@@ -14,16 +14,12 @@ export class FileUpload {
   onFilesSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files) {
-      const updated = [...this.files, ...Array.from(input.files)];
-      this.files = updated;
-      this.filesChange.emit(updated);
+      this.filesChange.emit([...this.files, ...Array.from(input.files)]);
       input.value = '';
     }
   }
 
   removeFile(index: number) {
-    const updated = this.files.filter((_, i) => i !== index);
-    this.files = updated;
-    this.filesChange.emit(updated);
+    this.filesChange.emit(this.files.filter((_, i) => i !== index));
   }
 }

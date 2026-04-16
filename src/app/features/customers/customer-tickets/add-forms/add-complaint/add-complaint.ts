@@ -30,6 +30,7 @@ export class AddComplaint {
     textContent:          '',
     date:                 '',
     keyAddress:           false,
+    classificationAttachments: [],
     relatedTickets:       [],
     description:          '',
     attachments:          [],
@@ -147,7 +148,7 @@ export class AddComplaint {
   private resetReturnQuestions() {
     this.form.textContent = '';
     this.form.keyAddress = false;
-    this.form.attachments = [];
+    this.form.classificationAttachments = [];
   }
 
   // Step 3 options

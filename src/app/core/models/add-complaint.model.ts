@@ -9,6 +9,7 @@ export interface AddComplaintForm {
   textContent:          string;
   date:                 string;
   keyAddress:           boolean;
+  classificationAttachments: File[];
   relatedTickets:       string[];
   description:          string;
   attachments:          File[];
