@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchableSelect } from '../../../../../shared/components/searchable-select/searchable-select';
-import { AddInquiryForm } from './add-inquiry.model';
+import { AddInquiryForm } from '../../../../../core/models/add-inquiry.model';
 
 @Component({
   selector: 'app-add-inquiry',

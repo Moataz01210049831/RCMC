@@ -5,7 +5,7 @@ import { LookupItem } from '../../../../../core/services/lookup.service';
 import { SearchableSelect } from '../../../../../shared/components/searchable-select/searchable-select';
 import { FileUpload } from '../../../../../shared/components/file-upload/file-upload';
 import { MultiSelect } from '../../../../../shared/components/multi-select/multi-select';
-import { AddComplaintForm } from './add-complaint.model';
+import { AddComplaintForm } from '../../../../../core/models/add-complaint.model';
 
 @Component({
   selector: 'app-add-complaint',

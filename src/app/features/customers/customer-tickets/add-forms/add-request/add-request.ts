@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchableSelect } from '../../../../../shared/components/searchable-select/searchable-select';
-import { AddRequestForm } from './add-request.model';
+import { AddRequestForm } from '../../../../../core/models/add-request.model';
 
 @Component({
   selector: 'app-add-request',
