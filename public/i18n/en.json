@@ -179,6 +179,9 @@
     "SERVICE_PROVIDER_PLACEHOLDER": "Select service provider",
     "MAIN_SERVICE_PLACEHOLDER": "Select main service",
     "SUB_SERVICE_PLACEHOLDER": "Select sub service",
+    "RELATED_TICKETS": "Related Tickets",
+    "RELATED_TICKETS_PLACEHOLDER": "Related Tickets",
+    "DESCRIPTION_PLACEHOLDER": "Enter complaint description (optional, up to 2000 characters)",
     "NEXT": "Next",
     "PREVIOUS": "Previous",
     "SUBMIT": "Submit"

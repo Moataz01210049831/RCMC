@@ -94,12 +94,27 @@
           <span class="toggle-label">{{ 'TICKETS.KEY_ADDRESS' | translate }}</span>
         </label>
       </div>
+    </div>
+  } @else {
+    <div class="form-grid">
+      <div class="field-group full">
+        <label>{{ 'TICKETS.RELATED_TICKETS' | translate }}</label>
+        <app-multi-select name="relatedTickets"
+          [(ngModel)]="form.relatedTickets"
+          [items]="relatedTicketOptions"
+          [placeholder]="'TICKETS.RELATED_TICKETS_PLACEHOLDER' | translate">
+        </app-multi-select>
+      </div>
+      <div class="field-group full">
+        <label>{{ 'TICKETS.DESCRIPTION' | translate }}</label>
+        <textarea name="description" [(ngModel)]="form.description"
+          [placeholder]="'TICKETS.DESCRIPTION_PLACEHOLDER' | translate"
+          maxlength="2000"></textarea>
+      </div>
       <div class="field-group full">
         <app-file-upload [files]="form.attachments" (filesChange)="form.attachments = $event" />
       </div>
     </div>
-  } @else {
-    <div class="form-grid placeholder-step"><p>{{ 'TICKETS.STEP_EXTRA_DETAILS' | translate }}</p></div>
   }
 
   <div class="form-actions">

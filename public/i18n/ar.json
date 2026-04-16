@@ -179,6 +179,9 @@
     "SERVICE_PROVIDER_PLACEHOLDER": "اختر الجهة المقدمة للخدمة",
     "MAIN_SERVICE_PLACEHOLDER": "اختر الخدمة الرئيسية",
     "SUB_SERVICE_PLACEHOLDER": "اختر الخدمة الفرعية",
+    "RELATED_TICKETS": "التذاكر المرتبطة",
+    "RELATED_TICKETS_PLACEHOLDER": "التذاكر المرتبطة",
+    "DESCRIPTION_PLACEHOLDER": "ادخل وصف الشكوى (اختياري حتى 2000 حرف)",
     "NEXT": "التالي",
     "PREVIOUS": "السابق",
     "SUBMIT": "حفظ"

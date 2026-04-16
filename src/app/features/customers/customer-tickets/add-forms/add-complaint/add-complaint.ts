@@ -4,6 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LookupItem } from '../../../../../core/services/lookup.service';
 import { SearchableSelect } from '../../../../../shared/components/searchable-select/searchable-select';
 import { FileUpload } from '../../../../../shared/components/file-upload/file-upload';
+import { MultiSelect } from '../../../../../shared/components/multi-select/multi-select';
 
 export interface AddComplaintForm {
   serviceProviderId:    string | null;
@@ -16,12 +17,14 @@ export interface AddComplaintForm {
   textContent:          string;
   date:                 string;
   keyAddress:           boolean;
+  relatedTickets:       string[];
+  description:          string;
   attachments:          File[];
 }
 
 @Component({
   selector: 'app-add-complaint',
-  imports: [TranslateModule, FormsModule, SearchableSelect, FileUpload],
+  imports: [TranslateModule, FormsModule, SearchableSelect, FileUpload, MultiSelect],
   templateUrl: './add-complaint.html',
   styleUrl: '../add-form.scss',
 })
@@ -42,6 +45,8 @@ export class AddComplaint {
     textContent:          '',
     date:                 '',
     keyAddress:           false,
+    relatedTickets:       [],
+    description:          '',
     attachments:          [],
   };
 
@@ -81,6 +86,15 @@ export class AddComplaint {
     { value: 'ri', name: 'الرياض' },
     { value: 'jd', name: 'جدة' },
     { value: 'dm', name: 'الدمام' },
+  ];
+
+  // Step 3 options
+  relatedTicketOptions: LookupItem[] = [
+    { value: 'T-001', name: 'T-001' },
+    { value: 'T-002', name: 'T-002' },
+    { value: 'T-003', name: 'T-003' },
+    { value: 'T-004', name: 'T-004' },
+    { value: 'T-005', name: 'T-005' },
   ];
 
   subClassifications = computed<LookupItem[]>(() => {
