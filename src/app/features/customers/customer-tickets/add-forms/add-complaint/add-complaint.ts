@@ -118,8 +118,36 @@ export class AddComplaint {
     return main ? (this.subByMain[main] ?? []) : [];
   }
 
+  // Return questions per sub-classification
+  private returnQuestionsBySubClass: Record<string, ('textContent' | 'keyAddress' | 'attachments')[]> = {
+    delay:      ['textContent', 'attachments'],
+    error:      ['textContent', 'keyAddress', 'attachments'],
+    rude:       ['textContent'],
+    unhelpful:  ['textContent', 'keyAddress'],
+  };
+
+  get visibleReturnQuestions(): Set<string> {
+    const sub = this.form.subClassificationId;
+    return new Set(sub ? (this.returnQuestionsBySubClass[sub] ?? []) : []);
+  }
+
+  get showTextContent(): boolean { return this.visibleReturnQuestions.has('textContent'); }
+  get showKeyAddress(): boolean { return this.visibleReturnQuestions.has('keyAddress'); }
+  get showAttachments(): boolean { return this.visibleReturnQuestions.has('attachments'); }
+
   onMainClassificationChange() {
     this.form.subClassificationId = null;
+    this.resetReturnQuestions();
+  }
+
+  onSubClassificationChange() {
+    this.resetReturnQuestions();
+  }
+
+  private resetReturnQuestions() {
+    this.form.textContent = '';
+    this.form.keyAddress = false;
+    this.form.attachments = [];
   }
 
   // Step 3 options

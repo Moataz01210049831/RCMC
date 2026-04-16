@@ -61,6 +61,7 @@
         <label>{{ 'TICKETS.SUB_CLASSIFICATION' | translate }} <span class="req">*</span></label>
         <app-searchable-select name="subClassification"
           [(ngModel)]="form.subClassificationId"
+          (ngModelChange)="onSubClassificationChange()"
           [items]="subClassifications"
           [placeholder]="'TICKETS.SUB_CLASSIFICATION_PLACEHOLDER' | translate">
         </app-searchable-select>
@@ -78,24 +79,33 @@
           [placeholder]="'TICKETS.REGION_PLACEHOLDER' | translate">
         </app-searchable-select>
       </div>
-      <div class="field-group">
-        <label>{{ 'TICKETS.TEXT_CONTENT' | translate }}</label>
-        <input type="text" name="textContent" [(ngModel)]="form.textContent"
-          [placeholder]="'TICKETS.TEXT_CONTENT_PLACEHOLDER' | translate" />
-      </div>
+      @if (showTextContent) {
+        <div class="field-group">
+          <label>{{ 'TICKETS.TEXT_CONTENT' | translate }}</label>
+          <input type="text" name="textContent" [(ngModel)]="form.textContent"
+            [placeholder]="'TICKETS.TEXT_CONTENT_PLACEHOLDER' | translate" />
+        </div>
+      }
       <div class="field-group">
         <label>{{ 'TICKETS.DATE' | translate }}</label>
         <input type="text" name="date" [(ngModel)]="form.date"
           [placeholder]="'TICKETS.DATE_PLACEHOLDER' | translate"
           onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" />
       </div>
-      <div class="field-group full toggle-group">
-        <label class="toggle">
-          <input type="checkbox" name="keyAddress" [(ngModel)]="form.keyAddress" />
-          <span class="toggle-track"><span class="toggle-thumb"></span></span>
-          <span class="toggle-label">{{ 'TICKETS.KEY_ADDRESS' | translate }}</span>
-        </label>
-      </div>
+      @if (showKeyAddress) {
+        <div class="field-group full toggle-group">
+          <label class="toggle">
+            <input type="checkbox" name="keyAddress" [(ngModel)]="form.keyAddress" />
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+            <span class="toggle-label">{{ 'TICKETS.KEY_ADDRESS' | translate }}</span>
+          </label>
+        </div>
+      }
+      @if (showAttachments) {
+        <div class="field-group full">
+          <app-file-upload [files]="form.attachments" (filesChange)="form.attachments = $event" />
+        </div>
+      }
     </div>
   } @else {
     <div class="form-grid">
