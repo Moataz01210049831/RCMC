@@ -1,0 +1,114 @@
+<div class="add-form">
+  <h3 class="add-title">{{ 'TICKETS.ADD_COMPLAINT' | translate }}</h3>
+
+  <div class="stepper">
+    @for (s of steps; track s.index) {
+      <div class="step"
+        [class.active]="currentStep() === s.index"
+        [class.done]="currentStep() > s.index">
+        <div class="step-circle">
+          @if (currentStep() > s.index) { <span class="check">&#10003;</span> } @else { {{ s.index }} }
+        </div>
+        <span class="step-label">{{ s.labelKey | translate }}</span>
+      </div>
+      @if (!$last) {
+        <div class="step-line" [class.filled]="currentStep() > s.index"></div>
+      }
+    }
+  </div>
+
+  @if (currentStep() === 1) {
+    <div class="form-grid">
+      <div class="field-group">
+        <label>{{ 'TICKETS.SERVICE_PROVIDER' | translate }} <span class="req">*</span></label>
+        <app-searchable-select name="serviceProvider"
+          [(ngModel)]="form.serviceProviderId"
+          [items]="serviceProviders"
+          [placeholder]="'TICKETS.SERVICE_PROVIDER_PLACEHOLDER' | translate">
+        </app-searchable-select>
+      </div>
+      <div class="field-group">
+        <label>{{ 'TICKETS.MAIN_SERVICE' | translate }} <span class="req">*</span></label>
+        <app-searchable-select name="mainService"
+          [(ngModel)]="form.mainServiceId"
+          [items]="mainServices"
+          [placeholder]="'TICKETS.MAIN_SERVICE_PLACEHOLDER' | translate">
+        </app-searchable-select>
+      </div>
+      <div class="field-group">
+        <label>{{ 'TICKETS.SUB_SERVICE' | translate }} <span class="req">*</span></label>
+        <app-searchable-select name="subService"
+          [(ngModel)]="form.subServiceId"
+          [items]="subServices"
+          [placeholder]="'TICKETS.SUB_SERVICE_PLACEHOLDER' | translate">
+        </app-searchable-select>
+      </div>
+    </div>
+  } @else if (currentStep() === 2) {
+    <div class="form-grid">
+      <div class="field-group">
+        <label>{{ 'TICKETS.MAIN_CLASSIFICATION' | translate }} <span class="req">*</span></label>
+        <app-searchable-select name="mainClassification"
+          [(ngModel)]="form.mainClassificationId"
+          (ngModelChange)="onMainClassificationChange()"
+          [items]="mainClassifications"
+          [placeholder]="'TICKETS.MAIN_CLASSIFICATION_PLACEHOLDER' | translate">
+        </app-searchable-select>
+      </div>
+      <div class="field-group">
+        <label>{{ 'TICKETS.SUB_CLASSIFICATION' | translate }} <span class="req">*</span></label>
+        <app-searchable-select name="subClassification"
+          [(ngModel)]="form.subClassificationId"
+          [items]="subClassifications()"
+          [placeholder]="'TICKETS.SUB_CLASSIFICATION_PLACEHOLDER' | translate">
+        </app-searchable-select>
+      </div>
+      <div class="field-group">
+        <label>{{ 'TICKETS.COMPLAINT_CATEGORY' | translate }}</label>
+        <input type="text" name="complaintCategory" [(ngModel)]="form.complaintCategory"
+          [placeholder]="'TICKETS.COMPLAINT_CATEGORY_PLACEHOLDER' | translate" />
+      </div>
+      <div class="field-group">
+        <label>{{ 'CUSTOMER.REGION' | translate }} <span class="req">*</span></label>
+        <app-searchable-select name="region"
+          [(ngModel)]="form.regionId"
+          [items]="regions"
+          [placeholder]="'TICKETS.REGION_PLACEHOLDER' | translate">
+        </app-searchable-select>
+      </div>
+      <div class="field-group">
+        <label>{{ 'TICKETS.TEXT_CONTENT' | translate }}</label>
+        <input type="text" name="textContent" [(ngModel)]="form.textContent"
+          [placeholder]="'TICKETS.TEXT_CONTENT_PLACEHOLDER' | translate" />
+      </div>
+      <div class="field-group">
+        <label>{{ 'TICKETS.DATE' | translate }}</label>
+        <input type="text" name="date" [(ngModel)]="form.date"
+          [placeholder]="'TICKETS.DATE_PLACEHOLDER' | translate"
+          onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" />
+      </div>
+      <div class="field-group full toggle-group">
+        <label class="toggle">
+          <input type="checkbox" name="keyAddress" [(ngModel)]="form.keyAddress" />
+          <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          <span class="toggle-label">{{ 'TICKETS.KEY_ADDRESS' | translate }}</span>
+        </label>
+      </div>
+      <div class="field-group full">
+        <app-file-upload [files]="form.attachments" (filesChange)="form.attachments = $event" />
+      </div>
+    </div>
+  } @else {
+    <div class="form-grid placeholder-step"><p>{{ 'TICKETS.STEP_EXTRA_DETAILS' | translate }}</p></div>
+  }
+
+  <div class="form-actions">
+    <button type="button" class="btn-cancel" (click)="onCancel()">{{ 'COMMON.CANCEL' | translate }}</button>
+    @if (currentStep() > 1) {
+      <button type="button" class="btn-prev" (click)="prev()">{{ 'TICKETS.PREVIOUS' | translate }}</button>
+    }
+    <button type="button" class="btn-next" (click)="next()">
+      {{ (currentStep() === 3 ? 'TICKETS.SUBMIT' : 'TICKETS.NEXT') | translate }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+@use '../../../../styles/variables' as *;
+
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+
+  .upload-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: $text-primary;
+  }
+
+  .upload-hint {
+    font-size: 0.78rem;
+    color: $text-muted;
+    margin: 0 0 12px;
+  }
+}
+
+.btn-browse {
+  display: inline-block;
+  padding: 8px 24px;
+  background: $text-primary;
+  color: #fff;
+  border-radius: $radius-input;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+
+  &:hover { opacity: 0.85; }
+}
+
+.attachment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.attachment-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-input;
+
+  .chip-check {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #2e7d32;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .chip-name {
+    flex: 1;
+    font-size: 0.85rem;
+    color: $text-primary;
+    text-align: right;
+  }
+
+  .chip-remove {
+    background: transparent;
+    border: none;
+    color: $text-muted;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: 0;
+    flex-shrink: 0;
+
+    &:hover { color: $error; }
+  }
+}

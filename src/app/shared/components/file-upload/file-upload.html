@@ -1,0 +1,23 @@
+<div class="upload-section">
+  <span class="upload-title">{{ 'TICKETS.UPLOAD_ATTACHMENTS' | translate }}</span>
+  <p class="upload-hint">{{ 'TICKETS.UPLOAD_HINT' | translate }}</p>
+
+  @if (!files.length) {
+    <label class="btn-browse">
+      <input type="file" multiple (change)="onFilesSelected($event)" hidden />
+      {{ 'TICKETS.BROWSE_FILES' | translate }}
+    </label>
+  }
+
+  @if (files.length) {
+    <div class="attachment-list">
+      @for (f of files; track $index) {
+        <div class="attachment-chip">
+          <span class="chip-check">&#10003;</span>
+          <span class="chip-name">{{ f.name }}</span>
+          <button type="button" class="chip-remove" (click)="removeFile($index)">&times;</button>
+        </div>
+      }
+    </div>
+  }
+</div>

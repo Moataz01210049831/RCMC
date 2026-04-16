@@ -1,0 +1,51 @@
+<div class="add-form">
+  <h3 class="add-title">{{ 'TICKETS.ADD_INQUIRY' | translate }}</h3>
+
+  <div class="stepper">
+    @for (s of steps; track s.index) {
+      <div class="step"
+        [class.active]="currentStep() === s.index"
+        [class.done]="currentStep() > s.index">
+        <div class="step-circle">{{ s.index }}</div>
+        <span class="step-label">{{ s.labelKey | translate }}</span>
+      </div>
+      @if (!$last) {
+        <div class="step-line" [class.filled]="currentStep() > s.index"></div>
+      }
+    }
+  </div>
+
+  @if (currentStep() === 1) {
+    <div class="form-grid">
+      <div class="field-group">
+        <label>{{ 'TICKETS.SERVICE_PROVIDER' | translate }} <span class="req">*</span></label>
+        <app-searchable-select name="serviceProvider"
+          [(ngModel)]="form.serviceProviderId"
+          [items]="serviceProviders"
+          [placeholder]="'TICKETS.SERVICE_PROVIDER_PLACEHOLDER' | translate">
+        </app-searchable-select>
+      </div>
+      <div class="field-group">
+        <label>{{ 'TICKETS.SUBJECT' | translate }} <span class="req">*</span></label>
+        <input type="text" name="subject" [(ngModel)]="form.subject"
+          [placeholder]="'TICKETS.SUBJECT_PLACEHOLDER' | translate" maxlength="50" />
+      </div>
+    </div>
+  } @else {
+    <div class="form-grid">
+      <div class="field-group" style="grid-column: 1 / -1;">
+        <label>{{ 'TICKETS.DESCRIPTION' | translate }} <span class="req">*</span></label>
+        <textarea name="description" [(ngModel)]="form.description" maxlength="500"></textarea>
+      </div>
+    </div>
+  }
+
+  <div class="form-actions">
+    @if (currentStep() > 1) {
+      <button type="button" class="btn-prev" (click)="prev()">{{ 'TICKETS.PREVIOUS' | translate }}</button>
+    }
+    <button type="button" class="btn-next" (click)="next()">
+      {{ (currentStep() === 2 ? 'TICKETS.SUBMIT' : 'TICKETS.NEXT') | translate }}
+    </button>
+  </div>
+</div>

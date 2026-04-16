@@ -4,11 +4,20 @@
   (tabChange)="onTabChange($event)">
 
   @if (mode() === 'add') {
-    <app-add-ticket
-      [type]="activeType()"
-      (cancel)="cancelAdd()"
-      (submitted)="onAddSubmitted()"
-    />
+    @switch (activeType()) {
+      @case ('complaints') {
+        <app-add-complaint (cancel)="cancelAdd()" (submitted)="onAddSubmitted()" />
+      }
+      @case ('requests') {
+        <app-add-request (cancel)="cancelAdd()" (submitted)="onAddSubmitted()" />
+      }
+      @case ('inquiries') {
+        <app-add-inquiry (cancel)="cancelAdd()" (submitted)="onAddSubmitted()" />
+      }
+      @case ('suggestions') {
+        <app-add-suggestion (cancel)="cancelAdd()" (submitted)="onAddSubmitted()" />
+      }
+    }
   } @else if (activeTicket(); as t) {
     <div class="detail-card">
       <div class="detail-header">

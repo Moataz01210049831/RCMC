@@ -1,12 +1,15 @@
 import { Component, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { AddTicket } from './add-ticket/add-ticket';
 import { TicketsLayout } from './tickets-layout/tickets-layout';
 import { TicketType, TicketDetail } from './tickets-layout/tickets.types';
+import { AddComplaint }  from './add-forms/add-complaint/add-complaint';
+import { AddRequest }    from './add-forms/add-request/add-request';
+import { AddInquiry }    from './add-forms/add-inquiry/add-inquiry';
+import { AddSuggestion } from './add-forms/add-suggestion/add-suggestion';
 
 @Component({
   selector: 'app-customer-tickets',
-  imports: [TranslateModule, AddTicket, TicketsLayout],
+  imports: [TranslateModule, TicketsLayout, AddComplaint, AddRequest, AddInquiry, AddSuggestion],
   templateUrl: './customer-tickets.html',
   styleUrl: './customer-tickets.scss',
 })
