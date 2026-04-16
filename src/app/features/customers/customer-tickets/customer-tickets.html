@@ -95,3 +95,10 @@
   }
 
 </app-tickets-layout>
+
+<app-confirm-dialog
+  [open]="showConfirm()"
+  [title]="'CONFIRM_DIALOG.TITLE' | translate"
+  [message]="'CONFIRM_DIALOG.MESSAGE' | translate"
+  (confirm)="onConfirmSave()"
+  (cancel)="onCancelConfirm()" />
