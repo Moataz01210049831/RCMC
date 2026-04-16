@@ -2,12 +2,7 @@ import { Component, EventEmitter, Output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchableSelect } from '../../../../../shared/components/searchable-select/searchable-select';
-
-export interface AddSuggestionForm {
-  mainServiceId: string | null;
-  subject:       string;
-  description:   string;
-}
+import { AddSuggestionForm } from './add-suggestion.model';
 
 @Component({
   selector: 'app-add-suggestion',

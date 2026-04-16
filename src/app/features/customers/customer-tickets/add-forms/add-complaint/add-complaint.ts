@@ -5,22 +5,7 @@ import { LookupItem } from '../../../../../core/services/lookup.service';
 import { SearchableSelect } from '../../../../../shared/components/searchable-select/searchable-select';
 import { FileUpload } from '../../../../../shared/components/file-upload/file-upload';
 import { MultiSelect } from '../../../../../shared/components/multi-select/multi-select';
-
-export interface AddComplaintForm {
-  serviceProviderId:    string | null;
-  mainServiceId:        string | null;
-  subServiceId:         string | null;
-  mainClassificationId: string | null;
-  subClassificationId:  string | null;
-  complaintCategory:    string;
-  regionId:             string | null;
-  textContent:          string;
-  date:                 string;
-  keyAddress:           boolean;
-  relatedTickets:       string[];
-  description:          string;
-  attachments:          File[];
-}
+import { AddComplaintForm } from './add-complaint.model';
 
 @Component({
   selector: 'app-add-complaint',
@@ -117,6 +102,7 @@ export class AddComplaint {
     if (this.currentStep() < 3) {
       this.currentStep.set((this.currentStep() + 1) as 1 | 2 | 3);
     } else {
+      console.log('Add Complaint Form Data:', this.form);
       this.submitted.emit(this.form);
     }
   }
