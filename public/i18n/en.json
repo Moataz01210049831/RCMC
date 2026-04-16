@@ -18,6 +18,8 @@
     "VIEW": "View",
     "CONFIRM": "Confirm",
     "DELETE": "Delete",
+    "YES": "Yes",
+    "NO": "No",
     "NUMBERS_ONLY": "Numbers only",
     "INVALID_EMAIL": "Invalid email"
   },

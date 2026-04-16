@@ -119,6 +119,33 @@
 
 .toggle-group { justify-content: center; }
 
+.yes-no-group {
+  display: flex;
+  gap: 10px;
+
+  .btn-yn {
+    flex: 1;
+    height: 38px;
+    border: 1px solid $border;
+    border-radius: $radius-input;
+    background: $bg-input;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $text-primary;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+
+    &:hover { border-color: $primary; }
+
+    &.active {
+      background: $primary;
+      color: #fff;
+      border-color: $primary;
+    }
+  }
+}
+
 .toggle {
   display: inline-flex;
   align-items: center;
