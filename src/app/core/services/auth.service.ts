@@ -9,7 +9,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string) {
-    return this.http.post(`${this.apiUrl}/auth/login`, { username, password });
+    return this.http.post(`${this.apiUrl}/api/Accounts/login`, { username, password });
   }
 
   logout() {
