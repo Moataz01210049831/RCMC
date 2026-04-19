@@ -173,7 +173,7 @@ export class AddCustomer implements OnInit {
     };
 
     if (this.isEditMode()) {
-      this.customerService.updateContact({ id: this.customerId, ...contactData }).subscribe({
+      this.customerService.updateContact({ EntityId: this.customerId, ...contactData }).subscribe({
         next: () => {
           this.loading.set(false);
           this.toast.success(this.translate.instant('CUSTOMER.EDIT_SUCCESS'));

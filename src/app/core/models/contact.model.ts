@@ -38,7 +38,7 @@ export interface ContactResponse {
 }
 
 export interface UpdateContactRequest extends CreateContactRequest {
-  id: string;
+  EntityId: string;
 }
 
 export interface UpdateContactResponse {
