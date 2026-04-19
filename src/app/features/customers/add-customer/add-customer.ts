@@ -161,10 +161,10 @@ export class AddCustomer implements OnInit {
       cityId: this.customer.cityId,
       dateOfBirth: this.customer.dateOfBirth,
       email: this.customer.email,
-      gender: this.customer.gender!,
-      identityType: this.customer.identityType!,
+      genderId: this.customer.gender!,
+      identityTypeId: this.customer.identityType!,
       identityNumber: this.customer.identityNumber,
-      mobileNumber1: this.customer.mobileNumber1,
+      mobileNumber: this.customer.mobileNumber1,
       mobileNumber2: this.customer.mobileNumber2,
       nationalityId: this.customer.nationalityId,
       preferredContactMethod: this.customer.preferredContactMethod!,
@@ -185,10 +185,14 @@ export class AddCustomer implements OnInit {
       });
     } else {
       this.customerService.createContact(contactData).subscribe({
-        next: () => {
+        next: (newId) => {
           this.loading.set(false);
           this.toast.success(this.translate.instant('CUSTOMER.ADD_SUCCESS'));
-          this.router.navigate(['/dashboard']);
+          if (newId) {
+            this.router.navigate(['/customers', newId]);
+          } else {
+            this.router.navigate(['/dashboard']);
+          }
         },
         error: () => {
           this.loading.set(false);

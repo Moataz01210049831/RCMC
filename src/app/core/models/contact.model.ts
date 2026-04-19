@@ -6,10 +6,10 @@ export interface CreateContactRequest {
   cityId: string;
   dateOfBirth: string;
   email: string;
-  gender: number;
-  identityType: number;
+  genderId: number;
+  identityTypeId: number;
   identityNumber: string;
-  mobileNumber1: string;
+  mobileNumber: string;
   mobileNumber2: string;
   nationalityId: string;
   preferredContactMethod: number;

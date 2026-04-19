@@ -28,10 +28,12 @@
         <div id="add-customer-field-identity-number" class="field-group">
           <label id="add-customer-label-identity-number">{{ 'CUSTOMER.IDENTITY_NUMBER' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-identity-number" type="text" name="identityNumber" [(ngModel)]="customer.identityNumber"
-            required maxlength="10" [placeholder]="'CUSTOMER.IDENTITY_NUMBER' | translate"
+            required maxlength="10" pattern="\d{10}" [placeholder]="'CUSTOMER.IDENTITY_NUMBER' | translate"
             #idCtrl="ngModel" [class.invalid]="submitted() && idCtrl.invalid" />
           @if (submitted() && idCtrl.errors?.['required']) {
             <span id="add-customer-error-identity-number" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
+          } @else if (submitted() && idCtrl.errors?.['pattern']) {
+            <span id="add-customer-error-identity-number-pattern" class="error">{{ 'CUSTOMER.INVALID_ID' | translate }}</span>
           }
           @if (verified()) {
             <span id="add-customer-hint-identity-number" class="hint">{{ 'CUSTOMER.HINT_NO_SHARE' | translate }}</span>
@@ -160,22 +162,22 @@
         <div id="add-customer-field-mobile1" class="field-group">
           <label id="add-customer-label-mobile1">{{ 'CUSTOMER.MOBILE_NUMBER' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-mobile1" type="text" name="mobileNumber1" [(ngModel)]="customer.mobileNumber1"
-            required maxlength="10" pattern="[0-9]+" placeholder="05XXXXXXXX"
+            required maxlength="10" pattern="05\d{8}" placeholder="05XXXXXXXX"
             #phoneCtrl="ngModel" [class.invalid]="submitted() && phoneCtrl.invalid" />
           @if (submitted() && phoneCtrl.errors?.['required']) {
             <span id="add-customer-error-mobile1" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
           } @else if (submitted() && phoneCtrl.errors?.['pattern']) {
-            <span id="add-customer-error-mobile1-pattern" class="error">{{ 'COMMON.NUMBERS_ONLY' | translate }}</span>
+            <span id="add-customer-error-mobile1-pattern" class="error">{{ 'CUSTOMER.INVALID_PHONE' | translate }}</span>
           }
         </div>
 
         <div id="add-customer-field-mobile2" class="field-group">
           <label id="add-customer-label-mobile2">{{ 'CUSTOMER.OTHER_MOBILE' | translate }}</label>
           <input id="add-customer-input-mobile2" type="text" name="mobileNumber2" [(ngModel)]="customer.mobileNumber2"
-            maxlength="10" pattern="[0-9]+" placeholder="05XXXXXXXX"
+            maxlength="10" pattern="05\d{8}" placeholder="05XXXXXXXX"
             #phone2Ctrl="ngModel" [class.invalid]="submitted() && phone2Ctrl.invalid" />
           @if (submitted() && phone2Ctrl.errors?.['pattern']) {
-            <span id="add-customer-error-mobile2-pattern" class="error">{{ 'COMMON.NUMBERS_ONLY' | translate }}</span>
+            <span id="add-customer-error-mobile2-pattern" class="error">{{ 'CUSTOMER.INVALID_PHONE' | translate }}</span>
           }
         </div>
 

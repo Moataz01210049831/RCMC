@@ -41,9 +41,9 @@ export class SearchableSelect implements ControlValueAccessor {
   }
 
   get filtered(): LookupItem[] {
-    const q = this.searchText.trim();
+    const q = this.searchText.trim().toLowerCase();
     if (!q) return this.items;
-    return this.items.filter(i => i.Value.includes(q));
+    return this.items.filter(i => i.Name.toLowerCase().includes(q));
   }
 
   open() {
@@ -55,7 +55,7 @@ export class SearchableSelect implements ControlValueAccessor {
     this.selectedValue = item.Value;
     this.isOpen = false;
     this.searchText = '';
-    this.onChange(item.Name);
+    this.onChange(item.Value);
     this.onTouched();
   }
 

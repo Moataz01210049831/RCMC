@@ -87,6 +87,8 @@
     "EDIT_SUCCESS": "Customer data updated successfully",
     "ADD_SUCCESS": "Customer added successfully",
     "LOAD_ERROR": "Error loading customer data",
+    "INVALID_ID": "ID number must be 10 digits",
+    "INVALID_PHONE": "Phone number must start with 05 and be 10 digits",
     "ADD_CUSTOMER": "Add Customer",
     "FULL_NAME": "Full Name",
     "ACTIONS": "Actions",

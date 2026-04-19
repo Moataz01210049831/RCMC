@@ -65,7 +65,7 @@ export class CustomerService {
 
   createContact(data: CreateContactRequest) {
     return this.http
-      .post<ApiResponse<unknown>>(`${this.apiUrl}/Contacts/Create`, data)
+      .post<ApiResponse<string>>(`${this.apiUrl}/Contacts/Create`, data)
       .pipe(map(res => res.Data));
   }
 
