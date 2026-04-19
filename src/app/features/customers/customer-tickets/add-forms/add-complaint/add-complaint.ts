@@ -38,37 +38,37 @@ export class AddComplaint {
 
   // Step 1 options
   serviceProviders: LookupItem[] = [
-    { value: 'moc',          name: 'وزارة التجارة' },
-    { value: 'municipality', name: 'الأمانة' },
+    { Value: 'moc',          Name: 'وزارة التجارة' },
+    { Value: 'municipality', Name: 'الأمانة' },
   ];
 
   private mainServicesByProvider: Record<string, LookupItem[]> = {
     moc: [
-      { value: 'commercial', name: 'سجل تجاري' },
-      { value: 'license',    name: 'ترخيص' },
+      { Value: 'commercial', Name: 'سجل تجاري' },
+      { Value: 'license',    Name: 'ترخيص' },
     ],
     municipality: [
-      { value: 'permit',     name: 'تصريح بناء' },
-      { value: 'inspection', name: 'فحص المنشأة' },
+      { Value: 'permit',     Name: 'تصريح بناء' },
+      { Value: 'inspection', Name: 'فحص المنشأة' },
     ],
   };
 
   private subServicesByMain: Record<string, LookupItem[]> = {
     commercial:  [
-      { value: 'print', name: 'طباعة السجل التجاري' },
-      { value: 'renew', name: 'تجديد السجل التجاري' },
+      { Value: 'print', Name: 'طباعة السجل التجاري' },
+      { Value: 'renew', Name: 'تجديد السجل التجاري' },
     ],
     license: [
-      { value: 'new_license', name: 'إصدار ترخيص جديد' },
-      { value: 'renew_license', name: 'تجديد ترخيص' },
+      { Value: 'new_license', Name: 'إصدار ترخيص جديد' },
+      { Value: 'renew_license', Name: 'تجديد ترخيص' },
     ],
     permit: [
-      { value: 'new_permit', name: 'تصريح جديد' },
-      { value: 'renew_permit', name: 'تجديد تصريح' },
+      { Value: 'new_permit', Name: 'تصريح جديد' },
+      { Value: 'renew_permit', Name: 'تجديد تصريح' },
     ],
     inspection: [
-      { value: 'initial', name: 'فحص أولي' },
-      { value: 'followup', name: 'فحص متابعة' },
+      { Value: 'initial', Name: 'فحص أولي' },
+      { Value: 'followup', Name: 'فحص متابعة' },
     ],
   };
 
@@ -93,25 +93,25 @@ export class AddComplaint {
 
   // Step 2 options
   mainClassifications: LookupItem[] = [
-    { value: 'service',  name: 'مشكلة في الخدمة' },
-    { value: 'employee', name: 'سلوك موظف' },
+    { Value: 'service',  Name: 'مشكلة في الخدمة' },
+    { Value: 'employee', Name: 'سلوك موظف' },
   ];
 
   private subByMain: Record<string, LookupItem[]> = {
     service:  [
-      { value: 'delay',  name: 'تأخر في الإنجاز' },
-      { value: 'error',  name: 'خطأ في النتيجة' },
+      { Value: 'delay',  Name: 'تأخر في الإنجاز' },
+      { Value: 'error',  Name: 'خطأ في النتيجة' },
     ],
     employee: [
-      { value: 'rude',       name: 'تعامل غير لائق' },
-      { value: 'unhelpful',  name: 'عدم تقديم المساعدة' },
+      { Value: 'rude',       Name: 'تعامل غير لائق' },
+      { Value: 'unhelpful',  Name: 'عدم تقديم المساعدة' },
     ],
   };
 
   regions: LookupItem[] = [
-    { value: 'ri', name: 'الرياض' },
-    { value: 'jd', name: 'جدة' },
-    { value: 'dm', name: 'الدمام' },
+    { Value: 'ri', Name: 'الرياض' },
+    { Value: 'jd', Name: 'جدة' },
+    { Value: 'dm', Name: 'الدمام' },
   ];
 
   get subClassifications(): LookupItem[] {
@@ -153,11 +153,11 @@ export class AddComplaint {
 
   // Step 3 options
   relatedTicketOptions: LookupItem[] = [
-    { value: 'T-001', name: 'T-001' },
-    { value: 'T-002', name: 'T-002' },
-    { value: 'T-003', name: 'T-003' },
-    { value: 'T-004', name: 'T-004' },
-    { value: 'T-005', name: 'T-005' },
+    { Value: 'T-001', Name: 'T-001' },
+    { Value: 'T-002', Name: 'T-002' },
+    { Value: 'T-003', Name: 'T-003' },
+    { Value: 'T-004', Name: 'T-004' },
+    { Value: 'T-005', Name: 'T-005' },
   ];
 
   // Validation

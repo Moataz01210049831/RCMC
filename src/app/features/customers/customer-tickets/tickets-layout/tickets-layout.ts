@@ -82,7 +82,7 @@ export class TicketsLayout implements OnInit {
       }
 
       const resolveName = (items: LookupItem[], value: string) =>
-        items.find(i => i.value === value)?.name ?? '-';
+        items.find(i => i.Value === value)?.Name ?? '-';
 
       this.customer.set({
         id:          contact.id,

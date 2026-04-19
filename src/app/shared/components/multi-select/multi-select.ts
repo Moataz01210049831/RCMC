@@ -38,15 +38,15 @@ export class MultiSelect implements ControlValueAccessor {
 
   get selectedLabels(): string {
     return this.items
-      .filter(i => this.selectedValues.includes(i.value))
-      .map(i => i.name)
+      .filter(i => this.selectedValues.includes(i.Name))
+      .map(i => i.Name)
       .join('، ');
   }
 
   get filtered(): LookupItem[] {
     const q = this.searchText.trim();
     if (!q) return this.items;
-    return this.items.filter(i => i.name.includes(q));
+    return this.items.filter(i => i.Name.includes(q));
   }
 
   isSelected(value: string): boolean {
@@ -60,11 +60,11 @@ export class MultiSelect implements ControlValueAccessor {
 
   toggle(item: LookupItem, event: MouseEvent) {
     event.stopPropagation();
-    const idx = this.selectedValues.indexOf(item.value);
+    const idx = this.selectedValues.indexOf(item.Value);
     if (idx >= 0) {
-      this.selectedValues = this.selectedValues.filter(v => v !== item.value);
+      this.selectedValues = this.selectedValues.filter(v => v !== item.Value);
     } else {
-      this.selectedValues = [...this.selectedValues, item.value];
+      this.selectedValues = [...this.selectedValues, item.Value];
     }
     this.onChange(this.selectedValues);
     this.onTouched();

@@ -37,13 +37,13 @@ export class SearchableSelect implements ControlValueAccessor {
   constructor(private el: ElementRef) {}
 
   get selectedLabel(): string {
-    return this.items.find(i => i.value === this.selectedValue)?.name ?? '';
+    return this.items.find(i => i.Value === this.selectedValue)?.Name ?? '';
   }
 
   get filtered(): LookupItem[] {
     const q = this.searchText.trim();
     if (!q) return this.items;
-    return this.items.filter(i => i.name.includes(q));
+    return this.items.filter(i => i.Value.includes(q));
   }
 
   open() {
@@ -52,10 +52,10 @@ export class SearchableSelect implements ControlValueAccessor {
   }
 
   select(item: LookupItem) {
-    this.selectedValue = item.value;
+    this.selectedValue = item.Value;
     this.isOpen = false;
     this.searchText = '';
-    this.onChange(item.value);
+    this.onChange(item.Name);
     this.onTouched();
   }
 

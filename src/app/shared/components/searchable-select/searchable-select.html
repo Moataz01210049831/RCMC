@@ -41,12 +41,12 @@
       </div>
 
       <ul id="ss-list" class="ss-list">
-        @for (item of filtered; track item.value) {
+        @for (item of filtered; track item.Value) {
           <li class="ss-item"
-            [attr.id]="'ss-item-' + item.value"
-            [class.selected]="item.value === selectedValue"
+            [attr.id]="'ss-item-' + item.Value"
+            [class.selected]="item.Value === selectedValue"
             (click)="select(item)">
-            {{ item.name }}
+            {{ item.Name }}
           </li>
         } @empty {
           <li id="ss-empty" class="ss-empty">{{ 'COMMON.NO_RESULTS' | translate }}</li>

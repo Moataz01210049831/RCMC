@@ -40,14 +40,14 @@
       </div>
 
       <ul class="ms-list">
-        @for (item of filtered; track item.value) {
+        @for (item of filtered; track item.Value) {
           <li class="ms-item"
-            [class.selected]="isSelected(item.value)"
+            [class.selected]="isSelected(item.Value)"
             (click)="toggle(item, $event)">
             <span class="ms-check">
-              @if (isSelected(item.value)) { &#10003; }
+              @if (isSelected(item.Value)) { &#10003; }
             </span>
-            {{ item.name }}
+            {{ item.Name }}
           </li>
         } @empty {
           <li class="ms-empty">{{ 'COMMON.NO_RESULTS' | translate }}</li>
