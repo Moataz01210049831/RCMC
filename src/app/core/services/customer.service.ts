@@ -44,19 +44,19 @@ export class CustomerService {
     }
 
     let params = new HttpParams()
-      .set('pageNumber', request.pageNumber)
-      .set('pageSize', request.pageSize);
+      // .set('pageNumber', request.pageNumber)
+      // .set('pageSize', request.pageSize);
 
     if (request.identityNumber) {
-      params = params.set('IdentityNumber', request.identityNumber);
+      params = params.set('query.identityNumber', request.identityNumber);
     }
     if (request.name) {
-      params = params.set('Name', request.name);
+      params = params.set('query.Name', request.name);
     }
     if (request.mobileNumber) {
-      params = params.set('MobileNumber', request.mobileNumber);
+      params = params.set('query.mobileNumber', request.mobileNumber);
     }
 
-    return this.http.get<SearchContactsResponse>(`${this.apiUrl}/customers/search`, { params });
+    return this.http.get<SearchContactsResponse>(`${this.apiUrl}/Contacts/ViewCustomerProfile`, { params });
   }
 }
