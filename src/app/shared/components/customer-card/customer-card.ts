@@ -14,4 +14,10 @@ export class CustomerCard {
   @Input() customer!: CustomerCardData;
   @Output() edit = new EventEmitter<void>();
   @Output() addEntity = new EventEmitter<void>();
+
+  has(value: unknown): boolean {
+    if (value === null || value === undefined) return false;
+    const str = String(value).trim();
+    return str !== '' && str !== '-';
+  }
 }

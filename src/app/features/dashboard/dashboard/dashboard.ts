@@ -1,8 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CustomerService } from '../../../core/services/customer.service';
+import { ToastService } from '../../../core/services/toast.service';
 import type { SearchContactsRequest } from '../../../core/models/contact.model';
 
 @Component({
@@ -17,12 +18,26 @@ export class Dashboard {
   noResults = signal(false);
   searching = signal(false);
 
-  constructor(private router: Router, private customerService: CustomerService) {}
+  constructor(
+    private router: Router,
+    private customerService: CustomerService,
+    private toast: ToastService,
+    private translate: TranslateService,
+  ) {}
 
   search() {
     const q = this.searchText.trim();
     if (!q) {
       this.noResults.set(true);
+      return;
+    }
+
+    if (this.searchType === 'id' && !/^\d{10}$/.test(q)) {
+      this.toast.error(this.translate.instant('DASHBOARD.ID_INVALID'));
+      return;
+    }
+    if (this.searchType === 'phone' && !/^05\d{8}$/.test(q)) {
+      this.toast.error(this.translate.instant('DASHBOARD.PHONE_INVALID'));
       return;
     }
 

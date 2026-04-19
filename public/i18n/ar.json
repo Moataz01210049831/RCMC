@@ -48,7 +48,9 @@
     "NAME": "الاسم",
     "PHONE_NUMBER": "رقم الجوال",
     "NO_SEARCH_DATA": "لا توجد بيانات بحث",
-    "ADD_CUSTOMER": "اضافه عميل"
+    "ADD_CUSTOMER": "اضافه عميل",
+    "ID_INVALID": "رقم الهوية يجب أن يتكون من 10 أرقام",
+    "PHONE_INVALID": "رقم الجوال يجب أن يبدأ بـ 05 ويتكون من 10 أرقام"
   },
   "CUSTOMER": {
     "ADD_TITLE": "اضافه عميل",

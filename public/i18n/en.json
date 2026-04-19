@@ -48,7 +48,9 @@
     "NAME": "Name",
     "PHONE_NUMBER": "Phone Number",
     "NO_SEARCH_DATA": "No search data found",
-    "ADD_CUSTOMER": "Add Customer"
+    "ADD_CUSTOMER": "Add Customer",
+    "ID_INVALID": "ID number must be 10 digits",
+    "PHONE_INVALID": "Phone number must start with 05 and be 10 digits"
   },
   "CUSTOMER": {
     "ADD_TITLE": "Add Customer",

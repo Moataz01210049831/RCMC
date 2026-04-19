@@ -23,104 +23,111 @@
   <!-- Info fields row -->
   <div id="customer-card-info-row" class="info-row">
 
-    <div id="customer-card-info-name" class="info-item">
-      <div id="customer-card-info-name-icon" class="info-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-          <circle cx="12" cy="7" r="4"/>
-        </svg>
+    @if (has(customer.fullName)) {
+      <div id="customer-card-info-name" class="info-item">
+        <div id="customer-card-info-name-icon" class="info-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <div id="customer-card-info-name-text" class="info-text">
+          <span id="customer-card-info-name-label" class="info-label">{{ 'DASHBOARD.NAME' | translate }}</span>
+          <span id="customer-card-info-name-value" class="info-value">{{ customer.fullName }}</span>
+        </div>
       </div>
-      <div id="customer-card-info-name-text" class="info-text">
-        <span id="customer-card-info-name-label" class="info-label">{{ 'DASHBOARD.NAME' | translate }}</span>
-        <span id="customer-card-info-name-value" class="info-value">{{ customer.fullName }}</span>
-      </div>
+    }
 
-    </div>
-
-    <div id="customer-card-info-id" class="info-item">
-      <div id="customer-card-info-id-icon" class="info-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="2" y="5" width="20" height="14" rx="2"/>
-          <path d="M16 10h2M16 14h2M6 10h6M6 14h6"/>
-        </svg>
+    @if (has(customer.idNumber)) {
+      <div id="customer-card-info-id" class="info-item">
+        <div id="customer-card-info-id-icon" class="info-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="5" width="20" height="14" rx="2"/>
+            <path d="M16 10h2M16 14h2M6 10h6M6 14h6"/>
+          </svg>
+        </div>
+        <div id="customer-card-info-id-text" class="info-text">
+          <span id="customer-card-info-id-label" class="info-label">{{ 'CUSTOMER.IDENTITY_NUMBER' | translate }}</span>
+          <span id="customer-card-info-id-value" class="info-value">{{ customer.idNumber }}</span>
+        </div>
       </div>
-      <div id="customer-card-info-id-text" class="info-text">
-        <span id="customer-card-info-id-label" class="info-label">{{ 'CUSTOMER.IDENTITY_NUMBER' | translate }}</span>
-        <span id="customer-card-info-id-value" class="info-value">{{ customer.idNumber }}</span>
-      </div>
+    }
 
-    </div>
-
-    <div id="customer-card-info-phone" class="info-item">
-       <div id="customer-card-info-phone-icon" class="info-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 12 19.79 19.79 0 0 1 1.93 3.4 2 2 0 0 1 3.9 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9a16 16 0 0 0 6.91 6.91l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-        </svg>
+    @if (has(customer.phone)) {
+      <div id="customer-card-info-phone" class="info-item">
+        <div id="customer-card-info-phone-icon" class="info-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 12 19.79 19.79 0 0 1 1.93 3.4 2 2 0 0 1 3.9 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9a16 16 0 0 0 6.91 6.91l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+        </div>
+        <div id="customer-card-info-phone-text" class="info-text">
+          <span id="customer-card-info-phone-label" class="info-label">{{ 'CUSTOMER.MOBILE_NUMBER' | translate }}</span>
+          <span id="customer-card-info-phone-value" class="info-value">{{ customer.phone }}</span>
+        </div>
       </div>
-      <div id="customer-card-info-phone-text" class="info-text">
-        <span id="customer-card-info-phone-label" class="info-label">{{ 'CUSTOMER.MOBILE_NUMBER' | translate }}</span>
-        <span id="customer-card-info-phone-value" class="info-value">{{ customer.phone }}</span>
-      </div>
+    }
 
-    </div>
-
-    <div id="customer-card-info-birth" class="info-item">
-      <div id="customer-card-info-birth-icon" class="info-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-          <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
-          <line x1="3" y1="10" x2="21" y2="10"/>
-        </svg>
+    @if (has(customer.birthDate)) {
+      <div id="customer-card-info-birth" class="info-item">
+        <div id="customer-card-info-birth-icon" class="info-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </div>
+        <div id="customer-card-info-birth-text" class="info-text">
+          <span id="customer-card-info-birth-label" class="info-label">{{ 'CUSTOMER.DATE_OF_BIRTH' | translate }}</span>
+          <span id="customer-card-info-birth-value" class="info-value">{{ customer.birthDate }}</span>
+        </div>
       </div>
-      <div id="customer-card-info-birth-text" class="info-text">
-        <span id="customer-card-info-birth-label" class="info-label">{{ 'CUSTOMER.DATE_OF_BIRTH' | translate }}</span>
-        <span id="customer-card-info-birth-value" class="info-value">{{ customer.birthDate }}</span>
-      </div>
+    }
 
-    </div>
-
-    <div id="customer-card-info-nationality" class="info-item">
-       <div id="customer-card-info-nationality-icon" class="info-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="2" y1="12" x2="22" y2="12"/>
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-        </svg>
+    @if (has(customer.nationality)) {
+      <div id="customer-card-info-nationality" class="info-item">
+        <div id="customer-card-info-nationality-icon" class="info-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <div id="customer-card-info-nationality-text" class="info-text">
+          <span id="customer-card-info-nationality-label" class="info-label">{{ 'CUSTOMER.NATIONALITY' | translate }}</span>
+          <span id="customer-card-info-nationality-value" class="info-value">{{ customer.nationality }}</span>
+        </div>
       </div>
-      <div id="customer-card-info-nationality-text" class="info-text">
-        <span id="customer-card-info-nationality-label" class="info-label">{{ 'CUSTOMER.NATIONALITY' | translate }}</span>
-        <span id="customer-card-info-nationality-value" class="info-value">{{ customer.nationality }}</span>
-      </div>
+    }
 
-    </div>
-
-    <div id="customer-card-info-gender" class="info-item">
-
-      <div id="customer-card-info-gender-icon" class="info-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-          <circle cx="12" cy="7" r="4"/>
-        </svg>
+    @if (has(customer.gender)) {
+      <div id="customer-card-info-gender" class="info-item">
+        <div id="customer-card-info-gender-icon" class="info-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <div id="customer-card-info-gender-text" class="info-text">
+          <span id="customer-card-info-gender-label" class="info-label">{{ 'CUSTOMER.GENDER' | translate }}</span>
+          <span id="customer-card-info-gender-value" class="info-value">{{ customer.gender }}</span>
+        </div>
       </div>
-       <div id="customer-card-info-gender-text" class="info-text">
-        <span id="customer-card-info-gender-label" class="info-label">{{ 'CUSTOMER.GENDER' | translate }}</span>
-        <span id="customer-card-info-gender-value" class="info-value">{{ customer.gender }}</span>
-      </div>
-    </div>
+    }
 
-    <div id="customer-card-info-city" class="info-item">
-
-      <div id="customer-card-info-city-icon" class="info-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-          <circle cx="12" cy="10" r="3"/>
-        </svg>
+    @if (has(customer.city)) {
+      <div id="customer-card-info-city" class="info-item">
+        <div id="customer-card-info-city-icon" class="info-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <div id="customer-card-info-city-text" class="info-text">
+          <span id="customer-card-info-city-label" class="info-label">{{ 'CUSTOMER.CITY' | translate }}</span>
+          <span id="customer-card-info-city-value" class="info-value">{{ customer.city }}</span>
+        </div>
       </div>
-       <div id="customer-card-info-city-text" class="info-text">
-        <span id="customer-card-info-city-label" class="info-label">{{ 'CUSTOMER.CITY' | translate }}</span>
-        <span id="customer-card-info-city-value" class="info-value">{{ customer.city }}</span>
-      </div>
-    </div>
+    }
 
   </div>
 
