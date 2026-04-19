@@ -38,14 +38,14 @@ export class Login {
     this.loading.set(true);
     this.auth.login(this.username, this.password).subscribe({
       next: (res: any) => {
-        const token = res?.token ?? res?.accessToken ?? res?.data?.token;
-        if (token) {
-          localStorage.setItem('token', token);
+        this.loading.set(false);
+        if (res?.Success && res?.Data?.JWToken) {
+          localStorage.setItem('token', res.Data.JWToken);
+          localStorage.setItem('user', JSON.stringify(res.Data));
           this.router.navigate(['/dashboard']);
         } else {
-          this.toastr.error(this.translate.instant('TOAST.UNEXPECTED_ERROR'));
+          this.toastr.error(res?.Message || this.translate.instant('TOAST.UNEXPECTED_ERROR'));
         }
-        this.loading.set(false);
       },
       error: () => {
         this.loading.set(false);

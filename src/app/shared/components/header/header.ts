@@ -14,7 +14,20 @@ export class Header {
   dropdownOpen = signal(false);
 
   readonly config = AppConfig;
-  user = { name: 'عائدة كما', role: 'مشرف', initials: 'AG' };
+  user = this.loadUser();
+
+  private loadUser() {
+    try {
+      const raw = localStorage.getItem('user');
+      const data = raw ? JSON.parse(raw) : null;
+      const name: string = data?.UserName ?? '';
+      const role: string = Array.isArray(data?.Roles) && data.Roles.length ? String(data.Roles[0]) : '';
+      const initials = name ? name.trim().charAt(0).toUpperCase() : '';
+      return { name, role, initials };
+    } catch {
+      return { name: '', role: '', initials: '' };
+    }
+  }
 
   constructor(private router: Router, public langService: LanguageService) {}
 
@@ -46,6 +59,7 @@ export class Header {
   logout() {
     this.dropdownOpen.set(false);
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     this.router.navigate(['/login']);
   }
 }
