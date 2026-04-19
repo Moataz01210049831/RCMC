@@ -61,7 +61,7 @@
         }
       </div>
 
-      <button id="login-submit-btn" type="submit" class="btn-login">{{ 'LOGIN.SUBMIT' | translate }}</button>
+      <button id="login-submit-btn" type="submit" class="btn-login" [disabled]="loading()">{{ 'LOGIN.SUBMIT' | translate }}</button>
     </form>
   </div>
 
