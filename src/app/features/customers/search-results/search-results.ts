@@ -62,14 +62,16 @@ export class SearchResults implements OnInit {
 
       this.loading.set(true);
       this.customerService.searchContacts(request).subscribe({
-        next: (response) => {
-          const customers: Customer[] = response.items.map(c => ({
-            id: c.id,
-            fullName: `${c.firstName} ${c.middleName} ${c.thirdName} ${c.lastName}`.trim(),
-            idNumber: c.identityNumber,
-            phone: c.mobileNumber1,
-            idType: this.translate.instant(IDENTITY_TYPE_KEYS[c.identityType] ?? 'IDENTITY_TYPES.OTHER'),
-          }));
+        next: (c) => {
+          const customers: Customer[] = c
+            ? [{
+                id: c.id,
+                fullName: `${c.firstName} ${c.middleName} ${c.thirdName} ${c.lastName}`.trim(),
+                idNumber: c.identityNumber,
+                phone: c.mobileNumber1,
+                idType: this.translate.instant(IDENTITY_TYPE_KEYS[c.identityType] ?? 'IDENTITY_TYPES.OTHER'),
+              }]
+            : [];
           this.results.set(customers);
           this.loading.set(false);
         },

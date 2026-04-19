@@ -16,18 +16,18 @@ export class LookupService {
   getCities() {
     return environment.useDummyData
       ? of(DUMMY_CITIES)
-      : this.http.get<LookupItem[]>(`${this.apiUrl}/Lookups/Cities`);
+      : this.http.get<LookupItem[]>(`${this.apiUrl}/Lookups/city`);
   }
 
   getCountries() {
     return environment.useDummyData
       ? of(DUMMY_COUNTRIES)
-      : this.http.get<LookupItem[]>(`${this.apiUrl}/Lookups/Countries`);
+      : this.http.get<LookupItem[]>(`${this.apiUrl}/Lookups/country`);
   }
 
   getRegions() {
     return environment.useDummyData
       ? of(DUMMY_REGIONS)
-      : this.http.get<LookupItem[]>(`${this.apiUrl}/Lookups/Regions`);
+      : this.http.get<LookupItem[]>(`${this.apiUrl}/Lookups/region`);
   }
 }

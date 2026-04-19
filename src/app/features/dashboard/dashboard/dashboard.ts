@@ -42,8 +42,8 @@ export class Dashboard {
     this.customerService.searchContacts(request).subscribe({
       next: (response) => {
         this.searching.set(false);
-        if (response.items.length > 0) {
-          this.router.navigate(['/customers', response.items[0].id]);
+        if (response) {
+          this.router.navigate(['/customers', response.id]);
         } else {
           this.noResults.set(true);
         }

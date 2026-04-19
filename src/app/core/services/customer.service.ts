@@ -1,11 +1,55 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { of } from 'rxjs';
+import { map, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ContactResponse, CreateContactRequest, UpdateContactRequest, UpdateContactResponse, SearchContactsRequest, SearchContactsResponse } from '../models/contact.model';
+import { ApiResponse } from '../models/api-response.model';
 import { DUMMY_CONTACT } from '../dummy-data/contact.dummy';
 
 export type { CreateContactRequest, ContactResponse, UpdateContactRequest, UpdateContactResponse, SearchContactsRequest, SearchContactsResponse };
+
+interface ContactApiDto {
+  Id: string;
+  FirstName: string;
+  MiddleName: string;
+  ThirdName: string;
+  LastName: string;
+  FullName?: string;
+  Email: string;
+  MobileNumber1: string;
+  MobileNumber2: string;
+  IdentityNumber: string;
+  IdentityType: number;
+  DateOfBirth: string | null;
+  Gender: number;
+  PreferredContactMethod: number;
+  PreferredLanguage: number;
+  CityId: string;
+  NationalityId: string | null;
+  RegionId: string;
+}
+
+function mapContact(dto: ContactApiDto): ContactResponse {
+  return {
+    id: dto.Id,
+    firstName: dto.FirstName,
+    middleName: dto.MiddleName,
+    thirdName: dto.ThirdName,
+    lastName: dto.LastName,
+    email: dto.Email,
+    mobileNumber1: dto.MobileNumber1,
+    mobileNumber2: dto.MobileNumber2,
+    identityNumber: dto.IdentityNumber,
+    identityType: dto.IdentityType,
+    dateOfBirth: dto.DateOfBirth ?? '',
+    gender: dto.Gender,
+    preferredContactMethod: dto.PreferredContactMethod,
+    preferredLanguage: dto.PreferredLanguage,
+    cityId: dto.CityId,
+    nationalityId: dto.NationalityId ?? '',
+    regionId: dto.RegionId,
+  };
+}
 
 @Injectable({ providedIn: 'root' })
 export class CustomerService {
@@ -21,7 +65,7 @@ export class CustomerService {
     if (environment.useDummyData) {
       return of({ ...DUMMY_CONTACT, id });
     }
-    return this.http.get<ContactResponse>(`${this.apiUrl}/contacts/${id}`);
+    return this.http.get<ContactResponse>(`${this.apiUrl}/Contacts/GetContactById?contactId=${id}`);
   }
 
   updateContact(data: UpdateContactRequest) {
@@ -35,18 +79,10 @@ export class CustomerService {
     if (environment.useDummyData) {
       const dummy = DUMMY_CONTACT;
       const match = !request.identityNumber || dummy.identityNumber.includes(request.identityNumber);
-      return of<SearchContactsResponse>({
-        items: match ? [{ ...dummy, id: '1' }] : [],
-        totalCount: match ? 1 : 0,
-        pageNumber: request.pageNumber,
-        pageSize: request.pageSize,
-      });
+      return of<ContactResponse | null>(match ? { ...dummy, id: '1' } : null);
     }
 
-    let params = new HttpParams()
-      // .set('pageNumber', request.pageNumber)
-      // .set('pageSize', request.pageSize);
-
+    let params = new HttpParams();
     if (request.identityNumber) {
       params = params.set('query.identityNumber', request.identityNumber);
     }
@@ -57,6 +93,8 @@ export class CustomerService {
       params = params.set('query.mobileNumber', request.mobileNumber);
     }
 
-    return this.http.get<SearchContactsResponse>(`${this.apiUrl}/Contacts/ViewCustomerProfile`, { params });
+    return this.http
+      .get<ApiResponse<ContactApiDto>>(`${this.apiUrl}/Contacts/ViewCustomerProfile`, { params })
+      .pipe(map(res => (res.Data ? mapContact(res.Data) : null)));
   }
 }
