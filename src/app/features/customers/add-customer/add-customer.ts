@@ -111,10 +111,15 @@ export class AddCustomer implements OnInit {
     this.loading.set(true);
     this.customerService.getContact(id).subscribe({
       next: (contact) => {
+        this.loading.set(false);
+        if (!contact) {
+          this.toast.error(this.translate.instant('CUSTOMER.LOAD_ERROR'));
+          return;
+        }
         this.customer = {
           identityType: contact.identityType,
           identityNumber: contact.identityNumber,
-          dateOfBirth: contact.dateOfBirth.split('T')[0],
+          dateOfBirth: contact.dateOfBirth ? contact.dateOfBirth.split('T')[0] : '',
           firstName: contact.firstName,
           middleName: contact.middleName,
           thirdName: contact.thirdName,
@@ -130,7 +135,6 @@ export class AddCustomer implements OnInit {
           cityId: contact.cityId,
         };
         this.verified.set(true);
-        this.loading.set(false);
       },
       error: () => {
         this.loading.set(false);

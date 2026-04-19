@@ -75,6 +75,12 @@ export class TicketsLayout implements OnInit {
       cities:        this.lookupService.getCities(),
       nationalities: this.lookupService.getCountries(),
     }).subscribe(({ contact, cities, nationalities }) => {
+      if (!contact) {
+        this.customer.set(null);
+        this.activeTicketChange.emit(this.activeTicket());
+        return;
+      }
+
       const resolveName = (items: LookupItem[], value: string) =>
         items.find(i => i.value === value)?.name ?? '-';
 
@@ -84,7 +90,7 @@ export class TicketsLayout implements OnInit {
                        .filter(Boolean).join(' '),
         idNumber:    contact.identityNumber,
         phone:       contact.mobileNumber1,
-        birthDate:   contact.dateOfBirth.split('T')[0],
+        birthDate:   contact.dateOfBirth ? contact.dateOfBirth.split('T')[0] : '',
         nationality: resolveName(nationalities, contact.nationalityId),
         gender:      this.translate.instant(GENDER_KEYS[contact.gender] ?? '-'),
         city:        resolveName(cities, contact.cityId),
