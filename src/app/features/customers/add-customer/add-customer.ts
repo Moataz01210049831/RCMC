@@ -88,6 +88,27 @@ export class AddCustomer implements OnInit {
     return !!this.customer.identityType && !!this.customer.identityNumber && !!this.customer.dateOfBirth;
   }
 
+  get idPattern(): string {
+    if (this.customer.identityType === 1) return '^1\\d{8,12}$';
+    if (this.customer.identityType === 2) return '^2\\d{8,12}$';
+    return '\\d{9,13}';
+  }
+
+  get idPatternErrorKey(): string {
+    switch (this.customer.identityType) {
+      case 1: return 'CUSTOMER.INVALID_ID_CITIZEN';
+      case 2: return 'CUSTOMER.INVALID_ID_RESIDENT';
+      case 3: return 'CUSTOMER.INVALID_ID_VISITOR';
+      case 4: return 'CUSTOMER.INVALID_ID_PILGRIM';
+      default: return 'CUSTOMER.INVALID_ID';
+    }
+  }
+
+  onIdentityTypeChange() {
+    this.customer.identityNumber = '';
+    this.verified.set(false);
+  }
+
   verifyId() {
     if (!this.canVerify) return;
     // TODO: call verify API
