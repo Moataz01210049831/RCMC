@@ -35,6 +35,7 @@ export interface ContactResponse {
   preferredContactMethod: number;
   preferredLanguage: number;
   regionId: string;
+  CreatedOn: string;
 }
 
 export interface UpdateContactRequest extends CreateContactRequest {

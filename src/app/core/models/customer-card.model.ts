@@ -8,7 +8,7 @@ export interface CustomerCardData {
   gender: string;
   city: string;
   status?: string;
-  createdAt?: string;
+  CreatedOn?: string;
   createdBy?: string;
   updatedAt?: string;
 }

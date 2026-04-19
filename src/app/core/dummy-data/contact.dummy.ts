@@ -18,4 +18,5 @@ export const DUMMY_CONTACT: ContactResponse = {
   preferredContactMethod: 1,
   preferredLanguage:      0,
   regionId:               'region-04',
+  CreatedOn:              '2024-01-15T10:30:00',
 };

@@ -53,6 +53,7 @@ export class CustomerDetail implements OnInit {
         nationality: resolveName(nationalities, contact.nationalityId),
         gender:      this.translate.instant(GENDER_KEYS[contact.gender] ?? '-'),
         city:        resolveName(cities, contact.cityId),
+        CreatedOn:   contact.CreatedOn ? contact.CreatedOn.split('T')[0] : '',
       });
     });
   }

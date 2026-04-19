@@ -33,9 +33,23 @@ interface ContactApiDto {
   CityId: string;
   NationalityId: string | null;
   RegionId: string;
+  CreatedOn?: string | null;
+  CreatedDate?: string | null;
+  CreationDate?: string | null;
+  Created?: string | null;
+  DateCreated?: string | null;
+  CreatedAt?: string | null;
 }
 
 function mapContact(dto: ContactApiDto): ContactResponse {
+  const created =
+    dto.CreatedOn ??
+    dto.CreatedDate ??
+    dto.CreationDate ??
+    dto.Created ??
+    dto.DateCreated ??
+    dto.CreatedAt ??
+    '';
   return {
     id: dto.Id ?? dto.EntityId ?? '',
     firstName: dto.FirstName,
@@ -54,6 +68,7 @@ function mapContact(dto: ContactApiDto): ContactResponse {
     cityId: dto.CityId,
     nationalityId: dto.NationalityId ?? '',
     regionId: dto.RegionId,
+    CreatedOn:dto.CreatedOn ?? dto.CreatedDate ?? dto.CreationDate ?? dto.Created ?? dto.DateCreated ?? dto.CreatedAt ?? '',
   };
 }
 
