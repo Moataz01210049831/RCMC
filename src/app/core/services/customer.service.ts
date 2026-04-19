@@ -87,7 +87,7 @@ export class CustomerService {
       return of<UpdateContactResponse>({ success: true, message: 'Customer updated successfully', data: null, errors: null });
     }
     return this.http
-      .put<ApiResponse<unknown>>(`${this.apiUrl}/customers`, data)
+      .put<ApiResponse<unknown>>(`${this.apiUrl}/Contacts/Update`, data)
       .pipe(map<ApiResponse<unknown>, UpdateContactResponse>(res => ({
         success: res.Success,
         message: res.Message,
