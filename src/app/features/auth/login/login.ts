@@ -1,8 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
+import { TranslateModule } from '@ngx-translate/core';
 import { AppConfig } from '../../../core/config/app-config';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -23,8 +22,6 @@ export class Login {
   constructor(
     private router: Router,
     private auth: AuthService,
-    private toastr: ToastrService,
-    private translate: TranslateService,
   ) {}
 
   togglePassword() {
@@ -37,15 +34,11 @@ export class Login {
 
     this.loading.set(true);
     this.auth.login(this.username, this.password).subscribe({
-      next: (res: any) => {
+      next: data => {
         this.loading.set(false);
-        if (res?.Success && res?.Data?.JWToken) {
-          localStorage.setItem('token', res.Data.JWToken);
-          localStorage.setItem('user', JSON.stringify(res.Data));
-          this.router.navigate(['/dashboard']);
-        } else {
-          this.toastr.error(res?.Message || this.translate.instant('TOAST.UNEXPECTED_ERROR'));
-        }
+        localStorage.setItem('token', data.JWToken);
+        localStorage.setItem('user', JSON.stringify(data));
+        this.router.navigate(['/dashboard']);
       },
       error: () => {
         this.loading.set(false);
