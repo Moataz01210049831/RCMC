@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { LookupItem } from '../models/lookup.model';
@@ -41,6 +41,15 @@ export class LookupService {
   getServiceProviders() {
     return this.http
       .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/serviceprovider`)
+      .pipe(map(res => res.Data ?? []));
+  }
+
+  getFilteredLookup(lookupId: string, filterByLookupId: string) {
+    const params = new HttpParams()
+      .set('lookupId', lookupId)
+      .set('filterByLookupId', filterByLookupId);
+    return this.http
+      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/filter`, { params })
       .pipe(map(res => res.Data ?? []));
   }
 }

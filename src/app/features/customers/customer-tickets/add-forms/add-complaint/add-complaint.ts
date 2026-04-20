@@ -46,54 +46,29 @@ export class AddComplaint implements OnInit {
 
   // Step 1 options
   serviceProviders: LookupItem[] = [];
-
-  private mainServicesByProvider: Record<string, LookupItem[]> = {
-    moc: [
-      { Value: 'commercial', Name: 'سجل تجاري' },
-      { Value: 'license',    Name: 'ترخيص' },
-    ],
-    municipality: [
-      { Value: 'permit',     Name: 'تصريح بناء' },
-      { Value: 'inspection', Name: 'فحص المنشأة' },
-    ],
-  };
-
-  private subServicesByMain: Record<string, LookupItem[]> = {
-    commercial:  [
-      { Value: 'print', Name: 'طباعة السجل التجاري' },
-      { Value: 'renew', Name: 'تجديد السجل التجاري' },
-    ],
-    license: [
-      { Value: 'new_license', Name: 'إصدار ترخيص جديد' },
-      { Value: 'renew_license', Name: 'تجديد ترخيص' },
-    ],
-    permit: [
-      { Value: 'new_permit', Name: 'تصريح جديد' },
-      { Value: 'renew_permit', Name: 'تجديد تصريح' },
-    ],
-    inspection: [
-      { Value: 'initial', Name: 'فحص أولي' },
-      { Value: 'followup', Name: 'فحص متابعة' },
-    ],
-  };
-
-  get mainServices(): LookupItem[] {
-    const provider = this.form.serviceProviderId;
-    return provider ? (this.mainServicesByProvider[provider] ?? []) : [];
-  }
-
-  get subServices(): LookupItem[] {
-    const main = this.form.mainServiceId;
-    return main ? (this.subServicesByMain[main] ?? []) : [];
-  }
+  mainServices: LookupItem[] = [];
+  subServices: LookupItem[] = [];
 
   onServiceProviderChange() {
     this.form.mainServiceId = null;
     this.form.subServiceId = null;
+    this.mainServices = [];
+    this.subServices = [];
+    const providerId = this.form.serviceProviderId;
+    if (!providerId) return;
+    this.lookupService.getFilteredLookup('mainservice', providerId).subscribe({
+      next: data => (this.mainServices = data),
+    });
   }
 
   onMainServiceChange() {
     this.form.subServiceId = null;
+    this.subServices = [];
+    const mainId = this.form.mainServiceId;
+    if (!mainId) return;
+    this.lookupService.getFilteredLookup('subservice', mainId).subscribe({
+      next: data => (this.subServices = data),
+    });
   }
 
   // Step 2 options
