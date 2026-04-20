@@ -66,8 +66,8 @@
 
       <!-- Verify row -->
       <div id="add-customer-verify-row" class="verify-row">
-        <button id="add-customer-btn-verify" type="button" class="btn-verify" (click)="verifyId()" [disabled]="!canVerify">{{ 'CUSTOMER.VERIFY' | translate }}</button>
         <button id="add-customer-btn-back" type="button" class="btn-cancel" (click)="goBack()">{{ 'COMMON.BACK' | translate }}</button>
+        <button id="add-customer-btn-verify" type="button" class="btn-verify" (click)="verifyId()" [disabled]="!canVerify">{{ 'CUSTOMER.VERIFY' | translate }}</button>
       </div>
 
       @if (verified()) {
