@@ -37,4 +37,10 @@ export class LookupService {
           .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/region`)
           .pipe(map(res => res.Data ?? []));
   }
+
+  getServiceProviders() {
+    return this.http
+      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/serviceprovider`)
+      .pipe(map(res => res.Data ?? []));
+  }
 }
