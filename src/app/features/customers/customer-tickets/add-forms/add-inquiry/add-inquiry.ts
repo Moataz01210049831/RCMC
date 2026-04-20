@@ -23,8 +23,8 @@ export class AddInquiry {
   };
 
   serviceProviders = [
-    { value: 'moc',          name: 'وزارة التجارة' },
-    { value: 'municipality', name: 'الأمانة' },
+    { Value: 'moc',          Name: 'وزارة التجارة' },
+    { Value: 'municipality', Name: 'الأمانة' },
   ];
 
   steps = [

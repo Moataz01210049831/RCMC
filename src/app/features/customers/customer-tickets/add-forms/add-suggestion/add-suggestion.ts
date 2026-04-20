@@ -23,8 +23,8 @@ export class AddSuggestion {
   };
 
   mainServices = [
-    { value: 'commercial', name: 'سجل تجاري' },
-    { value: 'license',    name: 'ترخيص' },
+    { Value: 'commercial', Name: 'سجل تجاري' },
+    { Value: 'license',    Name: 'ترخيص' },
   ];
 
   steps = [

@@ -23,12 +23,12 @@ export class AddRequest {
   };
 
   serviceProviders = [
-    { value: 'moc',          name: 'وزارة التجارة' },
-    { value: 'municipality', name: 'الأمانة' },
+    { Value: 'moc',          Name: 'وزارة التجارة' },
+    { Value: 'municipality', Name: 'الأمانة' },
   ];
   mainServices = [
-    { value: 'commercial', name: 'سجل تجاري' },
-    { value: 'license',    name: 'ترخيص' },
+    { Value: 'commercial', Name: 'سجل تجاري' },
+    { Value: 'license',    Name: 'ترخيص' },
   ];
 
   steps = [
