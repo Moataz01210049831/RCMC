@@ -163,13 +163,13 @@ export class AddComplaint implements OnInit {
   }
 
   next() {
-    // if (!this.canProceed) return;
-    // if (this.currentStep() < 3) {
-    //   this.currentStep.set((this.currentStep() + 1) as 1 | 2 | 3);
-    // } else {
-    //   console.log('Add Complaint Form Data:', this.form);
-    //   this.submitted.emit(this.form);
-    // }
+    if (!this.canProceed) return;
+    if (this.currentStep() < 3) {
+      this.currentStep.set((this.currentStep() + 1) as 1 | 2 | 3);
+    } else {
+      console.log('Add Complaint Form Data:', this.form);
+      this.submitted.emit(this.form);
+    }
   }
 
   prev() {
