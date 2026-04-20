@@ -1,45 +1,45 @@
-<div class="add-form">
-  <h3 class="add-title">{{ 'TICKETS.ADD_COMPLAINT' | translate }}</h3>
+<div id="add-complaint-page" class="add-form">
+  <h3 id="add-complaint-title" class="add-title">{{ 'TICKETS.ADD_COMPLAINT' | translate }}</h3>
 
-  <div class="stepper">
+  <div id="add-complaint-stepper" class="stepper">
     @for (s of steps; track s.index) {
-      <div class="step"
+      <div id="add-complaint-step-{{ s.index }}" class="step"
         [class.active]="currentStep() === s.index"
         [class.done]="currentStep() > s.index">
-        <div class="step-circle">
-          @if (currentStep() > s.index) { <span class="check">&#10003;</span> } @else { {{ s.index }} }
+        <div id="add-complaint-step-{{ s.index }}-circle" class="step-circle">
+          @if (currentStep() > s.index) { <span id="add-complaint-step-{{ s.index }}-check" class="check">&#10003;</span> } @else { {{ s.index }} }
         </div>
-        <span class="step-label">{{ s.labelKey | translate }}</span>
+        <span id="add-complaint-step-{{ s.index }}-label" class="step-label">{{ s.labelKey | translate }}</span>
       </div>
       @if (!$last) {
-        <div class="step-line" [class.filled]="currentStep() > s.index"></div>
+        <div id="add-complaint-step-{{ s.index }}-line" class="step-line" [class.filled]="currentStep() > s.index"></div>
       }
     }
   </div>
 
   @if (currentStep() === 1) {
-    <div class="form-grid">
-      <div class="field-group">
-        <label>{{ 'TICKETS.SERVICE_PROVIDER' | translate }} <span class="req">*</span></label>
-        <app-searchable-select name="serviceProvider"
+    <div id="add-complaint-step1-grid" class="form-grid">
+      <div id="add-complaint-field-service-provider" class="field-group">
+        <label id="add-complaint-label-service-provider">{{ 'TICKETS.SERVICE_PROVIDER' | translate }} <span class="req">*</span></label>
+        <app-searchable-select id="add-complaint-select-service-provider" name="serviceProvider"
           [(ngModel)]="form.serviceProviderId"
           (ngModelChange)="onServiceProviderChange()"
           [items]="serviceProviders"
           [placeholder]="'TICKETS.SERVICE_PROVIDER_PLACEHOLDER' | translate">
         </app-searchable-select>
       </div>
-      <div class="field-group">
-        <label>{{ 'TICKETS.MAIN_SERVICE' | translate }} <span class="req">*</span></label>
-        <app-searchable-select name="mainService"
+      <div id="add-complaint-field-main-service" class="field-group">
+        <label id="add-complaint-label-main-service">{{ 'TICKETS.MAIN_SERVICE' | translate }} <span class="req">*</span></label>
+        <app-searchable-select id="add-complaint-select-main-service" name="mainService"
           [(ngModel)]="form.mainServiceId"
           (ngModelChange)="onMainServiceChange()"
           [items]="mainServices"
           [placeholder]="'TICKETS.MAIN_SERVICE_PLACEHOLDER' | translate">
         </app-searchable-select>
       </div>
-      <div class="field-group">
-        <label>{{ 'TICKETS.SUB_SERVICE' | translate }} <span class="req">*</span></label>
-        <app-searchable-select name="subService"
+      <div id="add-complaint-field-sub-service" class="field-group">
+        <label id="add-complaint-label-sub-service">{{ 'TICKETS.SUB_SERVICE' | translate }} <span class="req">*</span></label>
+        <app-searchable-select id="add-complaint-select-sub-service" name="subService"
           [(ngModel)]="form.subServiceId"
           [items]="subServices"
           [placeholder]="'TICKETS.SUB_SERVICE_PLACEHOLDER' | translate">
@@ -47,95 +47,95 @@
       </div>
     </div>
   } @else if (currentStep() === 2) {
-    <div class="form-grid">
-      <div class="field-group">
-        <label>{{ 'TICKETS.MAIN_CLASSIFICATION' | translate }} <span class="req">*</span></label>
-        <app-searchable-select name="mainClassification"
+    <div id="add-complaint-step2-grid" class="form-grid">
+      <div id="add-complaint-field-main-classification" class="field-group">
+        <label id="add-complaint-label-main-classification">{{ 'TICKETS.MAIN_CLASSIFICATION' | translate }} <span class="req">*</span></label>
+        <app-searchable-select id="add-complaint-select-main-classification" name="mainClassification"
           [(ngModel)]="form.mainClassificationId"
           (ngModelChange)="onMainClassificationChange()"
           [items]="mainClassifications"
           [placeholder]="'TICKETS.MAIN_CLASSIFICATION_PLACEHOLDER' | translate">
         </app-searchable-select>
       </div>
-      <div class="field-group">
-        <label>{{ 'TICKETS.SUB_CLASSIFICATION' | translate }} <span class="req">*</span></label>
-        <app-searchable-select name="subClassification"
+      <div id="add-complaint-field-sub-classification" class="field-group">
+        <label id="add-complaint-label-sub-classification">{{ 'TICKETS.SUB_CLASSIFICATION' | translate }} <span class="req">*</span></label>
+        <app-searchable-select id="add-complaint-select-sub-classification" name="subClassification"
           [(ngModel)]="form.subClassificationId"
           (ngModelChange)="onSubClassificationChange()"
           [items]="subClassifications"
           [placeholder]="'TICKETS.SUB_CLASSIFICATION_PLACEHOLDER' | translate">
         </app-searchable-select>
       </div>
-      <div class="field-group">
-        <label>{{ 'TICKETS.COMPLAINT_CATEGORY' | translate }}</label>
-        <input type="text" name="complaintCategory" [(ngModel)]="form.complaintCategory"
+      <div id="add-complaint-field-category" class="field-group">
+        <label id="add-complaint-label-category">{{ 'TICKETS.COMPLAINT_CATEGORY' | translate }}</label>
+        <input id="add-complaint-input-category" type="text" name="complaintCategory" [(ngModel)]="form.complaintCategory"
           [placeholder]="'TICKETS.COMPLAINT_CATEGORY_PLACEHOLDER' | translate" />
       </div>
-      <div class="field-group">
-        <label>{{ 'CUSTOMER.REGION' | translate }} <span class="req">*</span></label>
-        <app-searchable-select name="region"
+      <div id="add-complaint-field-region" class="field-group">
+        <label id="add-complaint-label-region">{{ 'CUSTOMER.REGION' | translate }} <span class="req">*</span></label>
+        <app-searchable-select id="add-complaint-select-region" name="region"
           [(ngModel)]="form.regionId"
           [items]="regions"
           [placeholder]="'TICKETS.REGION_PLACEHOLDER' | translate">
         </app-searchable-select>
       </div>
       @if (showTextContent) {
-        <div class="field-group">
-          <label>{{ 'TICKETS.TEXT_CONTENT' | translate }}</label>
-          <input type="text" name="textContent" [(ngModel)]="form.textContent"
+        <div id="add-complaint-field-text-content" class="field-group">
+          <label id="add-complaint-label-text-content">{{ 'TICKETS.TEXT_CONTENT' | translate }}</label>
+          <input id="add-complaint-input-text-content" type="text" name="textContent" [(ngModel)]="form.textContent"
             [placeholder]="'TICKETS.TEXT_CONTENT_PLACEHOLDER' | translate" />
         </div>
       }
-      <div class="field-group">
-        <label>{{ 'TICKETS.DATE' | translate }}</label>
-        <input type="text" name="date" [(ngModel)]="form.date"
+      <div id="add-complaint-field-date" class="field-group">
+        <label id="add-complaint-label-date">{{ 'TICKETS.DATE' | translate }}</label>
+        <input id="add-complaint-input-date" type="text" name="date" [(ngModel)]="form.date"
           [placeholder]="'TICKETS.DATE_PLACEHOLDER' | translate"
           onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" />
       </div>
       @if (showKeyAddress) {
-        <div class="field-group full toggle-group">
-          <label class="toggle">
-           
-            <input type="checkbox" name="keyAddress" [(ngModel)]="form.keyAddress" />
-            <span class="toggle-track"><span class="toggle-thumb"></span></span>
-             <span class="toggle-label">{{ 'TICKETS.KEY_ADDRESS' | translate }}</span>
+        <div id="add-complaint-field-key-address" class="field-group full toggle-group">
+          <label id="add-complaint-label-key-address" class="toggle">
+
+            <input id="add-complaint-input-key-address" type="checkbox" name="keyAddress" [(ngModel)]="form.keyAddress" />
+            <span id="add-complaint-key-address-track" class="toggle-track"><span id="add-complaint-key-address-thumb" class="toggle-thumb"></span></span>
+             <span id="add-complaint-key-address-text" class="toggle-label">{{ 'TICKETS.KEY_ADDRESS' | translate }}</span>
           </label>
         </div>
       }
       @if (showAttachments) {
-        <div class="field-group full">
-          <app-file-upload [files]="form.classificationAttachments" (filesChange)="form.classificationAttachments = $event" />
+        <div id="add-complaint-field-classification-attachments" class="field-group full">
+          <app-file-upload id="add-complaint-upload-classification-attachments" [files]="form.classificationAttachments" (filesChange)="form.classificationAttachments = $event" />
         </div>
       }
     </div>
   } @else {
-    <div class="form-grid">
-      <div class="field-group full">
-        <label>{{ 'TICKETS.RELATED_TICKETS' | translate }}</label>
-        <app-multi-select name="relatedTickets"
+    <div id="add-complaint-step3-grid" class="form-grid">
+      <div id="add-complaint-field-related-tickets" class="field-group full">
+        <label id="add-complaint-label-related-tickets">{{ 'TICKETS.RELATED_TICKETS' | translate }}</label>
+        <app-multi-select id="add-complaint-select-related-tickets" name="relatedTickets"
           [(ngModel)]="form.relatedTickets"
           [items]="relatedTicketOptions"
           [placeholder]="'TICKETS.RELATED_TICKETS_PLACEHOLDER' | translate">
         </app-multi-select>
       </div>
-      <div class="field-group full">
-        <label>{{ 'TICKETS.DESCRIPTION' | translate }}</label>
-        <textarea name="description" [(ngModel)]="form.description"
+      <div id="add-complaint-field-description" class="field-group full">
+        <label id="add-complaint-label-description">{{ 'TICKETS.DESCRIPTION' | translate }}</label>
+        <textarea id="add-complaint-input-description" name="description" [(ngModel)]="form.description"
           [placeholder]="'TICKETS.DESCRIPTION_PLACEHOLDER' | translate"
           maxlength="2000"></textarea>
       </div>
-      <div class="field-group full">
-        <app-file-upload [files]="form.attachments" (filesChange)="form.attachments = $event" />
+      <div id="add-complaint-field-attachments" class="field-group full">
+        <app-file-upload id="add-complaint-upload-attachments" [files]="form.attachments" (filesChange)="form.attachments = $event" />
       </div>
     </div>
   }
 
-  <div class="form-actions">
-    <button type="button" class="btn-cancel" (click)="onCancel()">{{ 'COMMON.CANCEL' | translate }}</button>
+  <div id="add-complaint-actions" class="form-actions">
+    <button id="add-complaint-btn-cancel" type="button" class="btn-cancel" (click)="onCancel()">{{ 'COMMON.CANCEL' | translate }}</button>
     @if (currentStep() > 1) {
-      <button type="button" class="btn-prev" (click)="prev()">{{ 'TICKETS.PREVIOUS' | translate }}</button>
+      <button id="add-complaint-btn-prev" type="button" class="btn-prev" (click)="prev()">{{ 'TICKETS.PREVIOUS' | translate }}</button>
     }
-    <button type="button" class="btn-next" [disabled]="!canProceed" (click)="next()">
+    <button id="add-complaint-btn-next" type="button" class="btn-next" [disabled]="!canProceed" (click)="next()">
       {{ (currentStep() === 3 ? 'TICKETS.SUBMIT' : 'TICKETS.NEXT') | translate }}
     </button>
   </div>

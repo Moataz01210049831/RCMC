@@ -1,5 +1,5 @@
 @if (customer(); as c) {
-  <div class="tickets-page">
+  <div id="tickets-layout-page" class="tickets-page">
 
     <app-customer-card
       [customer]="c"
@@ -7,29 +7,29 @@
       (addEntity)="addEntity()"
     />
 
-    <div class="tickets-body">
+    <div id="tickets-layout-body" class="tickets-body">
 
       <!-- Left: projected content -->
-      <div class="tickets-content">
+      <div id="tickets-layout-content" class="tickets-content">
         <ng-content />
       </div>
 
       <!-- Right: tabs + list -->
-      <aside class="tickets-sidebar">
-        <h3 class="sidebar-title">{{ 'TICKETS.TICKETS' | translate }}</h3>
+      <aside id="tickets-layout-sidebar" class="tickets-sidebar">
+        <h3 id="tickets-layout-sidebar-title" class="sidebar-title">{{ 'TICKETS.TICKETS' | translate }}</h3>
 
-        <div class="sidebar-search">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"/>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        <div id="tickets-layout-sidebar-search" class="sidebar-search">
+          <svg id="tickets-layout-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle id="tickets-layout-search-icon-circle" cx="11" cy="11" r="8"/>
+            <line id="tickets-layout-search-icon-line" x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
-          <input type="text" [placeholder]="'TICKETS.SEARCH' | translate"
+          <input id="tickets-layout-search-input" type="text" [placeholder]="'TICKETS.SEARCH' | translate"
             [value]="searchTerm()" (input)="onSearchInput($event)" />
         </div>
 
-        <div class="sidebar-tabs">
+        <div id="tickets-layout-sidebar-tabs" class="sidebar-tabs">
           @for (tab of tabs; track tab.type) {
-            <button type="button" class="sidebar-tab"
+            <button id="tickets-layout-tab-{{ tab.type }}" type="button" class="sidebar-tab"
               [class.active]="activeType() === tab.type"
               (click)="selectTab(tab.type)">
               {{ tab.labelKey | translate }}
@@ -37,25 +37,25 @@
           }
         </div>
 
-        <div class="list-header">
-          <h4 class="list-heading">{{ activeTabLabel() | translate }}</h4>
-          <button type="button" class="btn-add" (click)="onAdd()">
-            <span class="plus">+</span>
+        <div id="tickets-layout-list-header" class="list-header">
+          <h4 id="tickets-layout-list-heading" class="list-heading">{{ activeTabLabel() | translate }}</h4>
+          <button id="tickets-layout-btn-add" type="button" class="btn-add" (click)="onAdd()">
+            <span id="tickets-layout-btn-add-plus" class="plus">+</span>
             {{ addLabel() | translate }}
           </button>
         </div>
 
-        <div class="ticket-list">
+        <div id="tickets-layout-ticket-list" class="ticket-list">
           @for (t of tickets(); track t.code) {
-            <button type="button" class="ticket-item"
+            <button [attr.id]="'tickets-layout-ticket-' + t.code" type="button" class="ticket-item"
               [class.active]="(activeTicket()?.code) === t.code"
               (click)="selectTicket(t.code)">
-              <span class="ticket-code">{{ t.code }}</span>
-              <span class="ticket-status">
-                <span class="status-dot"></span>
+              <span [attr.id]="'tickets-layout-ticket-code-' + t.code" class="ticket-code">{{ t.code }}</span>
+              <span [attr.id]="'tickets-layout-ticket-status-' + t.code" class="ticket-status">
+                <span class="status-dot" [attr.id]="'tickets-layout-ticket-status-dot-' + t.code"></span>
                 {{ t.statusKey | translate }}
               </span>
-              <svg class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg [attr.id]="'tickets-layout-ticket-arrow-' + t.code" class="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="15 18 9 12 15 6"/>
               </svg>
             </button>

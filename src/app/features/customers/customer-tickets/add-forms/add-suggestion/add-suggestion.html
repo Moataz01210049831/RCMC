@@ -1,50 +1,50 @@
-<div class="add-form">
-  <h3 class="add-title">{{ 'TICKETS.ADD_SUGGESTION' | translate }}</h3>
+<div id="add-suggestion-page" class="add-form">
+  <h3 id="add-suggestion-title" class="add-title">{{ 'TICKETS.ADD_SUGGESTION' | translate }}</h3>
 
-  <div class="stepper">
+  <div id="add-suggestion-stepper" class="stepper">
     @for (s of steps; track s.index) {
-      <div class="step"
+      <div id="add-suggestion-step-{{ s.index }}" class="step"
         [class.active]="currentStep() === s.index"
         [class.done]="currentStep() > s.index">
-        <div class="step-circle">{{ s.index }}</div>
-        <span class="step-label">{{ s.labelKey | translate }}</span>
+        <div id="add-suggestion-step-{{ s.index }}-circle" class="step-circle">{{ s.index }}</div>
+        <span id="add-suggestion-step-{{ s.index }}-label" class="step-label">{{ s.labelKey | translate }}</span>
       </div>
       @if (!$last) {
-        <div class="step-line" [class.filled]="currentStep() > s.index"></div>
+        <div id="add-suggestion-step-{{ s.index }}-line" class="step-line" [class.filled]="currentStep() > s.index"></div>
       }
     }
   </div>
 
   @if (currentStep() === 1) {
-    <div class="form-grid">
-      <div class="field-group">
-        <label>{{ 'TICKETS.MAIN_SERVICE' | translate }} <span class="req">*</span></label>
-        <app-searchable-select name="mainService"
+    <div id="add-suggestion-step1-grid" class="form-grid">
+      <div id="add-suggestion-field-main-service" class="field-group">
+        <label id="add-suggestion-label-main-service">{{ 'TICKETS.MAIN_SERVICE' | translate }} <span class="req">*</span></label>
+        <app-searchable-select id="add-suggestion-select-main-service" name="mainService"
           [(ngModel)]="form.mainServiceId"
           [items]="mainServices"
           [placeholder]="'TICKETS.MAIN_SERVICE_PLACEHOLDER' | translate">
         </app-searchable-select>
       </div>
-      <div class="field-group">
-        <label>{{ 'TICKETS.SUBJECT' | translate }} <span class="req">*</span></label>
-        <input type="text" name="subject" [(ngModel)]="form.subject"
+      <div id="add-suggestion-field-subject" class="field-group">
+        <label id="add-suggestion-label-subject">{{ 'TICKETS.SUBJECT' | translate }} <span class="req">*</span></label>
+        <input id="add-suggestion-input-subject" type="text" name="subject" [(ngModel)]="form.subject"
           [placeholder]="'TICKETS.SUBJECT_PLACEHOLDER' | translate" maxlength="50" />
       </div>
     </div>
   } @else {
-    <div class="form-grid">
-      <div class="field-group" style="grid-column: 1 / -1;">
-        <label>{{ 'TICKETS.DESCRIPTION' | translate }} <span class="req">*</span></label>
-        <textarea name="description" [(ngModel)]="form.description" maxlength="500"></textarea>
+    <div id="add-suggestion-step2-grid" class="form-grid">
+      <div id="add-suggestion-field-description" class="field-group" style="grid-column: 1 / -1;">
+        <label id="add-suggestion-label-description">{{ 'TICKETS.DESCRIPTION' | translate }} <span class="req">*</span></label>
+        <textarea id="add-suggestion-input-description" name="description" [(ngModel)]="form.description" maxlength="500"></textarea>
       </div>
     </div>
   }
 
-  <div class="form-actions">
+  <div id="add-suggestion-actions" class="form-actions">
     @if (currentStep() > 1) {
-      <button type="button" class="btn-prev" (click)="prev()">{{ 'TICKETS.PREVIOUS' | translate }}</button>
+      <button id="add-suggestion-btn-prev" type="button" class="btn-prev" (click)="prev()">{{ 'TICKETS.PREVIOUS' | translate }}</button>
     }
-    <button type="button" class="btn-next" (click)="next()">
+    <button id="add-suggestion-btn-next" type="button" class="btn-next" (click)="next()">
       {{ (currentStep() === 2 ? 'TICKETS.SUBMIT' : 'TICKETS.NEXT') | translate }}
     </button>
   </div>

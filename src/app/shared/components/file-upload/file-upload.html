@@ -1,21 +1,21 @@
-<div class="upload-section">
-  <span class="upload-title">{{ 'TICKETS.UPLOAD_ATTACHMENTS' | translate }}</span>
-  <p class="upload-hint">{{ 'TICKETS.UPLOAD_HINT' | translate }}</p>
+<div id="file-upload-section" class="upload-section">
+  <span id="file-upload-title" class="upload-title">{{ 'TICKETS.UPLOAD_ATTACHMENTS' | translate }}</span>
+  <p id="file-upload-hint" class="upload-hint">{{ 'TICKETS.UPLOAD_HINT' | translate }}</p>
 
   @if (!files.length) {
-    <label class="btn-browse">
-      <input type="file" multiple (change)="onFilesSelected($event)" hidden />
+    <label id="file-upload-browse-label" class="btn-browse">
+      <input id="file-upload-input" type="file" multiple (change)="onFilesSelected($event)" hidden />
       {{ 'TICKETS.BROWSE_FILES' | translate }}
     </label>
   }
 
   @if (files.length) {
-    <div class="attachment-list">
+    <div id="file-upload-list" class="attachment-list">
       @for (f of files; track $index) {
-        <div class="attachment-chip">
-          <span class="chip-check">&#10003;</span>
-          <span class="chip-name">{{ f.name }}</span>
-          <button type="button" class="chip-remove" (click)="removeFile($index)">&times;</button>
+        <div class="attachment-chip" [attr.id]="'file-upload-chip-' + $index">
+          <span class="chip-check" [attr.id]="'file-upload-chip-check-' + $index">&#10003;</span>
+          <span class="chip-name" [attr.id]="'file-upload-chip-name-' + $index">{{ f.name }}</span>
+          <button type="button" class="chip-remove" [attr.id]="'file-upload-chip-remove-' + $index" (click)="removeFile($index)">&times;</button>
         </div>
       }
     </div>

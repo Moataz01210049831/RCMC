@@ -19,77 +19,77 @@
       }
     }
   } @else if (activeTicket(); as t) {
-    <div class="detail-card">
-      <div class="detail-header">
-        <span class="detail-code">{{ t.code }}</span>
+    <div id="ticket-detail-card" class="detail-card">
+      <div id="ticket-detail-header" class="detail-header">
+        <span id="ticket-detail-code" class="detail-code">{{ t.code }}</span>
       </div>
 
-      <div class="detail-grid">
-        <div class="field">
-          <span class="label">{{ 'TICKETS.ENTITY_TYPE' | translate }}</span>
-          <span class="value">{{ t.entityType }}</span>
+      <div id="ticket-detail-grid" class="detail-grid">
+        <div id="ticket-detail-field-entity-type" class="field">
+          <span id="ticket-detail-label-entity-type" class="label">{{ 'TICKETS.ENTITY_TYPE' | translate }}</span>
+          <span id="ticket-detail-value-entity-type" class="value">{{ t.entityType }}</span>
         </div>
-        <div class="field">
-          <span class="label">{{ 'TICKETS.ENTITY_ID' | translate }}</span>
-          <span class="value link">{{ t.entityId }}</span>
+        <div id="ticket-detail-field-entity-id" class="field">
+          <span id="ticket-detail-label-entity-id" class="label">{{ 'TICKETS.ENTITY_ID' | translate }}</span>
+          <span id="ticket-detail-value-entity-id" class="value link">{{ t.entityId }}</span>
         </div>
-        <div class="field">
-          <span class="label">{{ 'TICKETS.MAIN_CLASSIFICATION' | translate }}</span>
-          <span class="value">{{ t.mainClassification }}</span>
+        <div id="ticket-detail-field-main-classification" class="field">
+          <span id="ticket-detail-label-main-classification" class="label">{{ 'TICKETS.MAIN_CLASSIFICATION' | translate }}</span>
+          <span id="ticket-detail-value-main-classification" class="value">{{ t.mainClassification }}</span>
         </div>
-        <div class="field">
-          <span class="label">{{ 'TICKETS.SUB_CLASSIFICATION' | translate }}</span>
-          <span class="value">{{ t.subClassification }}</span>
+        <div id="ticket-detail-field-sub-classification" class="field">
+          <span id="ticket-detail-label-sub-classification" class="label">{{ 'TICKETS.SUB_CLASSIFICATION' | translate }}</span>
+          <span id="ticket-detail-value-sub-classification" class="value">{{ t.subClassification }}</span>
         </div>
-        <div class="field">
-          <span class="label">{{ 'TICKETS.TICKET_CHANNEL' | translate }}</span>
-          <span class="value">{{ t.channel }}</span>
+        <div id="ticket-detail-field-channel" class="field">
+          <span id="ticket-detail-label-channel" class="label">{{ 'TICKETS.TICKET_CHANNEL' | translate }}</span>
+          <span id="ticket-detail-value-channel" class="value">{{ t.channel }}</span>
         </div>
-        <div class="field">
-          <span class="label">{{ 'TICKETS.REQUIREMENTS' | translate }}</span>
-          <span class="value">{{ t.requirements }}</span>
+        <div id="ticket-detail-field-requirements" class="field">
+          <span id="ticket-detail-label-requirements" class="label">{{ 'TICKETS.REQUIREMENTS' | translate }}</span>
+          <span id="ticket-detail-value-requirements" class="value">{{ t.requirements }}</span>
         </div>
-        <div class="field">
-          <span class="label">{{ 'TICKETS.BRANCH' | translate }}</span>
-          <span class="value link">{{ t.branch }}</span>
+        <div id="ticket-detail-field-branch" class="field">
+          <span id="ticket-detail-label-branch" class="label">{{ 'TICKETS.BRANCH' | translate }}</span>
+          <span id="ticket-detail-value-branch" class="value link">{{ t.branch }}</span>
         </div>
-        <div class="field">
-          <span class="label">{{ 'TICKETS.MAIN_SERVICE' | translate }}</span>
-          <span class="value">{{ t.mainService }}</span>
+        <div id="ticket-detail-field-main-service" class="field">
+          <span id="ticket-detail-label-main-service" class="label">{{ 'TICKETS.MAIN_SERVICE' | translate }}</span>
+          <span id="ticket-detail-value-main-service" class="value">{{ t.mainService }}</span>
         </div>
-        <div class="field">
-          <span class="label">{{ 'TICKETS.SUB_SERVICE' | translate }}</span>
-          <span class="value">{{ t.subService }}</span>
+        <div id="ticket-detail-field-sub-service" class="field">
+          <span id="ticket-detail-label-sub-service" class="label">{{ 'TICKETS.SUB_SERVICE' | translate }}</span>
+          <span id="ticket-detail-value-sub-service" class="value">{{ t.subService }}</span>
         </div>
-        <div class="field">
-          <span class="label">{{ 'TICKETS.STATUS' | translate }}</span>
-          <span class="value link">{{ t.statusKey | translate }}</span>
+        <div id="ticket-detail-field-status" class="field">
+          <span id="ticket-detail-label-status" class="label">{{ 'TICKETS.STATUS' | translate }}</span>
+          <span id="ticket-detail-value-status" class="value link">{{ t.statusKey | translate }}</span>
         </div>
-        <div class="field">
-          <span class="label">{{ 'TICKETS.CREATED_AT' | translate }}</span>
-          <span class="value">{{ t.createdAt }}</span>
+        <div id="ticket-detail-field-created-at" class="field">
+          <span id="ticket-detail-label-created-at" class="label">{{ 'TICKETS.CREATED_AT' | translate }}</span>
+          <span id="ticket-detail-value-created-at" class="value">{{ t.createdAt }}</span>
         </div>
-        <div class="field">
-          <span class="label">{{ 'TICKETS.CREATED_BY' | translate }}</span>
-          <span class="value">{{ t.createdBy }}</span>
+        <div id="ticket-detail-field-created-by" class="field">
+          <span id="ticket-detail-label-created-by" class="label">{{ 'TICKETS.CREATED_BY' | translate }}</span>
+          <span id="ticket-detail-value-created-by" class="value">{{ t.createdBy }}</span>
         </div>
-        <div class="field">
-          <span class="label">{{ 'TICKETS.UPDATED_AT' | translate }}</span>
-          <span class="value">{{ t.updatedAt }}</span>
+        <div id="ticket-detail-field-updated-at" class="field">
+          <span id="ticket-detail-label-updated-at" class="label">{{ 'TICKETS.UPDATED_AT' | translate }}</span>
+          <span id="ticket-detail-value-updated-at" class="value">{{ t.updatedAt }}</span>
         </div>
-        <div class="field">
-          <span class="label">{{ 'TICKETS.UPDATED_BY' | translate }}</span>
-          <span class="value">{{ t.updatedBy }}</span>
+        <div id="ticket-detail-field-updated-by" class="field">
+          <span id="ticket-detail-label-updated-by" class="label">{{ 'TICKETS.UPDATED_BY' | translate }}</span>
+          <span id="ticket-detail-value-updated-by" class="value">{{ t.updatedBy }}</span>
         </div>
-        <div class="field">
-          <span class="label">{{ 'TICKETS.SLA' | translate }}</span>
-          <span class="value">{{ t.slaDue }}</span>
+        <div id="ticket-detail-field-sla" class="field">
+          <span id="ticket-detail-label-sla" class="label">{{ 'TICKETS.SLA' | translate }}</span>
+          <span id="ticket-detail-value-sla" class="value">{{ t.slaDue }}</span>
         </div>
       </div>
 
-      <div class="description-block">
-        <span class="label">{{ 'TICKETS.DESCRIPTION' | translate }}</span>
-        <p class="description-text">{{ t.description }}</p>
+      <div id="ticket-detail-description-block" class="description-block">
+        <span id="ticket-detail-label-description" class="label">{{ 'TICKETS.DESCRIPTION' | translate }}</span>
+        <p id="ticket-detail-description-text" class="description-text">{{ t.description }}</p>
       </div>
     </div>
   }

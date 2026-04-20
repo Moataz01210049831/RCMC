@@ -1,35 +1,36 @@
-<div class="ms-container">
+<div id="ms-container" class="ms-container">
 
   <!-- Trigger -->
-  <div class="ms-trigger"
+  <div id="ms-trigger" class="ms-trigger"
     [class.open]="isOpen"
     [class.invalid]="invalid"
     [class.has-value]="selectedValues.length"
     (click)="open()">
 
     @if (selectedValues.length) {
-      <span class="ms-value">{{ selectedLabels }}</span>
-      <button type="button" class="ms-clear" (click)="clear($event)">×</button>
+      <span id="ms-value" class="ms-value">{{ selectedLabels }}</span>
+      <button id="ms-clear-btn" type="button" class="ms-clear" (click)="clear($event)">×</button>
     } @else {
-      <span class="ms-placeholder">{{ placeholder || ('SEARCHABLE_SELECT.CHOOSE' | translate) }}</span>
+      <span id="ms-placeholder" class="ms-placeholder">{{ placeholder || ('SEARCHABLE_SELECT.CHOOSE' | translate) }}</span>
     }
 
-    <svg class="ms-arrow" [class.rotated]="isOpen"
+    <svg id="ms-arrow" class="ms-arrow" [class.rotated]="isOpen"
       xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
       fill="none" stroke="currentColor" stroke-width="2.5">
-      <polyline points="6 9 12 15 18 9"/>
+      <polyline id="ms-arrow-polyline" points="6 9 12 15 18 9"/>
     </svg>
   </div>
 
   <!-- Dropdown -->
   @if (isOpen) {
-    <div class="ms-dropdown">
-      <div class="ms-search-wrap">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+    <div id="ms-dropdown" class="ms-dropdown">
+      <div id="ms-search-wrap" class="ms-search-wrap">
+        <svg id="ms-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
           fill="none" stroke="currentColor" stroke-width="2" class="ms-search-icon">
-          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          <circle id="ms-search-icon-circle" cx="11" cy="11" r="8"/><line id="ms-search-icon-line" x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
         <input
+          id="ms-search-input"
           type="text"
           class="ms-search"
           [(ngModel)]="searchText"
@@ -39,18 +40,19 @@
           autofocus />
       </div>
 
-      <ul class="ms-list">
+      <ul id="ms-list" class="ms-list">
         @for (item of filtered; track item.Value) {
           <li class="ms-item"
+            [attr.id]="'ms-item-' + item.Value"
             [class.selected]="isSelected(item.Value)"
             (click)="toggle(item, $event)">
-            <span class="ms-check">
+            <span class="ms-check" [attr.id]="'ms-check-' + item.Value">
               @if (isSelected(item.Value)) { &#10003; }
             </span>
             {{ item.Name }}
           </li>
         } @empty {
-          <li class="ms-empty">{{ 'COMMON.NO_RESULTS' | translate }}</li>
+          <li id="ms-empty" class="ms-empty">{{ 'COMMON.NO_RESULTS' | translate }}</li>
         }
       </ul>
     </div>
