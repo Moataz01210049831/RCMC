@@ -62,8 +62,7 @@ export class LookupService {
   }
 
   getComplaintRequirements(subCategoryId: string) {
-    const useDummy = true;
-    if (useDummy) return of(DUMMY_COMPLAINT_REQUIREMENTS);
+    if (environment.useDummyData) return of(DUMMY_COMPLAINT_REQUIREMENTS);
     const params = new HttpParams()
       .set('lookupId', 'requierment')
       .set('filterByLookupId', subCategoryId);
