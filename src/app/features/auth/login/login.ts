@@ -1,9 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../../../core/config/app-config';
 import { AuthService } from '../../../core/services/auth.service';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +23,8 @@ export class Login {
   constructor(
     private router: Router,
     private auth: AuthService,
+    private toast: ToastService,
+    private translate: TranslateService,
   ) {}
 
   togglePassword() {
@@ -38,6 +41,7 @@ export class Login {
         this.loading.set(false);
         localStorage.setItem('token', data.JWToken);
         localStorage.setItem('user', JSON.stringify(data));
+        this.toast.success(this.translate.instant('LOGIN.LOGIN_SUCCESS'));
         this.router.navigate(['/dashboard']);
       },
       error: () => {

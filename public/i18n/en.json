@@ -39,7 +39,8 @@
     "USERNAME_REQUIRED": "Username is required",
     "USERNAME_MIN": "Username must be at least 3 characters",
     "PASSWORD_REQUIRED": "Password is required",
-    "PASSWORD_MIN": "Password must be at least 6 characters"
+    "PASSWORD_MIN": "Password must be at least 6 characters",
+    "LOGIN_SUCCESS": "Login successful"
   },
   "DASHBOARD": {
     "MY_SERVICES": "My Services",
