@@ -44,6 +44,12 @@ export class LookupService {
       .pipe(map(res => res.Data ?? []));
   }
 
+  getComplaintMainCategories() {
+    return this.http
+      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/complaintmaincategory`)
+      .pipe(map(res => res.Data ?? []));
+  }
+
   getFilteredLookup(lookupId: string, filterByLookupId: string) {
     const params = new HttpParams()
       .set('lookupId', lookupId)

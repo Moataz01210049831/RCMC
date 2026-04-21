@@ -25,6 +25,12 @@ export class AddComplaint implements OnInit {
     this.lookupService.getServiceProviders().subscribe({
       next: data => (this.serviceProviders = data),
     });
+    this.lookupService.getRegions().subscribe({
+      next: data => (this.regions = data),
+    });
+    this.lookupService.getComplaintMainCategories().subscribe({
+      next: data => (this.mainClassifications = data),
+    });
   }
 
   form: AddComplaintForm = {
@@ -72,10 +78,7 @@ export class AddComplaint implements OnInit {
   }
 
   // Step 2 options
-  mainClassifications: LookupItem[] = [
-    { Value: 'service',  Name: 'مشكلة في الخدمة' },
-    { Value: 'employee', Name: 'سلوك موظف' },
-  ];
+  mainClassifications: LookupItem[] = [];
 
   private subByMain: Record<string, LookupItem[]> = {
     service:  [
@@ -88,11 +91,7 @@ export class AddComplaint implements OnInit {
     ],
   };
 
-  regions: LookupItem[] = [
-    { Value: 'ri', Name: 'الرياض' },
-    { Value: 'jd', Name: 'جدة' },
-    { Value: 'dm', Name: 'الدمام' },
-  ];
+  regions: LookupItem[] = [];
 
   get subClassifications(): LookupItem[] {
     const main = this.form.mainClassificationId;
