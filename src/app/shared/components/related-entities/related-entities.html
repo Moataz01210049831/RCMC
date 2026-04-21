@@ -14,9 +14,10 @@
           <span class="entity-number" [attr.id]="'related-entity-number-' + entity.id">{{ entity.number }}</span>
         </div>
         <button class="tab-arrow" [attr.id]="'related-entity-tab-arrow-' + entity.id">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+          <svg [attr.id]="'related-entity-tab-arrow-icon-' + entity.id"
+            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2">
-            <polyline points="15 18 9 12 15 6"/>
+            <polyline [attr.id]="'related-entity-tab-arrow-polyline-' + entity.id" points="15 18 9 12 15 6"/>
           </svg>
         </button>
       </div>
@@ -53,9 +54,10 @@
             <span class="service-title" [attr.id]="'related-service-title-' + card.titleKey">{{ card.titleKey | translate }}</span>
             <span class="service-count" [attr.id]="'related-service-count-' + card.titleKey">{{ card.count }}</span>
           </div>
-          <svg class="title-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+          <svg class="title-arrow" [attr.id]="'related-service-title-arrow-' + card.titleKey"
+            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2">
-            <polyline points="15 18 9 12 15 6"/>
+            <polyline [attr.id]="'related-service-title-arrow-polyline-' + card.titleKey" points="15 18 9 12 15 6"/>
           </svg>
         </div>
 
@@ -67,7 +69,7 @@
             <div class="service-item" [attr.id]="'related-service-item-' + item.code">
               <span class="item-code" [attr.id]="'related-service-item-code-' + item.code">{{ item.code }}</span>
               <span class="item-status" [attr.id]="'related-service-item-status-' + item.code">
-                <span class="status-dot"></span>
+                <span class="status-dot" [attr.id]="'related-service-item-status-dot-' + item.code"></span>
                 {{ item.statusKey | translate }}
               </span>
             </div>
