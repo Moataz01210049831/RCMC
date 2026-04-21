@@ -181,6 +181,7 @@
     "TEXT_CONTENT_PLACEHOLDER": "Text",
     "DATE": "Date",
     "DATE_PLACEHOLDER": "DD/MM/YYYY",
+    "DATE_EXCEEDS_TODAY": "Date must not exceed today",
     "KEY_ADDRESS": "Key address",
     "UPLOAD_ATTACHMENTS": "Upload Attachments",
     "UPLOAD_HINT": "Max file size is 2MB. Supported formats: jpg, png, pdf.",

@@ -6,6 +6,7 @@ import { LookupItem } from '../models/lookup.model';
 import { ApiResponse } from '../models/api-response.model';
 import { ComplaintRequirement } from '../models/complaint-requirement.model';
 import { DUMMY_CITIES, DUMMY_COUNTRIES, DUMMY_REGIONS } from '../dummy-data/lookup.dummy';
+import { DUMMY_COMPLAINT_REQUIREMENTS } from '../dummy-data/complaint-requirement.dummy';
 
 export type { LookupItem };
 
@@ -61,6 +62,8 @@ export class LookupService {
   }
 
   getComplaintRequirements(subCategoryId: string) {
+    const useDummy = true;
+    if (useDummy) return of(DUMMY_COMPLAINT_REQUIREMENTS);
     const params = new HttpParams()
       .set('lookupId', 'requierment')
       .set('filterByLookupId', subCategoryId);

@@ -181,6 +181,7 @@
     "TEXT_CONTENT_PLACEHOLDER": "محتوى نصي",
     "DATE": "التاريخ",
     "DATE_PLACEHOLDER": "يوم/شهر/سنه",
+    "DATE_EXCEEDS_TODAY": "يجب أن لا يتجاوز تاريخ اليوم",
     "KEY_ADDRESS": "عنوان المفتاح",
     "UPLOAD_ATTACHMENTS": "رفع المرفقات",
     "UPLOAD_HINT": "الحد الأقصى لحجم الملف المسموح به هو 2 ميجابايت، وتشمل الصيغ المدعومة jpg، png، و pdf.",

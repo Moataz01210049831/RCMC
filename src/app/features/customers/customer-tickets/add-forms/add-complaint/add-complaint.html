@@ -80,7 +80,23 @@
         </app-searchable-select>
       </div>
       @for (req of form.requirements; track req.Id) {
-        @if (req.Type === 'file') {
+        @if (req.Type === 'radio') {
+          <div class="field-group full toggle-group" [attr.id]="'add-complaint-field-req-' + req.Id">
+            <label class="toggle" [attr.id]="'add-complaint-label-req-' + req.Id">
+              <input type="checkbox"
+                [attr.id]="'add-complaint-input-req-' + req.Id"
+                [checked]="req.Value === req.Options[0]"
+                (change)="onRadioToggle(req, $event)"
+                [disabled]="req.ReadOnly" />
+              <span class="toggle-track" [attr.id]="'add-complaint-toggle-track-' + req.Id">
+                <span class="toggle-thumb" [attr.id]="'add-complaint-toggle-thumb-' + req.Id"></span>
+              </span>
+              <span class="toggle-label" [attr.id]="'add-complaint-toggle-text-' + req.Id">
+                {{ req.Name }} @if (req.Required) { <span class="req">*</span> }
+              </span>
+            </label>
+          </div>
+        } @else if (req.Type === 'file') {
           <div class="field-group full" [attr.id]="'add-complaint-field-req-' + req.Id">
             <label [attr.id]="'add-complaint-label-req-' + req.Id">
               {{ req.Name }} @if (req.Required) { <span class="req">*</span> }
@@ -107,30 +123,20 @@
                   }
                 </select>
               }
-              @case ('radio') {
-                <div class="radio-group" [attr.id]="'add-complaint-radio-group-' + req.Id">
-                  @for (opt of req.Options; track opt; let i = $index) {
-                    <label class="radio-label" [attr.id]="'add-complaint-radio-label-' + req.Id + '-' + i">
-                      <input type="radio"
-                        [attr.id]="'add-complaint-radio-' + req.Id + '-' + i"
-                        [name]="'req-' + req.Id"
-                        [(ngModel)]="req.Value"
-                        [value]="opt"
-                        [disabled]="req.ReadOnly" />
-                      <span class="radio-custom" [class.checked]="req.Value === opt"
-                        [attr.id]="'add-complaint-radio-custom-' + req.Id + '-' + i"></span>
-                      {{ opt }}
-                    </label>
-                  }
-                </div>
-              }
               @case ('date') {
                 <input [attr.id]="'add-complaint-input-req-' + req.Id"
                   type="text"
                   [name]="'req-' + req.Id"
                   [(ngModel)]="req.Value"
+                  [placeholder]="'TICKETS.DATE_PLACEHOLDER' | translate"
                   [readonly]="req.ReadOnly"
+                  [attr.max]="today"
                   onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" />
+                @if (req.Value && req.Value > today) {
+                  <span class="error" [attr.id]="'add-complaint-error-req-' + req.Id">
+                    {{ 'TICKETS.DATE_EXCEEDS_TODAY' | translate }}
+                  </span>
+                }
               }
               @default {
                 <input [attr.id]="'add-complaint-input-req-' + req.Id"

@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  useDummyData: false,
+  useDummyData: true,
   apiUrl: 'https://portalrcmc.2p.com.sa/MC-api/api',
 };

@@ -20,6 +20,8 @@ export class AddComplaint implements OnInit {
 
   currentStep = signal<1 | 2 | 3>(1);
 
+  readonly today = new Date().toISOString().split('T')[0];
+
   constructor(private lookupService: LookupService) {}
 
   ngOnInit() {
@@ -99,14 +101,25 @@ export class AddComplaint implements OnInit {
       next: data => {
         this.form.requirements = data.map(r => ({
           ...r,
-          Value: r.Type === 'file' ? [] : (r.Value ?? ''),
+          Value: this.initialRequirementValue(r),
         }));
       },
     });
   }
 
+  private initialRequirementValue(r: ComplaintRequirement): any {
+    if (r.Type === 'file') return [];
+    if (r.Type === 'radio') return r.Options[1] ?? '';
+    return r.Value ?? '';
+  }
+
   onRequirementFilesChange(req: ComplaintRequirement, files: File[]) {
     req.Value = files;
+  }
+
+  onRadioToggle(req: ComplaintRequirement, event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    req.Value = checked ? req.Options[0] : req.Options[1];
   }
 
   // Step 3 options
@@ -130,6 +143,7 @@ export class AddComplaint implements OnInit {
 
   private isRequirementFilled(r: ComplaintRequirement): boolean {
     if (r.Type === 'file') return Array.isArray(r.Value) && r.Value.length > 0;
+    if (r.Type === 'date') return !!r.Value && r.Value <= this.today;
     return r.Value !== null && r.Value !== undefined && r.Value !== '';
   }
 
