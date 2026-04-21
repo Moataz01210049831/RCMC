@@ -1,3 +1,5 @@
+import { ComplaintRequirement } from './complaint-requirement.model';
+
 export interface AddComplaintForm {
   serviceProviderId:    string | null;
   mainServiceId:        string | null;
@@ -6,10 +8,7 @@ export interface AddComplaintForm {
   subClassificationId:  string | null;
   complaintCategory:    string;
   regionId:             string | null;
-  textContent:          string;
-  date:                 string;
-  keyAddress:           boolean;
-  classificationAttachments: File[];
+  requirements:         ComplaintRequirement[];
   relatedTickets:       string[];
   description:          string;
   attachments:          File[];

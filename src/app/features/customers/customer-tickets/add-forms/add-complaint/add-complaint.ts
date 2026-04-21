@@ -6,6 +6,7 @@ import { SearchableSelect } from '../../../../../shared/components/searchable-se
 import { FileUpload } from '../../../../../shared/components/file-upload/file-upload';
 import { MultiSelect } from '../../../../../shared/components/multi-select/multi-select';
 import { AddComplaintForm } from '../../../../../core/models/add-complaint.model';
+import { ComplaintRequirement } from '../../../../../core/models/complaint-requirement.model';
 
 @Component({
   selector: 'app-add-complaint',
@@ -41,10 +42,7 @@ export class AddComplaint implements OnInit {
     subClassificationId:  null,
     complaintCategory:    '',
     regionId:             null,
-    textContent:          '',
-    date:                 '',
-    keyAddress:           false,
-    classificationAttachments: [],
+    requirements:         [],
     relatedTickets:       [],
     description:          '',
     attachments:          [],
@@ -82,27 +80,10 @@ export class AddComplaint implements OnInit {
   subClassifications: LookupItem[] = [];
   regions: LookupItem[] = [];
 
-  // Return questions per sub-classification
-  private returnQuestionsBySubClass: Record<string, ('textContent' | 'keyAddress' | 'attachments')[]> = {
-    delay:      ['textContent', 'attachments'],
-    error:      ['textContent', 'keyAddress', 'attachments'],
-    rude:       ['textContent'],
-    unhelpful:  ['textContent', 'keyAddress'],
-  };
-
-  get visibleReturnQuestions(): Set<string> {
-    const sub = this.form.subClassificationId;
-    return new Set(sub ? (this.returnQuestionsBySubClass[sub] ?? []) : []);
-  }
-
-  get showTextContent(): boolean { return this.visibleReturnQuestions.has('textContent'); }
-  get showKeyAddress(): boolean { return this.visibleReturnQuestions.has('keyAddress'); }
-  get showAttachments(): boolean { return this.visibleReturnQuestions.has('attachments'); }
-
   onMainClassificationChange() {
     this.form.subClassificationId = null;
     this.subClassifications = [];
-    this.resetReturnQuestions();
+    this.form.requirements = [];
     const mainId = this.form.mainClassificationId;
     if (!mainId) return;
     this.lookupService.getFilteredLookup('complaintsubcategory', mainId).subscribe({
@@ -111,13 +92,21 @@ export class AddComplaint implements OnInit {
   }
 
   onSubClassificationChange() {
-    this.resetReturnQuestions();
+    this.form.requirements = [];
+    const subId = this.form.subClassificationId;
+    if (!subId) return;
+    this.lookupService.getComplaintRequirements(subId).subscribe({
+      next: data => {
+        this.form.requirements = data.map(r => ({
+          ...r,
+          Value: r.Type === 'file' ? [] : (r.Value ?? ''),
+        }));
+      },
+    });
   }
 
-  private resetReturnQuestions() {
-    this.form.textContent = '';
-    this.form.keyAddress = false;
-    this.form.classificationAttachments = [];
+  onRequirementFilesChange(req: ComplaintRequirement, files: File[]) {
+    req.Value = files;
   }
 
   // Step 3 options
@@ -135,7 +124,13 @@ export class AddComplaint implements OnInit {
   }
 
   get step2Valid(): boolean {
-    return !!this.form.mainClassificationId && !!this.form.subClassificationId && !!this.form.regionId;
+    if (!this.form.mainClassificationId || !this.form.subClassificationId || !this.form.regionId) return false;
+    return this.form.requirements.every(r => !r.Required || this.isRequirementFilled(r));
+  }
+
+  private isRequirementFilled(r: ComplaintRequirement): boolean {
+    if (r.Type === 'file') return Array.isArray(r.Value) && r.Value.length > 0;
+    return r.Value !== null && r.Value !== undefined && r.Value !== '';
   }
 
   steps = [

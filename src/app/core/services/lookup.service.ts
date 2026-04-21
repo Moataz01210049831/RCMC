@@ -4,6 +4,7 @@ import { map, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { LookupItem } from '../models/lookup.model';
 import { ApiResponse } from '../models/api-response.model';
+import { ComplaintRequirement } from '../models/complaint-requirement.model';
 import { DUMMY_CITIES, DUMMY_COUNTRIES, DUMMY_REGIONS } from '../dummy-data/lookup.dummy';
 
 export type { LookupItem };
@@ -56,6 +57,15 @@ export class LookupService {
       .set('filterByLookupId', filterByLookupId);
     return this.http
       .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/filter`, { params })
+      .pipe(map(res => res.Data ?? []));
+  }
+
+  getComplaintRequirements(subCategoryId: string) {
+    const params = new HttpParams()
+      .set('lookupId', 'requierment')
+      .set('filterByLookupId', subCategoryId);
+    return this.http
+      .get<ApiResponse<ComplaintRequirement[]>>(`${this.apiUrl}/Lookups/filter`, { params })
       .pipe(map(res => res.Data ?? []));
   }
 }
