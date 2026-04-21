@@ -125,13 +125,13 @@
               }
               @case ('date') {
                 <input [attr.id]="'add-complaint-input-req-' + req.Id"
-                  type="text"
+                  type="date"
                   [name]="'req-' + req.Id"
                   [(ngModel)]="req.Value"
-                  [placeholder]="'TICKETS.DATE_PLACEHOLDER' | translate"
                   [readonly]="req.ReadOnly"
                   [attr.max]="today"
-                  onfocus="this.type='date'" onblur="if(!this.value)this.type='text'" />
+                  onkeydown="event.preventDefault()"
+                  onclick="this.showPicker && this.showPicker()" />
                 @if (req.Value && req.Value > today) {
                   <span class="error" [attr.id]="'add-complaint-error-req-' + req.Id">
                     {{ 'TICKETS.DATE_EXCEEDS_TODAY' | translate }}
