@@ -10,7 +10,7 @@
 
 | Package | Version |
 | --- | --- |
-| **Angular** (core, common, compiler, forms, router, platform-browser) | `20.2.x` |
+| **Angular** (core, common, compiler, forms, router, platform-browser) | `20.2.2` |
 | **Angular CLI** | `20.2.2` |
 | **Angular Build** | `20.2.2` |
 | **Angular Compiler-CLI** | `20.2.0` |

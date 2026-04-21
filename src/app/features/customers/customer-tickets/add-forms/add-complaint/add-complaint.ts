@@ -79,24 +79,8 @@ export class AddComplaint implements OnInit {
 
   // Step 2 options
   mainClassifications: LookupItem[] = [];
-
-  private subByMain: Record<string, LookupItem[]> = {
-    service:  [
-      { Value: 'delay',  Name: 'تأخر في الإنجاز' },
-      { Value: 'error',  Name: 'خطأ في النتيجة' },
-    ],
-    employee: [
-      { Value: 'rude',       Name: 'تعامل غير لائق' },
-      { Value: 'unhelpful',  Name: 'عدم تقديم المساعدة' },
-    ],
-  };
-
+  subClassifications: LookupItem[] = [];
   regions: LookupItem[] = [];
-
-  get subClassifications(): LookupItem[] {
-    const main = this.form.mainClassificationId;
-    return main ? (this.subByMain[main] ?? []) : [];
-  }
 
   // Return questions per sub-classification
   private returnQuestionsBySubClass: Record<string, ('textContent' | 'keyAddress' | 'attachments')[]> = {
@@ -117,7 +101,13 @@ export class AddComplaint implements OnInit {
 
   onMainClassificationChange() {
     this.form.subClassificationId = null;
+    this.subClassifications = [];
     this.resetReturnQuestions();
+    const mainId = this.form.mainClassificationId;
+    if (!mainId) return;
+    this.lookupService.getFilteredLookup('complaintsubcategory', mainId).subscribe({
+      next: data => (this.subClassifications = data),
+    });
   }
 
   onSubClassificationChange() {
