@@ -68,11 +68,10 @@
       </div>
       <div id="add-complaint-field-category" class="field-group">
         <label id="add-complaint-label-category">{{ 'TICKETS.COMPLAINT_CATEGORY' | translate }}</label>
-        <app-searchable-select id="add-complaint-select-category" name="complaintCategory"
+        <input id="add-complaint-input-category" type="text" name="complaintCategory"
           [(ngModel)]="form.complaintCategory"
-          [items]="complaintCategories"
-          [placeholder]="'TICKETS.COMPLAINT_CATEGORY_PLACEHOLDER' | translate">
-        </app-searchable-select>
+          [placeholder]="'TICKETS.COMPLAINT_CATEGORY_PLACEHOLDER' | translate"
+          disabled />
       </div>
       <div id="add-complaint-field-region" class="field-group">
         <label id="add-complaint-label-region">{{ 'CUSTOMER.REGION' | translate }} <span class="req">*</span></label>
