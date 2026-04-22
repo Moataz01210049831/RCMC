@@ -6,7 +6,7 @@ export interface AddComplaintForm {
   subServiceId:         string | null;
   mainClassificationId: string | null;
   subClassificationId:  string | null;
-  complaintCategory:    string;
+  complaintCategory:    string | null;
   regionId:             string | null;
   requirements:         ComplaintRequirement[];
   relatedTickets:       string[];

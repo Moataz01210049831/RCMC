@@ -5,7 +5,7 @@ import { environment } from '../../../environments/environment';
 import { LookupItem } from '../models/lookup.model';
 import { ApiResponse } from '../models/api-response.model';
 import { ComplaintRequirement } from '../models/complaint-requirement.model';
-import { DUMMY_CITIES, DUMMY_COUNTRIES, DUMMY_REGIONS } from '../dummy-data/lookup.dummy';
+import { DUMMY_CITIES, DUMMY_COMPLAINT_CATEGORIES, DUMMY_COUNTRIES, DUMMY_REGIONS } from '../dummy-data/lookup.dummy';
 import { DUMMY_COMPLAINT_REQUIREMENTS } from '../dummy-data/complaint-requirement.dummy';
 
 export type { LookupItem };
@@ -50,6 +50,14 @@ export class LookupService {
     return this.http
       .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/complaintmaincategory`)
       .pipe(map(res => res.Data ?? []));
+  }
+
+  getComplaintCategories() {
+    return environment.useDummyData
+      ? of(DUMMY_COMPLAINT_CATEGORIES)
+      : this.http
+          .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/complaintcategory`)
+          .pipe(map(res => res.Data ?? []));
   }
 
   getFilteredLookup(lookupId: string, filterByLookupId: string) {

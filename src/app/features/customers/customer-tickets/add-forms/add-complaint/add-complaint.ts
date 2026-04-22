@@ -34,6 +34,9 @@ export class AddComplaint implements OnInit {
     this.lookupService.getComplaintMainCategories().subscribe({
       next: data => (this.mainClassifications = data),
     });
+    this.lookupService.getComplaintCategories().subscribe({
+      next: data => (this.complaintCategories = data),
+    });
   }
 
   form: AddComplaintForm = {
@@ -42,7 +45,7 @@ export class AddComplaint implements OnInit {
     subServiceId:         null,
     mainClassificationId: null,
     subClassificationId:  null,
-    complaintCategory:    '',
+    complaintCategory:    null,
     regionId:             null,
     requirements:         [],
     relatedTickets:       [],
@@ -80,6 +83,7 @@ export class AddComplaint implements OnInit {
   // Step 2 options
   mainClassifications: LookupItem[] = [];
   subClassifications: LookupItem[] = [];
+  complaintCategories: LookupItem[] = [];
   regions: LookupItem[] = [];
 
   onMainClassificationChange() {
