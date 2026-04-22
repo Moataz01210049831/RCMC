@@ -37,15 +37,6 @@ export const DUMMY_CITIES: LookupItem[] = [
   { Name: 'جازان',           Value: 'city-18' },
 ];
 
-export const DUMMY_COMPLAINT_CATEGORIES: LookupItem[] = [
-  { Name: 'جودة الخدمة',           Value: 'category-01' },
-  { Name: 'تأخر في تقديم الخدمة',  Value: 'category-02' },
-  { Name: 'رسوم غير صحيحة',        Value: 'category-03' },
-  { Name: 'سوء المعاملة',          Value: 'category-04' },
-  { Name: 'عدم توفر الخدمة',       Value: 'category-05' },
-  { Name: 'أخرى',                  Value: 'category-06' },
-];
-
 export const DUMMY_COUNTRIES: LookupItem[] = [
   { Name: 'السعودية',          Value: 'country-01' },
   { Name: 'مصر',               Value: 'country-02' },

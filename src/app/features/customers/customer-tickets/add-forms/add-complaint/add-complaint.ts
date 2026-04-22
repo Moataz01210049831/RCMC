@@ -34,7 +34,7 @@ export class AddComplaint implements OnInit {
     this.lookupService.getComplaintMainCategories().subscribe({
       next: data => (this.mainClassifications = data),
     });
-    this.lookupService.getComplaintCategories().subscribe({
+    this.lookupService.getSubCategoryClass().subscribe({
       next: data => (this.complaintCategories = data),
     });
   }
