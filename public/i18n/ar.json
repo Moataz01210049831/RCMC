@@ -214,5 +214,14 @@
   "LANG": {
     "AR": "العربية",
     "EN": "English"
+  },
+  "PAGES": {
+    "LOGIN": "تسجيل الدخول",
+    "DASHBOARD": "الرئيسية",
+    "ADD_CUSTOMER": "اضافه عميل",
+    "EDIT_CUSTOMER": "تعديل بيانات العميل",
+    "SEARCH_RESULTS": "نتائج البحث",
+    "CUSTOMER_DETAILS": "بيانات العميل",
+    "CUSTOMER_TICKETS": "طلبات العميل"
   }
 }

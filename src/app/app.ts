@@ -1,7 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Title } from '@angular/platform-browser';
-import { AppConfig } from './core/config/app-config';
 import { LanguageService } from './core/services/language.service';
 
 @Component({
@@ -10,11 +8,9 @@ import { LanguageService } from './core/services/language.service';
   template: '<router-outlet />',
 })
 export class App implements OnInit {
-  private title = inject(Title);
   private languageService = inject(LanguageService);
 
   ngOnInit() {
     this.languageService.init();
-    this.title.setTitle(AppConfig.browserTitle);
   }
 }

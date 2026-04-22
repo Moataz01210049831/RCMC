@@ -214,5 +214,14 @@
   "LANG": {
     "AR": "العربية",
     "EN": "English"
+  },
+  "PAGES": {
+    "LOGIN": "Login",
+    "DASHBOARD": "Dashboard",
+    "ADD_CUSTOMER": "Add Customer",
+    "EDIT_CUSTOMER": "Edit Customer",
+    "SEARCH_RESULTS": "Search Results",
+    "CUSTOMER_DETAILS": "Customer Details",
+    "CUSTOMER_TICKETS": "Customer Tickets"
   }
 }
