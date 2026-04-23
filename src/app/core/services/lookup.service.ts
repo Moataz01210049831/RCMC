@@ -54,7 +54,7 @@ export class LookupService {
 
   getSubCategoryClass() {
     return this.http
-      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/subcategoryclass`)
+      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/complaintsubcategoryclass`)
       .pipe(map(res => res.Data ?? []));
   }
 
