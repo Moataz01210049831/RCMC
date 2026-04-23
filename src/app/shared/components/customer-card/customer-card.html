@@ -4,12 +4,6 @@
   <div id="customer-card-top" class="card-top">
     <h2 id="customer-card-title" class="card-title">{{ 'CUSTOMER.CUSTOMER_DATA' | translate }}</h2>
     <div id="customer-card-actions" class="card-actions">
-      <button id="customer-card-btn-add-entity" class="btn-add-entity" (click)="addEntity.emit()">
-        <svg id="customer-card-add-entity-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line id="customer-card-add-entity-icon-v" x1="12" y1="5" x2="12" y2="19"/><line id="customer-card-add-entity-icon-h" x1="5" y1="12" x2="19" y2="12"/>
-        </svg>
-        {{ 'CUSTOMER.ADD_BUSINESS_ENTITY' | translate }}
-      </button>
       <button id="customer-card-btn-edit" class="btn-edit" (click)="edit.emit()">
         <svg id="customer-card-edit-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path id="customer-card-edit-icon-frame" d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
@@ -17,6 +11,13 @@
         </svg>
         {{ 'CUSTOMER.EDIT_DATA' | translate }}
       </button>
+      <button id="customer-card-btn-add-entity" class="btn-add-entity" (click)="addEntity.emit()">
+        <svg id="customer-card-add-entity-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line id="customer-card-add-entity-icon-v" x1="12" y1="5" x2="12" y2="19"/><line id="customer-card-add-entity-icon-h" x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+        {{ 'CUSTOMER.ADD_BUSINESS_ENTITY' | translate }}
+      </button>
+      
     </div>
   </div>
 
