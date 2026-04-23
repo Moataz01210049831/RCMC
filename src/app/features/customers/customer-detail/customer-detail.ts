@@ -18,6 +18,8 @@ const GENDER_KEYS: Record<number, string> = { 1: 'CUSTOMER.MALE', 2: 'CUSTOMER.F
 })
 export class CustomerDetail implements OnInit {
   customer = signal<CustomerCardData | null>(null);
+  identityTypeId = signal<number>(0);
+  nationalityIdNum = signal<number>(0);
 
   constructor(
     private route: ActivatedRoute,
@@ -55,6 +57,8 @@ export class CustomerDetail implements OnInit {
         city:        resolveName(cities, contact.cityId),
         CreatedOn:   contact.CreatedOn ? contact.CreatedOn.split('T')[0] : '',
       });
+      this.identityTypeId.set(contact.identityType ?? 0);
+      this.nationalityIdNum.set(Number(contact.nationalityId) || 0);
     });
   }
 

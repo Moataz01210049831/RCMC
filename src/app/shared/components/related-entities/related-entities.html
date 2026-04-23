@@ -4,13 +4,13 @@
 
   <!-- Entity tabs -->
   <div id="related-entities-tabs" class="entity-tabs">
-    @for (entity of entities; track entity.id) {
+    @for (entity of entities(); track entity.id) {
       <div class="entity-tab"
         [attr.id]="'related-entity-tab-' + entity.id"
         [class.active]="selectedEntityId() === entity.id"
         (click)="selectEntity(entity.id)">
         <div class="entity-text" [attr.id]="'related-entity-text-' + entity.id">
-          <span class="entity-name" [attr.id]="'related-entity-name-' + entity.id">{{ entity.nameKey | translate }}</span>
+          <span class="entity-name" [attr.id]="'related-entity-name-' + entity.id">{{ entityName(entity) }}</span>
           <span class="entity-number" [attr.id]="'related-entity-number-' + entity.id">{{ entity.number }}</span>
         </div>
         <button class="tab-arrow" [attr.id]="'related-entity-tab-arrow-' + entity.id">

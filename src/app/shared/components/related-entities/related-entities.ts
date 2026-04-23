@@ -1,6 +1,7 @@
-import { Component, signal, computed, input } from '@angular/core';
+import { Component, computed, effect, input, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { CommercialRegisterService } from '../../../core/services/commercial-register.service';
 
 interface ServiceItem {
   code: string;
@@ -15,9 +16,11 @@ interface ServiceCard {
 }
 
 interface Entity {
-  id: number;
-  nameKey: string;
+  id: string;
+  nameAr: string;
+  nameEn: string;
   number: string;
+  isPerson: boolean;
   serviceCards: ServiceCard[];
 }
 
@@ -28,6 +31,13 @@ const TITLE_TO_TYPE: Record<string, string> = {
   'ENTITIES.SUGGESTIONS': 'suggestions',
 };
 
+const EMPTY_SERVICE_CARDS: ServiceCard[] = [
+  { titleKey: 'ENTITIES.REQUESTS',    count: 0, descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [] },
+  { titleKey: 'ENTITIES.INQUIRIES',   count: 0, descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [] },
+  { titleKey: 'ENTITIES.SUGGESTIONS', count: 0, descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [] },
+  { titleKey: 'ENTITIES.COMPLAINTS',  count: 0, descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [] },
+];
+
 @Component({
   selector: 'app-related-entities',
   imports: [TranslateModule],
@@ -35,70 +45,68 @@ const TITLE_TO_TYPE: Record<string, string> = {
   styleUrl: './related-entities.scss',
 })
 export class RelatedEntities {
-  customerId = input<string>('');
-  selectedEntityId = signal(1);
+  customerId       = input<string>('');
+  identityNumber   = input<string>('');
+  identityTypeId   = input<number>(0);
+  nationalityId    = input<number>(0);
 
-  constructor(private router: Router) {}
+  entities = signal<Entity[]>([]);
+  selectedEntityId = signal<string>('');
+
+  constructor(
+    private router: Router,
+    private commercialRegister: CommercialRegisterService,
+    private translate: TranslateService,
+  ) {
+    effect(() => {
+      const idNo = this.identityNumber();
+      if (!idNo) return;
+      this.loadRelated(idNo, this.identityTypeId(), this.nationalityId());
+    });
+  }
+
+  private loadRelated(identifierNo: string, identifierTypeId: number, nationalityId: number) {
+    this.commercialRegister
+      .getPersonRelated({
+        IdentifierTypeID: identifierTypeId,
+        IdentifierNo: identifierNo,
+        NationalityID: nationalityId,
+        Limit: 0,
+        Offset: 0,
+      })
+      .subscribe({
+        next: data => {
+          if (!data) return;
+          const businessEntities: Entity[] = (data.RelatedCRList ?? []).map(cr => ({
+            id: cr.CrNumber,
+            nameAr: cr.EntityFullNameAr,
+            nameEn: cr.EntityFullNameEn,
+            number: cr.CrNumber,
+            isPerson: false,
+            serviceCards: EMPTY_SERVICE_CARDS,
+          }));
+          this.entities.set(businessEntities);
+          this.selectedEntityId.set(businessEntities[0]?.id ?? '');
+        },
+      });
+  }
+
+  entityName(entity: Entity): string {
+    return this.translate.currentLang === 'en' ? entity.nameEn : entity.nameAr;
+  }
+
+  activeServiceCards = computed(() =>
+    this.entities().find(e => e.id === this.selectedEntityId())?.serviceCards ?? []
+  );
+
+  selectEntity(id: string) {
+    this.selectedEntityId.set(id);
+  }
 
   openTickets(titleKey: string) {
     const type = TITLE_TO_TYPE[titleKey];
     if (type && this.customerId()) {
       this.router.navigate(['/customers', this.customerId(), 'tickets', type]);
     }
-  }
-
-  entities: Entity[] = [
-    {
-      id: 1,
-      nameKey: 'ENTITIES.INDIVIDUAL',
-      number: '1234567891',
-      serviceCards: [
-        { titleKey: 'ENTITIES.REQUESTS',     count: 5,  descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [{ code: 'A1111111', statusKey: 'STATUS.NEW' }, { code: 'A1111112', statusKey: 'STATUS.NEW' }] },
-        { titleKey: 'ENTITIES.INQUIRIES',    count: 3,  descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [{ code: 'A1111113', statusKey: 'STATUS.CLOSED' }] },
-        { titleKey: 'ENTITIES.SUGGESTIONS',  count: 1,  descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [{ code: 'A1111114', statusKey: 'STATUS.IN_PROGRESS' }] },
-        { titleKey: 'ENTITIES.COMPLAINTS',   count: 2,  descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [{ code: 'A1111115', statusKey: 'STATUS.REOPENED' }, { code: 'A1111116', statusKey: 'STATUS.REOPENED' }] },
-      ],
-    },
-    {
-      id: 2,
-      nameKey: 'ENTITIES.BUSINESS_NAME',
-      number: '34567891234',
-      serviceCards: [
-        { titleKey: 'ENTITIES.REQUESTS',     count: 12, descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [{ code: 'A8373482', statusKey: 'STATUS.REOPENED' }, { code: 'A8373483', statusKey: 'STATUS.REOPENED' }, { code: 'A8373484', statusKey: 'STATUS.REOPENED' }] },
-        { titleKey: 'ENTITIES.INQUIRIES',    count: 12, descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [{ code: 'A8373482', statusKey: 'STATUS.REOPENED' }, { code: 'A8373483', statusKey: 'STATUS.REOPENED' }, { code: 'A8373484', statusKey: 'STATUS.REOPENED' }] },
-        { titleKey: 'ENTITIES.SUGGESTIONS',  count: 12, descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [{ code: 'A8373482', statusKey: 'STATUS.REOPENED' }, { code: 'A8373483', statusKey: 'STATUS.REOPENED' }, { code: 'A8373484', statusKey: 'STATUS.REOPENED' }] },
-        { titleKey: 'ENTITIES.COMPLAINTS',   count: 12, descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [{ code: 'A8373482', statusKey: 'STATUS.REOPENED' }, { code: 'A8373483', statusKey: 'STATUS.REOPENED' }, { code: 'A8373484', statusKey: 'STATUS.REOPENED' }] },
-      ],
-    },
-    {
-      id: 3,
-      nameKey: 'ENTITIES.BUSINESS_NAME',
-      number: '34567891234',
-      serviceCards: [
-        { titleKey: 'ENTITIES.REQUESTS',     count: 8,  descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [{ code: 'B1234567', statusKey: 'STATUS.IN_PROGRESS' }, { code: 'B1234568', statusKey: 'STATUS.IN_PROGRESS' }] },
-        { titleKey: 'ENTITIES.INQUIRIES',    count: 4,  descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [{ code: 'B1234569', statusKey: 'STATUS.CLOSED' }] },
-        { titleKey: 'ENTITIES.SUGGESTIONS',  count: 0,  descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [] },
-        { titleKey: 'ENTITIES.COMPLAINTS',   count: 6,  descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [{ code: 'B1234570', statusKey: 'STATUS.REOPENED' }, { code: 'B1234571', statusKey: 'STATUS.NEW' }] },
-      ],
-    },
-    {
-      id: 4,
-      nameKey: 'ENTITIES.BUSINESS_NAME',
-      number: '34567891234',
-      serviceCards: [
-        { titleKey: 'ENTITIES.REQUESTS',     count: 20, descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [{ code: 'C9999991', statusKey: 'STATUS.NEW' }, { code: 'C9999992', statusKey: 'STATUS.REOPENED' }, { code: 'C9999993', statusKey: 'STATUS.CLOSED' }] },
-        { titleKey: 'ENTITIES.INQUIRIES',    count: 7,  descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [{ code: 'C9999994', statusKey: 'STATUS.IN_PROGRESS' }] },
-        { titleKey: 'ENTITIES.SUGGESTIONS',  count: 3,  descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [{ code: 'C9999995', statusKey: 'STATUS.NEW' }] },
-        { titleKey: 'ENTITIES.COMPLAINTS',   count: 9,  descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [{ code: 'C9999996', statusKey: 'STATUS.REOPENED' }, { code: 'C9999997', statusKey: 'STATUS.REOPENED' }] },
-      ],
-    },
-  ];
-
-  activeServiceCards = computed(() =>
-    this.entities.find(e => e.id === this.selectedEntityId())?.serviceCards ?? []
-  );
-
-  selectEntity(id: number) {
-    this.selectedEntityId.set(id);
   }
 }

@@ -7,7 +7,11 @@
       (addEntity)="addEntity()"
     />
 
-    <app-related-entities [customerId]="c.id" />
+    <app-related-entities
+      [customerId]="c.id"
+      [identityNumber]="c.idNumber"
+      [identityTypeId]="identityTypeId()"
+      [nationalityId]="nationalityIdNum()" />
 
     <!-- <button id="customer-detail-btn-back" class="btn-back" (click)="goBack()">
       {{ 'COMMON.BACK' | translate }}
