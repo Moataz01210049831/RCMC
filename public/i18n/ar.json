@@ -118,6 +118,13 @@
     "PASSPORT": "جواز سفر",
     "OTHER": "أخرى"
   },
+  "ENTITY": {
+    "COMPANY_NAME": "اسم الشركة",
+    "ENTITY_TYPE": "نوع الكيان",
+    "CR_NUMBER": "رقم السجل التجاري",
+    "UNIFIED_NUMBER": "الرقم الموحد",
+    "PHONE": "رقم الهاتف"
+  },
   "ENTITIES": {
     "RELATED_ENTITIES": "الكيانات المرتبطة",
     "REQUESTS": "الطلبات",

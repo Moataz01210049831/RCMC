@@ -12,3 +12,11 @@ export interface CustomerCardData {
   createdBy?: string;
   updatedAt?: string;
 }
+
+export interface EntityCardData {
+  companyName: string;
+  entityType: string;
+  crNumber: string;
+  unifiedNumber: string;
+  phone: string;
+}

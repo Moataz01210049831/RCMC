@@ -118,6 +118,13 @@
     "PASSPORT": "Passport",
     "OTHER": "Other"
   },
+  "ENTITY": {
+    "COMPANY_NAME": "Company Name",
+    "ENTITY_TYPE": "Entity Type",
+    "CR_NUMBER": "CR Number",
+    "UNIFIED_NUMBER": "Unified Number",
+    "PHONE": "Phone Number"
+  },
   "ENTITIES": {
     "RELATED_ENTITIES": "Related Entities",
     "REQUESTS": "Requests",

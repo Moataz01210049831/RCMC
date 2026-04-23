@@ -1,7 +1,9 @@
-import { Component, computed, effect, input, signal } from '@angular/core';
+import { Component, computed, effect, EventEmitter, input, Output, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommercialRegisterService } from '../../../core/services/commercial-register.service';
+import { SelectedEntityService } from '../../../core/services/selected-entity.service';
+import { EntityCardData } from '../../../core/models/customer-card.model';
 
 interface ServiceItem {
   code: string;
@@ -50,6 +52,8 @@ export class RelatedEntities {
   identityTypeId   = input<number>(0);
   nationalityId    = input<number>(0);
 
+  @Output() entitySelected = new EventEmitter<EntityCardData | null>();
+
   entities = signal<Entity[]>([]);
   selectedEntityId = signal<string>('');
 
@@ -57,6 +61,7 @@ export class RelatedEntities {
     private router: Router,
     private commercialRegister: CommercialRegisterService,
     private translate: TranslateService,
+    private selectedEntityService: SelectedEntityService,
   ) {
     effect(() => {
       const idNo = this.identityNumber();
@@ -77,6 +82,8 @@ export class RelatedEntities {
       .subscribe({
         next: data => {
           if (!data) return;
+          this.crListByNumber.clear();
+          (data.RelatedCRList ?? []).forEach(cr => this.crListByNumber.set(cr.CrNumber, cr));
           const businessEntities: Entity[] = (data.RelatedCRList ?? []).map(cr => ({
             id: cr.CrNumber,
             nameAr: cr.EntityFullNameAr,
@@ -86,9 +93,42 @@ export class RelatedEntities {
             serviceCards: EMPTY_SERVICE_CARDS,
           }));
           this.entities.set(businessEntities);
-          this.selectedEntityId.set(businessEntities[0]?.id ?? '');
+          const firstId = businessEntities[0]?.id ?? '';
+          this.selectedEntityId.set(firstId);
+          if (firstId) this.loadEntityDetails(firstId);
+          else this.publishEntity(null);
         },
       });
+  }
+
+  private crListByNumber = new Map<string, { CrNationalNumber: string; CrNumber: string }>();
+
+  private loadEntityDetails(crNumber: string) {
+    const cr = this.crListByNumber.get(crNumber);
+    if (!cr) return;
+    this.commercialRegister
+      .getDetails({ CRNationalNumber: cr.CrNationalNumber, CRNumber: cr.CrNumber })
+      .subscribe({
+        next: data => {
+          if (!data) {
+            this.publishEntity(null);
+            return;
+          }
+          const isEn = this.translate.currentLang === 'en';
+          this.publishEntity({
+            companyName:   isEn ? data.CrInformation.EntityFullNameEn : data.CrInformation.EntityFullNameAr,
+            entityType:    isEn ? data.CrInformation.CrStatus.CrStatusDescEn : data.CrInformation.CrStatus.CrStatusDescAr,
+            crNumber:      data.CrInformation.CrNumber,
+            unifiedNumber: data.CrInformation.CrNationalNumber,
+            phone:         data.ContactInformation?.PhoneNo ?? '',
+          });
+        },
+      });
+  }
+
+  private publishEntity(entity: EntityCardData | null) {
+    this.selectedEntityService.set(entity);
+    this.entitySelected.emit(entity);
   }
 
   entityName(entity: Entity): string {
@@ -101,6 +141,8 @@ export class RelatedEntities {
 
   selectEntity(id: string) {
     this.selectedEntityId.set(id);
+    if (id) this.loadEntityDetails(id);
+    else this.publishEntity(null);
   }
 
   openTickets(titleKey: string) {

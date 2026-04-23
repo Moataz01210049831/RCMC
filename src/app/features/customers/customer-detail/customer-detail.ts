@@ -6,6 +6,7 @@ import { CustomerCard } from '../../../shared/components/customer-card/customer-
 import { RelatedEntities } from '../../../shared/components/related-entities/related-entities';
 import { CustomerService } from '../../../core/services/customer.service';
 import { LookupService, LookupItem } from '../../../core/services/lookup.service';
+import { SelectedEntityService } from '../../../core/services/selected-entity.service';
 import { CustomerCardData } from '../../../core/models/customer-card.model';
 
 const GENDER_KEYS: Record<number, string> = { 1: 'CUSTOMER.MALE', 2: 'CUSTOMER.FEMALE' };
@@ -27,6 +28,7 @@ export class CustomerDetail implements OnInit {
     private customerService: CustomerService,
     private lookupService: LookupService,
     private translate: TranslateService,
+    public selectedEntityService: SelectedEntityService,
   ) {}
 
   ngOnInit() {

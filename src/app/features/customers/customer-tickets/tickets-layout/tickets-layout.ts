@@ -5,6 +5,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CustomerCard } from '../../../../shared/components/customer-card/customer-card';
 import { CustomerService } from '../../../../core/services/customer.service';
 import { LookupService, LookupItem } from '../../../../core/services/lookup.service';
+import { SelectedEntityService } from '../../../../core/services/selected-entity.service';
 import { CustomerCardData } from '../../../../core/models/customer-card.model';
 import {
   TABS,
@@ -63,6 +64,7 @@ export class TicketsLayout implements OnInit {
     private customerService: CustomerService,
     private lookupService: LookupService,
     private translate: TranslateService,
+    public selectedEntityService: SelectedEntityService,
   ) {}
 
   ngOnInit() {

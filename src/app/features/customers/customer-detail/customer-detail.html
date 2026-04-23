@@ -3,6 +3,7 @@
 
     <app-customer-card
       [customer]="c"
+      [entity]="selectedEntityService.entity()"
       (edit)="edit()"
       (addEntity)="addEntity()"
     />
