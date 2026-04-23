@@ -142,7 +142,7 @@ select {
   &:hover { background: $primary-dark; }
   &:disabled {
     opacity: 0.5;
-    cursor: not-allowed;
+    cursor: not-allowed !important;
     &:hover { background: $green; }
   }
 }
