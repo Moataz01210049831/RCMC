@@ -37,6 +37,14 @@ export class Dashboard {
     return false;
   }
 
+  get inputErrorKey(): string | null {
+    const q = this.searchText.trim();
+    if (!q) return null;
+    if (this.searchType === 'id' && !/^\d{10}$/.test(q)) return 'DASHBOARD.ID_INVALID';
+    if (this.searchType === 'phone' && !/^05\d{8}$/.test(q)) return 'DASHBOARD.PHONE_INVALID';
+    return null;
+  }
+
   search() {
     this.noResults.set(false);
     const q = this.searchText.trim();

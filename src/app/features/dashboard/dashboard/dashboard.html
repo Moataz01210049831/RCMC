@@ -27,8 +27,13 @@
     </div>
 
 
+    <!-- Validation error -->
+    @if (inputErrorKey) {
+      <p id="dashboard-input-error" class="no-results">{{ inputErrorKey | translate }}</p>
+    }
+
     <!-- No Results -->
-    @if (noResults()) {
+    @if (noResults() && !inputErrorKey) {
       <p id="dashboard-no-results" class="no-results">{{ 'DASHBOARD.NO_SEARCH_DATA' | translate }}</p>
     }
 
