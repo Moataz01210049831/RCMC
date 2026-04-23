@@ -25,10 +25,23 @@ export class Dashboard {
     private translate: TranslateService,
   ) {}
 
+  onSearchTextChange() {
+    if (this.noResults()) this.noResults.set(false);
+  }
+
+  get canSearch(): boolean {
+    const q = this.searchText.trim();
+    if (!q) return false;
+    if (this.searchType === 'id') return /^\d{10}$/.test(q);
+    if (this.searchType === 'phone') return /^05\d{8}$/.test(q);
+    return false;
+  }
+
   search() {
+    this.noResults.set(false);
     const q = this.searchText.trim();
     if (!q) {
-      this.noResults.set(true);
+      this.toast.error(this.translate.instant('DASHBOARD.SEARCH_REQUIRED'));
       return;
     }
 
@@ -41,7 +54,6 @@ export class Dashboard {
       return;
     }
 
-    this.noResults.set(false);
     this.searching.set(true);
 
     const request: SearchContactsRequest = { pageNumber: 1, pageSize: 1 };

@@ -4,7 +4,7 @@
     <!-- Card Header -->
     <div id="dashboard-card-header" class="card-header">
       <h2 id="dashboard-card-title" class="card-title">{{ 'DASHBOARD.MY_SERVICES' | translate }}</h2>
-      <button id="dashboard-close-btn" class="close-btn" [attr.aria-label]="'COMMON.CLOSE' | translate">&#x2715;</button>
+      <!-- <button id="dashboard-close-btn" class="close-btn" [attr.aria-label]="'COMMON.CLOSE' | translate">&#x2715;</button> -->
     </div>
 
     <!-- Search Row -->
@@ -15,7 +15,9 @@
           <circle id="dashboard-search-icon-circle" cx="11" cy="11" r="8"/>
           <line id="dashboard-search-icon-line" x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
-        <input id="dashboard-search-input" type="text" [(ngModel)]="searchText" [placeholder]="'DASHBOARD.SEARCH_PLACEHOLDER' | translate" />
+        <input id="dashboard-search-input" type="text" [(ngModel)]="searchText"
+          (ngModelChange)="onSearchTextChange()"
+          [placeholder]="'DASHBOARD.SEARCH_PLACEHOLDER' | translate" />
       </div>
 
       <select id="dashboard-search-type" [(ngModel)]="searchType">
@@ -32,7 +34,7 @@
 
     <!-- Actions -->
     <div id="dashboard-card-actions" class="card-actions">
-      <button id="dashboard-btn-search" class="btn-search" (click)="search()" [disabled]="searching()">
+      <button id="dashboard-btn-search" class="btn-search" (click)="search()" [disabled]="searching() || !canSearch">
         {{ searching() ? ('COMMON.SEARCHING' | translate) : ('COMMON.SEARCH' | translate) }}
       </button>
       <button id="dashboard-btn-add" class="btn-add" (click)="addClient()">{{ 'DASHBOARD.ADD_CUSTOMER' | translate }}</button>
