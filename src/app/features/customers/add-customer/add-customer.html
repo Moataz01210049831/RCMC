@@ -216,9 +216,13 @@
         </div>
 
         <div id="add-customer-field-email" class="field-group">
-          <label id="add-customer-label-email">{{ 'CUSTOMER.EMAIL' | translate }} <span class="req">*</span></label>
+          <label id="add-customer-label-email">
+            {{ 'CUSTOMER.EMAIL' | translate }}
+            @if (customer.preferredContactMethod === 1) { <span class="req">*</span> }
+          </label>
           <input id="add-customer-input-email" type="email" name="email" [(ngModel)]="customer.email"
-            required maxlength="50" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="example@domain.com"
+            [required]="customer.preferredContactMethod === 1"
+            maxlength="50" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="example@domain.com"
             #emailCtrl="ngModel" [class.invalid]="submitted() && emailCtrl.invalid" />
           @if (submitted() && emailCtrl.errors?.['required']) {
             <span id="add-customer-error-email-required" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
