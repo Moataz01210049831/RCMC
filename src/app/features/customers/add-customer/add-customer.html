@@ -29,11 +29,13 @@
         <div id="add-customer-field-identity-number" class="field-group">
           <label id="add-customer-label-identity-number">{{ 'CUSTOMER.IDENTITY_NUMBER' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-identity-number" type="text" name="identityNumber" [(ngModel)]="customer.identityNumber"
-            required maxlength="13" [pattern]="idPattern" [placeholder]="'CUSTOMER.IDENTITY_NUMBER' | translate"
-            #idCtrl="ngModel" [class.invalid]="submitted() && idCtrl.invalid" />
-          @if (submitted() && idCtrl.errors?.['required']) {
+            required maxlength="10" [pattern]="idPattern" [placeholder]="'CUSTOMER.IDENTITY_NUMBER' | translate"
+            inputmode="numeric"
+            (input)="onIdentityNumberInput($event)"
+            #idCtrl="ngModel" [class.invalid]="(idCtrl.dirty || idCtrl.touched || submitted()) && idCtrl.invalid" />
+          @if ((idCtrl.dirty || idCtrl.touched || submitted()) && idCtrl.errors?.['required']) {
             <span id="add-customer-error-identity-number" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
-          } @else if (submitted() && idCtrl.errors?.['pattern']) {
+          } @else if ((idCtrl.dirty || idCtrl.touched || submitted()) && idCtrl.errors?.['pattern']) {
             <span id="add-customer-error-identity-number-pattern" class="error">{{ idPatternErrorKey | translate }}</span>
           }
           @if (verified()) {

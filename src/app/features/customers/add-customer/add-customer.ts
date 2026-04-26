@@ -82,14 +82,23 @@ export class AddCustomer implements OnInit {
     return new Date().toISOString().split('T')[0];
   }
 
+  onIdentityNumberInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const cleaned = input.value.replace(/\D/g, '');
+    if (cleaned !== input.value) {
+      input.value = cleaned;
+    }
+    this.customer.identityNumber = cleaned;
+  }
+
   get canVerify(): boolean {
     return !!this.customer.identityType && !!this.customer.identityNumber && !!this.customer.dateOfBirth;
   }
 
   get idPattern(): string {
-    if (this.customer.identityType === 1) return '^1\\d{8,12}$';
-    if (this.customer.identityType === 2) return '^2\\d{8,12}$';
-    return '\\d{9,13}';
+    if (this.customer.identityType === 1) return '^1\\d{9}$';
+    if (this.customer.identityType === 2) return '^2\\d{9}$';
+    return '^\\d{10}$';
   }
 
   get idPatternErrorKey(): string {
