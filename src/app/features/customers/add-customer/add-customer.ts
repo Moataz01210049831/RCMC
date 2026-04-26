@@ -79,9 +79,7 @@ export class AddCustomer implements OnInit {
   ) {}
 
   get maxDate(): string {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    return yesterday.toISOString().split('T')[0];
+    return new Date().toISOString().split('T')[0];
   }
 
   get canVerify(): boolean {

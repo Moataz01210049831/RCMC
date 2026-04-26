@@ -60,7 +60,7 @@
     "IDENTITY_TYPE": "نوع الهوية",
     "IDENTITY_NUMBER": "رقم الهوية",
     "DATE_OF_BIRTH": "تاريخ الميلاد",
-    "NO_FUTURE_DATE": "لا يمكن اختيار تاريخ اليوم أو تاريخ مستقبلي",
+    "NO_FUTURE_DATE": "لا يمكن اختيار تاريخ مستقبلي",
     "VERIFY": "تحقق",
     "HINT_NO_SHARE": "لن نشارك هذا مع أي شخص آخر",
     "FIRST_NAME": "الاسم الاول",
