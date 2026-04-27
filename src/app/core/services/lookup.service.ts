@@ -69,11 +69,9 @@ export class LookupService {
 
   getComplaintRequirements(subCategoryId: string) {
     if (environment.useDummyData) return of(DUMMY_COMPLAINT_REQUIREMENTS);
-    const params = new HttpParams()
-      .set('lookupId', 'requierment')
-      .set('filterByLookupId', subCategoryId);
+    const params = new HttpParams().set('subClassificationId', subCategoryId);
     return this.http
-      .get<ApiResponse<ComplaintRequirement[]>>(`${this.apiUrl}/Lookups/filter`, { params })
+      .get<ApiResponse<ComplaintRequirement[]>>(`${this.apiUrl}/Surveys/GetQuestionsBySubCategoryId`, { params })
       .pipe(map(res => res.Data ?? []));
   }
 }
