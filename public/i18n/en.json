@@ -194,6 +194,8 @@
     "KEY_ADDRESS": "Key address",
     "UPLOAD_ATTACHMENTS": "Upload Attachments",
     "UPLOAD_HINT": "Max file size is 2MB. Supported formats: jpg, png, pdf.",
+    "FILE_TOO_LARGE": "{{name}} exceeds the 2MB size limit",
+    "INVALID_FILE_TYPE": "{{name}} is not a supported file type. Allowed: jpg, png, pdf",
     "BROWSE_FILES": "Browse Files",
     "SERVICE_PROVIDER": "Service Provider",
     "SERVICE_PROVIDER_PLACEHOLDER": "Select service provider",

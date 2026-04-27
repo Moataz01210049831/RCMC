@@ -194,6 +194,8 @@
     "KEY_ADDRESS": "عنوان المفتاح",
     "UPLOAD_ATTACHMENTS": "رفع المرفقات",
     "UPLOAD_HINT": "الحد الأقصى لحجم الملف المسموح به هو 2 ميجابايت، وتشمل الصيغ المدعومة jpg، png، و pdf.",
+    "FILE_TOO_LARGE": "{{name}} يتجاوز الحد الأقصى للحجم 2 ميجابايت",
+    "INVALID_FILE_TYPE": "{{name}} ليس من الأنواع المسموح بها. الأنواع المتاحة: jpg، png، pdf",
     "BROWSE_FILES": "تصفح الملفات",
     "SERVICE_PROVIDER": "الجهة المقدمة للخدمة",
     "SERVICE_PROVIDER_PLACEHOLDER": "اختر الجهة المقدمة للخدمة",

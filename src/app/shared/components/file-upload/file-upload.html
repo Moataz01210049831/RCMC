@@ -4,7 +4,7 @@
 
   @if (!files.length) {
     <label id="file-upload-browse-label" class="btn-browse">
-      <input id="file-upload-input" type="file" multiple (change)="onFilesSelected($event)" hidden />
+      <input id="file-upload-input" type="file" multiple [attr.accept]="acceptAttr" (change)="onFilesSelected($event)" hidden />
       {{ 'TICKETS.BROWSE_FILES' | translate }}
     </label>
   }
