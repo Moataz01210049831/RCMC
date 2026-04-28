@@ -20,7 +20,9 @@ export class AddCustomer implements OnInit {
   verified = signal(false);
   isEditMode = signal(false);
   showConfirm = signal(false);
+  showDiscardConfirm = signal(false);
   customerId = '';
+  private initialSnapshot = '';
 
   cities: LookupItem[] = [];
   nationalities: LookupItem[] = [];
@@ -132,7 +134,17 @@ export class AddCustomer implements OnInit {
       this.isEditMode.set(true);
       this.customerId = id;
       this.loadCustomerData(id);
+    } else {
+      this.snapshotForm();
     }
+  }
+
+  private snapshotForm() {
+    this.initialSnapshot = JSON.stringify(this.customer);
+  }
+
+  private hasUnsavedChanges(): boolean {
+    return JSON.stringify(this.customer) !== this.initialSnapshot;
   }
 
   private loadCustomerData(id: string) {
@@ -163,6 +175,7 @@ export class AddCustomer implements OnInit {
           cityId: contact.cityId,
         };
         this.verified.set(true);
+        this.snapshotForm();
       },
       error: () => {
         this.loading.set(false);
@@ -234,6 +247,23 @@ export class AddCustomer implements OnInit {
   }
 
   goBack() {
+    if (this.hasUnsavedChanges()) {
+      this.showDiscardConfirm.set(true);
+      return;
+    }
+    this.navigateBack();
+  }
+
+  onConfirmDiscard() {
+    this.showDiscardConfirm.set(false);
+    this.navigateBack();
+  }
+
+  onCancelDiscard() {
+    this.showDiscardConfirm.set(false);
+  }
+
+  private navigateBack() {
     if (this.isEditMode()) {
       this.router.navigate(['/customers', this.customerId]);
     } else {
