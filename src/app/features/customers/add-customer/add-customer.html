@@ -28,7 +28,7 @@
           <input id="add-customer-input-identity-number" type="text" name="identityNumber" [(ngModel)]="customer.identityNumber"
             required maxlength="10" [pattern]="idPattern" [placeholder]="'CUSTOMER.IDENTITY_NUMBER' | translate"
             inputmode="numeric"
-            (input)="onIdentityNumberInput($event)"
+            (input)="onDigitsOnlyInput($event, 'identityNumber')"
             #idCtrl="ngModel" [class.invalid]="(idCtrl.dirty || idCtrl.touched || submitted()) && idCtrl.invalid" />
           @if ((idCtrl.dirty || idCtrl.touched || submitted()) && idCtrl.errors?.['required']) {
             <span id="add-customer-error-identity-number" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
@@ -161,6 +161,7 @@
           <input id="add-customer-input-mobile1" type="text" name="mobileNumber1" [(ngModel)]="customer.mobileNumber1"
             required maxlength="10" pattern="05\d{8}" placeholder="05XXXXXXXX"
             inputmode="numeric"
+            (input)="onDigitsOnlyInput($event, 'mobileNumber1')"
             #phoneCtrl="ngModel" [class.invalid]="(phoneCtrl.dirty || phoneCtrl.touched || submitted()) && phoneCtrl.invalid" />
           @if ((phoneCtrl.dirty || phoneCtrl.touched || submitted()) && phoneCtrl.errors?.['required']) {
             <span id="add-customer-error-mobile1" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
@@ -174,6 +175,7 @@
           <input id="add-customer-input-mobile2" type="text" name="mobileNumber2" [(ngModel)]="customer.mobileNumber2"
             maxlength="10" pattern="05\d{8}" placeholder="05XXXXXXXX"
             inputmode="numeric"
+            (input)="onDigitsOnlyInput($event, 'mobileNumber2')"
             #phone2Ctrl="ngModel" [class.invalid]="(phone2Ctrl.dirty || phone2Ctrl.touched || submitted()) && phone2Ctrl.invalid" />
           @if ((phone2Ctrl.dirty || phone2Ctrl.touched || submitted()) && phone2Ctrl.errors?.['pattern']) {
             <span id="add-customer-error-mobile2-pattern" class="error">{{ 'CUSTOMER.INVALID_PHONE' | translate }}</span>

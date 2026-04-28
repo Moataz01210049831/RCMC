@@ -84,13 +84,13 @@ export class AddCustomer implements OnInit {
     return new Date().toISOString().split('T')[0];
   }
 
-  onIdentityNumberInput(event: Event) {
+  onDigitsOnlyInput(event: Event, field: 'identityNumber' | 'mobileNumber1' | 'mobileNumber2') {
     const input = event.target as HTMLInputElement;
     const cleaned = input.value.replace(/\D/g, '');
     if (cleaned !== input.value) {
       input.value = cleaned;
     }
-    this.customer.identityNumber = cleaned;
+    this.customer[field] = cleaned;
   }
 
   get canVerify(): boolean {
