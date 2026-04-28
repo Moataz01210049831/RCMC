@@ -30,10 +30,15 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
     }),
     catchError((error: HttpErrorResponse) => {
       if (!(error as any)[TOASTED]) {
-        const body: any = error.error;
-        const envelopeMessage = body && typeof body === 'object' && 'Success' in body ? body.Message : null;
-        const message = envelopeMessage ?? body?.message ?? error.message ?? translate.instant('TOAST.UNEXPECTED_ERROR');
-        toast.error(message);
+        const isNetworkError = error.status === 0 || !navigator.onLine;
+        if (isNetworkError) {
+          toast.error(translate.instant('TOAST.NO_CONNECTION'));
+        } else {
+          const body: any = error.error;
+          const envelopeMessage = body && typeof body === 'object' && 'Success' in body ? body.Message : null;
+          const message = envelopeMessage ?? body?.message ?? error.message ?? translate.instant('TOAST.UNEXPECTED_ERROR');
+          toast.error(message);
+        }
       }
       return throwError(() => error);
     }),

@@ -218,7 +218,8 @@
   "TOAST": {
     "SUCCESS_TITLE": "تمت العملية بنجاح",
     "ERROR_TITLE": "حدث خطأ",
-    "UNEXPECTED_ERROR": "حدث خطأ غير متوقع"
+    "UNEXPECTED_ERROR": "حدث خطأ غير متوقع",
+    "NO_CONNECTION": "لا يوجد اتصال بالإنترنت. يرجى التحقق من الشبكة والمحاولة مرة أخرى."
   },
   "SEARCHABLE_SELECT": {
     "CHOOSE": "اختر...",
