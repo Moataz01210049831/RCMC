@@ -228,19 +228,13 @@
         </div>
 
         <div id="add-customer-field-region" class="field-group">
-          <label id="add-customer-label-region">{{ 'CUSTOMER.REGION' | translate }} <span class="req">*</span></label>
+          <label id="add-customer-label-region">{{ 'CUSTOMER.REGION' | translate }}</label>
           <app-searchable-select
             name="regionId"
             [(ngModel)]="customer.regionId"
             [items]="regions"
-            [placeholder]="'CUSTOMER.REGION' | translate"
-            required
-            #regionCtrl="ngModel"
-            [invalid]="submitted() && regionCtrl.invalid">
+            [placeholder]="'CUSTOMER.REGION' | translate">
           </app-searchable-select>
-          @if (submitted() && regionCtrl.errors?.['required']) {
-            <span id="add-customer-error-region" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
-          }
         </div>
 
       </div>
@@ -249,19 +243,13 @@
       <div id="add-customer-row-6" class="form-row cols-3">
 
         <div id="add-customer-field-city" class="field-group">
-          <label id="add-customer-label-city">{{ 'CUSTOMER.CITY' | translate }} <span class="req">*</span></label>
+          <label id="add-customer-label-city">{{ 'CUSTOMER.CITY' | translate }}</label>
           <app-searchable-select
             name="cityId"
             [(ngModel)]="customer.cityId"
             [items]="cities"
-            [placeholder]="'CUSTOMER.CITY' | translate"
-            required
-            #cityCtrl="ngModel"
-            [invalid]="submitted() && cityCtrl.invalid">
+            [placeholder]="'CUSTOMER.CITY' | translate">
           </app-searchable-select>
-          @if (submitted() && cityCtrl.errors?.['required']) {
-            <span id="add-customer-error-city" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
-          }
         </div>
 
       </div>
