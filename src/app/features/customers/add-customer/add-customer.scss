@@ -232,6 +232,11 @@ $gold: $accent;
   color: #fff;
   border: none;
   &:hover { background: $primary-dark; }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+    &:hover { background: $green; }
+  }
 }
 
 .btn-cancel {
