@@ -39,7 +39,6 @@ export class Login {
     this.auth.login(this.username, this.password).subscribe({
       next: data => {
         this.loading.set(false);
-        localStorage.setItem('token', data.JWToken);
         localStorage.setItem('user', JSON.stringify(data));
         this.toast.success(this.translate.instant('LOGIN.LOGIN_SUCCESS'));
         this.router.navigate(['/dashboard']);

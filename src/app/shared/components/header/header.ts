@@ -58,7 +58,6 @@ export class Header {
 
   logout() {
     this.dropdownOpen.set(false);
-    localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.router.navigate(['/login']);
   }
