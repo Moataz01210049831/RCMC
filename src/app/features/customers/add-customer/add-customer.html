@@ -28,6 +28,7 @@
           <input id="add-customer-input-identity-number" type="text" name="identityNumber" [(ngModel)]="customer.identityNumber"
             required maxlength="10" [pattern]="idPattern" [placeholder]="'CUSTOMER.IDENTITY_NUMBER' | translate"
             inputmode="numeric"
+            [disabled]="!customer.identityType"
             (input)="onDigitsOnlyInput($event, 'identityNumber')"
             #idCtrl="ngModel" [class.invalid]="(idCtrl.dirty || idCtrl.touched || submitted()) && idCtrl.invalid" />
           @if ((idCtrl.dirty || idCtrl.touched || submitted()) && idCtrl.errors?.['required']) {

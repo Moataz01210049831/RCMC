@@ -79,6 +79,11 @@ $gold: $accent;
     &:focus { border-color: $green; }
     &::placeholder { color: #ccc; }
     &.invalid { border-color: $error; background: #fff8f8; }
+    &:disabled {
+      cursor: not-allowed;
+      background: #f0f0f0;
+      color: $text-muted;
+    }
   }
 
   select {
