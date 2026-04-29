@@ -5,6 +5,8 @@
     [class.open]="isOpen"
     [class.invalid]="invalid"
     [class.has-value]="selectedValue"
+    [attr.aria-expanded]="isOpen"
+    [attr.aria-haspopup]="'listbox'"
     (click)="open()">
 
     @if (selectedValue) {

@@ -2,6 +2,7 @@ import {
   Component,
   ElementRef,
   forwardRef,
+  HostBinding,
   HostListener,
   Input,
 } from '@angular/core';
@@ -27,6 +28,9 @@ export class SearchableSelect implements ControlValueAccessor {
   @Input() placeholder = '';
   @Input() invalid: boolean | null = false;
 
+  @HostBinding('attr.tabindex') hostTabIndex = '0';
+  @HostBinding('attr.role') hostRole = 'combobox';
+
   searchText = '';
   isOpen = false;
   selectedValue = '';
@@ -49,6 +53,19 @@ export class SearchableSelect implements ControlValueAccessor {
   open() {
     this.isOpen = true;
     this.searchText = '';
+  }
+
+  @HostListener('keydown', ['$event'])
+  onTriggerKeydown(event: KeyboardEvent) {
+    const target = event.target as HTMLElement;
+    if (target.tagName === 'INPUT') return;
+    if (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowDown') {
+      event.preventDefault();
+      this.open();
+    } else if (event.key === 'Escape' && this.isOpen) {
+      event.preventDefault();
+      this.isOpen = false;
+    }
   }
 
   select(item: LookupItem) {

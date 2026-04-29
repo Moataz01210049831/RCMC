@@ -1,5 +1,16 @@
 @use '../../../../styles/variables' as *;
 
+:host {
+  display: block;
+  outline: none;
+  border-radius: $radius-input;
+}
+
+:host(:focus-visible) .ss-trigger {
+  border-color: $primary;
+  box-shadow: 0 0 0 3px rgba($primary, 0.18);
+}
+
 .ss-container {
   position: relative;
   width: 100%;
