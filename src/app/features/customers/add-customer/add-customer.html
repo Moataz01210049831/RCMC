@@ -63,7 +63,9 @@
 
       <!-- Verify row -->
       <div id="add-customer-verify-row" class="verify-row">
-        <button id="add-customer-btn-back" type="button" class="btn-cancel" (click)="goBack()">{{ 'COMMON.BACK' | translate }}</button>
+        @if (!verified()) {
+          <button id="add-customer-btn-back" type="button" class="btn-cancel" (click)="goBack()">{{ 'COMMON.BACK' | translate }}</button>
+        }
         <button id="add-customer-btn-verify" type="button" class="btn-verify" (click)="verifyId()" [disabled]="!canVerify">{{ 'CUSTOMER.VERIFY' | translate }}</button>
       </div>
 
@@ -259,10 +261,11 @@
 
       <!-- Actions -->
       <div id="add-customer-form-actions" class="form-actions">
+        <button id="add-customer-btn-cancel" type="button" class="btn-cancel" (click)="goBack()" [disabled]="loading()">{{ 'COMMON.BACK' | translate }}</button>
         <button id="add-customer-btn-save" type="submit" class="btn-save" [disabled]="loading() || addForm.invalid">
           {{ loading() ? '...' : ((isEditMode() ? 'COMMON.EDIT' : 'COMMON.ADD') | translate) }}
         </button>
-        <button id="add-customer-btn-cancel" type="button" class="btn-cancel" (click)="goBack()" [disabled]="loading()">{{ 'COMMON.BACK' | translate }}</button>
+        
       </div>
       }
 
