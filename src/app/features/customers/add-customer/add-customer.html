@@ -237,6 +237,7 @@
           <app-searchable-select
             name="regionId"
             [(ngModel)]="customer.regionId"
+            (ngModelChange)="onRegionChange()"
             [items]="regions"
             [placeholder]="'CUSTOMER.REGION' | translate">
           </app-searchable-select>

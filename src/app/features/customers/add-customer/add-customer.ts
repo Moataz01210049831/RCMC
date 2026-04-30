@@ -125,7 +125,6 @@ export class AddCustomer implements OnInit {
   }
 
   ngOnInit() {
-    this.lookupService.getCities().subscribe({ next: data => this.cities = data });
     this.lookupService.getCountries().subscribe({ next: data => this.nationalities = data });
     this.lookupService.getRegions().subscribe({ next: data => this.regions = data });
 
@@ -137,6 +136,16 @@ export class AddCustomer implements OnInit {
     } else {
       this.snapshotForm();
     }
+  }
+
+  onRegionChange() {
+    this.customer.cityId = '';
+    this.cities = [];
+    const regionId = this.customer.regionId;
+    if (!regionId) return;
+    this.lookupService.getFilteredLookup('city', regionId).subscribe({
+      next: data => (this.cities = data),
+    });
   }
 
   private snapshotForm() {
@@ -175,7 +184,17 @@ export class AddCustomer implements OnInit {
           cityId: contact.cityId,
         };
         this.verified.set(true);
-        this.snapshotForm();
+        if (contact.regionId) {
+          this.lookupService.getFilteredLookup('city', contact.regionId).subscribe({
+            next: data => {
+              this.cities = data;
+              this.snapshotForm();
+            },
+            error: () => this.snapshotForm(),
+          });
+        } else {
+          this.snapshotForm();
+        }
       },
       error: () => {
         this.loading.set(false);
