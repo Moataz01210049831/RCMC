@@ -34,10 +34,10 @@ const TITLE_TO_TYPE: Record<string, string> = {
 };
 
 const EMPTY_SERVICE_CARDS: ServiceCard[] = [
-  { titleKey: 'ENTITIES.REQUESTS',    count: 0, descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [] },
-  { titleKey: 'ENTITIES.INQUIRIES',   count: 0, descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [] },
-  { titleKey: 'ENTITIES.SUGGESTIONS', count: 0, descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [] },
-  { titleKey: 'ENTITIES.COMPLAINTS',  count: 0, descriptionKey: 'ENTITIES.ADDITIONAL_TEXT', items: [] },
+  { titleKey: 'ENTITIES.REQUESTS',    count: 0, descriptionKey: '', items: [] },
+  { titleKey: 'ENTITIES.INQUIRIES',   count: 0, descriptionKey: '', items: [] },
+  { titleKey: 'ENTITIES.SUGGESTIONS', count: 0, descriptionKey: '', items: [] },
+  { titleKey: 'ENTITIES.COMPLAINTS',  count: 0, descriptionKey: '', items: [] },
 ];
 
 @Component({
