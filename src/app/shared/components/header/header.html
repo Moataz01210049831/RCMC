@@ -1,8 +1,37 @@
 <header id="app-header" class="app-header">
 
-  <!-- Right: logo (first child → right in RTL) -->
+  <!-- Right: logo + search (first child → right in RTL) -->
   <div id="header-right" class="header-right">
     <img id="header-logo" [src]="config.headerLogo" [alt]="config.appName" class="header-logo" (click)="goToDashboard()" style="cursor: pointer;" />
+
+    <div id="header-search-row" class="header-search-row" [class.has-error]="!!inputErrorKey">
+      <div id="header-search-input-wrapper" class="header-search-input-wrapper">
+        <svg id="header-search-icon" class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input id="header-search-input" type="text" [(ngModel)]="searchText"
+          (input)="onDigitsOnlyInput($event)"
+          (keydown.enter)="search()"
+          inputmode="numeric"
+          [placeholder]="'DASHBOARD.SEARCH_PLACEHOLDER' | translate" />
+      </div>
+      <select id="header-search-type" [(ngModel)]="searchType" (ngModelChange)="onSearchTypeChange()">
+        <option value="id">{{ 'DASHBOARD.ID_NUMBER' | translate }}</option>
+        <option value="phone">{{ 'DASHBOARD.PHONE_NUMBER' | translate }}</option>
+      </select>
+      @if (inputErrorKey) {
+        <p id="header-search-error" class="header-search-error">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span>{{ inputErrorKey | translate }}</span>
+        </p>
+      }
+    </div>
   </div>
 
   <!-- Left: account + notification (second child → left in RTL) -->
