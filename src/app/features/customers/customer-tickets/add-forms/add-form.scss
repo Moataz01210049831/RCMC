@@ -59,7 +59,7 @@
   font-size: 1rem;
   font-weight: 700;
   color: $accent;
-  text-align: right;
+  text-align: start;
 }
 
 .stepper {
@@ -134,7 +134,7 @@
     font-size: 0.82rem;
     font-weight: 600;
     color: $text-primary;
-    text-align: right;
+    text-align: start;
 
     .req { color: $error; margin-inline-start: 2px; }
   }

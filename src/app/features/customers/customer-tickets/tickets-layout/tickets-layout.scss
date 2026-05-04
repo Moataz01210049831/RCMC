@@ -172,6 +172,12 @@
     flex-shrink: 0;
   }
 
+  // Flip the chevron horizontally in LTR so the arrowhead points
+  // in the natural reading direction.
+  :host-context([dir="ltr"]) & .arrow {
+    transform: scaleX(-1);
+  }
+
   .ticket-code {
     color: $accent;
     font-weight: 700;

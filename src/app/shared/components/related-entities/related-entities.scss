@@ -137,6 +137,13 @@
   flex-shrink: 0;
 }
 
+// In LTR, flip both chevrons horizontally so the arrowhead points
+// in the natural reading direction (`>` in LTR, `<` in RTL).
+:host-context([dir="ltr"]) .tab-arrow svg,
+:host-context([dir="ltr"]) .title-arrow {
+  transform: scaleX(-1);
+}
+
 .service-title {
   font-size: 0.92rem;
   font-weight: 700;
