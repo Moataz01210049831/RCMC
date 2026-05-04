@@ -28,7 +28,7 @@ $gold: $accent;
   font-weight: 700;
   color: $gold;
   margin: 0 0 24px;
-  text-align: right;
+  text-align: start;
 }
 
 // ── Form rows ─────────────────────────────────────────────────────
@@ -71,7 +71,7 @@ $gold: $accent;
     font-size: 0.88rem;
     background: #fafafa;
     outline: none;
-    text-align: right;
+    text-align: start;
     transition: border-color 0.2s;
     width: 100%;
     box-sizing: border-box;
@@ -98,6 +98,7 @@ $gold: $accent;
 
     &.invalid { background-color: #fff8f8; }
   }
+
 }
 
 .req { color: $error; }

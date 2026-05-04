@@ -48,8 +48,8 @@
   &.invalid      { border-color: $error; background: #fff8f8; }
 }
 
-.ss-placeholder { color: $text-placeholder; flex: 1; text-align: right; }
-.ss-value       { flex: 1; color: $text-primary; text-align: right; }
+.ss-placeholder { color: $text-placeholder; flex: 1; text-align: start; }
+.ss-value       { flex: 1; color: $text-primary; text-align: start; }
 
 .ss-clear {
   background: none;
@@ -96,7 +96,7 @@
 
 .ss-search-icon {
   position: absolute;
-  right: 18px;
+  inset-inline-end: 18px;
   top: 50%;
   transform: translateY(-50%);
   width: 14px;
@@ -108,16 +108,17 @@
 .ss-search {
   width: 100%;
   height: 34px;
-  padding: 0 34px 0 10px;
+  padding-block: 0;
+  padding-inline-start: 10px;
+  padding-inline-end: 34px;
   border: 1px solid $border;
   border-radius: 6px;
   font-family: inherit;
   font-size: 0.85rem;
   background: $bg-input;
   outline: none;
-  text-align: right;
+  text-align: start;
   box-sizing: border-box;
-  direction: rtl;
 
   &:focus { border-color: $primary; }
   &::placeholder { color: $text-placeholder; }
@@ -137,7 +138,7 @@
   font-size: 0.88rem;
   color: $text-primary;
   cursor: pointer;
-  text-align: right;
+  text-align: start;
   transition: background 0.15s;
 
   &:hover    { background: $hover-bg; }
