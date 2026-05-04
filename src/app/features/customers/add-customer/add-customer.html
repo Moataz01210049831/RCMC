@@ -232,10 +232,10 @@
           <input id="add-customer-input-email" type="email" name="email" [(ngModel)]="customer.email"
             [required]="customer.preferredContactMethod === 1"
             maxlength="50" pattern="[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}" placeholder="example@domain.com"
-            #emailCtrl="ngModel" [class.invalid]="submitted() && emailCtrl.invalid" />
-          @if (submitted() && emailCtrl.errors?.['required']) {
+            #emailCtrl="ngModel" [class.invalid]="(emailCtrl.dirty || emailCtrl.touched || submitted()) && emailCtrl.invalid" />
+          @if ((emailCtrl.dirty || emailCtrl.touched || submitted()) && emailCtrl.errors?.['required']) {
             <span id="add-customer-error-email-required" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
-          } @else if (submitted() && (emailCtrl.errors?.['email'] || emailCtrl.errors?.['pattern'])) {
+          } @else if ((emailCtrl.dirty || emailCtrl.touched || submitted()) && (emailCtrl.errors?.['email'] || emailCtrl.errors?.['pattern'])) {
             <span id="add-customer-error-email-invalid" class="error">{{ 'COMMON.INVALID_EMAIL' | translate }}</span>
           }
         </div>
