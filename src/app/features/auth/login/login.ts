@@ -39,6 +39,10 @@ export class Login {
     this.auth.login(this.username, this.password).subscribe({
       next: data => {
         this.loading.set(false);
+        if (!this.auth.hasAllowedRole(data?.Roles)) {
+          this.toast.error(this.translate.instant('LOGIN.UNAUTHORIZED_ROLE'));
+          return;
+        }
         localStorage.setItem('user', JSON.stringify(data));
         this.toast.success(this.translate.instant('LOGIN.LOGIN_SUCCESS'));
         this.router.navigate(['/dashboard']);

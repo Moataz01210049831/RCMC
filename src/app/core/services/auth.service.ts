@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../models/api-response.model';
+import { AppConfig } from '../config/app-config';
 
 export interface LoginResponseData {
   Id: string;
@@ -35,5 +36,12 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('user');
+  }
+
+  hasAllowedRole(roles: readonly string[] | null | undefined): boolean {
+    if (!roles || roles.length === 0) return false;
+    const allowed = AppConfig.allowedRoles;
+    if (allowed.length === 0) return true;
+    return roles.some(r => allowed.includes(r));
   }
 }
