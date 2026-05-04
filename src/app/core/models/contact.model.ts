@@ -63,3 +63,36 @@ export interface SearchContactsResponse {
   pageNumber: number;
   pageSize: number;
 }
+
+export interface BasicInfoRequest {
+  personID: number;
+  birthDate: number;
+  operatorID: number;
+  clientIPAddress: string;
+  lang: string;
+}
+
+export interface BasicInfoResponse {
+  FirstName: string | null;
+  Middlename: string | null;
+  ThirdName: string | null;
+  LastName: string | null;
+  FamilyName: string | null;
+  CityId: string | null;
+  Email: string | null;
+  Birthdate: string | null;
+  GenderId: number | null;
+  IdentityTypeId: number | null;
+  IdentityNumber: string | null;
+  NationalityId: string | null;
+  Nationality: string | null;
+  PreferredContactMethod: number | null;
+  PreferredLanguage: number | null;
+  MobileNumber: string | null;
+  MobileNumber2: string | null;
+  RegionId: string | null;
+  CityName: string | null;
+  RegionName: string | null;
+  EntityId: string | null;
+  FullName: string | null;
+}

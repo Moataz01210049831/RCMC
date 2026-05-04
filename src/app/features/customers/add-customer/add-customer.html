@@ -12,6 +12,7 @@
           <label id="add-customer-label-identity-type">{{ 'CUSTOMER.IDENTITY_TYPE' | translate }} <span class="req">*</span></label>
           <select id="add-customer-select-identity-type" name="identityType" [(ngModel)]="customer.identityType" required
             (ngModelChange)="onIdentityTypeChange()"
+            [disabled]="isEditMode()"
             #idTypeCtrl="ngModel" [class.invalid]="submitted() && idTypeCtrl.invalid">
             <option [ngValue]="null" disabled>{{ 'CUSTOMER.IDENTITY_TYPE' | translate }}</option>
             @for (type of identityTypes; track type.value) {
@@ -28,7 +29,7 @@
           <input id="add-customer-input-identity-number" type="text" name="identityNumber" [(ngModel)]="customer.identityNumber"
             required maxlength="10" [pattern]="idPattern" [placeholder]="'CUSTOMER.IDENTITY_NUMBER' | translate"
             inputmode="numeric"
-            [disabled]="!customer.identityType"
+            [disabled]="!customer.identityType || isEditMode()"
             (input)="onDigitsOnlyInput($event, 'identityNumber')"
             #idCtrl="ngModel" [class.invalid]="(idCtrl.dirty || idCtrl.touched || submitted()) && idCtrl.invalid" />
           @if ((idCtrl.dirty || idCtrl.touched || submitted()) && idCtrl.errors?.['required']) {
@@ -43,6 +44,7 @@
           <div id="add-customer-date-wrapper" class="date-wrapper" (click)="dateInput.showPicker()">
             <input id="add-customer-input-dob" type="date" name="dateOfBirth" [(ngModel)]="customer.dateOfBirth"
               required [max]="maxDate" placeholder="YYYY-MM-DD"
+              [disabled]="isEditMode()"
               #dateInput #dobCtrl="ngModel" [class.invalid]="submitted() && dobCtrl.invalid" />
             <svg id="add-customer-cal-icon" class="cal-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2">
@@ -66,7 +68,7 @@
         @if (!verified()) {
           <button id="add-customer-btn-back" type="button" class="btn-cancel" (click)="goBack()">{{ 'COMMON.BACK' | translate }}</button>
         }
-        <button id="add-customer-btn-verify" type="button" class="btn-verify" (click)="verifyId()" [disabled]="!canVerify">{{ 'CUSTOMER.VERIFY' | translate }}</button>
+        <button id="add-customer-btn-verify" type="button" class="btn-verify" (click)="verifyId()" [disabled]="loading() || (!isEditMode() && !canVerify)">{{ 'CUSTOMER.VERIFY' | translate }}</button>
       </div>
 
       @if (verified()) {
@@ -77,6 +79,7 @@
           <label id="add-customer-label-firstname">{{ 'CUSTOMER.FIRST_NAME' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-firstname" type="text" name="firstName" [(ngModel)]="customer.firstName"
             required maxlength="50" [placeholder]="'CUSTOMER.FIRST_NAME' | translate"
+            [disabled]="isEditMode()"
             #firstNameCtrl="ngModel" [class.invalid]="submitted() && firstNameCtrl.invalid" />
           @if (submitted() && firstNameCtrl.errors?.['required']) {
             <span id="add-customer-error-firstname" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
@@ -87,6 +90,7 @@
           <label id="add-customer-label-middlename">{{ 'CUSTOMER.SECOND_NAME' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-middlename" type="text" name="middleName" [(ngModel)]="customer.middleName"
             required maxlength="50" [placeholder]="'CUSTOMER.SECOND_NAME' | translate"
+            [disabled]="isEditMode()"
             #middleNameCtrl="ngModel" [class.invalid]="submitted() && middleNameCtrl.invalid" />
           @if (submitted() && middleNameCtrl.errors?.['required']) {
             <span id="add-customer-error-middlename" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
@@ -97,6 +101,7 @@
           <label id="add-customer-label-thirdname">{{ 'CUSTOMER.THIRD_NAME' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-thirdname" type="text" name="thirdName" [(ngModel)]="customer.thirdName"
             required maxlength="50" [placeholder]="'CUSTOMER.THIRD_NAME' | translate"
+            [disabled]="isEditMode()"
             #thirdNameCtrl="ngModel" [class.invalid]="submitted() && thirdNameCtrl.invalid" />
           @if (submitted() && thirdNameCtrl.errors?.['required']) {
             <span id="add-customer-error-thirdname" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
@@ -112,6 +117,7 @@
           <label id="add-customer-label-lastname">{{ 'CUSTOMER.FOURTH_NAME' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-lastname" type="text" name="lastName" [(ngModel)]="customer.lastName"
             required maxlength="50" [placeholder]="'CUSTOMER.FOURTH_NAME' | translate"
+            [disabled]="isEditMode()"
             #lastNameCtrl="ngModel" [class.invalid]="submitted() && lastNameCtrl.invalid" />
           @if (submitted() && lastNameCtrl.errors?.['required']) {
             <span id="add-customer-error-lastname" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
@@ -126,6 +132,7 @@
             [items]="nationalities"
             [placeholder]="'CUSTOMER.NATIONALITY' | translate"
             required
+            [disabled]="isEditMode()"
             #nationalityCtrl="ngModel"
             [invalid]="submitted() && nationalityCtrl.invalid">
           </app-searchable-select>
@@ -137,14 +144,15 @@
         <div id="add-customer-field-gender" class="field-group">
           <label id="add-customer-label-gender">{{ 'CUSTOMER.GENDER' | translate }} <span class="req">*</span></label>
           <div id="add-customer-radio-group-gender" class="radio-group" [class.invalid]="submitted() && genderCtrl.invalid">
-            <label id="add-customer-radio-label-male" class="radio-label">
+            <label id="add-customer-radio-label-male" class="radio-label" [class.disabled]="isEditMode()">
               <input id="add-customer-radio-male" type="radio" name="gender" [(ngModel)]="customer.gender" [value]="1"
-                required #genderCtrl="ngModel" />
+                required [disabled]="isEditMode()" #genderCtrl="ngModel" />
               <span id="add-customer-radio-custom-male" class="radio-custom" [class.checked]="customer.gender === 1"></span>
               {{ 'CUSTOMER.MALE' | translate }}
             </label>
-            <label id="add-customer-radio-label-female" class="radio-label">
-              <input id="add-customer-radio-female" type="radio" name="gender" [(ngModel)]="customer.gender" [value]="2" />
+            <label id="add-customer-radio-label-female" class="radio-label" [class.disabled]="isEditMode()">
+              <input id="add-customer-radio-female" type="radio" name="gender" [(ngModel)]="customer.gender" [value]="2"
+                [disabled]="isEditMode()" />
               <span id="add-customer-radio-custom-female" class="radio-custom" [class.checked]="customer.gender === 2"></span>
               {{ 'CUSTOMER.FEMALE' | translate }}
             </label>

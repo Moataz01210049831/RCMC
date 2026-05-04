@@ -6,6 +6,18 @@
   border-radius: $radius-input;
 }
 
+:host(.disabled) .ss-trigger {
+  cursor: not-allowed;
+  background: #f0f0f0;
+  color: $text-muted;
+  pointer-events: none;
+}
+
+:host(.disabled) .ss-clear,
+:host(.disabled) .ss-arrow {
+  display: none;
+}
+
 :host(:focus-visible) .ss-trigger {
   border-color: $primary;
   box-shadow: 0 0 0 3px rgba($primary, 0.18);

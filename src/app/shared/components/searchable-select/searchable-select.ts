@@ -27,9 +27,18 @@ export class SearchableSelect implements ControlValueAccessor {
   @Input() items: LookupItem[] = [];
   @Input() placeholder = '';
   @Input() invalid: boolean | null = false;
+  @Input() disabled = false;
 
-  @HostBinding('attr.tabindex') hostTabIndex = '0';
   @HostBinding('attr.role') hostRole = 'combobox';
+
+  @HostBinding('attr.tabindex')
+  get hostTabIndex(): string { return this.disabled ? '-1' : '0'; }
+
+  @HostBinding('attr.aria-disabled')
+  get hostAriaDisabled(): string { return this.disabled ? 'true' : 'false'; }
+
+  @HostBinding('class.disabled')
+  get isDisabledClass(): boolean { return this.disabled; }
 
   searchText = '';
   isOpen = false;
@@ -51,12 +60,14 @@ export class SearchableSelect implements ControlValueAccessor {
   }
 
   open() {
+    if (this.disabled) return;
     this.isOpen = true;
     this.searchText = '';
   }
 
   @HostListener('keydown', ['$event'])
   onTriggerKeydown(event: KeyboardEvent) {
+    if (this.disabled) return;
     const target = event.target as HTMLElement;
     if (target.tagName === 'INPUT') return;
     if (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowDown') {
@@ -69,6 +80,7 @@ export class SearchableSelect implements ControlValueAccessor {
   }
 
   select(item: LookupItem) {
+    if (this.disabled) return;
     this.selectedValue = item.Value;
     this.isOpen = false;
     this.searchText = '';
@@ -78,6 +90,7 @@ export class SearchableSelect implements ControlValueAccessor {
 
   clear(event: MouseEvent) {
     event.stopPropagation();
+    if (this.disabled) return;
     this.selectedValue = '';
     this.onChange('');
     this.onTouched();

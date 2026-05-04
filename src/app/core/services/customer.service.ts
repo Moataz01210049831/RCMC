@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { ContactResponse, CreateContactRequest, UpdateContactRequest, UpdateContactResponse, SearchContactsRequest, SearchContactsResponse } from '../models/contact.model';
+import { ContactResponse, CreateContactRequest, UpdateContactRequest, UpdateContactResponse, SearchContactsRequest, SearchContactsResponse, BasicInfoRequest, BasicInfoResponse } from '../models/contact.model';
 import { ApiResponse } from '../models/api-response.model';
 import { DUMMY_CONTACT } from '../dummy-data/contact.dummy';
 
-export type { CreateContactRequest, ContactResponse, UpdateContactRequest, UpdateContactResponse, SearchContactsRequest, SearchContactsResponse };
+export type { CreateContactRequest, ContactResponse, UpdateContactRequest, UpdateContactResponse, SearchContactsRequest, SearchContactsResponse, BasicInfoRequest, BasicInfoResponse };
 
 interface ContactApiDto {
   Id?: string;
@@ -75,8 +75,39 @@ function mapContact(dto: ContactApiDto): ContactResponse {
 @Injectable({ providedIn: 'root' })
 export class CustomerService {
   private apiUrl = environment.apiUrl;
+  private rootUrl = environment.apiUrl.replace(/\/api\/?$/, '');
 
   constructor(private http: HttpClient) {}
+
+  getBasicInfo(request: BasicInfoRequest) {
+    if (environment.useDummyData) {
+      return of<BasicInfoResponse>({
+        FirstName: 'Hassan',
+        Middlename: null,
+        ThirdName: null,
+        LastName: 'Hemdan',
+        FamilyName: 'Gad',
+        CityId: null,
+        Email: null,
+        Birthdate: '1992-11-21T00:00:00',
+        GenderId: 1,
+        IdentityTypeId: 0,
+        IdentityNumber: String(request.personID),
+        NationalityId: null,
+        Nationality: 'Egypt',
+        PreferredContactMethod: 0,
+        PreferredLanguage: 0,
+        MobileNumber: null,
+        MobileNumber2: null,
+        RegionId: null,
+        CityName: null,
+        RegionName: null,
+        EntityId: '00000000-0000-0000-0000-000000000000',
+        FullName: 'Hassan Hemdan',
+      });
+    }
+    return this.http.post<BasicInfoResponse>(`${this.rootUrl}/basic-info`, request);
+  }
 
   createContact(data: CreateContactRequest) {
     return this.http

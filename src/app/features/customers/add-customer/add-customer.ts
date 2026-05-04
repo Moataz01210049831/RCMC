@@ -5,6 +5,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CustomerService } from '../../../core/services/customer.service';
 import { LookupService, LookupItem } from '../../../core/services/lookup.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { LanguageService } from '../../../core/services/language.service';
 import { SearchableSelect } from '../../../shared/components/searchable-select/searchable-select';
 import { ConfirmDialog } from '../../../shared/components/confirm-dialog/confirm-dialog';
 
@@ -78,6 +79,7 @@ export class AddCustomer implements OnInit {
     private lookupService: LookupService,
     private toast: ToastService,
     private translate: TranslateService,
+    private langService: LanguageService,
   ) {}
 
   get maxDate(): string {
@@ -119,9 +121,60 @@ export class AddCustomer implements OnInit {
   }
 
   verifyId() {
-    if (!this.canVerify) return;
-    // TODO: call verify API
-    this.verified.set(true);
+    if (this.loading()) return;
+    if (!this.isEditMode() && !this.canVerify) return;
+    this.loading.set(true);
+
+    const personID = Number(this.customer.identityNumber) || 0;
+    const birthDate = Number(this.customer.dateOfBirth.replace(/-/g, '')) || 0;
+    const operatorID = this.getOperatorId();
+    const lang = this.langService.currentLang;
+
+    this.customerService.getBasicInfo({
+      personID,
+      birthDate,
+      operatorID,
+      clientIPAddress: '',
+      lang,
+    }).subscribe({
+      next: info => {
+        this.loading.set(false);
+        if (!info) {
+          this.toast.error(this.translate.instant('CUSTOMER.LOAD_ERROR'));
+          return;
+        }
+        this.customer.firstName     = info.FirstName     ?? '';
+        this.customer.middleName    = info.Middlename    ?? '';
+        this.customer.thirdName     = info.ThirdName     ?? '';
+        this.customer.lastName      = info.LastName      ?? info.FamilyName ?? '';
+        this.customer.gender        = info.GenderId      ?? null;
+        this.customer.nationalityId = info.NationalityId ?? '';
+        this.customer.mobileNumber1 = info.MobileNumber  ?? '';
+        this.customer.mobileNumber2 = info.MobileNumber2 ?? '';
+        this.customer.email         = info.Email         ?? '';
+        this.customer.regionId      = info.RegionId      ?? '';
+        this.customer.cityId        = info.CityId        ?? '';
+        if (info.Birthdate) {
+          this.customer.dateOfBirth = info.Birthdate.split('T')[0];
+        }
+        this.verified.set(true);
+        this.snapshotForm();
+      },
+      error: () => {
+        this.loading.set(false);
+      },
+    });
+  }
+
+  private getOperatorId(): number {
+    try {
+      const raw = localStorage.getItem('user');
+      const data = raw ? JSON.parse(raw) : null;
+      const id = Number(data?.Id);
+      return Number.isFinite(id) ? id : 0;
+    } catch {
+      return 0;
+    }
   }
 
   ngOnInit() {
