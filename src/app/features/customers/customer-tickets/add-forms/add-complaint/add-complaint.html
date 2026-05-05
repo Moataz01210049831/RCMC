@@ -98,7 +98,7 @@
               </span>
             </label>
           </div>
-        } @else if (req.Type === 'attachment') {
+        } @else if (req.Type === 'file') {
           <div class="field-group full" [attr.id]="'add-complaint-field-req-' + req.Id">
             <label [attr.id]="'add-complaint-label-req-' + req.Id">
               {{ req.Name }} @if (req.Required) { <span class="req">*</span> }
