@@ -2,7 +2,7 @@ import { Component, signal, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NavigationEnd, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { filter, map, startWith } from 'rxjs';
+import { filter, map, startWith, switchMap, of } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../../../core/config/app-config';
 import { LanguageService } from '../../../core/services/language.service';
@@ -112,11 +112,16 @@ export class Header {
     if (this.searchType === 'id') request.identityNumber = q;
     else if (this.searchType === 'phone') request.mobileNumber = q;
 
-    this.customerService.searchContacts(request).subscribe({
-      next: response => {
+    this.customerService.searchContacts(request).pipe(
+      switchMap(response => {
+        if (!response) return of(null);
+        return this.customerService.getContact(response.id);
+      }),
+    ).subscribe({
+      next: contact => {
         this.searching.set(false);
-        if (response) {
-          this.router.navigate(['/customers', response.id]);
+        if (contact) {
+          this.router.navigate(['/customers', contact.id]);
           this.searchText = '';
         } else {
           this.toast.info(this.translate.instant('DASHBOARD.NO_SEARCH_DATA'));
