@@ -103,19 +103,22 @@ export class RelatedEntities {
 
   private crListByNumber = new Map<string, { CrNationalNumber: string; CrNumber: string }>();
 
-  private loadEntityDetails(crNumber: string) {
+  private loadEntityDetails(crNumber: string, onLoaded?: (entity: EntityCardData | null) => void) {
     const cr = this.crListByNumber.get(crNumber);
-    if (!cr) return;
+    if (!cr) {
+      onLoaded?.(null);
+      return;
+    }
     this.commercialRegister
       .getDetails({ CRNationalNumber: cr.CrNationalNumber, CRNumber: cr.CrNumber })
       .subscribe({
         next: data => {
           if (!data) {
-            this.publishEntity(null);
+            onLoaded?.(null);
             return;
           }
           const isEn = this.translate.currentLang === 'en';
-          this.publishEntity({
+          onLoaded?.({
             companyName:   isEn ? data.CrInformation.EntityFullNameEn : data.CrInformation.EntityFullNameAr,
             entityType:    isEn ? data.CrInformation.CrStatus.CrStatusDescEn : data.CrInformation.CrStatus.CrStatusDescAr,
             crNumber:      data.CrInformation.CrNumber,
@@ -123,6 +126,7 @@ export class RelatedEntities {
             phone:         data.ContactInformation?.PhoneNo ?? '',
           });
         },
+        error: () => onLoaded?.(null),
       });
   }
 
@@ -141,14 +145,23 @@ export class RelatedEntities {
 
   selectEntity(id: string) {
     this.selectedEntityId.set(id);
-    if (id) this.loadEntityDetails(id);
-    else this.publishEntity(null);
+    // No publish here — entity card stays hidden on the customer page
+    // until the user opens one of the service categories below.
   }
 
   openTickets(titleKey: string) {
     const type = TITLE_TO_TYPE[titleKey];
-    if (type && this.customerId()) {
-      this.router.navigate(['/customers', this.customerId(), 'tickets', type]);
+    if (!type || !this.customerId()) return;
+    const navigate = () => this.router.navigate(['/customers', this.customerId(), 'tickets', type]);
+    const id = this.selectedEntityId();
+    if (!id) {
+      this.publishEntity(null);
+      navigate();
+      return;
     }
+    this.loadEntityDetails(id, entity => {
+      this.publishEntity(entity);
+      navigate();
+    });
   }
 }

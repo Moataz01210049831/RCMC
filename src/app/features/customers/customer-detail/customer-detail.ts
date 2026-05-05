@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin } from 'rxjs';
+import { forkJoin, switchMap } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CustomerCard } from '../../../shared/components/customer-card/customer-card';
 import { RelatedEntities } from '../../../shared/components/related-entities/related-entities';
@@ -32,13 +32,18 @@ export class CustomerDetail implements OnInit {
   ) {}
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id') ?? '';
-
-    forkJoin({
-      contact:       this.customerService.getContact(id),
-      cities:        this.lookupService.getCities(),
-      nationalities: this.lookupService.getCountries(),
-    }).subscribe(({ contact, cities, nationalities }) => {
+    this.route.paramMap.pipe(
+      switchMap(params => {
+        const id = params.get('id') ?? '';
+        this.selectedEntityService.clear();
+        this.customer.set(null);
+        return forkJoin({
+          contact:       this.customerService.getContact(id),
+          cities:        this.lookupService.getCities(),
+          nationalities: this.lookupService.getCountries(),
+        });
+      }),
+    ).subscribe(({ contact, cities, nationalities }) => {
       if (!contact) {
         this.customer.set(null);
         return;
