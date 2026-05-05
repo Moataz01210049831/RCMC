@@ -83,6 +83,7 @@
     "EMAIL": "Email",
     "REGION": "Region",
     "CITY": "City",
+    "SELECT_REGION_FIRST": "Select region first",
     "CONFIRM_EDIT_TITLE": "Confirm Edit",
     "CONFIRM_ADD_TITLE": "Confirm Add Customer",
     "CONFIRM_EDIT_MSG": "Are you sure you want to edit the customer data?",

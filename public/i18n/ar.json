@@ -83,6 +83,7 @@
     "EMAIL": "البريد الإلكتروني",
     "REGION": "المنطقة",
     "CITY": "المدينة",
+    "SELECT_REGION_FIRST": "اختر المنطقة أولاً",
     "CONFIRM_EDIT_TITLE": "تأكيد تعديل البيانات",
     "CONFIRM_ADD_TITLE": "تأكيد إضافة العميل",
     "CONFIRM_EDIT_MSG": "هل أنت متأكد من تعديل بيانات العميل؟",

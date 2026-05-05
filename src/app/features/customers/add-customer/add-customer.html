@@ -262,7 +262,8 @@
             name="cityId"
             [(ngModel)]="customer.cityId"
             [items]="cities"
-            [placeholder]="'CUSTOMER.CITY' | translate">
+            [disabled]="!customer.regionId"
+            [placeholder]="(customer.regionId ? 'CUSTOMER.CITY' : 'CUSTOMER.SELECT_REGION_FIRST') | translate">
           </app-searchable-select>
         </div>
 
