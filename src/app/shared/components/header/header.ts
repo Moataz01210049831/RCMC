@@ -1,12 +1,20 @@
 import { Component, signal, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map, startWith } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../../../core/config/app-config';
 import { LanguageService } from '../../../core/services/language.service';
 import { CustomerService } from '../../../core/services/customer.service';
 import { ToastService } from '../../../core/services/toast.service';
 import type { SearchContactsRequest } from '../../../core/models/contact.model';
+
+const SEARCH_HIDDEN_ROUTES = [
+  /^\/dashboard\b/,
+  /^\/customers\/add\b/,
+  /^\/customers\/edit\b/,
+];
 
 @Component({
   selector: 'app-header',
@@ -22,6 +30,7 @@ export class Header {
 
   readonly config = AppConfig;
   user = this.loadUser();
+  showSearch;
 
   private loadUser() {
     try {
@@ -42,7 +51,17 @@ export class Header {
     private customerService: CustomerService,
     private toast: ToastService,
     private translate: TranslateService,
-  ) {}
+  ) {
+    const currentUrl$ = this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd),
+      map(e => (e as NavigationEnd).urlAfterRedirects),
+      startWith(this.router.url),
+    );
+    this.showSearch = toSignal(
+      currentUrl$.pipe(map(url => !SEARCH_HIDDEN_ROUTES.some(re => re.test(url)))),
+      { initialValue: !SEARCH_HIDDEN_ROUTES.some(re => re.test(this.router.url)) },
+    );
+  }
 
   get canSearch(): boolean {
     const q = this.searchText.trim();
