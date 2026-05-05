@@ -41,7 +41,8 @@
     "PASSWORD_REQUIRED": "Password is required",
     "PASSWORD_MIN": "Password must be at least 6 characters",
     "LOGIN_SUCCESS": "Login successful",
-    "UNAUTHORIZED_ROLE": "You are not authorized to log in. You don't have the required permissions."
+    "UNAUTHORIZED_ROLE": "You are not authorized to log in. You don't have the required permissions.",
+    "NO_ROLES": "No permissions are assigned to this user."
   },
   "DASHBOARD": {
     "MY_SERVICES": "My Services",

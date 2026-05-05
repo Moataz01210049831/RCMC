@@ -39,7 +39,12 @@ export class Login {
     this.auth.login(this.username, this.password).subscribe({
       next: data => {
         this.loading.set(false);
-        if (!this.auth.hasAllowedRole(data?.Roles)) {
+        const roles = data?.Roles ?? [];
+        if (roles.length === 0) {
+          this.toast.error(this.translate.instant('LOGIN.NO_ROLES'));
+          return;
+        }
+        if (!this.auth.hasAllowedRole(roles)) {
           this.toast.error(this.translate.instant('LOGIN.UNAUTHORIZED_ROLE'));
           return;
         }
