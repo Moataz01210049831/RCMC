@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { afterNextRender, Component, OnInit, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -80,7 +80,14 @@ export class AddCustomer implements OnInit {
     private toast: ToastService,
     private translate: TranslateService,
     private langService: LanguageService,
-  ) {}
+  ) {
+    // Wait until the component is fully rendered before fetching lookups,
+    // so the form paints first and the network requests don't block first paint.
+    afterNextRender(() => {
+      this.lookupService.getCountries().subscribe({ next: data => this.nationalities = data });
+      this.lookupService.getRegions().subscribe({ next: data => this.regions = data });
+    });
+  }
 
   get maxDate(): string {
     return new Date().toISOString().split('T')[0];
@@ -178,9 +185,6 @@ export class AddCustomer implements OnInit {
   }
 
   ngOnInit() {
-    this.lookupService.getCountries().subscribe({ next: data => this.nationalities = data });
-    this.lookupService.getRegions().subscribe({ next: data => this.regions = data });
-
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.isEditMode.set(true);
