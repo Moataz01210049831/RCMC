@@ -4,6 +4,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommercialRegisterService } from '../../../core/services/commercial-register.service';
 import { SelectedEntityService } from '../../../core/services/selected-entity.service';
 import { EntityCardData } from '../../../core/models/customer-card.model';
+import { RelatedCR } from '../../../core/models/person-related.model';
 
 interface ServiceItem {
   code: string;
@@ -57,6 +58,8 @@ export class RelatedEntities {
   entities = signal<Entity[]>([]);
   selectedEntityId = signal<string>('');
 
+  private rawRelatedCRs: RelatedCR[] = [];
+
   constructor(
     private router: Router,
     private commercialRegister: CommercialRegisterService,
@@ -94,14 +97,15 @@ export class RelatedEntities {
       .subscribe({
         next: data => {
           if (!data) return;
+          this.rawRelatedCRs = data.RelatedCRList ?? [];
           this.crListByNumber.clear();
-          (data.RelatedCRList ?? []).forEach(cr =>
+          this.rawRelatedCRs.forEach(cr =>
             this.crListByNumber.set(cr.CrBasicInfo.CrNumber, {
               CrNationalNumber: cr.CrBasicInfo.CrNationalNumber,
               CrNumber:         cr.CrBasicInfo.CrNumber,
             }),
           );
-          const businessEntities: Entity[] = (data.RelatedCRList ?? []).map(cr => ({
+          const businessEntities: Entity[] = this.rawRelatedCRs.map(cr => ({
             id:       cr.CrBasicInfo.CrNumber,
             nameAr:   cr.CrBasicInfo.EntityFullNameAr,
             nameEn:   cr.CrBasicInfo.EntityFullNameEn,
@@ -110,6 +114,13 @@ export class RelatedEntities {
             serviceCards: EMPTY_SERVICE_CARDS,
           }));
           this.entities.set([personEntity, ...businessEntities]);
+          this.selectedEntityService.setContext({
+            parityNameAr:      data.ParityNameAr ?? '',
+            parityNameEn:      data.ParityNameEn ?? '',
+            identifierNo:      data.IdentifierNo ?? identifierNo,
+            identifierType:    data.IdentifierType ?? null,
+            selectedRelatedCR: null,
+          });
           // Keep "فرد" selected by default — don't reset selection here.
           this.publishEntity(null);
         },
@@ -169,6 +180,14 @@ export class RelatedEntities {
     if (!type || !this.customerId()) return;
     const navigate = () => this.router.navigate(['/customers', this.customerId(), 'tickets', type]);
     const id = this.selectedEntityId();
+
+    // Snapshot which RelatedCR (if any) the user is filing against
+    const selectedCR = this.rawRelatedCRs.find(cr => cr.CrBasicInfo.CrNumber === id) ?? null;
+    const ctx = this.selectedEntityService.context();
+    if (ctx) {
+      this.selectedEntityService.setContext({ ...ctx, selectedRelatedCR: selectedCR });
+    }
+
     if (!id) {
       this.publishEntity(null);
       navigate();

@@ -1,4 +1,5 @@
 import { ComplaintRequirement } from './complaint-requirement.model';
+import { IdentifierType, RelatedCR } from './person-related.model';
 
 export interface AddComplaintForm {
   serviceProviderId:    string | null;
@@ -21,6 +22,14 @@ export interface ComplaintAttachment {
   mimeType: string;
 }
 
+export interface RelatedContext {
+  parityNameAr:      string;
+  parityNameEn:      string;
+  identifierNo:      string;
+  identifierType:    IdentifierType | null;
+  selectedRelatedCR: RelatedCR | null;
+}
+
 export interface AddComplaintPayload {
   description:               string;
   contactId:                 string;
@@ -32,6 +41,11 @@ export interface AddComplaintPayload {
   complaintSubCategoryId:    string;
   regionId:                  string;
   commercialRecord:          string;
+  parityNameAr:              string;
+  parityNameEn:              string;
+  identifierNo:              string;
+  identifierType:            IdentifierType | null;
+  relatedCRList:             RelatedCR[];
   questionId:                string[];
   complainQuestions:         Record<string, string | string[]>;
   relatedTicketIds:          string[];

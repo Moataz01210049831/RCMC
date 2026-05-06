@@ -27,6 +27,7 @@ export class CustomerTickets {
 
   contactId = '';
   commercialRecord = computed(() => this.selectedEntityService.entity()?.crNumber ?? '');
+  relatedContext = computed(() => this.selectedEntityService.context());
 
   private pendingComplaintPayload: AddComplaintPayload | null = null;
 

@@ -9,6 +9,7 @@
         <app-add-complaint
           [contactId]="contactId"
           [commercialRecord]="commercialRecord()"
+          [relatedContext]="relatedContext()"
           (cancel)="cancelAdd()"
           (submitted)="onComplaintSubmitted($event)" />
       }
