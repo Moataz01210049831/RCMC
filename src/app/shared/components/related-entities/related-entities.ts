@@ -84,6 +84,7 @@ export class RelatedEntities {
   private loadRelated(identifierNo: string, identifierTypeId: number, nationalityId: number) {
     const personEntity = this.buildPersonEntity(identifierNo);
     this.entities.set([personEntity]);
+    this.selectedEntityId.set(personEntity.id);
 
     this.commercialRegister
       .getPersonRelated({
@@ -107,7 +108,7 @@ export class RelatedEntities {
             serviceCards: EMPTY_SERVICE_CARDS,
           }));
           this.entities.set([personEntity, ...businessEntities]);
-          this.selectedEntityId.set('');
+          // Keep "فرد" selected by default — don't reset selection here.
           this.publishEntity(null);
         },
       });
