@@ -131,22 +131,19 @@
                   [name]="'req-' + req.Id"
                   [(ngModel)]="req.Value"
                   [readonly]="req.ReadOnly"
-                  [attr.max]="today"
                   onkeydown="event.preventDefault()"
                   onclick="this.showPicker && this.showPicker()" />
-                @if (req.Value && req.Value > today) {
-                  <span class="error" [attr.id]="'add-complaint-error-req-' + req.Id">
-                    {{ 'TICKETS.DATE_EXCEEDS_TODAY' | translate }}
-                  </span>
-                }
               }
               @case ('number') {
                 <input [attr.id]="'add-complaint-input-req-' + req.Id"
                   type="number"
                   inputmode="numeric"
+                  pattern="[0-9]*"
                   [name]="'req-' + req.Id"
                   [(ngModel)]="req.Value"
-                  [readonly]="req.ReadOnly" />
+                  [readonly]="req.ReadOnly"
+                  (keydown)="blockNonDigitKeys($event)"
+                  (input)="sanitizeNumberInput(req, $event)" />
               }
               @case ('multipleselect') {
                 <app-multi-select [attr.id]="'add-complaint-input-req-' + req.Id"

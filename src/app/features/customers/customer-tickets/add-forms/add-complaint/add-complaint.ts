@@ -161,8 +161,22 @@ export class AddComplaint implements OnInit {
   private isRequirementFilled(r: ComplaintRequirement): boolean {
     if (r.Type === 'file' || r.Type === 'attachment') return Array.isArray(r.Value) && r.Value.length > 0;
     if (r.Type === 'multipleselect') return Array.isArray(r.Value) && r.Value.length > 0;
-    if (r.Type === 'date') return !!r.Value && r.Value <= this.today;
     return r.Value !== null && r.Value !== undefined && r.Value !== '';
+  }
+
+  blockNonDigitKeys(event: KeyboardEvent) {
+    if (['e', 'E', '+', '-', '.', ','].includes(event.key)) {
+      event.preventDefault();
+    }
+  }
+
+  sanitizeNumberInput(req: ComplaintRequirement, event: Event) {
+    const input = event.target as HTMLInputElement;
+    const cleaned = input.value.replace(/[^0-9]/g, '');
+    if (input.value !== cleaned) {
+      input.value = cleaned;
+    }
+    req.Value = cleaned;
   }
 
   steps = [
