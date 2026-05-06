@@ -99,7 +99,7 @@
   &:hover { background: $hover-bg; }
 }
 
-[dir="rtl"] .dp-nav svg { transform: scaleX(-1); }
+:host-context([dir="rtl"]) .dp-nav svg { transform: scaleX(-1); }
 
 .dp-month-label {
   font-size: 0.9rem;
