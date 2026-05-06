@@ -17,7 +17,7 @@ export class ComplaintsService {
       return of('dummy-complaint-id');
     }
     return this.http
-      .post<ApiResponse<string>>(`${this.apiUrl}/Complaints/Create`, payload)
+      .post<ApiResponse<string>>(`${this.apiUrl}/Complain/AddComplains`, payload)
       .pipe(map(res => res.Data));
   }
 }
