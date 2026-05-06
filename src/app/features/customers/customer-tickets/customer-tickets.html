@@ -6,7 +6,11 @@
   @if (mode() === 'add') {
     @switch (activeType()) {
       @case ('complaints') {
-        <app-add-complaint (cancel)="cancelAdd()" (submitted)="onAddSubmitted()" />
+        <app-add-complaint
+          [contactId]="contactId"
+          [commercialRecord]="commercialRecord()"
+          (cancel)="cancelAdd()"
+          (submitted)="onComplaintSubmitted($event)" />
       }
       @case ('requests') {
         <app-add-request (cancel)="cancelAdd()" (submitted)="onAddSubmitted()" />

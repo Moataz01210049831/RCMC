@@ -70,7 +70,21 @@ export class RelatedEntities {
     });
   }
 
+  private buildPersonEntity(identifierNo: string): Entity {
+    return {
+      id: `person-${identifierNo}`,
+      nameAr: this.translate.instant('ENTITIES.INDIVIDUAL'),
+      nameEn: this.translate.instant('ENTITIES.INDIVIDUAL'),
+      number: identifierNo,
+      isPerson: true,
+      serviceCards: EMPTY_SERVICE_CARDS,
+    };
+  }
+
   private loadRelated(identifierNo: string, identifierTypeId: number, nationalityId: number) {
+    const personEntity = this.buildPersonEntity(identifierNo);
+    this.entities.set([personEntity]);
+
     this.commercialRegister
       .getPersonRelated({
         IdentifierTypeID: identifierTypeId,
@@ -92,11 +106,9 @@ export class RelatedEntities {
             isPerson: false,
             serviceCards: EMPTY_SERVICE_CARDS,
           }));
-          this.entities.set(businessEntities);
-          const firstId = businessEntities[0]?.id ?? '';
-          this.selectedEntityId.set(firstId);
-          if (firstId) this.loadEntityDetails(firstId);
-          else this.publishEntity(null);
+          this.entities.set([personEntity, ...businessEntities]);
+          this.selectedEntityId.set('');
+          this.publishEntity(null);
         },
       });
   }

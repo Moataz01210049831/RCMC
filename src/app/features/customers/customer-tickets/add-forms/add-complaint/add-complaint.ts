@@ -1,12 +1,13 @@
-import { Component, EventEmitter, OnInit, Output, signal } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { LookupItem, LookupService } from '../../../../../core/services/lookup.service';
 import { SearchableSelect } from '../../../../../shared/components/searchable-select/searchable-select';
 import { FileUpload } from '../../../../../shared/components/file-upload/file-upload';
 import { MultiSelect } from '../../../../../shared/components/multi-select/multi-select';
-import { AddComplaintForm } from '../../../../../core/models/add-complaint.model';
+import { AddComplaintForm, AddComplaintPayload, ComplaintAttachment } from '../../../../../core/models/add-complaint.model';
 import { ComplaintRequirement } from '../../../../../core/models/complaint-requirement.model';
+import { fileToBase64 } from '../../../../../core/utils/file-to-base64';
 
 @Component({
   selector: 'app-add-complaint',
@@ -15,8 +16,11 @@ import { ComplaintRequirement } from '../../../../../core/models/complaint-requi
   styleUrl: '../add-form.scss',
 })
 export class AddComplaint implements OnInit {
+  @Input() contactId = '';
+  @Input() commercialRecord = '';
+
   @Output() cancel = new EventEmitter<void>();
-  @Output() submitted = new EventEmitter<AddComplaintForm>();
+  @Output() submitted = new EventEmitter<AddComplaintPayload>();
 
   currentStep = signal<1 | 2 | 3>(1);
 
@@ -35,7 +39,10 @@ export class AddComplaint implements OnInit {
       next: data => (this.mainClassifications = data),
     });
     this.lookupService.getSubCategoryClass().subscribe({
-      next: data => (this.form.complaintCategory = data[0]?.Name ?? null),
+      next: data => {
+        this.form.complaintCategory   = data[0]?.Name  ?? null;
+        this.form.complaintCategoryId = data[0]?.Value ?? null;
+      },
     });
   }
 
@@ -46,6 +53,7 @@ export class AddComplaint implements OnInit {
     mainClassificationId: null,
     subClassificationId:  null,
     complaintCategory:    null,
+    complaintCategoryId:  null,
     regionId:             null,
     requirements:         [],
     relatedTickets:       [],
@@ -111,7 +119,7 @@ export class AddComplaint implements OnInit {
   }
 
   private initialRequirementValue(r: ComplaintRequirement): any {
-    if (r.Type === 'file') return [];
+    if (r.Type === 'file' || r.Type === 'attachment') return [];
     if (r.Type === 'radio') return r.Options[1] ?? '';
     return r.Value ?? '';
   }
@@ -145,7 +153,7 @@ export class AddComplaint implements OnInit {
   }
 
   private isRequirementFilled(r: ComplaintRequirement): boolean {
-    if (r.Type === 'file') return Array.isArray(r.Value) && r.Value.length > 0;
+    if (r.Type === 'file' || r.Type === 'attachment') return Array.isArray(r.Value) && r.Value.length > 0;
     if (r.Type === 'date') return !!r.Value && r.Value <= this.today;
     return r.Value !== null && r.Value !== undefined && r.Value !== '';
   }
@@ -167,10 +175,57 @@ export class AddComplaint implements OnInit {
     if (!this.canProceed) return;
     if (this.currentStep() < 3) {
       this.currentStep.set((this.currentStep() + 1) as 1 | 2 | 3);
-    } else {
-      console.log('Add Complaint Form Data:', this.form);
-      this.submitted.emit(this.form);
+      return;
     }
+    void this.submit();
+  }
+
+  private async submit() {
+    const payload = await this.buildPayload();
+    this.submitted.emit(payload);
+  }
+
+  private async buildPayload(): Promise<AddComplaintPayload> {
+    const attachments: ComplaintAttachment[] = await Promise.all(
+      (this.form.attachments ?? []).map(async file => ({
+        fileName: file.name,
+        base64:   await fileToBase64(file),
+        mimeType: file.type,
+      })),
+    );
+
+    const complainQuestions: Record<string, string | string[]> = {};
+    for (const req of this.form.requirements) {
+      complainQuestions[req.Id] = await this.serializeRequirementValue(req);
+    }
+
+    return {
+      description:             this.form.description,
+      contactId:               this.contactId,
+      serviceProviderId:       this.form.serviceProviderId  ?? '',
+      mainServiceId:           this.form.mainServiceId      ?? '',
+      subServiceId:            this.form.subServiceId       ?? '',
+      complaintCategoryId:     this.form.complaintCategoryId ?? '',
+      complaintMainCategoryId: this.form.mainClassificationId ?? '',
+      complaintSubCategoryId:  this.form.subClassificationId  ?? '',
+      regionId:                this.form.regionId ?? '',
+      commercialRecord:        this.commercialRecord,
+      questionId:              this.form.requirements.map(r => r.Id),
+      complainQuestions,
+      relatedTicketIds:        this.form.relatedTickets ?? [],
+      isAttached:              attachments.length > 0,
+      attachments,
+    };
+  }
+
+  private async serializeRequirementValue(req: ComplaintRequirement): Promise<string | string[]> {
+    if (req.Type === 'file' || req.Type === 'attachment') {
+      const files = Array.isArray(req.Value) ? (req.Value as File[]) : [];
+      if (files.length === 0) return '';
+      return fileToBase64(files[0]);
+    }
+    if (Array.isArray(req.Value)) return req.Value.map(v => String(v));
+    return req.Value == null ? '' : String(req.Value);
   }
 
   prev() {
