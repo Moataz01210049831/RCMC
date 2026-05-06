@@ -121,8 +121,13 @@ export class AddComplaint implements OnInit {
 
   private initialRequirementValue(r: ComplaintRequirement): any {
     if (r.Type === 'file' || r.Type === 'attachment') return [];
-    if (r.Type === 'radio') return r.Options[1] ?? '';
+    if (r.Type === 'multipleselect') return [];
+    if (r.Type === 'radio') return 'false';
     return r.Value ?? '';
+  }
+
+  optionsAsItems(req: ComplaintRequirement): LookupItem[] {
+    return (req.Options ?? []).map(o => ({ Value: o, Name: o }));
   }
 
   onRequirementFilesChange(req: ComplaintRequirement, files: File[]) {
@@ -131,7 +136,7 @@ export class AddComplaint implements OnInit {
 
   onRadioToggle(req: ComplaintRequirement, event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
-    req.Value = checked ? req.Options[0] : req.Options[1];
+    req.Value = checked ? 'true' : 'false';
   }
 
   // Step 3 options
@@ -155,6 +160,7 @@ export class AddComplaint implements OnInit {
 
   private isRequirementFilled(r: ComplaintRequirement): boolean {
     if (r.Type === 'file' || r.Type === 'attachment') return Array.isArray(r.Value) && r.Value.length > 0;
+    if (r.Type === 'multipleselect') return Array.isArray(r.Value) && r.Value.length > 0;
     if (r.Type === 'date') return !!r.Value && r.Value <= this.today;
     return r.Value !== null && r.Value !== undefined && r.Value !== '';
   }

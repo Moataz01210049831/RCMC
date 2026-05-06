@@ -1,4 +1,4 @@
-export type ComplaintRequirementType = 'text' | 'dropdown' | 'date' | 'file' | string;
+export type ComplaintRequirementType = 'text' | 'number' | 'dropdown' | 'date' | 'file' | 'radio' | 'multipleselect' | string;
 
 export interface ComplaintRequirement {
   Id: string;

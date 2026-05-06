@@ -87,7 +87,7 @@
             <label class="toggle" [attr.id]="'add-complaint-label-req-' + req.Id">
               <input type="checkbox"
                 [attr.id]="'add-complaint-input-req-' + req.Id"
-                [checked]="req.Value === req.Options[0]"
+                [checked]="req.Value === 'true'"
                 (change)="onRadioToggle(req, $event)"
                 [disabled]="req.ReadOnly" />
               <span class="toggle-track" [attr.id]="'add-complaint-toggle-track-' + req.Id">
@@ -139,6 +139,22 @@
                     {{ 'TICKETS.DATE_EXCEEDS_TODAY' | translate }}
                   </span>
                 }
+              }
+              @case ('number') {
+                <input [attr.id]="'add-complaint-input-req-' + req.Id"
+                  type="number"
+                  inputmode="numeric"
+                  [name]="'req-' + req.Id"
+                  [(ngModel)]="req.Value"
+                  [readonly]="req.ReadOnly" />
+              }
+              @case ('multipleselect') {
+                <app-multi-select [attr.id]="'add-complaint-input-req-' + req.Id"
+                  [name]="'req-' + req.Id"
+                  [(ngModel)]="req.Value"
+                  [items]="optionsAsItems(req)"
+                  [placeholder]="'SEARCHABLE_SELECT.CHOOSE' | translate">
+                </app-multi-select>
               }
               @default {
                 <input [attr.id]="'add-complaint-input-req-' + req.Id"
