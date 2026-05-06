@@ -227,6 +227,9 @@
     "CHOOSE": "اختر...",
     "SEARCH": "بحث..."
   },
+  "DATE_PICKER": {
+    "CHOOSE_DATE": "اختر التاريخ..."
+  },
   "LANG": {
     "AR": "العربية",
     "EN": "English"

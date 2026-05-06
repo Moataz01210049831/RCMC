@@ -41,23 +41,16 @@
 
         <div id="add-customer-field-dob" class="field-group">
           <label id="add-customer-label-dob">{{ 'CUSTOMER.DATE_OF_BIRTH' | translate }} <span class="req">*</span></label>
-          <div id="add-customer-date-wrapper" class="date-wrapper" (click)="dateInput.showPicker()">
-            <input id="add-customer-input-dob" type="date" name="dateOfBirth" [(ngModel)]="customer.dateOfBirth"
-              required [max]="maxDate" placeholder="YYYY-MM-DD"
-              [disabled]="isEditMode()"
-              #dateInput #dobCtrl="ngModel" [class.invalid]="submitted() && dobCtrl.invalid" />
-            <svg id="add-customer-cal-icon" class="cal-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-              <line x1="16" y1="2" x2="16" y2="6"/>
-              <line x1="8" y1="2" x2="8" y2="6"/>
-              <line x1="3" y1="10" x2="21" y2="10"/>
-            </svg>
-          </div>
+          <app-date-picker id="add-customer-input-dob" name="dateOfBirth"
+            [(ngModel)]="customer.dateOfBirth"
+            required
+            [max]="maxDate"
+            [disabled]="isEditMode()"
+            [invalid]="submitted() && dobCtrl.invalid"
+            #dobCtrl="ngModel">
+          </app-date-picker>
           @if (submitted() && dobCtrl.errors?.['required']) {
             <span id="add-customer-error-dob" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
-          } @else if (submitted() && dobCtrl.errors?.['max']) {
-            <span id="add-customer-error-dob-future" class="error">{{ 'CUSTOMER.NO_FUTURE_DATE' | translate }}</span>
           }
         </div>
 

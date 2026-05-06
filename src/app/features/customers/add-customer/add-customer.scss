@@ -141,28 +141,6 @@ $gold: $accent;
   &:disabled { opacity: 0.45; cursor: not-allowed; }
 }
 
-// ── Date field ────────────────────────────────────────────────────
-.date-wrapper {
-  position: relative;
-  cursor: pointer;
-
-  input {
-    padding-left: 36px;
-    cursor: pointer;
-  }
-
-  .cal-icon {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
-    color: #aaa;
-    pointer-events: none;
-  }
-}
-
 // ── Phone field ───────────────────────────────────────────────────
 .phone-wrapper {
   display: flex;

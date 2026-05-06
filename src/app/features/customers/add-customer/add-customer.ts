@@ -8,10 +8,11 @@ import { ToastService } from '../../../core/services/toast.service';
 import { LanguageService } from '../../../core/services/language.service';
 import { SearchableSelect } from '../../../shared/components/searchable-select/searchable-select';
 import { ConfirmDialog } from '../../../shared/components/confirm-dialog/confirm-dialog';
+import { DatePicker } from '../../../shared/components/date-picker/date-picker';
 
 @Component({
   selector: 'app-add-customer',
-  imports: [FormsModule, TranslateModule, SearchableSelect, ConfirmDialog],
+  imports: [FormsModule, TranslateModule, SearchableSelect, ConfirmDialog, DatePicker],
   templateUrl: './add-customer.html',
   styleUrl: './add-customer.scss',
 })

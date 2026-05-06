@@ -5,13 +5,14 @@ import { LookupItem, LookupService } from '../../../../../core/services/lookup.s
 import { SearchableSelect } from '../../../../../shared/components/searchable-select/searchable-select';
 import { FileUpload } from '../../../../../shared/components/file-upload/file-upload';
 import { MultiSelect } from '../../../../../shared/components/multi-select/multi-select';
+import { DatePicker } from '../../../../../shared/components/date-picker/date-picker';
 import { AddComplaintForm, AddComplaintPayload, ComplaintAttachment, RelatedContext } from '../../../../../core/models/add-complaint.model';
 import { ComplaintRequirement } from '../../../../../core/models/complaint-requirement.model';
 import { fileToBase64 } from '../../../../../core/utils/file-to-base64';
 
 @Component({
   selector: 'app-add-complaint',
-  imports: [TranslateModule, FormsModule, SearchableSelect, FileUpload, MultiSelect],
+  imports: [TranslateModule, FormsModule, SearchableSelect, FileUpload, MultiSelect, DatePicker],
   templateUrl: './add-complaint.html',
   styleUrl: '../add-form.scss',
 })

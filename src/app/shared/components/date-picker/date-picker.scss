@@ -1,0 +1,143 @@
+@use '../../../../styles/variables' as *;
+
+:host {
+  display: block;
+  outline: none;
+  border-radius: $radius-input;
+}
+
+:host(.disabled) .dp-trigger {
+  cursor: not-allowed;
+  background: #f0f0f0;
+  color: $text-muted;
+  pointer-events: none;
+}
+
+.dp-container {
+  position: relative;
+  width: 100%;
+}
+
+.dp-trigger {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid $border;
+  border-radius: $radius-input;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.88rem;
+  background: $bg-card;
+  transition: border-color 0.2s;
+  gap: 6px;
+  user-select: none;
+
+  &:hover   { border-color: $border-dark; }
+  &.open    { border-color: $primary; }
+  &.invalid { border-color: $error; background: #fff8f8; }
+}
+
+.dp-placeholder { color: $text-placeholder; flex: 1; text-align: start; }
+.dp-value       { flex: 1; color: $text-primary; text-align: start; }
+
+.dp-clear {
+  background: none;
+  border: none;
+  color: $text-muted;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+  flex-shrink: 0;
+
+  &:hover { color: $error; }
+}
+
+.dp-icon {
+  width: 16px;
+  height: 16px;
+  color: $text-muted;
+  flex-shrink: 0;
+}
+
+.dp-popup {
+  position: absolute;
+  top: calc(100% + 4px);
+  inset-inline-start: 0;
+  width: 280px;
+  background: #fff;
+  border: 1px solid $border;
+  border-radius: $radius-input;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.dp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.dp-nav {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  color: $text-primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg { width: 14px; height: 14px; }
+
+  &:hover { background: $hover-bg; }
+}
+
+[dir="rtl"] .dp-nav svg { transform: scaleX(-1); }
+
+.dp-month-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: $text-primary;
+}
+
+.dp-weekdays,
+.dp-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.dp-weekday {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: $text-muted;
+  text-align: center;
+  padding: 4px 0;
+}
+
+.dp-day {
+  height: 32px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.82rem;
+  color: $text-primary;
+  transition: background 0.15s;
+
+  &:hover { background: $hover-bg; }
+
+  &.muted    { color: $text-placeholder; }
+  &.today    { border: 1px solid $primary; }
+  &.selected { background: $primary; color: #fff; }
+  &.disabled { color: $text-placeholder; cursor: not-allowed; opacity: 0.5; }
+  &.disabled:hover { background: transparent; }
+}

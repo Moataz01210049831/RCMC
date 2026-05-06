@@ -124,13 +124,11 @@
                 </app-searchable-select>
               }
               @case ('date') {
-                <input [attr.id]="'add-complaint-input-req-' + req.Id"
-                  type="date"
+                <app-date-picker [attr.id]="'add-complaint-input-req-' + req.Id"
                   [name]="'req-' + req.Id"
                   [(ngModel)]="req.Value"
-                  [readonly]="req.ReadOnly"
-                  onkeydown="event.preventDefault()"
-                  onclick="this.showPicker && this.showPicker()" />
+                  [disabled]="req.ReadOnly">
+                </app-date-picker>
               }
               @case ('number') {
                 <input [attr.id]="'add-complaint-input-req-' + req.Id"
