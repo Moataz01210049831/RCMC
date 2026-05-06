@@ -12,7 +12,7 @@ export class CommercialRegisterService {
 
   getPersonRelated(body: PersonRelatedRequest) {
     return this.http.post<PersonRelatedResponse>(
-      `${this.apiUrl}/CommercialRegister/PersonRelated`,
+      `${this.apiUrl}/CommercialRegister/GetPersonRelatedCrsAsync`,
       body,
     );
   }

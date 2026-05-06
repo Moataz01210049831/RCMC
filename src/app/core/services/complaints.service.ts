@@ -16,8 +16,10 @@ export class ComplaintsService {
       void payload;
       return of('dummy-complaint-id');
     }
+    const formData = new FormData();
+    formData.append('complainViewModel', JSON.stringify(payload));
     return this.http
-      .post<ApiResponse<string>>(`${this.apiUrl}/Complain/AddComplains`, payload)
+      .post<ApiResponse<string>>(`${this.apiUrl}/Complain/AddComplains`, formData)
       .pipe(map(res => res.Data));
   }
 }

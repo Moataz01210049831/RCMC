@@ -66,7 +66,7 @@ export class RelatedEntities {
     effect(() => {
       const idNo = this.identityNumber();
       if (!idNo) return;
-      this.loadRelated(idNo, this.identityTypeId(), this.nationalityId());
+      this.loadRelated(idNo, this.identityTypeId());
     });
   }
 
@@ -81,7 +81,7 @@ export class RelatedEntities {
     };
   }
 
-  private loadRelated(identifierNo: string, identifierTypeId: number, nationalityId: number) {
+  private loadRelated(identifierNo: string, identifierTypeId: number) {
     const personEntity = this.buildPersonEntity(identifierNo);
     this.entities.set([personEntity]);
     this.selectedEntityId.set(personEntity.id);
@@ -90,20 +90,22 @@ export class RelatedEntities {
       .getPersonRelated({
         IdentifierTypeID: identifierTypeId,
         IdentifierNo: identifierNo,
-        NationalityID: nationalityId,
-        Limit: 0,
-        Offset: 0,
       })
       .subscribe({
         next: data => {
           if (!data) return;
           this.crListByNumber.clear();
-          (data.RelatedCRList ?? []).forEach(cr => this.crListByNumber.set(cr.CrNumber, cr));
+          (data.RelatedCRList ?? []).forEach(cr =>
+            this.crListByNumber.set(cr.CrBasicInfo.CrNumber, {
+              CrNationalNumber: cr.CrBasicInfo.CrNationalNumber,
+              CrNumber:         cr.CrBasicInfo.CrNumber,
+            }),
+          );
           const businessEntities: Entity[] = (data.RelatedCRList ?? []).map(cr => ({
-            id: cr.CrNumber,
-            nameAr: cr.EntityFullNameAr,
-            nameEn: cr.EntityFullNameEn,
-            number: cr.CrNumber,
+            id:       cr.CrBasicInfo.CrNumber,
+            nameAr:   cr.CrBasicInfo.EntityFullNameAr,
+            nameEn:   cr.CrBasicInfo.EntityFullNameEn,
+            number:   cr.CrBasicInfo.CrNumber,
             isPerson: false,
             serviceCards: EMPTY_SERVICE_CARDS,
           }));
