@@ -115,15 +115,13 @@
 
             @switch (req.Type) {
               @case ('dropdown') {
-                <select [attr.id]="'add-complaint-input-req-' + req.Id"
+                <app-searchable-select [attr.id]="'add-complaint-input-req-' + req.Id"
                   [name]="'req-' + req.Id"
                   [(ngModel)]="req.Value"
-                  [disabled]="req.ReadOnly">
-                  <option [ngValue]="''">{{ 'SEARCHABLE_SELECT.CHOOSE' | translate }}</option>
-                  @for (opt of req.Options; track opt) {
-                    <option [ngValue]="opt">{{ opt }}</option>
-                  }
-                </select>
+                  [items]="optionsAsItems(req)"
+                  [disabled]="req.ReadOnly"
+                  [placeholder]="'SEARCHABLE_SELECT.CHOOSE' | translate">
+                </app-searchable-select>
               }
               @case ('date') {
                 <input [attr.id]="'add-complaint-input-req-' + req.Id"
