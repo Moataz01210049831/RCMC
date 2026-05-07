@@ -1,19 +1,12 @@
 import { Component, computed, effect, EventEmitter, input, Output, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { forkJoin, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
 import { CommercialRegisterService } from '../../../core/services/commercial-register.service';
 import { SelectedEntityService } from '../../../core/services/selected-entity.service';
 import { ComplaintsService } from '../../../core/services/complaints.service';
 import { EntityCardData } from '../../../core/models/customer-card.model';
 import { RelatedCR } from '../../../core/models/person-related.model';
-
-interface EnrichedTicket {
-  IncidentId:   string;
-  TicketNumber: string;
-  statusLabel:  string;
-}
+import { RelatedTicket } from '../../../core/models/related-ticket.model';
 
 interface ServiceItem {
   code: string;
@@ -68,7 +61,7 @@ export class RelatedEntities {
   selectedEntityId = signal<string>('');
 
   private rawRelatedCRs: RelatedCR[] = [];
-  private complaintTickets = signal<EnrichedTicket[]>([]);
+  private complaintTickets = signal<RelatedTicket[]>([]);
 
   constructor(
     private router: Router,
@@ -89,23 +82,8 @@ export class RelatedEntities {
   }
 
   private loadComplaintTickets(customerId: string) {
-    this.complaintsService.getRelatedTicketsByCustomer(customerId).pipe(
-      switchMap(tickets => {
-        if (tickets.length === 0) return of<EnrichedTicket[]>([]);
-        return forkJoin(
-          tickets.map(t =>
-            this.complaintsService.getComplainDetails(t.IncidentId).pipe(
-              map(d => ({
-                IncidentId:   t.IncidentId,
-                TicketNumber: t.TicketNumber,
-                statusLabel:  d?.Status ?? '',
-              })),
-            ),
-          ),
-        );
-      }),
-    ).subscribe({
-      next: enriched => this.complaintTickets.set(enriched),
+    this.complaintsService.getRelatedTicketsByCustomer(customerId).subscribe({
+      next: tickets => this.complaintTickets.set(tickets),
     });
   }
 
@@ -205,7 +183,7 @@ export class RelatedEntities {
     if (!this.selectedEntityId()) return [];
     const complaintItems: ServiceItem[] = this.complaintTickets().map(t => ({
       code:      t.TicketNumber,
-      statusKey: t.statusLabel || '-',
+      statusKey: t.statuslabel || '-',
     }));
     return [
       { titleKey: 'ENTITIES.REQUESTS',    count: 0,                     descriptionKey: '', items: [] },

@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, signal, computed } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { forkJoin } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CustomerCard } from '../../../../shared/components/customer-card/customer-card';
 import { CustomerService } from '../../../../core/services/customer.service';
@@ -110,24 +109,15 @@ export class TicketsLayout implements OnInit {
 
   private loadComplaints(contactId: string) {
     if (!contactId) return;
-    this.complaintsService.getRelatedTicketsByCustomer(contactId).pipe(
-      switchMap(tickets => {
-        if (tickets.length === 0) return of<TicketListItem[]>([]);
-        return forkJoin(
-          tickets.map(t =>
-            this.complaintsService.getComplainDetails(t.IncidentId).pipe(
-              map<ComplainDetailsData | null, TicketListItem>(d => ({
-                code:       t.TicketNumber,
-                statusKey:  d?.Status || '-',
-                incidentId: t.IncidentId,
-              })),
-            ),
-          ),
+    this.complaintsService.getRelatedTicketsByCustomer(contactId).subscribe({
+      next: tickets => {
+        this.complaintsList.set(
+          tickets.map(t => ({
+            code:       t.TicketNumber,
+            statusKey:  t.statuslabel || '-',
+            incidentId: t.IncidentId,
+          })),
         );
-      }),
-    ).subscribe({
-      next: items => {
-        this.complaintsList.set(items);
         if (this.activeType() === 'complaints') this.refreshActiveTicket();
       },
     });
