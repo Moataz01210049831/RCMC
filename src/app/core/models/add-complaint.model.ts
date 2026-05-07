@@ -16,12 +16,6 @@ export interface AddComplaintForm {
   attachments:          File[];
 }
 
-export interface ComplaintAttachment {
-  fileName: string;
-  base64:   string;
-  mimeType: string;
-}
-
 export interface RelatedContext {
   parityNameAr:      string;
   parityNameEn:      string;
@@ -31,24 +25,25 @@ export interface RelatedContext {
 }
 
 export interface AddComplaintPayload {
-  description:               string;
-  contactId:                 string;
-  serviceProviderId:         string;
-  mainServiceId:             string;
-  subServiceId:              string;
-  complaintCategoryId:       string;
-  complaintMainCategoryId:   string;
-  complaintSubCategoryId:    string;
-  regionId:                  string;
-  commercialRecord:          string;
-  parityNameAr:              string;
-  parityNameEn:              string;
-  identifierNo:              string;
-  identifierType:            IdentifierType | null;
-  relatedCRList:             RelatedCR[];
-  questionId:                string[];
-  complainQuestions:         Record<string, string | string[]>;
-  relatedTicketIds:          string[];
-  isAttached:                boolean;
-  attachments:               ComplaintAttachment[];
+  serviceProviderId:           string;
+  mainServiceId:               string;
+  subServiceId:                string;
+  title:                       string;
+  complaintCategoryId:         string;
+  complaintMainCategoryId:     string;
+  complaintSubCategoryId:      string;
+  complaintSubCategoryClassId: string;
+  regionId:                    string;
+  entityTypeId:                string;
+  commercialRecordId:          string;
+  customerId:                  string;
+  description:                 string;
+  agentQuestionnaire:          string;
+  complainQuestions:           Record<string, string | string[]>;
+}
+
+export interface AddComplaintSubmission {
+  payload:         AddComplaintPayload;
+  attachments:     File[];
+  fileDescription: string;
 }

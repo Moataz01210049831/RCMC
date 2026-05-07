@@ -11,7 +11,7 @@ import { ConfirmDialog }  from '../../../shared/components/confirm-dialog/confir
 import { ComplaintsService } from '../../../core/services/complaints.service';
 import { SelectedEntityService } from '../../../core/services/selected-entity.service';
 import { ToastService } from '../../../core/services/toast.service';
-import { AddComplaintPayload } from '../../../core/models/add-complaint.model';
+import { AddComplaintSubmission } from '../../../core/models/add-complaint.model';
 
 @Component({
   selector: 'app-customer-tickets',
@@ -29,7 +29,7 @@ export class CustomerTickets {
   commercialRecord = computed(() => this.selectedEntityService.entity()?.crNumber ?? '');
   relatedContext = computed(() => this.selectedEntityService.context());
 
-  private pendingComplaintPayload: AddComplaintPayload | null = null;
+  private pendingComplaintSubmission: AddComplaintSubmission | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -59,8 +59,8 @@ export class CustomerTickets {
     this.mode.set('view');
   }
 
-  onComplaintSubmitted(payload: AddComplaintPayload) {
-    this.pendingComplaintPayload = payload;
+  onComplaintSubmitted(submission: AddComplaintSubmission) {
+    this.pendingComplaintSubmission = submission;
     this.showConfirm.set(true);
   }
 
@@ -70,11 +70,11 @@ export class CustomerTickets {
 
   onConfirmSave() {
     this.showConfirm.set(false);
-    if (this.pendingComplaintPayload && this.activeType() === 'complaints') {
-      this.complaintsService.createComplaint(this.pendingComplaintPayload).subscribe({
+    if (this.pendingComplaintSubmission && this.activeType() === 'complaints') {
+      this.complaintsService.createComplaint(this.pendingComplaintSubmission).subscribe({
         next: () => {
           this.toast.success(this.translate.instant('TOAST.SUCCESS_TITLE'));
-          this.pendingComplaintPayload = null;
+          this.pendingComplaintSubmission = null;
           this.mode.set('view');
         },
       });
@@ -85,6 +85,6 @@ export class CustomerTickets {
 
   onCancelConfirm() {
     this.showConfirm.set(false);
-    this.pendingComplaintPayload = null;
+    this.pendingComplaintSubmission = null;
   }
 }

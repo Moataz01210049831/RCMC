@@ -19,4 +19,6 @@ export interface EntityCardData {
   crNumber: string;
   unifiedNumber: string;
   phone: string;
+  entityTypeId?: string;
+  commercialRecordId?: string;
 }

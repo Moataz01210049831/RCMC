@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../models/api-response.model';
-import { AddComplaintPayload } from '../models/add-complaint.model';
+import { AddComplaintSubmission } from '../models/add-complaint.model';
 import { RelatedTicket } from '../models/related-ticket.model';
 import { ComplainDetailsData } from '../models/complain-details.model';
 
@@ -13,13 +13,17 @@ export class ComplaintsService {
 
   constructor(private http: HttpClient) {}
 
-  createComplaint(payload: AddComplaintPayload) {
+  createComplaint(submission: AddComplaintSubmission) {
     if (environment.useDummyData) {
-      void payload;
+      void submission;
       return of('dummy-complaint-id');
     }
     const formData = new FormData();
-    formData.append('complainViewModel', JSON.stringify(payload));
+    formData.append('complainViewModel', JSON.stringify(submission.payload));
+    submission.attachments.forEach((file, i) => {
+      formData.append(`HttpPostedFile${i}`, file, file.name);
+    });
+    formData.append('FileDescription', submission.fileDescription ?? '');
     return this.http
       .post<ApiResponse<string>>(`${this.apiUrl}/Complain/AddComplains`, formData)
       .pipe(map(res => res.Data));
