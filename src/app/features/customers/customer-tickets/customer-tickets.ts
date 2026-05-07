@@ -7,6 +7,7 @@ import { AddComplaint }  from './add-forms/add-complaint/add-complaint';
 import { AddRequest }    from './add-forms/add-request/add-request';
 import { AddInquiry }    from './add-forms/add-inquiry/add-inquiry';
 import { AddSuggestion } from './add-forms/add-suggestion/add-suggestion';
+import { ComplaintDetail } from './complaint-detail/complaint-detail';
 import { ConfirmDialog }  from '../../../shared/components/confirm-dialog/confirm-dialog';
 import { ComplaintsService } from '../../../core/services/complaints.service';
 import { SelectedEntityService } from '../../../core/services/selected-entity.service';
@@ -15,7 +16,7 @@ import { AddComplaintSubmission } from '../../../core/models/add-complaint.model
 
 @Component({
   selector: 'app-customer-tickets',
-  imports: [TranslateModule, TicketsLayout, AddComplaint, AddRequest, AddInquiry, AddSuggestion, ConfirmDialog],
+  imports: [TranslateModule, TicketsLayout, AddComplaint, AddRequest, AddInquiry, AddSuggestion, ConfirmDialog, ComplaintDetail],
   templateUrl: './customer-tickets.html',
   styleUrl: './customer-tickets.scss',
 })
