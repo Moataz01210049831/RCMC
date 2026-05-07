@@ -242,9 +242,13 @@ export class AddComplaint implements OnInit {
       complainQuestions,
     };
 
+    const requirementFiles = this.form.requirements
+      .filter(r => r.Type === 'file' || r.Type === 'attachment')
+      .flatMap(r => Array.isArray(r.Value) ? (r.Value as File[]) : []);
+
     return {
       payload,
-      attachments:     this.form.attachments ?? [],
+      attachments:     [...(this.form.attachments ?? []), ...requirementFiles],
       fileDescription: 'description',
     };
   }
