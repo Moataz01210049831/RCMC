@@ -38,7 +38,7 @@ export class MultiSelect implements ControlValueAccessor {
 
   get selectedLabels(): string {
     return this.items
-      .filter(i => this.selectedValues.includes(i.Name))
+      .filter(i => this.selectedValues.includes(i.Value))
       .map(i => i.Name)
       .join('، ');
   }

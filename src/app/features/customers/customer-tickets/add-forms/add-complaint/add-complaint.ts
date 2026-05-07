@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, signal } from '@angular
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { LookupItem, LookupService } from '../../../../../core/services/lookup.service';
+import { ComplaintsService } from '../../../../../core/services/complaints.service';
 import { SearchableSelect } from '../../../../../shared/components/searchable-select/searchable-select';
 import { FileUpload } from '../../../../../shared/components/file-upload/file-upload';
 import { MultiSelect } from '../../../../../shared/components/multi-select/multi-select';
@@ -28,7 +29,10 @@ export class AddComplaint implements OnInit {
 
   readonly today = new Date().toISOString().split('T')[0];
 
-  constructor(private lookupService: LookupService) {}
+  constructor(
+    private lookupService: LookupService,
+    private complaintsService: ComplaintsService,
+  ) {}
 
   ngOnInit() {
     this.lookupService.getServiceProviders().subscribe({
@@ -46,6 +50,16 @@ export class AddComplaint implements OnInit {
         this.form.complaintCategoryId = data[0]?.Value ?? null;
       },
     });
+    if (this.contactId) {
+      this.complaintsService.getRelatedTicketsByCustomer(this.contactId).subscribe({
+        next: tickets => {
+          this.relatedTicketOptions = tickets.map(t => ({
+            Value: t.IncidentId,
+            Name:  t.TicketNumber,
+          }));
+        },
+      });
+    }
   }
 
   form: AddComplaintForm = {
@@ -141,13 +155,7 @@ export class AddComplaint implements OnInit {
   }
 
   // Step 3 options
-  relatedTicketOptions: LookupItem[] = [
-    { Value: 'T-001', Name: 'T-001' },
-    { Value: 'T-002', Name: 'T-002' },
-    { Value: 'T-003', Name: 'T-003' },
-    { Value: 'T-004', Name: 'T-004' },
-    { Value: 'T-005', Name: 'T-005' },
-  ];
+  relatedTicketOptions: LookupItem[] = [];
 
   // Validation
   get step1Valid(): boolean {
