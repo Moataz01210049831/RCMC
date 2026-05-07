@@ -173,7 +173,7 @@ export class AddComplaint implements OnInit {
 
   sanitizeNumberInput(req: ComplaintRequirement, event: Event) {
     const input = event.target as HTMLInputElement;
-    const cleaned = input.value.replace(/[^0-9]/g, '');
+    const cleaned = input.value.replace(/[^0-9]/g, '').slice(0, 20);
     if (input.value !== cleaned) {
       input.value = cleaned;
     }

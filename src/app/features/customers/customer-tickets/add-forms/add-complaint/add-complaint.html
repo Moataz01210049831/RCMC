@@ -135,6 +135,7 @@
                   type="number"
                   inputmode="numeric"
                   pattern="[0-9]*"
+                  maxlength="20"
                   [name]="'req-' + req.Id"
                   [(ngModel)]="req.Value"
                   [readonly]="req.ReadOnly"
@@ -152,6 +153,7 @@
               @default {
                 <input [attr.id]="'add-complaint-input-req-' + req.Id"
                   type="text"
+                  maxlength="200"
                   [name]="'req-' + req.Id"
                   [(ngModel)]="req.Value"
                   [readonly]="req.ReadOnly" />
