@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, signal, computed } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CustomerCard } from '../../../../shared/components/customer-card/customer-card';
 import { CustomerService } from '../../../../core/services/customer.service';
@@ -109,15 +110,24 @@ export class TicketsLayout implements OnInit {
 
   private loadComplaints(contactId: string) {
     if (!contactId) return;
-    this.complaintsService.getRelatedTicketsByCustomer(contactId).subscribe({
-      next: tickets => {
-        this.complaintsList.set(
-          tickets.map(t => ({
-            code: t.TicketNumber,
-            statusKey: 'STATUS.UNDER_PROCEDURE',
-            incidentId: t.IncidentId,
-          })),
+    this.complaintsService.getRelatedTicketsByCustomer(contactId).pipe(
+      switchMap(tickets => {
+        if (tickets.length === 0) return of<TicketListItem[]>([]);
+        return forkJoin(
+          tickets.map(t =>
+            this.complaintsService.getComplainDetails(t.IncidentId).pipe(
+              map<ComplainDetailsData | null, TicketListItem>(d => ({
+                code:       t.TicketNumber,
+                statusKey:  d?.Status || '-',
+                incidentId: t.IncidentId,
+              })),
+            ),
+          ),
         );
+      }),
+    ).subscribe({
+      next: items => {
+        this.complaintsList.set(items);
         if (this.activeType() === 'complaints') this.refreshActiveTicket();
       },
     });
@@ -149,13 +159,13 @@ export class TicketsLayout implements OnInit {
 
   private toTicketDetail(item: TicketListItem, d: ComplainDetailsData): TicketDetail {
     const fmtDate = (s: string | null | undefined) => {
-      if (!s || s.startsWith('0001-')) return '-';
+      if (!s) return '-';
       return s.replace('T', ' ').slice(0, 19);
     };
     const relatedNumbers = (d.RelatedTickets ?? []).map(t => t.TicketNumber);
     return {
       code:               item.code,
-      statusKey:          d.Status ?? item.statusKey,
+      statusKey:          d.Status || '-',
       commercialEntity:   d.CommercialRecordName ?? '-',
       entityType:         d.EntityTypeName ?? '-',
       entityId:           relatedNumbers.length ? relatedNumbers.join('، ') : '-',
