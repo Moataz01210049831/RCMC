@@ -85,6 +85,7 @@
 .service-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  align-items: start;
   gap: 14px;
 
   @media (max-width: 900px)  { grid-template-columns: repeat(2, 1fr); }

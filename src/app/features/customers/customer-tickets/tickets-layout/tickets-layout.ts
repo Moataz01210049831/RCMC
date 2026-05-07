@@ -72,7 +72,9 @@ export class TicketsLayout implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id') ?? '';
     const type = (this.route.snapshot.paramMap.get('type') as TicketType) ?? 'complaints';
+    const preselected = this.route.snapshot.queryParamMap.get('selected') ?? '';
     this.activeType.set(type);
+    if (preselected) this.selectedCode.set(preselected);
 
     forkJoin({
       contact:       this.customerService.getContact(id),

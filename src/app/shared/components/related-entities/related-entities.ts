@@ -3,8 +3,10 @@ import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommercialRegisterService } from '../../../core/services/commercial-register.service';
 import { SelectedEntityService } from '../../../core/services/selected-entity.service';
+import { ComplaintsService } from '../../../core/services/complaints.service';
 import { EntityCardData } from '../../../core/models/customer-card.model';
 import { RelatedCR } from '../../../core/models/person-related.model';
+import { RelatedTicket } from '../../../core/models/related-ticket.model';
 
 interface ServiceItem {
   code: string;
@@ -59,17 +61,29 @@ export class RelatedEntities {
   selectedEntityId = signal<string>('');
 
   private rawRelatedCRs: RelatedCR[] = [];
+  private complaintTickets = signal<RelatedTicket[]>([]);
 
   constructor(
     private router: Router,
     private commercialRegister: CommercialRegisterService,
     private translate: TranslateService,
     private selectedEntityService: SelectedEntityService,
+    private complaintsService: ComplaintsService,
   ) {
     effect(() => {
       const idNo = this.identityNumber();
-      if (!idNo) return;
-      this.loadRelated(idNo, this.identityTypeId());
+      if (idNo) this.loadRelated(idNo, this.identityTypeId());
+    });
+    effect(() => {
+      const id = this.customerId();
+      if (id) this.loadComplaintTickets(id);
+      else this.complaintTickets.set([]);
+    });
+  }
+
+  private loadComplaintTickets(customerId: string) {
+    this.complaintsService.getRelatedTicketsByCustomer(customerId).subscribe({
+      next: tickets => this.complaintTickets.set(tickets),
     });
   }
 
@@ -165,9 +179,19 @@ export class RelatedEntities {
     return this.translate.currentLang === 'en' ? entity.nameEn : entity.nameAr;
   }
 
-  activeServiceCards = computed(() =>
-    this.entities().find(e => e.id === this.selectedEntityId())?.serviceCards ?? []
-  );
+  activeServiceCards = computed<ServiceCard[]>(() => {
+    if (!this.selectedEntityId()) return [];
+    const complaintItems: ServiceItem[] = this.complaintTickets().map(t => ({
+      code:      t.TicketNumber,
+      statusKey: 'STATUS.UNDER_PROCEDURE',
+    }));
+    return [
+      { titleKey: 'ENTITIES.REQUESTS',    count: 0,                     descriptionKey: '', items: [] },
+      { titleKey: 'ENTITIES.INQUIRIES',   count: 0,                     descriptionKey: '', items: [] },
+      { titleKey: 'ENTITIES.SUGGESTIONS', count: 0,                     descriptionKey: '', items: [] },
+      { titleKey: 'ENTITIES.COMPLAINTS',  count: complaintItems.length, descriptionKey: '', items: complaintItems },
+    ];
+  });
 
   selectEntity(id: string) {
     this.selectedEntityId.set(id);
@@ -175,10 +199,12 @@ export class RelatedEntities {
     // until the user opens one of the service categories below.
   }
 
-  openTickets(titleKey: string) {
+  openTickets(titleKey: string, selectedCode?: string) {
     const type = TITLE_TO_TYPE[titleKey];
     if (!type || !this.customerId()) return;
-    const navigate = () => this.router.navigate(['/customers', this.customerId(), 'tickets', type]);
+    const queryParams = selectedCode ? { selected: selectedCode } : undefined;
+    const navigate = () =>
+      this.router.navigate(['/customers', this.customerId(), 'tickets', type], { queryParams });
     const id = this.selectedEntityId();
 
     // Snapshot which RelatedCR (if any) the user is filing against
@@ -197,5 +223,10 @@ export class RelatedEntities {
       this.publishEntity(entity);
       navigate();
     });
+  }
+
+  openTicketItem(titleKey: string, code: string, event: MouseEvent) {
+    event.stopPropagation();
+    this.openTickets(titleKey, code);
   }
 }
