@@ -3,20 +3,24 @@ export type TicketType = 'complaints' | 'requests' | 'inquiries' | 'suggestions'
 export interface TicketListItem {
   code: string;
   statusKey: string;
+  incidentId?: string;
 }
 
 export interface TicketDetail {
   code: string;
   statusKey: string;
+  commercialEntity: string;
   entityType: string;
   entityId: string;
-  mainClassification: string;
-  subClassification: string;
-  channel: string;
-  requirements: string;
-  branch: string;
+  serviceProvider: string;
   mainService: string;
   subService: string;
+  mainClassification: string;
+  subClassification: string;
+  complaintCategory: string;
+  requirements: string;
+  branch: string;
+  channel: string;
   createdAt: string;
   createdBy: string;
   updatedAt: string;
@@ -64,15 +68,18 @@ export function buildMockDetail(item: TicketListItem): TicketDetail {
   return {
     code: item.code,
     statusKey: item.statusKey,
+    commercialEntity: 'سجل تجاري',
     entityType: 'العرض للتقن',
     entityId: 'A8373465',
-    mainClassification: 'مشكلة دخول الحساب',
-    subClassification: 'رمز التحقق فعمل',
-    channel: 'مركز الاتصال',
-    requirements: 'نسخ للضم كريم',
-    branch: 'الوزارة',
+    serviceProvider: 'وزارة التجارة',
     mainService: 'سجل تجاري',
     subService: 'طباعة السجل التجاري',
+    mainClassification: 'مشكلة دخول الحساب',
+    subClassification: 'رمز التحقق فعمل',
+    complaintCategory: 'تقني',
+    requirements: 'نسخ للضم كريم',
+    branch: 'الوزارة',
+    channel: 'مركز الاتصال',
     createdAt: '12/2/2025 12:23pm',
     createdBy: 'عزت مجد',
     updatedAt: '12/2/2025 12:23pm',

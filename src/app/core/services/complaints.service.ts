@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../models/api-response.model';
 import { AddComplaintPayload } from '../models/add-complaint.model';
 import { RelatedTicket } from '../models/related-ticket.model';
+import { ComplainDetailsData } from '../models/complain-details.model';
 
 @Injectable({ providedIn: 'root' })
 export class ComplaintsService {
@@ -35,5 +36,15 @@ export class ComplaintsService {
     return this.http.get<RelatedTicket[]>(
       `${this.apiUrl}/Complain/GetRelatedTicketsByCustomer/${contactId}`,
     );
+  }
+
+  getComplainDetails(complainId: string) {
+    if (environment.useDummyData) {
+      return of<ComplainDetailsData | null>(null);
+    }
+    const params = new HttpParams().set('complainId', complainId);
+    return this.http
+      .get<ApiResponse<ComplainDetailsData>>(`${this.apiUrl}/Complain/GetComplainDetails`, { params })
+      .pipe(map(res => res.Data));
   }
 }

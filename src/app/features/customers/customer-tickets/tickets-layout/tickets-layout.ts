@@ -6,7 +6,9 @@ import { CustomerCard } from '../../../../shared/components/customer-card/custom
 import { CustomerService } from '../../../../core/services/customer.service';
 import { LookupService, LookupItem } from '../../../../core/services/lookup.service';
 import { SelectedEntityService } from '../../../../core/services/selected-entity.service';
+import { ComplaintsService } from '../../../../core/services/complaints.service';
 import { CustomerCardData } from '../../../../core/models/customer-card.model';
+import { ComplainDetailsData } from '../../../../core/models/complain-details.model';
 import {
   TABS,
   MOCK_TICKETS,
@@ -44,25 +46,25 @@ export class TicketsLayout implements OnInit {
     this.tabs.find(t => t.type === this.activeType())?.addLabelKey ?? ''
   );
 
+  private complaintsList = signal<TicketListItem[]>([]);
+
   tickets = computed<TicketListItem[]>(() => {
-    const all = MOCK_TICKETS[this.activeType()] ?? [];
+    const all = this.activeType() === 'complaints'
+      ? this.complaintsList()
+      : (MOCK_TICKETS[this.activeType()] ?? []);
     const term = this.searchTerm().trim().toLowerCase();
     if (!term) return all;
     return all.filter(t => t.code.toLowerCase().includes(term));
   });
 
-  activeTicket = computed<TicketDetail | null>(() => {
-    const code = this.selectedCode();
-    const list = this.tickets();
-    const match = list.find(t => t.code === code) ?? list[0];
-    return match ? buildMockDetail(match) : null;
-  });
+  activeTicket = signal<TicketDetail | null>(null);
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private customerService: CustomerService,
     private lookupService: LookupService,
+    private complaintsService: ComplaintsService,
     private translate: TranslateService,
     public selectedEntityService: SelectedEntityService,
   ) {}
@@ -79,7 +81,7 @@ export class TicketsLayout implements OnInit {
     }).subscribe(({ contact, cities, nationalities }) => {
       if (!contact) {
         this.customer.set(null);
-        this.activeTicketChange.emit(this.activeTicket());
+        this.activeTicketChange.emit(null);
         return;
       }
 
@@ -98,9 +100,79 @@ export class TicketsLayout implements OnInit {
         city:        resolveName(cities, contact.cityId),
         CreatedOn:   contact.CreatedOn ? contact.CreatedOn.split('T')[0] : '',
       });
-
-      this.activeTicketChange.emit(this.activeTicket());
     });
+
+    this.loadComplaints(id);
+  }
+
+  private loadComplaints(contactId: string) {
+    if (!contactId) return;
+    this.complaintsService.getRelatedTicketsByCustomer(contactId).subscribe({
+      next: tickets => {
+        this.complaintsList.set(
+          tickets.map(t => ({
+            code: t.TicketNumber,
+            statusKey: 'STATUS.UNDER_PROCEDURE',
+            incidentId: t.IncidentId,
+          })),
+        );
+        if (this.activeType() === 'complaints') this.refreshActiveTicket();
+      },
+    });
+  }
+
+  private refreshActiveTicket() {
+    const code = this.selectedCode();
+    const list = this.tickets();
+    const match = list.find(t => t.code === code) ?? list[0];
+    if (!match) {
+      this.activeTicket.set(null);
+      this.activeTicketChange.emit(null);
+      return;
+    }
+    if (this.activeType() === 'complaints' && match.incidentId) {
+      this.complaintsService.getComplainDetails(match.incidentId).subscribe({
+        next: data => {
+          const detail = data ? this.toTicketDetail(match, data) : buildMockDetail(match);
+          this.activeTicket.set(detail);
+          this.activeTicketChange.emit(detail);
+        },
+      });
+      return;
+    }
+    const detail = buildMockDetail(match);
+    this.activeTicket.set(detail);
+    this.activeTicketChange.emit(detail);
+  }
+
+  private toTicketDetail(item: TicketListItem, d: ComplainDetailsData): TicketDetail {
+    const fmtDate = (s: string | null | undefined) => {
+      if (!s || s.startsWith('0001-')) return '-';
+      return s.replace('T', ' ').slice(0, 19);
+    };
+    const relatedNumbers = (d.RelatedTickets ?? []).map(t => t.TicketNumber);
+    return {
+      code:               item.code,
+      statusKey:          d.Status ?? item.statusKey,
+      commercialEntity:   d.CommercialRecordName ?? '-',
+      entityType:         d.EntityTypeName ?? '-',
+      entityId:           relatedNumbers.length ? relatedNumbers.join('، ') : '-',
+      serviceProvider:    d.ServiceProviderName ?? '-',
+      mainService:        d.MainServiceName ?? '-',
+      subService:         d.SubServiceName ?? '-',
+      mainClassification: d.ComplaintMainCategoryName ?? '-',
+      subClassification:  d.ComplaintSubCategoryName ?? '-',
+      complaintCategory:  d.ComplaintCategoryName ?? '-',
+      requirements:       '-',
+      branch:             d.RegionName ?? '-',
+      channel:            d.Origin ?? '-',
+      createdAt:          fmtDate(d.CreatedOn),
+      createdBy:          d.CreatedByContact ?? '-',
+      updatedAt:          '-',
+      updatedBy:          '-',
+      slaDue:             '-',
+      description:        d.Description ?? '-',
+    };
   }
 
   selectTab(type: TicketType) {
@@ -110,12 +182,12 @@ export class TicketsLayout implements OnInit {
     const id = this.route.snapshot.paramMap.get('id') ?? '';
     this.router.navigate(['/customers', id, 'tickets', type], { replaceUrl: true });
     this.tabChange.emit(type);
-    this.activeTicketChange.emit(this.activeTicket());
+    this.refreshActiveTicket();
   }
 
   selectTicket(code: string) {
     this.selectedCode.set(code);
-    this.activeTicketChange.emit(this.activeTicket());
+    this.refreshActiveTicket();
   }
 
   onSearchInput(event: Event) {
