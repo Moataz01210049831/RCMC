@@ -9,7 +9,6 @@ import { MultiSelect } from '../../../../../shared/components/multi-select/multi
 import { DatePicker } from '../../../../../shared/components/date-picker/date-picker';
 import { AddComplaintForm, AddComplaintPayload, AddComplaintSubmission, RelatedContext } from '../../../../../core/models/add-complaint.model';
 import { ComplaintRequirement } from '../../../../../core/models/complaint-requirement.model';
-import { SelectedEntityService } from '../../../../../core/services/selected-entity.service';
 
 @Component({
   selector: 'app-add-complaint',
@@ -32,7 +31,6 @@ export class AddComplaint implements OnInit {
   constructor(
     private lookupService: LookupService,
     private complaintsService: ComplaintsService,
-    private selectedEntityService: SelectedEntityService,
   ) {}
 
   ngOnInit() {
@@ -47,8 +45,8 @@ export class AddComplaint implements OnInit {
     });
     this.lookupService.getSubCategoryClass().subscribe({
       next: data => {
-        this.form.complaintCategory   = data[0]?.Name  ?? null;
-        this.form.complaintCategoryId = data[0]?.Value ?? null;
+        this.form.complaintCategory   = data[1]?.Name  ?? null;
+        this.form.complaintCategoryId = data[1]?.Value ?? null;
       },
     });
     if (this.contactId) {
@@ -221,7 +219,6 @@ export class AddComplaint implements OnInit {
       complainQuestions[req.Id] = this.serializeRequirementValue(req);
     }
 
-    const entity = this.selectedEntityService.entity();
     const categoryId = this.form.complaintCategoryId ?? '';
 
     const payload: AddComplaintPayload = {
@@ -229,13 +226,13 @@ export class AddComplaint implements OnInit {
       mainServiceId:               this.form.mainServiceId      ?? '',
       subServiceId:                this.form.subServiceId       ?? '',
       title:                       '',
-      complaintCategoryId:         categoryId,
+      complaintCategoryId:         '',
       complaintMainCategoryId:     this.form.mainClassificationId ?? '',
       complaintSubCategoryId:      this.form.subClassificationId  ?? '',
       complaintSubCategoryClassId: categoryId,
       regionId:                    this.form.regionId ?? '',
-      entityTypeId:                categoryId,
-      commercialRecordId:          entity?.commercialRecordId ?? '',
+      entityTypeId:                '',
+      commercialRecordId:          '43c4c149-ec49-f111-93f2-00505689e20d',
       customerId:                  this.contactId,
       description:                 this.form.description,
       agentQuestionnaire:          '',
