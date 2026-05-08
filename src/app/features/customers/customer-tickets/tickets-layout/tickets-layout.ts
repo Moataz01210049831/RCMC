@@ -123,6 +123,13 @@ export class TicketsLayout implements OnInit {
     });
   }
 
+  refreshAndSelectComplaint(ticketNumber: string) {
+    this.activeType.set('complaints');
+    this.selectedCode.set(ticketNumber);
+    const id = this.route.snapshot.paramMap.get('id') ?? '';
+    this.loadComplaints(id);
+  }
+
   private refreshActiveTicket() {
     const code = this.selectedCode();
     const list = this.tickets();

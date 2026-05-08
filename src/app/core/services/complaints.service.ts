@@ -16,7 +16,7 @@ export class ComplaintsService {
   createComplaint(submission: AddComplaintSubmission) {
     if (environment.useDummyData) {
       void submission;
-      return of('dummy-complaint-id');
+      return of<ComplainDetailsData | null>(null);
     }
     const formData = new FormData();
     formData.append('complainViewModel', JSON.stringify(submission.payload));
@@ -25,7 +25,7 @@ export class ComplaintsService {
     });
     formData.append('FileDescription', submission.fileDescription ?? '');
     return this.http
-      .post<ApiResponse<string>>(`${this.apiUrl}/Complain/AddComplains`, formData)
+      .post<ApiResponse<ComplainDetailsData>>(`${this.apiUrl}/Complain/AddComplains`, formData)
       .pipe(map(res => res.Data));
   }
 

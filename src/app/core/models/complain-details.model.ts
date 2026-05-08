@@ -48,7 +48,8 @@ export interface ComplainDetailsData {
   CreatedByName:               string | null;
   Status:                      string | null;
   CaseCurrentStatus:           string | null;
-  EntityId:                    string;
+  EntityId?:                   string;
+  ComplainId?:                 string;
   CreatedOn:                   string | null;
   ModifiedByName:              string | null;
   ModifiedOn:                  string | null;

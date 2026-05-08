@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, signal, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TicketsLayout } from './tickets-layout/tickets-layout';
@@ -21,6 +21,8 @@ import { AddComplaintSubmission } from '../../../core/models/add-complaint.model
   styleUrl: './customer-tickets.scss',
 })
 export class CustomerTickets {
+  @ViewChild(TicketsLayout) ticketsLayout?: TicketsLayout;
+
   mode = signal<'view' | 'add'>('view');
   activeTicket = signal<TicketDetail | null>(null);
   activeType = signal<TicketType>('complaints');
@@ -73,10 +75,12 @@ export class CustomerTickets {
     this.showConfirm.set(false);
     if (this.pendingComplaintSubmission && this.activeType() === 'complaints') {
       this.complaintsService.createComplaint(this.pendingComplaintSubmission).subscribe({
-        next: () => {
+        next: data => {
           this.toast.success(this.translate.instant('TOAST.SUCCESS_TITLE'));
           this.pendingComplaintSubmission = null;
           this.mode.set('view');
+          const ticketNumber = data?.TicketNumber ?? '';
+          if (ticketNumber) this.ticketsLayout?.refreshAndSelectComplaint(ticketNumber);
         },
       });
       return;
