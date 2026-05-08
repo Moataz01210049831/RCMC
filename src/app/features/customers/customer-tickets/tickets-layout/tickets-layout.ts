@@ -147,6 +147,15 @@ export class TicketsLayout implements OnInit {
     this.activeTicketChange.emit(detail);
   }
 
+  private formatComplainQuestions(q: Record<string, string | string[]> | null): string {
+    if (!q) return '-';
+    const values = Object.values(q)
+      .flatMap(v => Array.isArray(v) ? v : [v])
+      .map(v => String(v).trim())
+      .filter(Boolean);
+    return values.length ? values.join('، ') : '-';
+  }
+
   private toTicketDetail(item: TicketListItem, d: ComplainDetailsData): TicketDetail {
     const fmtDate = (s: string | null | undefined) => {
       if (!s) return '-';
@@ -155,7 +164,7 @@ export class TicketsLayout implements OnInit {
     const relatedNumbers = (d.RelatedTickets ?? []).map(t => t.TicketNumber);
     return {
       code:               item.code,
-      statusKey:          d.Status || '-',
+      statusKey:          d.CaseCurrentStatus || '-',
       commercialEntity:   d.CommercialRecordName ?? '-',
       entityType:         d.EntityTypeName ?? '-',
       entityId:           relatedNumbers.length ? relatedNumbers.join('، ') : '-',
@@ -165,13 +174,13 @@ export class TicketsLayout implements OnInit {
       mainClassification: d.ComplaintMainCategoryName ?? '-',
       subClassification:  d.ComplaintSubCategoryName ?? '-',
       complaintCategory:  d.ComplaintCategoryName ?? '-',
-      requirements:       '-',
+      requirements:       this.formatComplainQuestions(d.ComplainQuestions),
       branch:             d.RegionName ?? '-',
-      channel:            d.Origin ?? '-',
+      channel:            d.EntityTypeName ?? '-',
       createdAt:          fmtDate(d.CreatedOn),
-      createdBy:          d.CreatedByContact ?? '-',
-      updatedAt:          '-',
-      updatedBy:          '-',
+      createdBy:          d.CreatedByName ?? '-',
+      updatedAt:          fmtDate(d.ModifiedOn),
+      updatedBy:          d.ModifiedByName ?? '-',
       slaDue:             '-',
       description:        d.Description ?? '-',
     };

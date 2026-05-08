@@ -45,7 +45,11 @@ export interface ComplainDetailsData {
   Origin:                      string | null;
   CreatedBy:                   string | null;
   CreatedByContact:            string | null;
+  CreatedByName:               string | null;
   Status:                      string | null;
+  CaseCurrentStatus:           string | null;
   EntityId:                    string;
   CreatedOn:                   string | null;
+  ModifiedByName:              string | null;
+  ModifiedOn:                  string | null;
 }
