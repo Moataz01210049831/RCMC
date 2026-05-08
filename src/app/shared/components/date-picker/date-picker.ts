@@ -46,6 +46,7 @@ export class DatePicker implements ControlValueAccessor {
   value: string | null = null;
   viewYear: number;
   viewMonth: number;
+  viewMode: 'days' | 'months' | 'years' = 'days';
 
   private onChange = (_: string | null) => {};
   private onTouched = () => {};
@@ -71,6 +72,42 @@ export class DatePicker implements ControlValueAccessor {
     return new Intl.DateTimeFormat(this.locale, {
       month: 'long', year: 'numeric',
     }).format(new Date(this.viewYear, this.viewMonth, 1));
+  }
+
+  get monthOnlyLabel(): string {
+    return new Intl.DateTimeFormat(this.locale, { month: 'long' })
+      .format(new Date(this.viewYear, this.viewMonth, 1));
+  }
+
+  get yearOnlyLabel(): string {
+    return new Intl.DateTimeFormat(this.locale, { year: 'numeric' })
+      .format(new Date(this.viewYear, 0, 1));
+  }
+
+  get monthsList(): { idx: number; name: string; isCurrent: boolean }[] {
+    const fmt = new Intl.DateTimeFormat(this.locale, { month: 'short' });
+    return Array.from({ length: 12 }, (_, i) => ({
+      idx:       i,
+      name:      fmt.format(new Date(this.viewYear, i, 1)),
+      isCurrent: i === this.viewMonth,
+    }));
+  }
+
+  private get yearRangeStart(): number {
+    return Math.floor(this.viewYear / 12) * 12;
+  }
+
+  get yearsList(): { year: number; isCurrent: boolean }[] {
+    const start = this.yearRangeStart;
+    return Array.from({ length: 12 }, (_, i) => ({
+      year:      start + i,
+      isCurrent: start + i === this.viewYear,
+    }));
+  }
+
+  get yearsRangeLabel(): string {
+    const start = this.yearRangeStart;
+    return `${start} – ${start + 11}`;
   }
 
   get weekDays(): string[] {
@@ -122,27 +159,54 @@ export class DatePicker implements ControlValueAccessor {
       this.viewYear = d.getFullYear();
       this.viewMonth = d.getMonth();
     }
+    this.viewMode = 'days';
     this.isOpen = !this.isOpen;
   }
 
-  prevMonth(event: MouseEvent) {
+  prev(event: MouseEvent) {
     event.stopPropagation();
-    if (this.viewMonth === 0) {
-      this.viewMonth = 11;
+    if (this.viewMode === 'days') {
+      if (this.viewMonth === 0) { this.viewMonth = 11; this.viewYear--; }
+      else this.viewMonth--;
+    } else if (this.viewMode === 'months') {
       this.viewYear--;
     } else {
-      this.viewMonth--;
+      this.viewYear -= 12;
     }
   }
 
-  nextMonth(event: MouseEvent) {
+  next(event: MouseEvent) {
     event.stopPropagation();
-    if (this.viewMonth === 11) {
-      this.viewMonth = 0;
+    if (this.viewMode === 'days') {
+      if (this.viewMonth === 11) { this.viewMonth = 0; this.viewYear++; }
+      else this.viewMonth++;
+    } else if (this.viewMode === 'months') {
       this.viewYear++;
     } else {
-      this.viewMonth++;
+      this.viewYear += 12;
     }
+  }
+
+  showMonths(event: MouseEvent) {
+    event.stopPropagation();
+    this.viewMode = 'months';
+  }
+
+  showYears(event: MouseEvent) {
+    event.stopPropagation();
+    this.viewMode = 'years';
+  }
+
+  selectMonth(idx: number, event: MouseEvent) {
+    event.stopPropagation();
+    this.viewMonth = idx;
+    this.viewMode = 'days';
+  }
+
+  selectYear(year: number, event: MouseEvent) {
+    event.stopPropagation();
+    this.viewYear = year;
+    this.viewMode = 'months';
   }
 
   selectDay(cell: DayCell, event: MouseEvent) {

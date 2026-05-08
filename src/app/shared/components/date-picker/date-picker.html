@@ -25,38 +25,71 @@
   @if (isOpen) {
     <div id="dp-popup" class="dp-popup" (click)="$event.stopPropagation()">
       <div class="dp-header">
-        <button type="button" class="dp-nav" (click)="prevMonth($event)" aria-label="prev">
+        <button type="button" class="dp-nav" (click)="prev($event)" aria-label="prev">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <polyline points="15 18 9 12 15 6" />
           </svg>
         </button>
-        <span class="dp-month-label">{{ monthLabel }}</span>
-        <button type="button" class="dp-nav" (click)="nextMonth($event)" aria-label="next">
+
+        @if (viewMode === 'days') {
+          <span class="dp-header-title">
+            <button type="button" class="dp-header-btn" (click)="showMonths($event)">{{ monthOnlyLabel }}</button>
+            <button type="button" class="dp-header-btn" (click)="showYears($event)">{{ yearOnlyLabel }}</button>
+          </span>
+        } @else if (viewMode === 'months') {
+          <button type="button" class="dp-header-btn dp-header-title" (click)="showYears($event)">{{ yearOnlyLabel }}</button>
+        } @else {
+          <span class="dp-header-title dp-header-range">{{ yearsRangeLabel }}</span>
+        }
+
+        <button type="button" class="dp-nav" (click)="next($event)" aria-label="next">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <polyline points="9 18 15 12 9 6" />
           </svg>
         </button>
       </div>
 
-      <div class="dp-weekdays">
-        @for (w of weekDays; track w) {
-          <span class="dp-weekday">{{ w }}</span>
-        }
-      </div>
+      @if (viewMode === 'days') {
+        <div class="dp-weekdays">
+          @for (w of weekDays; track w) {
+            <span class="dp-weekday">{{ w }}</span>
+          }
+        </div>
 
-      <div class="dp-grid">
-        @for (cell of days; track cell.iso) {
-          <button type="button" class="dp-day"
-            [class.muted]="!cell.inMonth"
-            [class.today]="cell.isToday"
-            [class.selected]="cell.isSelected"
-            [class.disabled]="cell.isDisabled"
-            [disabled]="cell.isDisabled"
-            (click)="selectDay(cell, $event)">
-            {{ cell.date }}
-          </button>
-        }
-      </div>
+        <div class="dp-grid">
+          @for (cell of days; track cell.iso) {
+            <button type="button" class="dp-day"
+              [class.muted]="!cell.inMonth"
+              [class.today]="cell.isToday"
+              [class.selected]="cell.isSelected"
+              [class.disabled]="cell.isDisabled"
+              [disabled]="cell.isDisabled"
+              (click)="selectDay(cell, $event)">
+              {{ cell.date }}
+            </button>
+          }
+        </div>
+      } @else if (viewMode === 'months') {
+        <div class="dp-month-grid">
+          @for (m of monthsList; track m.idx) {
+            <button type="button" class="dp-cell"
+              [class.selected]="m.isCurrent"
+              (click)="selectMonth(m.idx, $event)">
+              {{ m.name }}
+            </button>
+          }
+        </div>
+      } @else {
+        <div class="dp-year-grid">
+          @for (y of yearsList; track y.year) {
+            <button type="button" class="dp-cell"
+              [class.selected]="y.isCurrent"
+              (click)="selectYear(y.year, $event)">
+              {{ y.year }}
+            </button>
+          }
+        </div>
+      }
     </div>
   }
 

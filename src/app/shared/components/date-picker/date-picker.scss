@@ -107,6 +107,54 @@
   color: $text-primary;
 }
 
+.dp-header-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: $text-primary;
+}
+
+.dp-header-btn {
+  background: transparent;
+  border: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+
+  &:hover { background: $hover-bg; }
+}
+
+.dp-header-range {
+  padding: 4px 6px;
+}
+
+.dp-month-grid,
+.dp-year-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  padding: 6px 2px;
+}
+
+.dp-cell {
+  height: 40px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.85rem;
+  color: $text-primary;
+  transition: background 0.15s;
+
+  &:hover    { background: $hover-bg; }
+  &.selected { background: $primary; color: #fff; }
+}
+
 .dp-weekdays,
 .dp-grid {
   display: grid;
