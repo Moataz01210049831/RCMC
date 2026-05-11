@@ -5,6 +5,7 @@ import {
   HostBinding,
   HostListener,
   Input,
+  ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -40,9 +41,12 @@ export class SearchableSelect implements ControlValueAccessor {
   @HostBinding('class.disabled')
   get isDisabledClass(): boolean { return this.disabled; }
 
+  @ViewChild('searchInput') searchInput?: ElementRef<HTMLInputElement>;
+
   searchText = '';
   isOpen = false;
   selectedValue = '';
+  activeIndex = -1;
 
   private onChange = (_: string) => {};
   private onTouched = () => {};
@@ -63,6 +67,12 @@ export class SearchableSelect implements ControlValueAccessor {
     if (this.disabled) return;
     this.isOpen = true;
     this.searchText = '';
+    const selectedIdx = this.filtered.findIndex(i => i.Value === this.selectedValue);
+    this.activeIndex = selectedIdx >= 0 ? selectedIdx : (this.filtered.length > 0 ? 0 : -1);
+    queueMicrotask(() => {
+      this.searchInput?.nativeElement.focus();
+      this.scrollActiveIntoView();
+    });
   }
 
   @HostListener('keydown', ['$event'])
@@ -79,11 +89,58 @@ export class SearchableSelect implements ControlValueAccessor {
     }
   }
 
+  onSearchKeydown(event: KeyboardEvent) {
+    if (!this.isOpen) return;
+    const items = this.filtered;
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      if (items.length === 0) return;
+      this.activeIndex = (this.activeIndex + 1) % items.length;
+      this.scrollActiveIntoView();
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      if (items.length === 0) return;
+      this.activeIndex = this.activeIndex <= 0 ? items.length - 1 : this.activeIndex - 1;
+      this.scrollActiveIntoView();
+    } else if (event.key === 'Home') {
+      event.preventDefault();
+      if (items.length > 0) { this.activeIndex = 0; this.scrollActiveIntoView(); }
+    } else if (event.key === 'End') {
+      event.preventDefault();
+      if (items.length > 0) { this.activeIndex = items.length - 1; this.scrollActiveIntoView(); }
+    } else if (event.key === 'Enter') {
+      event.preventDefault();
+      if (this.activeIndex >= 0 && this.activeIndex < items.length) {
+        this.select(items[this.activeIndex]);
+        (this.el.nativeElement as HTMLElement).focus();
+      }
+    } else if (event.key === 'Escape') {
+      event.preventDefault();
+      this.isOpen = false;
+      (this.el.nativeElement as HTMLElement).focus();
+    } else if (event.key === 'Tab') {
+      this.isOpen = false;
+    }
+  }
+
+  onSearchInput() {
+    this.activeIndex = this.filtered.length > 0 ? 0 : -1;
+  }
+
+  private scrollActiveIntoView() {
+    queueMicrotask(() => {
+      const list = (this.el.nativeElement as HTMLElement).querySelector('#ss-list');
+      const active = list?.children?.[this.activeIndex] as HTMLElement | undefined;
+      active?.scrollIntoView({ block: 'nearest' });
+    });
+  }
+
   select(item: LookupItem) {
     if (this.disabled) return;
     this.selectedValue = item.Value;
     this.isOpen = false;
     this.searchText = '';
+    this.activeIndex = -1;
     this.onChange(item.Value);
     this.onTouched();
   }

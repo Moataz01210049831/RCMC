@@ -32,6 +32,7 @@
           <circle id="ss-search-icon-circle" cx="11" cy="11" r="8"/><line id="ss-search-icon-line" x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
         <input
+          #searchInput
           id="ss-search-input"
           type="text"
           class="ss-search"
@@ -39,14 +40,19 @@
           [ngModelOptions]="{standalone: true}"
           [placeholder]="'SEARCHABLE_SELECT.SEARCH' | translate"
           (click)="$event.stopPropagation()"
-          autofocus />
+          (keydown)="onSearchKeydown($event)"
+          (input)="onSearchInput()" />
       </div>
 
-      <ul id="ss-list" class="ss-list">
-        @for (item of filtered; track item.Value) {
+      <ul id="ss-list" class="ss-list" role="listbox">
+        @for (item of filtered; track item.Value; let i = $index) {
           <li class="ss-item"
+            role="option"
             [attr.id]="'ss-item-' + item.Value"
+            [attr.aria-selected]="item.Value === selectedValue"
             [class.selected]="item.Value === selectedValue"
+            [class.active]="i === activeIndex"
+            (mouseenter)="activeIndex = i"
             (click)="select(item)">
             {{ item.Name }}
           </li>

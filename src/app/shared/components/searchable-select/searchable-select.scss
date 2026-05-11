@@ -142,7 +142,9 @@
   transition: background 0.15s;
 
   &:hover    { background: $hover-bg; }
+  &.active   { background: $hover-bg; }
   &.selected { background: rgba($primary, 0.08); color: $primary; font-weight: 600; }
+  &.selected.active { background: rgba($primary, 0.15); }
 }
 
 .ss-empty {
