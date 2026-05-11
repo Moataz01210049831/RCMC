@@ -75,7 +75,6 @@ function mapContact(dto: ContactApiDto): ContactResponse {
 @Injectable({ providedIn: 'root' })
 export class CustomerService {
   private apiUrl = environment.apiUrl;
-  private rootUrl = environment.apiUrl.replace(/\/api\/?$/, '');
 
   constructor(private http: HttpClient) {}
 
@@ -92,7 +91,7 @@ export class CustomerService {
         Birthdate: '1992-11-21T00:00:00',
         GenderId: 1,
         IdentityTypeId: 0,
-        IdentityNumber: String(request.personID),
+        IdentityNumber: request.id,
         NationalityId: null,
         Nationality: 'Egypt',
         PreferredContactMethod: 0,
@@ -106,7 +105,13 @@ export class CustomerService {
         FullName: 'Hassan Hemdan',
       });
     }
-    return this.http.post<BasicInfoResponse>(`${this.rootUrl}/basic-info`, request);
+    const params = new HttpParams()
+      .set('mobile', request.mobile)
+      .set('id', request.id)
+      .set('date', request.date);
+    return this.http
+      .get<ApiResponse<string>>(`${this.apiUrl}/Contacts/FitchContactData`, { params })
+      .pipe(map(res => (res.Data ? JSON.parse(res.Data) as BasicInfoResponse : null)));
   }
 
   createContact(data: CreateContactRequest) {

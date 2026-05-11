@@ -65,11 +65,9 @@ export interface SearchContactsResponse {
 }
 
 export interface BasicInfoRequest {
-  personID: number;
-  birthDate: number;
-  operatorID: number;
-  clientIPAddress: string;
-  lang: string;
+  mobile: string;
+  id: string;
+  date: string;
 }
 
 export interface BasicInfoResponse {
