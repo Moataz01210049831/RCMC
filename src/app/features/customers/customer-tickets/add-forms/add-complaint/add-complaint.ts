@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { LookupItem, LookupService } from '../../../../../core/services/lookup.service';
@@ -7,12 +7,13 @@ import { SearchableSelect } from '../../../../../shared/components/searchable-se
 import { FileUpload } from '../../../../../shared/components/file-upload/file-upload';
 import { MultiSelect } from '../../../../../shared/components/multi-select/multi-select';
 import { DatePicker } from '../../../../../shared/components/date-picker/date-picker';
+import { ConfirmDialog } from '../../../../../shared/components/confirm-dialog/confirm-dialog';
 import { AddComplaintForm, AddComplaintPayload, AddComplaintSubmission, RelatedContext } from '../../../../../core/models/add-complaint.model';
 import { ComplaintRequirement } from '../../../../../core/models/complaint-requirement.model';
 
 @Component({
   selector: 'app-add-complaint',
-  imports: [TranslateModule, FormsModule, SearchableSelect, FileUpload, MultiSelect, DatePicker],
+  imports: [TranslateModule, FormsModule, SearchableSelect, FileUpload, MultiSelect, DatePicker, ConfirmDialog],
   templateUrl: './add-complaint.html',
   styleUrl: '../add-form.scss',
 })
@@ -25,6 +26,7 @@ export class AddComplaint implements OnInit {
   @Output() submitted = new EventEmitter<AddComplaintSubmission>();
 
   currentStep = signal<1 | 2 | 3>(1);
+  showDiscardConfirm = signal(false);
 
   readonly today = new Date().toISOString().split('T')[0];
 
@@ -262,5 +264,40 @@ export class AddComplaint implements OnInit {
     }
   }
 
-  onCancel() { this.cancel.emit(); }
+  @HostListener('window:beforeunload', ['$event'])
+  onBeforeUnload(event: BeforeUnloadEvent) {
+    if (this.hasUnsavedChanges()) {
+      event.preventDefault();
+    }
+  }
+
+  onCancel() {
+    if (this.hasUnsavedChanges()) {
+      this.showDiscardConfirm.set(true);
+      return;
+    }
+    this.cancel.emit();
+  }
+
+  onConfirmDiscard() {
+    this.showDiscardConfirm.set(false);
+    this.cancel.emit();
+  }
+
+  onCancelDiscard() {
+    this.showDiscardConfirm.set(false);
+  }
+
+  private hasUnsavedChanges(): boolean {
+    const f = this.form;
+    if (f.serviceProviderId || f.mainServiceId || f.subServiceId) return true;
+    if (f.mainClassificationId || f.subClassificationId || f.regionId) return true;
+    if (f.description && f.description.trim() !== '') return true;
+    if (f.attachments && f.attachments.length > 0) return true;
+    if (f.relatedTickets && f.relatedTickets.length > 0) return true;
+    return f.requirements.some(r => {
+      if (Array.isArray(r.Value)) return r.Value.length > 0;
+      return r.Value !== null && r.Value !== undefined && r.Value !== '' && r.Value !== 'false';
+    });
+  }
 }

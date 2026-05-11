@@ -195,3 +195,13 @@
     </button>
   </div>
 </div>
+
+<app-confirm-dialog
+  [open]="showDiscardConfirm()"
+  [title]="'CUSTOMER.DISCARD_TITLE' | translate"
+  [message]="'CUSTOMER.DISCARD_MSG' | translate"
+  [confirmText]="'CUSTOMER.DISCARD_CONFIRM' | translate"
+  [cancelText]="'COMMON.CANCEL' | translate"
+  (confirm)="onConfirmDiscard()"
+  (cancel)="onCancelDiscard()"
+/>

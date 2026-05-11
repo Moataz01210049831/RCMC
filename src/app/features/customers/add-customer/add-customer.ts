@@ -1,4 +1,4 @@
-import { afterNextRender, Component, OnInit, signal } from '@angular/core';
+import { afterNextRender, Component, HostListener, OnInit, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -193,6 +193,13 @@ export class AddCustomer implements OnInit {
 
   private hasUnsavedChanges(): boolean {
     return JSON.stringify(this.customer) !== this.initialSnapshot;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  onBeforeUnload(event: BeforeUnloadEvent) {
+    if (this.hasUnsavedChanges()) {
+      event.preventDefault();
+    }
   }
 
   private loadCustomerData(id: string) {
