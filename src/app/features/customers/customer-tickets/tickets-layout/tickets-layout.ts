@@ -114,7 +114,7 @@ export class TicketsLayout implements OnInit {
         this.complaintsList.set(
           tickets.map(t => ({
             code:       t.TicketNumber,
-            statusKey:  t.statuslabel || '-',
+            statusKey:  t.CaseCurrentStatus || '-',
             incidentId: t.IncidentId,
           })),
         );

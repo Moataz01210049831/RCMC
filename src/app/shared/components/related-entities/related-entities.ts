@@ -183,7 +183,7 @@ export class RelatedEntities {
     if (!this.selectedEntityId()) return [];
     const complaintItems: ServiceItem[] = this.complaintTickets().map(t => ({
       code:      t.TicketNumber,
-      statusKey: t.statuslabel || '-',
+      statusKey: t.CaseCurrentStatus || '-',
     }));
     return [
       { titleKey: 'ENTITIES.REQUESTS',    count: 0,                     descriptionKey: '', items: [] },

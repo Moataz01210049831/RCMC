@@ -1,5 +1,5 @@
 export interface RelatedTicket {
-  IncidentId:   string;
-  TicketNumber: string;
-  statuslabel?: string | null;
+  IncidentId:        string;
+  TicketNumber:      string;
+  CaseCurrentStatus?: string | null;
 }
