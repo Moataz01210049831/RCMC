@@ -72,7 +72,7 @@
           <label id="add-customer-label-firstname">{{ 'CUSTOMER.FIRST_NAME' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-firstname" type="text" name="firstName" [(ngModel)]="customer.firstName"
             required maxlength="50" [placeholder]="'CUSTOMER.FIRST_NAME' | translate"
-            [disabled]="isEditMode()"
+            [disabled]="verified()"
             #firstNameCtrl="ngModel" [class.invalid]="submitted() && firstNameCtrl.invalid" />
           @if (submitted() && firstNameCtrl.errors?.['required']) {
             <span id="add-customer-error-firstname" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
@@ -83,7 +83,7 @@
           <label id="add-customer-label-middlename">{{ 'CUSTOMER.SECOND_NAME' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-middlename" type="text" name="middleName" [(ngModel)]="customer.middleName"
             required maxlength="50" [placeholder]="'CUSTOMER.SECOND_NAME' | translate"
-            [disabled]="isEditMode()"
+            [disabled]="verified()"
             #middleNameCtrl="ngModel" [class.invalid]="submitted() && middleNameCtrl.invalid" />
           @if (submitted() && middleNameCtrl.errors?.['required']) {
             <span id="add-customer-error-middlename" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
@@ -94,7 +94,7 @@
           <label id="add-customer-label-thirdname">{{ 'CUSTOMER.THIRD_NAME' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-thirdname" type="text" name="thirdName" [(ngModel)]="customer.thirdName"
             required maxlength="50" [placeholder]="'CUSTOMER.THIRD_NAME' | translate"
-            [disabled]="isEditMode()"
+            [disabled]="verified()"
             #thirdNameCtrl="ngModel" [class.invalid]="submitted() && thirdNameCtrl.invalid" />
           @if (submitted() && thirdNameCtrl.errors?.['required']) {
             <span id="add-customer-error-thirdname" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
@@ -110,7 +110,7 @@
           <label id="add-customer-label-lastname">{{ 'CUSTOMER.FOURTH_NAME' | translate }} <span class="req">*</span></label>
           <input id="add-customer-input-lastname" type="text" name="lastName" [(ngModel)]="customer.lastName"
             required maxlength="50" [placeholder]="'CUSTOMER.FOURTH_NAME' | translate"
-            [disabled]="isEditMode()"
+            [disabled]="verified()"
             #lastNameCtrl="ngModel" [class.invalid]="submitted() && lastNameCtrl.invalid" />
           @if (submitted() && lastNameCtrl.errors?.['required']) {
             <span id="add-customer-error-lastname" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
@@ -125,7 +125,7 @@
             [items]="nationalities"
             [placeholder]="'CUSTOMER.NATIONALITY' | translate"
             required
-            [disabled]="isEditMode()"
+            [disabled]="verified()"
             #nationalityCtrl="ngModel"
             [invalid]="submitted() && nationalityCtrl.invalid">
           </app-searchable-select>
@@ -137,15 +137,15 @@
         <div id="add-customer-field-gender" class="field-group">
           <label id="add-customer-label-gender">{{ 'CUSTOMER.GENDER' | translate }} <span class="req">*</span></label>
           <div id="add-customer-radio-group-gender" class="radio-group" [class.invalid]="submitted() && genderCtrl.invalid">
-            <label id="add-customer-radio-label-male" class="radio-label" [class.disabled]="isEditMode()">
+            <label id="add-customer-radio-label-male" class="radio-label" [class.disabled]="verified()">
               <input id="add-customer-radio-male" type="radio" name="gender" [(ngModel)]="customer.gender" [value]="1"
-                required [disabled]="isEditMode()" #genderCtrl="ngModel" />
+                required [disabled]="verified()" #genderCtrl="ngModel" />
               <span id="add-customer-radio-custom-male" class="radio-custom" [class.checked]="customer.gender === 1"></span>
               {{ 'CUSTOMER.MALE' | translate }}
             </label>
-            <label id="add-customer-radio-label-female" class="radio-label" [class.disabled]="isEditMode()">
+            <label id="add-customer-radio-label-female" class="radio-label" [class.disabled]="verified()">
               <input id="add-customer-radio-female" type="radio" name="gender" [(ngModel)]="customer.gender" [value]="2"
-                [disabled]="isEditMode()" />
+                [disabled]="verified()" />
               <span id="add-customer-radio-custom-female" class="radio-custom" [class.checked]="customer.gender === 2"></span>
               {{ 'CUSTOMER.FEMALE' | translate }}
             </label>
