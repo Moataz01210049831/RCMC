@@ -157,7 +157,17 @@ export class AddCustomer implements OnInit {
           this.customer.dateOfBirth = info.Birthdate.split('T')[0];
         }
         this.verified.set(true);
-        this.snapshotForm();
+        if (this.customer.regionId) {
+          this.lookupService.getFilteredLookup('city', this.customer.regionId).subscribe({
+            next: data => {
+              this.cities = data;
+              this.snapshotForm();
+            },
+            error: () => this.snapshotForm(),
+          });
+        } else {
+          this.snapshotForm();
+        }
       },
       error: () => {
         this.loading.set(false);
