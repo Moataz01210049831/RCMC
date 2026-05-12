@@ -26,7 +26,6 @@
 }
 
 .btn-edit {
-  @include btn-base;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,6 +33,7 @@
   background: $primary;
   color: #fff;
   border: none;
+  @include btn-base;
 
   svg { width: 15px; height: 15px; }
   &:hover { background: $primary-dark; }

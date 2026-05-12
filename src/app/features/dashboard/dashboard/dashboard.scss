@@ -134,7 +134,7 @@ select {
   display: flex;
   gap: 12px;
 
-  button { @include btn-base; flex: 1; }
+  button { flex: 1; @include btn-base; }
 }
 
 .btn-search {

@@ -132,10 +132,10 @@ $gold: $accent;
 }
 
 .btn-verify {
-  @include btn-base;
   background: $green;
   color: #fff;
   border: none;
+  @include btn-base;
 
   &:hover:not(:disabled) { background: $primary-dark; }
   &:disabled { opacity: 0.45; cursor: not-allowed; }
@@ -242,9 +242,9 @@ $gold: $accent;
 }
 
 .btn-cancel {
-  @include btn-base;
   background: #fff;
   color: #333;
   border: 1px solid $border;
+  @include btn-base;
   &:hover { background: #f5f5f5; }
 }

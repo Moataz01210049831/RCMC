@@ -23,7 +23,6 @@ $gold: $accent;
 }
 
 .btn-add {
-  @include btn-base;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,6 +30,7 @@ $gold: $accent;
   background: $green;
   color: #fff;
   border: none;
+  @include btn-base;
 
   svg { width: 16px; height: 16px; }
   &:hover { background: $primary-dark; }
@@ -122,7 +122,6 @@ tbody tr:hover {
 
 // ── Back button ───────────────────────────────────────────────────
 .btn-back {
-  @include btn-base;
   align-self: flex-start;
   display: flex;
   align-items: center;
@@ -131,6 +130,7 @@ tbody tr:hover {
   background: #fff;
   border: 1px solid $border;
   color: #555;
+  @include btn-base;
 
   svg { width: 15px; height: 15px; }
   &:hover { background: #f5f5f5; }
