@@ -1,5 +1,11 @@
 export interface AddInquiryForm {
-  serviceProviderId: string | null;
-  subject:           string;
-  description:       string;
+  entityId:             string | null;
+  mainClassificationId: string | null;
+  subClassificationId:  string | null;
+  inquiryTypeId:        string | null;
+  submitterTypeId:      string | null;
+  details:              string;
+  response:             string;
+  notes:                string;
+  attachments:          File[];
 }

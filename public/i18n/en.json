@@ -212,7 +212,19 @@
     "DESCRIPTION_PLACEHOLDER": "Enter complaint description (optional, up to 2000 characters)",
     "NEXT": "Next",
     "PREVIOUS": "Previous",
-    "SUBMIT": "Submit"
+    "SUBMIT": "Submit",
+    "INQUIRY_ENTITY": "Concerned Entity",
+    "INQUIRY_ENTITY_PLACEHOLDER": "Select concerned entity",
+    "INQUIRY_TYPE": "Inquiry Type",
+    "INQUIRY_TYPE_PLACEHOLDER": "Select inquiry type",
+    "INQUIRY_SUBMITTER_TYPE": "Submitter Type",
+    "INQUIRY_SUBMITTER_TYPE_PLACEHOLDER": "Select submitter type",
+    "INQUIRY_DETAILS": "Inquiry Details",
+    "INQUIRY_DETAILS_PLACEHOLDER": "Enter inquiry details",
+    "INQUIRY_RESPONSE": "Response to Inquiry",
+    "INQUIRY_RESPONSE_PLACEHOLDER": "Enter response to the inquiry",
+    "INQUIRY_NOTES": "Notes",
+    "INQUIRY_NOTES_PLACEHOLDER": "Enter notes"
   },
   "CONFIRM_DIALOG": {
     "TITLE": "Confirm Action",

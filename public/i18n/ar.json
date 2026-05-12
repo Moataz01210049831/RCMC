@@ -212,7 +212,19 @@
     "DESCRIPTION_PLACEHOLDER": "ادخل وصف الشكوى (اختياري حتى 2000 حرف)",
     "NEXT": "التالي",
     "PREVIOUS": "السابق",
-    "SUBMIT": "حفظ"
+    "SUBMIT": "حفظ",
+    "INQUIRY_ENTITY": "الجهة المعنية",
+    "INQUIRY_ENTITY_PLACEHOLDER": "اختر الجهة المعنية",
+    "INQUIRY_TYPE": "نوع الاستفسار",
+    "INQUIRY_TYPE_PLACEHOLDER": "اختر نوع الاستفسار",
+    "INQUIRY_SUBMITTER_TYPE": "نوع مقدم الاستفسار",
+    "INQUIRY_SUBMITTER_TYPE_PLACEHOLDER": "اختر نوع مقدم الاستفسار",
+    "INQUIRY_DETAILS": "تفاصيل الاستفسار",
+    "INQUIRY_DETAILS_PLACEHOLDER": "ادخل تفاصيل الاستفسار",
+    "INQUIRY_RESPONSE": "الرد على الاستفسار",
+    "INQUIRY_RESPONSE_PLACEHOLDER": "ادخل الرد على الاستفسار",
+    "INQUIRY_NOTES": "ملاحظات",
+    "INQUIRY_NOTES_PLACEHOLDER": "ادخل الملاحظات"
   },
   "CONFIRM_DIALOG": {
     "TITLE": "تأكيد العملية",
