@@ -185,7 +185,14 @@
   text-align: right;
 
   .user-name { font-size: 0.82rem; font-weight: 600; color: $text-primary; }
-  .user-role { font-size: 0.72rem; color: $text-muted; }
+  .user-role {
+    font-size: 0.72rem;
+    color: $text-muted;
+    max-width: 90px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .chevron {
