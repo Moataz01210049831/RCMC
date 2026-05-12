@@ -30,7 +30,7 @@
             required maxlength="10" [pattern]="idPattern" [placeholder]="'CUSTOMER.IDENTITY_NUMBER' | translate"
             inputmode="numeric"
             [disabled]="!customer.identityType || isEditMode()"
-            (input)="onDigitsOnlyInput($event, 'identityNumber')"
+            (input)="onDigitsOnlyInput($event, 'identityNumber'); onIdentityNumberChange()"
             #idCtrl="ngModel" [class.invalid]="(idCtrl.dirty || idCtrl.touched || submitted()) && idCtrl.invalid" />
           @if ((idCtrl.dirty || idCtrl.touched || submitted()) && idCtrl.errors?.['required']) {
             <span id="add-customer-error-identity-number" class="error">{{ 'COMMON.REQUIRED' | translate }}</span>
@@ -43,6 +43,7 @@
           <label id="add-customer-label-dob">{{ 'CUSTOMER.DATE_OF_BIRTH' | translate }} <span class="req">*</span></label>
           <app-date-picker id="add-customer-input-dob" name="dateOfBirth"
             [(ngModel)]="customer.dateOfBirth"
+            (ngModelChange)="onDateOfBirthChange()"
             required
             [max]="maxDate"
             [disabled]="isEditMode()"

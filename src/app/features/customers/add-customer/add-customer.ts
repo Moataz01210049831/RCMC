@@ -123,6 +123,36 @@ export class AddCustomer implements OnInit {
 
   onIdentityTypeChange() {
     this.customer.identityNumber = '';
+    this.resetVerifiedForm();
+  }
+
+  onIdentityNumberChange() {
+    this.resetVerifiedForm();
+  }
+
+  onDateOfBirthChange() {
+    this.resetVerifiedForm();
+  }
+
+  private resetVerifiedForm() {
+    if (!this.verified()) {
+      this.verified.set(false);
+      return;
+    }
+    this.customer.firstName             = '';
+    this.customer.middleName            = '';
+    this.customer.thirdName             = '';
+    this.customer.lastName              = '';
+    this.customer.nationalityId         = '';
+    this.customer.gender                = null;
+    this.customer.mobileNumber1         = '';
+    this.customer.mobileNumber2         = '';
+    this.customer.preferredLanguage     = 0;
+    this.customer.preferredContactMethod = 2;
+    this.customer.email                 = '';
+    this.customer.regionId              = '';
+    this.customer.cityId                = '';
+    this.cities                         = [];
     this.verified.set(false);
   }
 
