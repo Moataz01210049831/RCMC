@@ -5,7 +5,13 @@ import { environment } from '../../../environments/environment';
 import { LookupItem } from '../models/lookup.model';
 import { ApiResponse } from '../models/api-response.model';
 import { ComplaintRequirement } from '../models/complaint-requirement.model';
-import { DUMMY_CITIES, DUMMY_COUNTRIES, DUMMY_REGIONS } from '../dummy-data/lookup.dummy';
+import {
+  DUMMY_CITIES,
+  DUMMY_COUNTRIES,
+  DUMMY_INQUIRY_MAIN_CATEGORIES,
+  DUMMY_INQUIRY_SUB_CATEGORIES,
+  DUMMY_REGIONS,
+} from '../dummy-data/lookup.dummy';
 import { DUMMY_COMPLAINT_REQUIREMENTS } from '../dummy-data/complaint-requirement.dummy';
 
 export type { LookupItem };
@@ -50,6 +56,18 @@ export class LookupService {
     return this.http
       .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/complaintmaincategory`)
       .pipe(map(res => res.Data ?? []));
+  }
+
+  getInquiryMainCategories() {
+    if (environment.useDummyData) return of(DUMMY_INQUIRY_MAIN_CATEGORIES);
+    return this.http
+      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/inquirymaincategory`)
+      .pipe(map(res => res.Data ?? []));
+  }
+
+  getInquirySubCategories(mainId: string) {
+    if (environment.useDummyData) return of(DUMMY_INQUIRY_SUB_CATEGORIES[mainId] ?? []);
+    return this.getFilteredLookup('inquirysubcategory', mainId);
   }
 
   getSubCategoryClass() {

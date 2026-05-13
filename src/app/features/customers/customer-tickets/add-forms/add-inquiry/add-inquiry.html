@@ -20,8 +20,8 @@
   @if (currentStep() === 1) {
     <div id="add-inquiry-step1-grid" class="form-grid">
       <div id="add-inquiry-field-entity" class="field-group">
-        <label id="add-inquiry-label-entity">{{ 'TICKETS.INQUIRY_ENTITY' | translate }} <span class="req">*</span></label>
-        <app-searchable-select id="add-inquiry-select-entity" name="entity"
+        <label>{{ 'TICKETS.INQUIRY_ENTITY' | translate }} <span class="req">*</span></label>
+        <app-searchable-select name="entity"
           [(ngModel)]="form.entityId"
           [items]="entities"
           [placeholder]="'TICKETS.INQUIRY_ENTITY_PLACEHOLDER' | translate">
@@ -29,30 +29,31 @@
       </div>
 
       <div id="add-inquiry-field-main-classification" class="field-group">
-        <label id="add-inquiry-label-main-classification">{{ 'TICKETS.MAIN_CLASSIFICATION' | translate }} <span class="req">*</span></label>
-        <app-searchable-select id="add-inquiry-select-main-classification" name="mainClassification"
+        <label>{{ 'TICKETS.INQUIRY_MAIN_CLASSIFICATION' | translate }} <span class="req">*</span></label>
+        <app-searchable-select name="mainClassification"
           [(ngModel)]="form.mainClassificationId"
           (ngModelChange)="onMainClassificationChange()"
           [items]="mainClassifications"
-          [placeholder]="'TICKETS.MAIN_CLASSIFICATION_PLACEHOLDER' | translate">
+          [placeholder]="'TICKETS.INQUIRY_MAIN_CLASSIFICATION_PLACEHOLDER' | translate">
         </app-searchable-select>
       </div>
 
       <div id="add-inquiry-field-sub-classification" class="field-group">
-        <label id="add-inquiry-label-sub-classification">{{ 'TICKETS.SUB_CLASSIFICATION' | translate }} <span class="req">*</span></label>
-        <app-searchable-select id="add-inquiry-select-sub-classification" name="subClassification"
+        <label>{{ 'TICKETS.INQUIRY_SUB_CLASSIFICATION' | translate }} <span class="req">*</span></label>
+        <app-searchable-select name="subClassification"
           [(ngModel)]="form.subClassificationId"
           [items]="subClassifications"
           [disabled]="!form.mainClassificationId"
-          [placeholder]="'TICKETS.SUB_CLASSIFICATION_PLACEHOLDER' | translate">
+          [placeholder]="'TICKETS.INQUIRY_SUB_CLASSIFICATION_PLACEHOLDER' | translate">
         </app-searchable-select>
       </div>
     </div>
   } @else if (currentStep() === 2) {
     <div id="add-inquiry-step2-grid" class="form-grid">
+
       <div id="add-inquiry-field-inquiry-type" class="field-group">
-        <label id="add-inquiry-label-inquiry-type">{{ 'TICKETS.INQUIRY_TYPE' | translate }} <span class="req">*</span></label>
-        <app-searchable-select id="add-inquiry-select-inquiry-type" name="inquiryType"
+        <label>{{ 'TICKETS.INQUIRY_TYPE' | translate }} <span class="req">*</span></label>
+        <app-searchable-select name="inquiryType"
           [(ngModel)]="form.inquiryTypeId"
           [items]="inquiryTypes"
           [placeholder]="'TICKETS.INQUIRY_TYPE_PLACEHOLDER' | translate">
@@ -60,8 +61,8 @@
       </div>
 
       <div id="add-inquiry-field-submitter-type" class="field-group">
-        <label id="add-inquiry-label-submitter-type">{{ 'TICKETS.INQUIRY_SUBMITTER_TYPE' | translate }} <span class="req">*</span></label>
-        <app-searchable-select id="add-inquiry-select-submitter-type" name="submitterType"
+        <label>{{ 'TICKETS.INQUIRY_SUBMITTER_TYPE' | translate }} <span class="req">*</span></label>
+        <app-searchable-select name="submitterType"
           [(ngModel)]="form.submitterTypeId"
           [items]="submitterTypes"
           [placeholder]="'TICKETS.INQUIRY_SUBMITTER_TYPE_PLACEHOLDER' | translate">
@@ -69,24 +70,84 @@
       </div>
 
       <div id="add-inquiry-field-details" class="field-group full">
-        <label id="add-inquiry-label-details">{{ 'TICKETS.INQUIRY_DETAILS' | translate }} <span class="req">*</span></label>
-        <textarea id="add-inquiry-input-details" name="details" [(ngModel)]="form.details"
+        <label>{{ 'TICKETS.INQUIRY_DETAILS' | translate }} <span class="req">*</span></label>
+        <textarea name="details" [(ngModel)]="form.details"
           [placeholder]="'TICKETS.INQUIRY_DETAILS_PLACEHOLDER' | translate"
           maxlength="2000"></textarea>
       </div>
 
-      <div id="add-inquiry-field-response" class="field-group full">
-        <label id="add-inquiry-label-response">{{ 'TICKETS.INQUIRY_RESPONSE' | translate }}</label>
-        <input id="add-inquiry-input-response" type="text" name="response" [(ngModel)]="form.response"
-          [placeholder]="'TICKETS.INQUIRY_RESPONSE_PLACEHOLDER' | translate"
-          maxlength="500" />
+      <div id="add-inquiry-field-answered" class="field-group full">
+        <div class="yesno-row">
+          <span class="yesno-label">{{ 'TICKETS.INQUIRY_ANSWERED' | translate }} <span class="req">*</span></span>
+          <label class="radio-pill" [class.checked]="form.isInquiryAnswered === true">
+            <input type="radio" name="answered" [value]="true"
+              [checked]="form.isInquiryAnswered === true"
+              (change)="onAnsweredChange(true)" />
+            <span class="dot"></span>
+            {{ 'COMMON.YES' | translate }}
+          </label>
+          <label class="radio-pill" [class.checked]="form.isInquiryAnswered === false">
+            <input type="radio" name="answered" [value]="false"
+              [checked]="form.isInquiryAnswered === false"
+              (change)="onAnsweredChange(false)" />
+            <span class="dot"></span>
+            {{ 'COMMON.NO' | translate }}
+          </label>
+        </div>
       </div>
+
+      @if (form.isInquiryAnswered) {
+        @if (form.selectedArticles.length > 0) {
+          <div class="selected-articles">
+            <h4 class="selected-title">{{ 'TICKETS.INQUIRY_SELECTED_ARTICLES' | translate }}</h4>
+            @for (a of form.selectedArticles; track a.Id) {
+              <div class="selected-card">
+                <span>{{ a.Title }}</span>
+                <button type="button" class="remove-btn" (click)="removeArticle(a.Id)">×</button>
+              </div>
+            }
+          </div>
+        }
+
+        <div class="kb-section">
+          <h4 class="kb-heading">{{ 'TICKETS.INQUIRY_KB_HEADING' | translate }}</h4>
+
+          <div class="kb-search-wrap">
+            <svg class="kb-search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" name="kbQuery" [(ngModel)]="kbQuery"
+              (input)="onKbQueryInput()"
+              [placeholder]="'TICKETS.INQUIRY_KB_SEARCH_PLACEHOLDER' | translate" />
+          </div>
+
+          @if (kbLoading()) {
+            <div class="kb-loading">{{ 'COMMON.LOADING' | translate }}</div>
+          } @else if (!kbQuery.trim()) {
+            <div class="kb-empty">{{ 'TICKETS.INQUIRY_KB_TYPE_TO_SEARCH' | translate }}</div>
+          } @else if (kbResults().length === 0) {
+            <div class="kb-empty">{{ 'COMMON.NO_RESULTS' | translate }}</div>
+          } @else {
+            <div class="kb-grid">
+              @for (a of kbResults(); track a.Id) {
+                <div class="kb-card"
+                  [class.selected]="isArticleSelected(a.Id)"
+                  (click)="openArticle(a)">
+                  {{ a.Title }}
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+
     </div>
   } @else {
     <div id="add-inquiry-step3-grid" class="form-grid">
       <div id="add-inquiry-field-notes" class="field-group full">
-        <label id="add-inquiry-label-notes">{{ 'TICKETS.INQUIRY_NOTES' | translate }}</label>
-        <textarea id="add-inquiry-input-notes" name="notes" [(ngModel)]="form.notes"
+        <label>{{ 'TICKETS.INQUIRY_NOTES' | translate }}</label>
+        <textarea name="notes" [(ngModel)]="form.notes"
           [placeholder]="'TICKETS.INQUIRY_NOTES_PLACEHOLDER' | translate"
           maxlength="1000"></textarea>
       </div>
@@ -94,15 +155,34 @@
   }
 
   <div id="add-inquiry-actions" class="form-actions">
-    <button id="add-inquiry-btn-cancel" type="button" class="btn-cancel" (click)="onCancel()">{{ 'COMMON.CANCEL' | translate }}</button>
+    <button type="button" class="btn-cancel" (click)="onCancel()">{{ 'COMMON.CANCEL' | translate }}</button>
     @if (currentStep() > 1) {
-      <button id="add-inquiry-btn-prev" type="button" class="btn-prev" (click)="prev()">{{ 'TICKETS.PREVIOUS' | translate }}</button>
+      <button type="button" class="btn-prev" (click)="prev()">{{ 'TICKETS.PREVIOUS' | translate }}</button>
     }
-    <button id="add-inquiry-btn-next" type="button" class="btn-next" [disabled]="!canProceed" (click)="next()">
+    <button type="button" class="btn-next" [disabled]="!canProceed" (click)="next()">
       {{ (currentStep() === 3 ? 'TICKETS.SUBMIT' : 'TICKETS.NEXT') | translate }}
     </button>
   </div>
 </div>
+
+@if (activeArticle()) {
+  <div class="article-overlay" (click)="closeArticle()">
+    <div class="article-modal" (click)="$event.stopPropagation()">
+      <div class="article-modal-header">
+        <h4>{{ activeArticle()!.Title }}</h4>
+        <button type="button" class="article-close" (click)="closeArticle()">×</button>
+      </div>
+      <div class="article-modal-body">{{ activeArticle()!.Content }}</div>
+      <div class="article-modal-footer">
+        <button type="button" class="btn-select"
+          [disabled]="isArticleSelected(activeArticle()!.Id)"
+          (click)="selectArticle(activeArticle()!)">
+          {{ (isArticleSelected(activeArticle()!.Id) ? 'TICKETS.INQUIRY_ARTICLE_ALREADY_SELECTED' : 'TICKETS.INQUIRY_ARTICLE_SELECT') | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
 
 <app-confirm-dialog
   [open]="showDiscardConfirm()"

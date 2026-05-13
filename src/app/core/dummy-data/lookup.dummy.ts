@@ -37,6 +37,78 @@ export const DUMMY_CITIES: LookupItem[] = [
   { Name: 'جازان',           Value: 'city-18' },
 ];
 
+export const DUMMY_SERVICE_PROVIDERS: LookupItem[] = [
+  { Name: 'مقدم خدمة 1', Value: 'sp-01' },
+  { Name: 'مقدم خدمة 2', Value: 'sp-02' },
+  { Name: 'مقدم خدمة 3', Value: 'sp-03' },
+  { Name: 'مقدم خدمة 4', Value: 'sp-04' },
+  { Name: 'مقدم خدمة 5', Value: 'sp-05' },
+];
+
+export const DUMMY_COMPLAINT_MAIN_CATEGORIES: LookupItem[] = [
+  { Name: 'شكوى عن خدمة',   Value: 'cmp-main-01' },
+  { Name: 'شكوى عن موظف',   Value: 'cmp-main-02' },
+  { Name: 'شكوى عن منشأة',  Value: 'cmp-main-03' },
+  { Name: 'شكوى أخرى',      Value: 'cmp-main-04' },
+];
+
+export const DUMMY_COMPLAINT_SUB_CATEGORIES: Record<string, LookupItem[]> = {
+  'cmp-main-01': [
+    { Name: 'تأخر في تقديم الخدمة', Value: 'cmp-sub-0101' },
+    { Name: 'جودة الخدمة',          Value: 'cmp-sub-0102' },
+    { Name: 'عدم توفر الخدمة',      Value: 'cmp-sub-0103' },
+  ],
+  'cmp-main-02': [
+    { Name: 'سوء معاملة',           Value: 'cmp-sub-0201' },
+    { Name: 'تقصير في العمل',       Value: 'cmp-sub-0202' },
+  ],
+  'cmp-main-03': [
+    { Name: 'نظافة',                Value: 'cmp-sub-0301' },
+    { Name: 'صلاحية المرافق',       Value: 'cmp-sub-0302' },
+  ],
+  'cmp-main-04': [
+    { Name: 'أخرى',                 Value: 'cmp-sub-0401' },
+  ],
+};
+
+export const DUMMY_INQUIRY_MAIN_CATEGORIES: LookupItem[] = [
+  { Name: 'استفسار عن خدمة',  Value: 'inq-main-01' },
+  { Name: 'استفسار عن إجراء', Value: 'inq-main-02' },
+  { Name: 'استفسار قانوني',   Value: 'inq-main-03' },
+  { Name: 'استفسار إداري',    Value: 'inq-main-04' },
+  { Name: 'استفسار عام',      Value: 'inq-main-05' },
+];
+
+export const DUMMY_INQUIRY_SUB_CATEGORIES: Record<string, LookupItem[]> = {
+  'inq-main-01': [
+    { Name: 'استخراج تأشيرة',          Value: 'inq-sub-0101' },
+    { Name: 'تجديد رخصة',              Value: 'inq-sub-0102' },
+    { Name: 'الخدمات الإلكترونية',     Value: 'inq-sub-0103' },
+    { Name: 'خدمات الأحوال المدنية',   Value: 'inq-sub-0104' },
+  ],
+  'inq-main-02': [
+    { Name: 'نقل الخدمات',             Value: 'inq-sub-0201' },
+    { Name: 'تقديم طلب جديد',          Value: 'inq-sub-0202' },
+    { Name: 'تعديل بيانات',            Value: 'inq-sub-0203' },
+    { Name: 'متابعة طلب قائم',         Value: 'inq-sub-0204' },
+  ],
+  'inq-main-03': [
+    { Name: 'استفسار عن نظام',         Value: 'inq-sub-0301' },
+    { Name: 'استفسار عن لائحة',        Value: 'inq-sub-0302' },
+    { Name: 'استفسار عن عقوبات',       Value: 'inq-sub-0303' },
+  ],
+  'inq-main-04': [
+    { Name: 'مواعيد العمل',            Value: 'inq-sub-0401' },
+    { Name: 'مواقع الفروع',            Value: 'inq-sub-0402' },
+    { Name: 'وسائل التواصل',           Value: 'inq-sub-0403' },
+  ],
+  'inq-main-05': [
+    { Name: 'معلومات عامة',            Value: 'inq-sub-0501' },
+    { Name: 'آخر التحديثات',           Value: 'inq-sub-0502' },
+    { Name: 'أخرى',                    Value: 'inq-sub-0503' },
+  ],
+};
+
 export const DUMMY_COUNTRIES: LookupItem[] = [
   { Name: 'السعودية',          Value: 'country-01' },
   { Name: 'مصر',               Value: 'country-02' },

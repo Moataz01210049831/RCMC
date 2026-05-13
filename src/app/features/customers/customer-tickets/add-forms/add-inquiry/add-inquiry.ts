@@ -2,16 +2,17 @@ import { Component, EventEmitter, HostListener, OnInit, Output, signal } from '@
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchableSelect } from '../../../../../shared/components/searchable-select/searchable-select';
-import { FileUpload } from '../../../../../shared/components/file-upload/file-upload';
 import { ConfirmDialog } from '../../../../../shared/components/confirm-dialog/confirm-dialog';
 import { LookupItem, LookupService } from '../../../../../core/services/lookup.service';
+import { KnowledgeBaseService } from '../../../../../core/services/knowledge-base.service';
 import { AddInquiryForm } from '../../../../../core/models/add-inquiry.model';
+import { KbArticle } from '../../../../../core/models/kb-article.model';
 
 @Component({
   selector: 'app-add-inquiry',
-  imports: [TranslateModule, FormsModule, SearchableSelect, FileUpload, ConfirmDialog],
+  imports: [TranslateModule, FormsModule, SearchableSelect, ConfirmDialog],
   templateUrl: './add-inquiry.html',
-  styleUrl: '../add-form.scss',
+  styleUrl: './add-inquiry.scss',
 })
 export class AddInquiry implements OnInit {
   @Output() cancel = new EventEmitter<void>();
@@ -20,6 +21,13 @@ export class AddInquiry implements OnInit {
   currentStep = signal<1 | 2 | 3>(1);
   showDiscardConfirm = signal(false);
 
+  // Knowledge base state
+  kbQuery = '';
+  kbResults = signal<KbArticle[]>([]);
+  kbLoading = signal(false);
+  activeArticle = signal<KbArticle | null>(null);
+  private kbSearchTimer: ReturnType<typeof setTimeout> | null = null;
+
   form: AddInquiryForm = {
     entityId:             null,
     mainClassificationId: null,
@@ -27,9 +35,9 @@ export class AddInquiry implements OnInit {
     inquiryTypeId:        null,
     submitterTypeId:      null,
     details:              '',
-    response:             '',
+    isInquiryAnswered:    null,
+    selectedArticles:     [],
     notes:                '',
-    attachments:          [],
   };
 
   entities: LookupItem[] = [];
@@ -54,16 +62,19 @@ export class AddInquiry implements OnInit {
   steps = [
     { index: 1, labelKey: 'TICKETS.STEP_INQUIRY_INFO' },
     { index: 2, labelKey: 'TICKETS.STEP_INQUIRY_DETAILS' },
-    { index: 3, labelKey: 'TICKETS.STEP_ATTACHMENTS' },
+    { index: 3, labelKey: 'TICKETS.STEP_EXTRA_DETAILS' },
   ];
 
-  constructor(private lookupService: LookupService) {}
+  constructor(
+    private lookupService: LookupService,
+    private kbService: KnowledgeBaseService,
+  ) {}
 
   ngOnInit() {
     this.lookupService.getServiceProviders().subscribe({
       next: data => (this.entities = data),
     });
-    this.lookupService.getComplaintMainCategories().subscribe({
+    this.lookupService.getInquiryMainCategories().subscribe({
       next: data => (this.mainClassifications = data),
     });
   }
@@ -73,19 +84,73 @@ export class AddInquiry implements OnInit {
     this.subClassifications = [];
     const mainId = this.form.mainClassificationId;
     if (!mainId) return;
-    this.lookupService.getFilteredLookup('complaintsubcategory', mainId).subscribe({
+    this.lookupService.getInquirySubCategories(mainId).subscribe({
       next: data => (this.subClassifications = data),
     });
   }
 
+  // ── Knowledge base ───────────────────────────────────────────────
+  onAnsweredChange(answered: boolean) {
+    this.form.isInquiryAnswered = answered;
+    if (!answered) {
+      this.form.selectedArticles = [];
+      this.kbResults.set([]);
+      this.kbQuery = '';
+      if (this.kbSearchTimer) {
+        clearTimeout(this.kbSearchTimer);
+        this.kbSearchTimer = null;
+      }
+    }
+  }
+
+  onKbQueryInput() {
+    if (this.kbSearchTimer) clearTimeout(this.kbSearchTimer);
+    const q = this.kbQuery.trim();
+    if (!q) {
+      this.kbResults.set([]);
+      this.kbLoading.set(false);
+      return;
+    }
+    this.kbSearchTimer = setTimeout(() => this.runKbSearch(q), 400);
+  }
+
+  private runKbSearch(q: string) {
+    this.kbLoading.set(true);
+    this.kbService.searchArticles(q).subscribe({
+      next: data => { this.kbResults.set(data); this.kbLoading.set(false); },
+      error: () => this.kbLoading.set(false),
+    });
+  }
+
+  openArticle(a: KbArticle) { this.activeArticle.set(a); }
+  closeArticle() { this.activeArticle.set(null); }
+
+  selectArticle(a: KbArticle) {
+    if (!this.form.selectedArticles.some(x => x.Id === a.Id)) {
+      this.form.selectedArticles = [...this.form.selectedArticles, a];
+    }
+    this.activeArticle.set(null);
+  }
+
+  removeArticle(id: string) {
+    this.form.selectedArticles = this.form.selectedArticles.filter(a => a.Id !== id);
+  }
+
+  isArticleSelected(id: string): boolean {
+    return this.form.selectedArticles.some(a => a.Id === id);
+  }
+
+  // ── Validation ───────────────────────────────────────────────────
   get step1Valid(): boolean {
     return !!this.form.entityId && !!this.form.mainClassificationId && !!this.form.subClassificationId;
   }
 
   get step2Valid(): boolean {
-    return !!this.form.inquiryTypeId
-      && !!this.form.submitterTypeId
-      && this.form.details.trim() !== '';
+    if (!this.form.inquiryTypeId || !this.form.submitterTypeId) return false;
+    if (this.form.details.trim() === '') return false;
+    if (this.form.isInquiryAnswered === null) return false;
+    if (this.form.isInquiryAnswered && this.form.selectedArticles.length === 0) return false;
+    return true;
   }
 
   get canProceed(): boolean {
@@ -101,6 +166,7 @@ export class AddInquiry implements OnInit {
       this.currentStep.set((this.currentStep() + 1) as 1 | 2 | 3);
       return;
     }
+    console.log('[AddInquiry] submit payload:', JSON.parse(JSON.stringify(this.form)));
     this.submitted.emit(this.form);
   }
 
@@ -112,9 +178,7 @@ export class AddInquiry implements OnInit {
 
   @HostListener('window:beforeunload', ['$event'])
   onBeforeUnload(event: BeforeUnloadEvent) {
-    if (this.hasUnsavedChanges()) {
-      event.preventDefault();
-    }
+    if (this.hasUnsavedChanges()) event.preventDefault();
   }
 
   onCancel() {
@@ -125,21 +189,16 @@ export class AddInquiry implements OnInit {
     this.cancel.emit();
   }
 
-  onConfirmDiscard() {
-    this.showDiscardConfirm.set(false);
-    this.cancel.emit();
-  }
-
-  onCancelDiscard() {
-    this.showDiscardConfirm.set(false);
-  }
+  onConfirmDiscard() { this.showDiscardConfirm.set(false); this.cancel.emit(); }
+  onCancelDiscard()  { this.showDiscardConfirm.set(false); }
 
   private hasUnsavedChanges(): boolean {
     const f = this.form;
     if (f.entityId || f.mainClassificationId || f.subClassificationId) return true;
     if (f.inquiryTypeId || f.submitterTypeId) return true;
-    if (f.details.trim() !== '' || f.response.trim() !== '' || f.notes.trim() !== '') return true;
-    if (f.attachments && f.attachments.length > 0) return true;
+    if (f.details.trim() !== '' || f.notes.trim() !== '') return true;
+    if (f.isInquiryAnswered !== null) return true;
+    if (f.selectedArticles.length > 0) return true;
     return false;
   }
 }

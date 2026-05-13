@@ -1,0 +1,241 @@
+@use '../add-form.scss';
+@use '../../../../../../styles/variables' as *;
+
+// ── Yes/No radio group ───────────────────────────────────────────
+.yesno-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 4px;
+
+  .yesno-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $text-primary;
+
+    .req { color: $error; margin-inline-start: 2px; }
+  }
+
+  .radio-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: $text-primary;
+
+    input[type="radio"] { position: absolute; width: 1px; height: 1px; opacity: 0; }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      border: 2px solid $border;
+      border-radius: 50%;
+      background: #fff;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    &.checked .dot {
+      border-color: $primary;
+      background: $primary;
+      box-shadow: inset 0 0 0 3px #fff;
+    }
+  }
+}
+
+// ── Knowledge base block ─────────────────────────────────────────
+.kb-section {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.kb-heading {
+  font-size: 1rem;
+  font-weight: 700;
+  color: $primary;
+  margin: 0;
+}
+
+.kb-search-wrap {
+  position: relative;
+  width: 100%;
+
+  .kb-search-icon {
+    position: absolute;
+    inset-inline-start: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    color: $text-muted;
+    pointer-events: none;
+  }
+
+  input {
+    width: 100%;
+    height: 38px;
+    padding-block: 0;
+    padding-inline-start: 32px;
+    padding-inline-end: 12px;
+    border: 1px solid $border;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.88rem;
+    background: $bg-input;
+    outline: none;
+    text-align: start;
+    box-sizing: border-box;
+
+    &:focus { border-color: $primary; }
+  }
+}
+
+.kb-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+
+  @media (max-width: 900px) { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 520px) { grid-template-columns: 1fr; }
+}
+
+.kb-card {
+  background: #f4f6f8;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 16px 14px;
+  min-height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: $text-primary;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+
+  &:hover { border-color: $primary; background: #eef2f5; }
+  &.selected { border-color: $primary; background: rgba($primary, 0.06); }
+}
+
+.kb-empty { font-size: 0.85rem; color: $text-muted; padding: 12px 0; }
+.kb-loading { font-size: 0.85rem; color: $text-muted; padding: 8px 0; }
+
+// ── Selected articles ────────────────────────────────────────────
+.selected-articles {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .selected-title { font-size: 0.95rem; font-weight: 700; color: $text-primary; margin: 0; }
+}
+
+.selected-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: $primary;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+
+  .remove-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: 0 2px;
+    opacity: 0.85;
+
+    &:hover { opacity: 1; }
+  }
+}
+
+// ── Article modal ────────────────────────────────────────────────
+.article-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.article-modal {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  max-width: 720px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.article-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid $border;
+
+  h4 { margin: 0; font-size: 1rem; font-weight: 700; color: $text-primary; }
+
+  .article-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: $text-muted;
+    cursor: pointer;
+    line-height: 1;
+
+    &:hover { color: $error; }
+  }
+}
+
+.article-modal-body {
+  padding: 16px 18px;
+  overflow-y: auto;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: $text-secondary;
+  white-space: pre-wrap;
+}
+
+.article-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 18px;
+  border-top: 1px solid $border;
+
+  .btn-select {
+    background: $primary;
+    color: #fff;
+    border: none;
+    border-radius: $radius-input;
+    height: 34px;
+    padding: 0 18px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover:not(:disabled) { background: $primary-dark; }
+    &:disabled { opacity: 0.6; cursor: not-allowed; }
+  }
+}
