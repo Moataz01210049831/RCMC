@@ -42,6 +42,23 @@ export class DatePicker implements ControlValueAccessor {
   @HostBinding('class.disabled')
   get hostDisabled(): boolean { return this.disabled; }
 
+  @HostBinding('attr.role') hostRole = 'combobox';
+
+  @HostBinding('attr.tabindex')
+  get hostTabIndex(): string { return this.disabled ? '-1' : '0'; }
+
+  @HostListener('keydown', ['$event'])
+  onHostKeydown(event: KeyboardEvent) {
+    if (this.disabled) return;
+    if (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowDown') {
+      event.preventDefault();
+      if (!this.isOpen) this.toggle();
+    } else if (event.key === 'Escape' && this.isOpen) {
+      event.preventDefault();
+      this.isOpen = false;
+    }
+  }
+
   isOpen = false;
   value: string | null = null;
   viewYear: number;

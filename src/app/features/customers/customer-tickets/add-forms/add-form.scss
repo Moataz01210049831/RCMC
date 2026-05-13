@@ -151,8 +151,12 @@
     font-size: 0.85rem;
     color: $text-primary;
     outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
 
-    &:focus { border-color: $primary; }
+    &:focus-visible {
+      border-color: $primary;
+      box-shadow: 0 0 0 3px rgba($primary, 0.18);
+    }
   }
 
   textarea { min-height: 100px; resize: vertical; }
@@ -196,7 +200,22 @@
   cursor: pointer;
   user-select: none;
 
-  input[type="checkbox"] { display: none; }
+  input[type="checkbox"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  input[type="checkbox"]:focus-visible + .toggle-track {
+    outline: 2px solid $primary;
+    outline-offset: 2px;
+  }
 
   .toggle-track {
     width: 38px;

@@ -1,18 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, of } from 'rxjs';
+import { map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { LookupItem } from '../models/lookup.model';
 import { ApiResponse } from '../models/api-response.model';
 import { ComplaintRequirement } from '../models/complaint-requirement.model';
-import {
-  DUMMY_CITIES,
-  DUMMY_COUNTRIES,
-  DUMMY_INQUIRY_MAIN_CATEGORIES,
-  DUMMY_INQUIRY_SUB_CATEGORIES,
-  DUMMY_REGIONS,
-} from '../dummy-data/lookup.dummy';
-import { DUMMY_COMPLAINT_REQUIREMENTS } from '../dummy-data/complaint-requirement.dummy';
 
 export type { LookupItem };
 
@@ -23,27 +15,21 @@ export class LookupService {
   constructor(private http: HttpClient) {}
 
   getCities() {
-    return environment.useDummyData
-      ? of(DUMMY_CITIES)
-      : this.http
-          .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/city`)
-          .pipe(map(res => res.Data ?? []));
+    return this.http
+      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/city`)
+      .pipe(map(res => res.Data ?? []));
   }
 
   getCountries() {
-    return environment.useDummyData
-      ? of(DUMMY_COUNTRIES)
-      : this.http
-          .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/country`)
-          .pipe(map(res => res.Data ?? []));
+    return this.http
+      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/country`)
+      .pipe(map(res => res.Data ?? []));
   }
 
   getRegions() {
-    return environment.useDummyData
-      ? of(DUMMY_REGIONS)
-      : this.http
-          .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/region`)
-          .pipe(map(res => res.Data ?? []));
+    return this.http
+      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/region`)
+      .pipe(map(res => res.Data ?? []));
   }
 
   getServiceProviders() {
@@ -59,14 +45,12 @@ export class LookupService {
   }
 
   getInquiryMainCategories() {
-    if (environment.useDummyData) return of(DUMMY_INQUIRY_MAIN_CATEGORIES);
     return this.http
       .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/inquirymaincategory`)
       .pipe(map(res => res.Data ?? []));
   }
 
   getInquirySubCategories(mainId: string) {
-    if (environment.useDummyData) return of(DUMMY_INQUIRY_SUB_CATEGORIES[mainId] ?? []);
     return this.getFilteredLookup('inquirysubcategory', mainId);
   }
 
@@ -86,7 +70,6 @@ export class LookupService {
   }
 
   getComplaintRequirements(subCategoryId: string) {
-    if (environment.useDummyData) return of(DUMMY_COMPLAINT_REQUIREMENTS);
     const params = new HttpParams().set('subClassificationId', subCategoryId);
     return this.http
       .get<ApiResponse<ComplaintRequirement[]>>(`${this.apiUrl}/Surveys/GetQuestionsBySubCategoryId`, { params })

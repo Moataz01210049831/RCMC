@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, of } from 'rxjs';
+import { map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../models/api-response.model';
 import { AddComplaintSubmission } from '../models/add-complaint.model';
@@ -14,10 +14,6 @@ export class ComplaintsService {
   constructor(private http: HttpClient) {}
 
   createComplaint(submission: AddComplaintSubmission) {
-    if (environment.useDummyData) {
-      void submission;
-      return of<ComplainDetailsData | null>(null);
-    }
     const formData = new FormData();
     formData.append('complainViewModel', JSON.stringify(submission.payload));
     submission.attachments.forEach((file, i) => {
@@ -30,22 +26,12 @@ export class ComplaintsService {
   }
 
   getRelatedTicketsByCustomer(contactId: string) {
-    if (environment.useDummyData) {
-      return of<RelatedTicket[]>([
-        { IncidentId: 'dummy-1', TicketNumber: 'CAS-0001002' },
-        { IncidentId: 'dummy-2', TicketNumber: 'CAS-0001007' },
-        { IncidentId: 'dummy-3', TicketNumber: 'CAS-0001018' },
-      ]);
-    }
     return this.http.get<RelatedTicket[]>(
       `${this.apiUrl}/Complain/GetRelatedTicketsByCustomer/${contactId}`,
     );
   }
 
   getComplainDetails(complainId: string) {
-    if (environment.useDummyData) {
-      return of<ComplainDetailsData | null>(null);
-    }
     const params = new HttpParams().set('complainId', complainId);
     return this.http
       .get<ApiResponse<ComplainDetailsData>>(`${this.apiUrl}/Complain/GetComplainDetails`, { params })

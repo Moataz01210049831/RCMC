@@ -2,6 +2,7 @@ import {
   Component,
   ElementRef,
   forwardRef,
+  HostBinding,
   HostListener,
   Input,
 } from '@angular/core';
@@ -26,6 +27,22 @@ export class MultiSelect implements ControlValueAccessor {
   @Input() items: LookupItem[] = [];
   @Input() placeholder = '';
   @Input() invalid: boolean | null = false;
+
+  @HostBinding('attr.role') hostRole = 'combobox';
+  @HostBinding('attr.tabindex') hostTabIndex = '0';
+
+  @HostListener('keydown', ['$event'])
+  onHostKeydown(event: KeyboardEvent) {
+    const target = event.target as HTMLElement;
+    if (target.tagName === 'INPUT') return;
+    if (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowDown') {
+      event.preventDefault();
+      if (!this.isOpen) this.open();
+    } else if (event.key === 'Escape' && this.isOpen) {
+      event.preventDefault();
+      this.isOpen = false;
+    }
+  }
 
   searchText = '';
   isOpen = false;

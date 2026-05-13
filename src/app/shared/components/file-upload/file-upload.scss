@@ -29,9 +29,25 @@
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, box-shadow 0.2s;
 
   &:hover { opacity: 0.85; }
+
+  &:has(.visually-hidden-input:focus-visible) {
+    box-shadow: 0 0 0 3px rgba($primary, 0.35);
+  }
+}
+
+.visually-hidden-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .attachment-list {

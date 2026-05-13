@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, of } from 'rxjs';
+import { map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ContactResponse, CreateContactRequest, UpdateContactRequest, UpdateContactResponse, SearchContactsRequest, SearchContactsResponse, BasicInfoRequest, BasicInfoResponse } from '../models/contact.model';
 import { ApiResponse } from '../models/api-response.model';
-import { DUMMY_CONTACT } from '../dummy-data/contact.dummy';
 
 export type { CreateContactRequest, ContactResponse, UpdateContactRequest, UpdateContactResponse, SearchContactsRequest, SearchContactsResponse, BasicInfoRequest, BasicInfoResponse };
 
@@ -79,32 +78,6 @@ export class CustomerService {
   constructor(private http: HttpClient) {}
 
   getBasicInfo(request: BasicInfoRequest) {
-    if (environment.useDummyData) {
-      return of<BasicInfoResponse>({
-        FirstName: 'Hassan',
-        Middlename: null,
-        ThirdName: null,
-        LastName: 'Hemdan',
-        FamilyName: 'Gad',
-        CityId: null,
-        Email: null,
-        Birthdate: '1992-11-21T00:00:00',
-        GenderId: 1,
-        IdentityTypeId: 0,
-        IdentityNumber: request.id,
-        NationalityId: null,
-        Nationality: 'Egypt',
-        PreferredContactMethod: 0,
-        PreferredLanguage: 0,
-        MobileNumber: null,
-        MobileNumber2: null,
-        RegionId: null,
-        CityName: null,
-        RegionName: null,
-        EntityId: '00000000-0000-0000-0000-000000000000',
-        FullName: 'Hassan Hemdan',
-      });
-    }
     const params = new HttpParams()
       .set('mobile', request.mobile)
       .set('id', request.id)
@@ -121,9 +94,6 @@ export class CustomerService {
   }
 
   getContact(id: string) {
-    if (environment.useDummyData) {
-      return of({ ...DUMMY_CONTACT, id });
-    }
     return this.http
       .get<ApiResponse<ContactApiDto>>(`${this.apiUrl}/Contacts/GetContactById?contactId=${id}`)
       .pipe(map(res => {
@@ -134,9 +104,6 @@ export class CustomerService {
   }
 
   updateContact(data: UpdateContactRequest) {
-    if (environment.useDummyData) {
-      return of<UpdateContactResponse>({ success: true, message: 'Customer updated successfully', data: null, errors: null });
-    }
     return this.http
       .post<ApiResponse<unknown>>(`${this.apiUrl}/Contacts/Update`, data)
       .pipe(map<ApiResponse<unknown>, UpdateContactResponse>(res => ({
@@ -148,12 +115,6 @@ export class CustomerService {
   }
 
   searchContacts(request: SearchContactsRequest) {
-    if (environment.useDummyData) {
-      const dummy = DUMMY_CONTACT;
-      const match = !request.identityNumber || dummy.identityNumber.includes(request.identityNumber);
-      return of<ContactResponse | null>(match ? { ...dummy, id: '1' } : null);
-    }
-
     let params = new HttpParams();
     if (request.identityNumber) {
       params = params.set('query.identityNumber', request.identityNumber);
