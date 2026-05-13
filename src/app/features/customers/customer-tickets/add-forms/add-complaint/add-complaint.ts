@@ -45,12 +45,6 @@ export class AddComplaint implements OnInit {
     this.lookupService.getComplaintMainCategories().subscribe({
       next: data => (this.mainClassifications = data),
     });
-    this.lookupService.getSubCategoryClass().subscribe({
-      next: data => {
-        this.form.complaintCategory   = data[1]?.Name  ?? null;
-        this.form.complaintCategoryId = data[1]?.Value ?? null;
-      },
-    });
     if (this.contactId) {
       this.complaintsService.getRelatedTicketsByCustomer(this.contactId).subscribe({
         next: tickets => {
@@ -112,6 +106,8 @@ export class AddComplaint implements OnInit {
 
   onMainClassificationChange() {
     this.form.subClassificationId = null;
+    this.form.complaintCategory   = null;
+    this.form.complaintCategoryId = null;
     this.subClassifications = [];
     this.form.requirements = [];
     const mainId = this.form.mainClassificationId;
@@ -124,6 +120,9 @@ export class AddComplaint implements OnInit {
   onSubClassificationChange() {
     this.form.requirements = [];
     const subId = this.form.subClassificationId;
+    const selected = this.subClassifications.find(s => s.Value === subId);
+    this.form.complaintCategory   = selected?.Child?.Name  ?? null;
+    this.form.complaintCategoryId = selected?.Child?.Value ?? null;
     if (!subId) return;
     this.lookupService.getComplaintRequirements(subId).subscribe({
       next: data => {

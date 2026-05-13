@@ -55,12 +55,6 @@ export class LookupService {
       .pipe(map(byMain => byMain[mainId] ?? []));
   }
 
-  getSubCategoryClass() {
-    return this.http
-      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/complaintsubcategoryclass`)
-      .pipe(map(res => res.Data ?? []));
-  }
-
   getFilteredLookup(lookupId: string, filterByLookupId: string) {
     const params = new HttpParams()
       .set('lookupId', lookupId)
