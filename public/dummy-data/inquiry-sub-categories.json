@@ -1,0 +1,29 @@
+{
+  "inq-main-01": [
+    { "Value": "inq-sub-0101", "Name": "استخراج تأشيرة" },
+    { "Value": "inq-sub-0102", "Name": "تجديد رخصة" },
+    { "Value": "inq-sub-0103", "Name": "الخدمات الإلكترونية" },
+    { "Value": "inq-sub-0104", "Name": "خدمات الأحوال المدنية" }
+  ],
+  "inq-main-02": [
+    { "Value": "inq-sub-0201", "Name": "نقل الخدمات" },
+    { "Value": "inq-sub-0202", "Name": "تقديم طلب جديد" },
+    { "Value": "inq-sub-0203", "Name": "تعديل بيانات" },
+    { "Value": "inq-sub-0204", "Name": "متابعة طلب قائم" }
+  ],
+  "inq-main-03": [
+    { "Value": "inq-sub-0301", "Name": "استفسار عن نظام" },
+    { "Value": "inq-sub-0302", "Name": "استفسار عن لائحة" },
+    { "Value": "inq-sub-0303", "Name": "استفسار عن عقوبات" }
+  ],
+  "inq-main-04": [
+    { "Value": "inq-sub-0401", "Name": "مواعيد العمل" },
+    { "Value": "inq-sub-0402", "Name": "مواقع الفروع" },
+    { "Value": "inq-sub-0403", "Name": "وسائل التواصل" }
+  ],
+  "inq-main-05": [
+    { "Value": "inq-sub-0501", "Name": "معلومات عامة" },
+    { "Value": "inq-sub-0502", "Name": "آخر التحديثات" },
+    { "Value": "inq-sub-0503", "Name": "أخرى" }
+  ]
+}

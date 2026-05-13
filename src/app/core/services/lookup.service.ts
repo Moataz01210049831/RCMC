@@ -44,14 +44,15 @@ export class LookupService {
       .pipe(map(res => res.Data ?? []));
   }
 
+  // Inquiry endpoints not live yet — served from public/dummy-data JSON.
   getInquiryMainCategories() {
-    return this.http
-      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/inquirymaincategory`)
-      .pipe(map(res => res.Data ?? []));
+    return this.http.get<LookupItem[]>('./dummy-data/inquiry-main-categories.json');
   }
 
   getInquirySubCategories(mainId: string) {
-    return this.getFilteredLookup('inquirysubcategory', mainId);
+    return this.http
+      .get<Record<string, LookupItem[]>>('./dummy-data/inquiry-sub-categories.json')
+      .pipe(map(byMain => byMain[mainId] ?? []));
   }
 
   getSubCategoryClass() {

@@ -1,0 +1,7 @@
+[
+  { "Value": "inq-main-01", "Name": "استفسار عن خدمة" },
+  { "Value": "inq-main-02", "Name": "استفسار عن إجراء" },
+  { "Value": "inq-main-03", "Name": "استفسار قانوني" },
+  { "Value": "inq-main-04", "Name": "استفسار إداري" },
+  { "Value": "inq-main-05", "Name": "استفسار عام" }
+]
