@@ -2,14 +2,12 @@
   <span id="file-upload-title" class="upload-title">{{ 'TICKETS.UPLOAD_ATTACHMENTS' | translate }}</span>
   <p id="file-upload-hint" class="upload-hint">{{ 'TICKETS.UPLOAD_HINT' | translate }}</p>
 
-  @if (!files.length) {
-    <label id="file-upload-browse-label" class="btn-browse">
-      <input id="file-upload-input" type="file" multiple [attr.accept]="acceptAttr"
-        (change)="onFilesSelected($event)"
-        class="visually-hidden-input" />
-      {{ 'TICKETS.BROWSE_FILES' | translate }}
-    </label>
-  }
+  <label id="file-upload-browse-label" class="btn-browse">
+    <input id="file-upload-input" type="file" multiple [attr.accept]="acceptAttr"
+      (change)="onFilesSelected($event)"
+      class="visually-hidden-input" />
+    {{ 'TICKETS.BROWSE_FILES' | translate }}
+  </label>
 
   @if (files.length) {
     <div id="file-upload-list" class="attachment-list">
