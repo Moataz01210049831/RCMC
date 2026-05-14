@@ -22,4 +22,12 @@
       }
     </div>
   }
+
+  @if (errors().length) {
+    <ul id="file-upload-errors" class="upload-errors" role="alert">
+      @for (err of errors(); track $index) {
+        <li class="upload-error">{{ err }}</li>
+      }
+    </ul>
+  }
 </div>

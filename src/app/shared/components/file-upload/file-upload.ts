@@ -1,9 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ToastService } from '../../../core/services/toast.service';
 
-const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024;
-const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'pdf'];
+const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
+const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'pdf', 'docx', 'mp4', 'mov', 'webm'];
 
 @Component({
   selector: 'app-file-upload',
@@ -17,26 +16,30 @@ export class FileUpload {
 
   readonly acceptAttr = ALLOWED_EXTENSIONS.map(ext => `.${ext}`).join(',');
 
-  constructor(private toast: ToastService, private translate: TranslateService) {}
+  readonly errors = signal<string[]>([]);
+
+  constructor(private translate: TranslateService) {}
 
   onFilesSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input.files) return;
 
     const accepted: File[] = [];
+    const errors: string[] = [];
     for (const file of Array.from(input.files)) {
       const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
       if (!ALLOWED_EXTENSIONS.includes(ext)) {
-        this.toast.error(this.translate.instant('TICKETS.INVALID_FILE_TYPE', { name: file.name }));
+        errors.push(this.translate.instant('TICKETS.INVALID_FILE_TYPE', { name: file.name }));
         continue;
       }
       if (file.size > MAX_FILE_SIZE_BYTES) {
-        this.toast.error(this.translate.instant('TICKETS.FILE_TOO_LARGE', { name: file.name }));
+        errors.push(this.translate.instant('TICKETS.FILE_TOO_LARGE', { name: file.name }));
         continue;
       }
       accepted.push(file);
     }
 
+    this.errors.set(errors);
     if (accepted.length) {
       this.filesChange.emit([...this.files, ...accepted]);
     }
