@@ -129,6 +129,7 @@
   transition: background 0.15s;
 
   &:hover    { background: $hover-bg; }
+  &.active   { background: $hover-bg; }
   &.selected { font-weight: 600; }
 }
 
