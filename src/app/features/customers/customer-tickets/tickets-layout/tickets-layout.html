@@ -60,6 +60,10 @@
                 <polyline [attr.id]="'tickets-layout-ticket-arrow-polyline-' + t.code" points="15 18 9 12 15 6"/>
               </svg>
             </button>
+          } @empty {
+            <div id="tickets-layout-ticket-empty" class="ticket-empty">
+              {{ (searchTerm().trim() ? 'COMMON.NO_RESULTS' : 'TICKETS.NO_TICKETS') | translate }}
+            </div>
           }
         </div>
       </aside>

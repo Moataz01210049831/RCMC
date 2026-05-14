@@ -11,6 +11,33 @@
   gap: 18px;
 }
 
+.detail-empty {
+  background: $bg-card;
+  border: 1px dashed $border;
+  border-radius: $radius-card;
+  padding: 60px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 320px;
+  color: $text-muted;
+}
+
+.detail-empty-icon {
+  width: 56px;
+  height: 56px;
+  opacity: 0.6;
+}
+
+.detail-empty-text {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+}
+
 .detail-header {
   display: flex;
   justify-content: flex-start;

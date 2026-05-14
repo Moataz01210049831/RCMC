@@ -150,6 +150,8 @@
   },
   "TICKETS": {
     "TICKETS": "التذاكر",
+    "NO_TICKETS": "لا توجد تذاكر للعرض",
+    "SELECT_TICKET_HINT": "لا توجد تذاكر للعرض. اضغط «إضافة» لإنشاء تذكرة جديدة",
     "SEARCH": "بحث...",
     "ADD_COMPLAINT": "إضافة شكوى",
     "ADD_REQUEST": "إضافة طلب",

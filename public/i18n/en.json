@@ -150,6 +150,8 @@
   },
   "TICKETS": {
     "TICKETS": "Tickets",
+    "NO_TICKETS": "No tickets to display",
+    "SELECT_TICKET_HINT": "No tickets to display. Click 'Add' to create a new one",
     "SEARCH": "Search...",
     "ADD_COMPLAINT": "Add Complaint",
     "ADD_REQUEST": "Add Request",

@@ -143,6 +143,15 @@
   overflow-y: auto;
 }
 
+.ticket-empty {
+  padding: 18px 14px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: $text-muted;
+  background: $hover-bg;
+  border-radius: $radius-input;
+}
+
 .ticket-item {
   display: flex;
   align-items: center;
