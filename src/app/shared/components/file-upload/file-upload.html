@@ -5,6 +5,7 @@
   <label id="file-upload-browse-label" class="btn-browse">
     <input id="file-upload-input" type="file" multiple [attr.accept]="acceptAttr"
       (change)="onFilesSelected($event)"
+      (cancel)="$event.stopPropagation()"
       class="visually-hidden-input" />
     {{ 'TICKETS.BROWSE_FILES' | translate }}
   </label>
