@@ -62,3 +62,6 @@ For more information on using the Angular CLI, including detailed command refere
 npm run start:local	environment.ts	Dummy data
 npm run start:prod	environment.api.ts	Real API
 npm run build:prod	environment.prod.ts	Real API (production build)
+
+## upload attachments for public users
+http://localhost:4200/ticket/CAS-0001234/attachments
