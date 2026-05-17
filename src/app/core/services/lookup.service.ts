@@ -34,13 +34,36 @@ export class LookupService {
 
   getServiceProviders() {
     return this.http
-      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/serviceprovider`)
+      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/service-providers`)
       .pipe(map(res => res.Data ?? []));
   }
 
-  getComplaintMainCategories() {
+  getMainServices(serviceProviderId: string) {
+    const params = new HttpParams().set('serviceProviderId', serviceProviderId);
     return this.http
-      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/complaintmaincategory`)
+      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/main-services`, { params })
+      .pipe(map(res => res.Data ?? []));
+  }
+
+  getSubServices(mainServiceId: string) {
+    const params = new HttpParams().set('mainServiceId', mainServiceId);
+    return this.http
+      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/sub-services`, { params })
+      .pipe(map(res => res.Data ?? []));
+  }
+
+  getComplaintMainCategories(subServiceId: string) {
+    const params = new HttpParams().set('subServiceId', subServiceId);
+    return this.http
+      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/main-categories`, { params })
+      .pipe(map(res => res.Data ?? []));
+  }
+
+  getComplaintSubCategories(mainCategoryId: string) {
+    // API quirk: query param is named `subServiceId` but expects the main-category id.
+    const params = new HttpParams().set('subServiceId', mainCategoryId);
+    return this.http
+      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/sub-categories`, { params })
       .pipe(map(res => res.Data ?? []));
   }
 

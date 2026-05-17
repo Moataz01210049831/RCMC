@@ -41,6 +41,7 @@
         <label id="add-complaint-label-sub-service">{{ 'TICKETS.SUB_SERVICE' | translate }} <span class="req">*</span></label>
         <app-searchable-select id="add-complaint-select-sub-service" name="subService"
           [(ngModel)]="form.subServiceId"
+          (ngModelChange)="onSubServiceChange()"
           [items]="subServices"
           [placeholder]="'TICKETS.SUB_SERVICE_PLACEHOLDER' | translate">
         </app-searchable-select>

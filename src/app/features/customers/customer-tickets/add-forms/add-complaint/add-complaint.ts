@@ -42,9 +42,6 @@ export class AddComplaint implements OnInit {
     this.lookupService.getRegions().subscribe({
       next: data => (this.regions = data),
     });
-    this.lookupService.getComplaintMainCategories().subscribe({
-      next: data => (this.mainClassifications = data),
-    });
     if (this.contactId) {
       this.complaintsService.getRelatedTicketsByCustomer(this.contactId).subscribe({
         next: tickets => {
@@ -82,9 +79,10 @@ export class AddComplaint implements OnInit {
     this.form.subServiceId = null;
     this.mainServices = [];
     this.subServices = [];
+    this.resetClassifications();
     const providerId = this.form.serviceProviderId;
     if (!providerId) return;
-    this.lookupService.getFilteredLookup('mainservice', providerId).subscribe({
+    this.lookupService.getMainServices(providerId).subscribe({
       next: data => (this.mainServices = data),
     });
   }
@@ -92,11 +90,31 @@ export class AddComplaint implements OnInit {
   onMainServiceChange() {
     this.form.subServiceId = null;
     this.subServices = [];
+    this.resetClassifications();
     const mainId = this.form.mainServiceId;
     if (!mainId) return;
-    this.lookupService.getFilteredLookup('subservice', mainId).subscribe({
+    this.lookupService.getSubServices(mainId).subscribe({
       next: data => (this.subServices = data),
     });
+  }
+
+  onSubServiceChange() {
+    this.resetClassifications();
+    const subServiceId = this.form.subServiceId;
+    if (!subServiceId) return;
+    this.lookupService.getComplaintMainCategories(subServiceId).subscribe({
+      next: data => (this.mainClassifications = data),
+    });
+  }
+
+  private resetClassifications() {
+    this.form.mainClassificationId = null;
+    this.form.subClassificationId  = null;
+    this.form.complaintCategory    = null;
+    this.form.complaintCategoryId  = null;
+    this.form.requirements         = [];
+    this.mainClassifications = [];
+    this.subClassifications  = [];
   }
 
   // Step 2 options
@@ -112,7 +130,7 @@ export class AddComplaint implements OnInit {
     this.form.requirements = [];
     const mainId = this.form.mainClassificationId;
     if (!mainId) return;
-    this.lookupService.getFilteredLookup('complaintsubcategory', mainId).subscribe({
+    this.lookupService.getComplaintSubCategories(mainId).subscribe({
       next: data => (this.subClassifications = data),
     });
   }
