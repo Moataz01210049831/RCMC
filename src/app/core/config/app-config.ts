@@ -6,6 +6,7 @@ export const AppConfig = {
   // Logos — update paths here to change across the whole app
   headerLogo: 'images/Rightside.png',
   loginLogo:  'images/logo.png',
+  publicLogo: 'images/default-logo.png',
 
   // Roles allowed to access the portal — add more entries here to grant access
   allowedRoles: [

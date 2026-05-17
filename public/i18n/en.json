@@ -272,6 +272,18 @@
     "EDIT_CUSTOMER": "Edit Customer",
     "SEARCH_RESULTS": "Search Results",
     "CUSTOMER_DETAILS": "Customer Details",
-    "CUSTOMER_TICKETS": "Customer Tickets"
+    "CUSTOMER_TICKETS": "Customer Tickets",
+    "PUBLIC_UPLOAD": "Upload Attachments"
+  },
+  "PUBLIC_UPLOAD": {
+    "TITLE": "Upload attachments to your ticket",
+    "TICKET_ID": "Ticket ID:",
+    "MISSING_TICKET": "Ticket ID is missing from the link. Please use the link you received.",
+    "SUBMIT": "Submit",
+    "SUBMITTING": "Submitting...",
+    "SUCCESS": "Attachments uploaded successfully",
+    "SUCCESS_HINT": "We received your files. You may close this page or upload more.",
+    "ERROR": "We couldn't upload your files. Please try again.",
+    "UPLOAD_MORE": "Upload more files"
   }
 }

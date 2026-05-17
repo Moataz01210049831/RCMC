@@ -1,0 +1,51 @@
+<div id="public-upload-page" class="public-upload-page">
+  <div id="public-upload-card" class="upload-card">
+
+    <div id="public-upload-header" class="upload-header">
+      <img id="public-upload-logo" class="upload-logo" [src]="config.publicLogo" [alt]="'APP.NAME' | translate" />
+      <h1 id="public-upload-title" class="upload-title">{{ 'PUBLIC_UPLOAD.TITLE' | translate }}</h1>
+      @if (ticketId()) {
+        <div id="public-upload-ticket-row" class="ticket-row">
+          <span id="public-upload-ticket-label" class="ticket-label">{{ 'PUBLIC_UPLOAD.TICKET_ID' | translate }}</span>
+          <span id="public-upload-ticket-value" class="ticket-value">{{ ticketId() }}</span>
+        </div>
+      } @else {
+        <p id="public-upload-no-ticket" class="error-text">{{ 'PUBLIC_UPLOAD.MISSING_TICKET' | translate }}</p>
+      }
+    </div>
+
+    @if (ticketId() && !submitted()) {
+      <app-file-upload
+        id="public-upload-files"
+        [files]="files()"
+        (filesChange)="onFilesChange($event)" />
+
+      <div id="public-upload-actions" class="upload-actions">
+        <button id="public-upload-submit" type="button" class="btn-submit"
+          [disabled]="files().length === 0 || submitting()"
+          (click)="submit()">
+          @if (submitting()) {
+            {{ 'PUBLIC_UPLOAD.SUBMITTING' | translate }}
+          } @else {
+            {{ 'PUBLIC_UPLOAD.SUBMIT' | translate }}
+          }
+        </button>
+      </div>
+    }
+
+    @if (submitted()) {
+      <div id="public-upload-success" class="upload-success">
+        <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        <h2 class="success-title">{{ 'PUBLIC_UPLOAD.SUCCESS' | translate }}</h2>
+        <p class="success-text">{{ 'PUBLIC_UPLOAD.SUCCESS_HINT' | translate }}</p>
+        <button type="button" class="btn-secondary" (click)="uploadMore()">
+          {{ 'PUBLIC_UPLOAD.UPLOAD_MORE' | translate }}
+        </button>
+      </div>
+    }
+
+  </div>
+</div>

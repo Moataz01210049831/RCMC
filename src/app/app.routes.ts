@@ -9,6 +9,12 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/login/login').then(m => m.Login),
   },
   {
+    path: 'ticket/:ticketId/attachments',
+    title: 'PAGES.PUBLIC_UPLOAD',
+    loadComponent: () =>
+      import('./features/public/upload-attachment/upload-attachment').then(m => m.UploadAttachment),
+  },
+  {
     path: '',
     loadComponent: () => import('./layouts/main-layout/main-layout').then(m => m.MainLayout),
     canActivate: [authGuard],
