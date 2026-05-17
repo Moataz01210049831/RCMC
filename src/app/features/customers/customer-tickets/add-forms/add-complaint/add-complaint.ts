@@ -144,12 +144,23 @@ export class AddComplaint implements OnInit {
     if (!subId) return;
     this.lookupService.getComplaintRequirements(subId).subscribe({
       next: data => {
-        this.form.requirements = data.map(r => ({
+        const prepared = data.map(r => ({
           ...r,
           Value: this.initialRequirementValue(r),
         }));
+        this.form.requirements = this.reorderRequirements(prepared);
       },
     });
+  }
+
+  // Order: regular fields, then toggles, then file uploads last.
+  private reorderRequirements(reqs: ComplaintRequirement[]): ComplaintRequirement[] {
+    const weight = (r: ComplaintRequirement) => {
+      if (r.Type === 'file' || r.Type === 'attachment') return 2;
+      if (r.Type === 'radio') return 1;
+      return 0;
+    };
+    return [...reqs].sort((a, b) => weight(a) - weight(b));
   }
 
   private initialRequirementValue(r: ComplaintRequirement): any {
