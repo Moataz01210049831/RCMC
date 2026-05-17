@@ -193,7 +193,18 @@ export class AddComplaint implements OnInit {
 
   get step2Valid(): boolean {
     if (!this.form.mainClassificationId || !this.form.subClassificationId || !this.form.regionId) return false;
-    return this.form.requirements.every(r => !r.Required || this.isRequirementFilled(r));
+    // File requirements never block proceeding — a missing required file
+    // turns the submission into a draft instead (see hasUnfilledRequiredFiles).
+    return this.form.requirements.every(r => {
+      if (r.Type === 'file' || r.Type === 'attachment') return true;
+      return !r.Required || this.isRequirementFilled(r);
+    });
+  }
+
+  get hasUnfilledRequiredFiles(): boolean {
+    return this.form.requirements.some(r =>
+      (r.Type === 'file' || r.Type === 'attachment') && r.Required && !this.isRequirementFilled(r),
+    );
   }
 
   private isRequirementFilled(r: ComplaintRequirement): boolean {
@@ -251,6 +262,12 @@ export class AddComplaint implements OnInit {
 
     const categoryId = this.form.complaintCategoryId ?? '';
 
+    const requirementFiles = this.form.requirements
+      .filter(r => r.Type === 'file' || r.Type === 'attachment')
+      .flatMap(r => Array.isArray(r.Value) ? (r.Value as File[]) : []);
+
+    const attachments = [...(this.form.attachments ?? []), ...requirementFiles];
+
     const payload: AddComplaintPayload = {
       serviceProviderId:           this.form.serviceProviderId  ?? '',
       mainServiceId:               this.form.mainServiceId      ?? '',
@@ -267,16 +284,14 @@ export class AddComplaint implements OnInit {
       description:                 this.form.description,
       agentQuestionnaire:          '',
       complainQuestions,
+      attachmentFullfield:         requirementFiles.length > 0,
     };
-
-    const requirementFiles = this.form.requirements
-      .filter(r => r.Type === 'file' || r.Type === 'attachment')
-      .flatMap(r => Array.isArray(r.Value) ? (r.Value as File[]) : []);
 
     return {
       payload,
-      attachments:     [...(this.form.attachments ?? []), ...requirementFiles],
+      attachments,
       fileDescription: 'description',
+      isDraft:         this.hasUnfilledRequiredFiles,
     };
   }
 

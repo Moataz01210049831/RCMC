@@ -31,7 +31,7 @@
 
 <app-confirm-dialog
   [open]="showConfirm()"
-  [title]="'CONFIRM_DIALOG.TITLE' | translate"
-  [message]="'CONFIRM_DIALOG.MESSAGE' | translate"
+  [title]="confirmTitleKey() | translate"
+  [message]="confirmMessageKey() | translate"
   (confirm)="onConfirmSave()"
   (cancel)="onCancelConfirm()" />

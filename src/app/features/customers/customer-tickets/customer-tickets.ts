@@ -27,6 +27,10 @@ export class CustomerTickets {
   activeTicket = signal<TicketDetail | null>(null);
   activeType = signal<TicketType>('complaints');
   showConfirm = signal(false);
+  confirmDraft = signal(false);
+
+  confirmTitleKey   = computed(() => this.confirmDraft() ? 'CONFIRM_DIALOG.DRAFT_TITLE'   : 'CONFIRM_DIALOG.TITLE');
+  confirmMessageKey = computed(() => this.confirmDraft() ? 'CONFIRM_DIALOG.DRAFT_MESSAGE' : 'CONFIRM_DIALOG.MESSAGE');
 
   contactId = '';
   commercialRecord = computed(() => this.selectedEntityService.entity()?.crNumber ?? '');
@@ -64,10 +68,12 @@ export class CustomerTickets {
 
   onComplaintSubmitted(submission: AddComplaintSubmission) {
     this.pendingComplaintSubmission = submission;
+    this.confirmDraft.set(submission.isDraft);
     this.showConfirm.set(true);
   }
 
   onAddSubmitted() {
+    this.confirmDraft.set(false);
     this.showConfirm.set(true);
   }
 
@@ -90,6 +96,7 @@ export class CustomerTickets {
 
   onCancelConfirm() {
     this.showConfirm.set(false);
+    this.confirmDraft.set(false);
     this.pendingComplaintSubmission = null;
   }
 }

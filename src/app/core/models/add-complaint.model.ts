@@ -40,10 +40,12 @@ export interface AddComplaintPayload {
   description:                 string;
   agentQuestionnaire:          string;
   complainQuestions:           Record<string, string | string[]>;
+  attachmentFullfield:         boolean;
 }
 
 export interface AddComplaintSubmission {
   payload:         AddComplaintPayload;
   attachments:     File[];
   fileDescription: string;
+  isDraft:         boolean;
 }

@@ -246,7 +246,9 @@
   },
   "CONFIRM_DIALOG": {
     "TITLE": "Confirm Action",
-    "MESSAGE": "Are you sure you want to continue?"
+    "MESSAGE": "Are you sure you want to continue?",
+    "DRAFT_TITLE": "Save as draft?",
+    "DRAFT_MESSAGE": "Do you want to create a draft ticket?"
   },
   "TOAST": {
     "SUCCESS_TITLE": "Operation completed successfully",
