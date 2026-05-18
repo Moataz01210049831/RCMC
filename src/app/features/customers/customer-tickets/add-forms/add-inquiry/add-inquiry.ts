@@ -43,20 +43,14 @@ export class AddInquiry implements OnInit {
   entities: LookupItem[] = [];
   mainClassifications: LookupItem[] = [];
   subClassifications: LookupItem[] = [];
+  inquiryTypes: LookupItem[] = [];
 
-  // TODO: replace with API-driven lookups when the endpoints are available
-  inquiryTypes: LookupItem[] = [
-    { Value: 'general',   Name: 'استفسار عام' },
-    { Value: 'service',   Name: 'استفسار عن خدمة' },
-    { Value: 'procedure', Name: 'استفسار عن إجراء' },
-    { Value: 'other',     Name: 'أخرى' },
-  ];
-
+  // TODO: replace with API-driven lookup when the endpoint is available
   submitterTypes: LookupItem[] = [
-    { Value: 'citizen',  Name: 'مواطن' },
-    { Value: 'resident', Name: 'مقيم' },
-    { Value: 'visitor',  Name: 'زائر' },
-    { Value: 'employee', Name: 'موظف' },
+    { Value: '1',  Name: 'مواطن' },
+    { Value: '2', Name: 'مقيم' },
+    { Value: '3',  Name: 'زائر' },
+    { Value: '4', Name: 'موظف' },
   ];
 
   steps = [
@@ -76,6 +70,9 @@ export class AddInquiry implements OnInit {
     });
     this.lookupService.getInquiryMainCategories().subscribe({
       next: data => (this.mainClassifications = data),
+    });
+    this.lookupService.getInquiryTypes().subscribe({
+      next: data => (this.inquiryTypes = data),
     });
   }
 
