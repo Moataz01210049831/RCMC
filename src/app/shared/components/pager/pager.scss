@@ -31,6 +31,10 @@
   &:disabled { opacity: 0.45; cursor: not-allowed; }
 }
 
+// In RTL the flex container already swaps Prev/Next positions visually,
+// so flip the chevrons too — Previous on the right shows >, Next on the left shows <.
+:host-context([dir="rtl"]) .pager-btn svg { transform: scaleX(-1); }
+
 .pager-info {
   font-size: 0.85rem;
   font-weight: 600;
