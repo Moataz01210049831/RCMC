@@ -10,4 +10,12 @@ import { TicketDetail } from '../tickets-layout/tickets.types';
 })
 export class ComplaintDetail {
   @Input() ticket: TicketDetail | null = null;
+
+  // Hide fields the backend returned empty. tickets-layout maps missing values
+  // to '-', so treat that as empty too.
+  has(value: string | null | undefined): boolean {
+    if (value == null) return false;
+    const trimmed = value.trim();
+    return trimmed !== '' && trimmed !== '-';
+  }
 }

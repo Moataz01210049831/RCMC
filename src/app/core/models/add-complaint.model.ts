@@ -29,13 +29,13 @@ export interface AddComplaintPayload {
   mainServiceId:               string;
   subServiceId:                string;
   title:                       string;
-  complaintCategoryId:         string;
+  // complaintCategoryId:         string;
   complaintMainCategoryId:     string;
   complaintSubCategoryId:      string;
   complaintSubCategoryClassId: string;
   regionId:                    string;
-  entityTypeId:                string;
-  commercialRecordId:          string;
+  // entityTypeId:                string;
+  // commercialRecordId:          string;
   customerId:                  string;
   description:                 string;
   agentQuestionnaire:          string;
