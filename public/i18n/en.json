@@ -22,7 +22,9 @@
     "YES": "Yes",
     "NO": "No",
     "NUMBERS_ONLY": "Numbers only",
-    "INVALID_EMAIL": "Invalid email"
+    "INVALID_EMAIL": "Invalid email",
+    "PREVIOUS": "Previous",
+    "NEXT": "Next"
   },
   "HEADER": {
     "NOTIFICATIONS": "Notifications",

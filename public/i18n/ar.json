@@ -22,7 +22,9 @@
     "YES": "نعم",
     "NO": "لا",
     "NUMBERS_ONLY": "يجب إدخال أرقام فقط",
-    "INVALID_EMAIL": "البريد غير صحيح"
+    "INVALID_EMAIL": "البريد غير صحيح",
+    "PREVIOUS": "السابق",
+    "NEXT": "التالي"
   },
   "HEADER": {
     "NOTIFICATIONS": "التنبيهات",
@@ -136,7 +138,7 @@
     "REQUESTS": "الطلبات",
     "INQUIRIES": "الاستفسارات",
     "SUGGESTIONS": "الاقتراحات",
-    "COMPLAINTS": "الشكاوي",
+    "COMPLAINTS": "الشكاوى",
     "ADDITIONAL_TEXT": "نص إضافي لمحتوى البطاقة",
     "INDIVIDUAL": "فرد",
     "BUSINESS_NAME": "العرض للتقن"
@@ -157,7 +159,7 @@
     "ADD_REQUEST": "إضافة طلب",
     "ADD_INQUIRY": "إضافة استفسار",
     "ADD_SUGGESTION": "إضافة اقتراح",
-    "COMPLAINTS": "الشكاوي",
+    "COMPLAINTS": "الشكاوى",
     "REQUESTS": "الطلبات",
     "INQUIRIES": "الاستفسارات",
     "SUGGESTIONS": "الاقتراحات",

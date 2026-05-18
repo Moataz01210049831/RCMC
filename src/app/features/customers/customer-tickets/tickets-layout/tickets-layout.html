@@ -47,7 +47,7 @@
         </div>
 
         <div id="tickets-layout-ticket-list" class="ticket-list">
-          @for (t of tickets(); track t.code) {
+          @for (t of pagedTickets(); track t.code) {
             <button [attr.id]="'tickets-layout-ticket-' + t.code" type="button" class="ticket-item"
               [class.active]="(activeTicket()?.code) === t.code"
               (click)="selectTicket(t.code)">
@@ -66,6 +66,11 @@
             </div>
           }
         </div>
+
+        <app-pager
+          [currentPage]="currentPage()"
+          [totalPages]="totalPages()"
+          (pageChange)="currentPage.set($event)" />
       </aside>
 
     </div>

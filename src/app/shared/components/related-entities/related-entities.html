@@ -65,7 +65,7 @@
 
         <!-- Items -->
         <div class="service-items" [attr.id]="'related-service-items-' + card.titleKey">
-          @for (item of card.items; track item.code) {
+          @for (item of pagedItemsFor(card.titleKey); track item.code) {
             <div class="service-item" [attr.id]="'related-service-item-' + item.code"
               (click)="openTicketItem(card.titleKey, item.code, $event)" style="cursor: pointer;">
               <span class="item-code" [attr.id]="'related-service-item-code-' + item.code">{{ item.code }}</span>
@@ -77,7 +77,12 @@
           }
         </div>
 
-
+        <app-pager
+          [currentPage]="pageFor(card.titleKey)"
+          [totalPages]="totalPagesFor(card.titleKey)"
+          size="sm"
+          (click)="$event.stopPropagation()"
+          (pageChange)="setPage(card.titleKey, $event)" />
 
       </div>
     }

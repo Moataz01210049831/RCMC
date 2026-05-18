@@ -1,0 +1,51 @@
+@use '../../../../styles/variables' as *;
+
+:host { display: block; }
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid $border;
+}
+
+.pager-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  border: 1px solid $border;
+  background: $bg-card;
+  color: $text-primary;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s, border-color 0.15s, opacity 0.15s;
+
+  svg { width: 14px; height: 14px; }
+
+  &:hover:not(:disabled) { background: $hover-bg; color: $primary; border-color: $primary; }
+  &:disabled { opacity: 0.45; cursor: not-allowed; }
+}
+
+.pager-info {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: $text-primary;
+  min-width: 48px;
+  text-align: center;
+}
+
+// Smaller variant for tight cards.
+.pager.pager-sm {
+  gap: 10px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed $border;
+
+  .pager-btn { width: 26px; height: 26px; svg { width: 12px; height: 12px; } }
+  .pager-info { font-size: 0.8rem; min-width: 38px; }
+}

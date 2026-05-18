@@ -1,6 +1,7 @@
 import { Component, computed, effect, EventEmitter, input, Output, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Pager } from '../pager/pager';
 import { CommercialRegisterService } from '../../../core/services/commercial-register.service';
 import { SelectedEntityService } from '../../../core/services/selected-entity.service';
 import { ComplaintsService } from '../../../core/services/complaints.service';
@@ -45,7 +46,7 @@ const EMPTY_SERVICE_CARDS: ServiceCard[] = [
 
 @Component({
   selector: 'app-related-entities',
-  imports: [TranslateModule],
+  imports: [TranslateModule, Pager],
   templateUrl: './related-entities.html',
   styleUrl: './related-entities.scss',
 })
@@ -59,6 +60,31 @@ export class RelatedEntities {
 
   entities = signal<Entity[]>([]);
   selectedEntityId = signal<string>('');
+
+  // Pagination — 5 items per service card, page tracked per card title.
+  readonly pageSize = 5;
+  private pages = signal<Record<string, number>>({});
+
+  pageFor(titleKey: string): number {
+    return this.pages()[titleKey] ?? 1;
+  }
+
+  totalPagesFor(titleKey: string): number {
+    const card = this.activeServiceCards().find(c => c.titleKey === titleKey);
+    return Math.max(1, Math.ceil((card?.items.length ?? 0) / this.pageSize));
+  }
+
+  pagedItemsFor(titleKey: string): ServiceItem[] {
+    const card = this.activeServiceCards().find(c => c.titleKey === titleKey);
+    if (!card) return [];
+    const page = Math.min(this.pageFor(titleKey), this.totalPagesFor(titleKey));
+    const start = (page - 1) * this.pageSize;
+    return card.items.slice(start, start + this.pageSize);
+  }
+
+  setPage(titleKey: string, page: number) {
+    this.pages.update(p => ({ ...p, [titleKey]: page }));
+  }
 
   private rawRelatedCRs: RelatedCR[] = [];
   private complaintTickets = signal<RelatedTicket[]>([]);
@@ -195,6 +221,7 @@ export class RelatedEntities {
 
   selectEntity(id: string) {
     this.selectedEntityId.set(id);
+    this.pages.set({});
     // No publish here — entity card stays hidden on the customer page
     // until the user opens one of the service categories below.
   }

@@ -1,0 +1,23 @@
+@if (totalPages() > 1) {
+  <div class="pager" [class.pager-sm]="size() === 'sm'">
+    <button type="button" class="pager-btn"
+      [disabled]="atLast()"
+      [attr.aria-label]="'COMMON.NEXT' | translate"
+      (click)="next($event)">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </button>
+
+    <span class="pager-info">{{ currentPage() }} / {{ totalPages() }}</span>
+
+    <button type="button" class="pager-btn"
+      [disabled]="atFirst()"
+      [attr.aria-label]="'COMMON.PREVIOUS' | translate"
+      (click)="prev($event)">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+  </div>
+}

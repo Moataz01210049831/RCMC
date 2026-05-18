@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CustomerCard } from '../../../../shared/components/customer-card/customer-card';
+import { Pager } from '../../../../shared/components/pager/pager';
 import { CustomerService } from '../../../../core/services/customer.service';
 import { LookupService, LookupItem } from '../../../../core/services/lookup.service';
 import { SelectedEntityService } from '../../../../core/services/selected-entity.service';
@@ -22,7 +23,7 @@ const GENDER_KEYS: Record<number, string> = { 1: 'CUSTOMER.MALE', 2: 'CUSTOMER.F
 
 @Component({
   selector: 'app-tickets-layout',
-  imports: [TranslateModule, CustomerCard],
+  imports: [TranslateModule, CustomerCard, Pager],
   templateUrl: './tickets-layout.html',
   styleUrl: './tickets-layout.scss',
 })
@@ -55,6 +56,18 @@ export class TicketsLayout implements OnInit {
     const term = this.searchTerm().trim().toLowerCase();
     if (!term) return all;
     return all.filter(t => t.code.toLowerCase().includes(term));
+  });
+
+  // ── Pagination ────────────────────────────────────────────────────
+  readonly pageSize = 5;
+  currentPage = signal(1);
+
+  totalPages = computed(() => Math.max(1, Math.ceil(this.tickets().length / this.pageSize)));
+
+  pagedTickets = computed<TicketListItem[]>(() => {
+    const page = Math.min(this.currentPage(), this.totalPages());
+    const start = (page - 1) * this.pageSize;
+    return this.tickets().slice(start, start + this.pageSize);
   });
 
   activeTicket = signal<TicketDetail | null>(null);
@@ -197,6 +210,7 @@ export class TicketsLayout implements OnInit {
     this.activeType.set(type);
     this.selectedCode.set('');
     this.searchTerm.set('');
+    this.currentPage.set(1);
     const id = this.route.snapshot.paramMap.get('id') ?? '';
     this.router.navigate(['/customers', id, 'tickets', type], { replaceUrl: true });
     this.tabChange.emit(type);
@@ -210,6 +224,7 @@ export class TicketsLayout implements OnInit {
 
   onSearchInput(event: Event) {
     this.searchTerm.set((event.target as HTMLInputElement).value);
+    this.currentPage.set(1);
   }
 
   onAdd() {
