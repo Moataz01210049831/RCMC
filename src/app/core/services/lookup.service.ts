@@ -60,8 +60,7 @@ export class LookupService {
   }
 
   getComplaintSubCategories(mainCategoryId: string) {
-    // API quirk: query param is named `subServiceId` but expects the main-category id.
-    const params = new HttpParams().set('subServiceId', mainCategoryId);
+    const params = new HttpParams().set('mainCategoryId', mainCategoryId);
     return this.http
       .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/sub-categories`, { params })
       .pipe(map(res => res.Data ?? []));
