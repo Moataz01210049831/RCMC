@@ -17,7 +17,6 @@
   width: 90%;
   max-width: 480px;
   padding: 24px 28px;
-  direction: rtl;
 }
 
 // ── Header ───────────────────────────────────────────────────────
@@ -59,7 +58,7 @@
 
 // ── Body ─────────────────────────────────────────────────────────
 .dialog-body {
-  text-align: right;
+  text-align: start;
   margin-bottom: 24px;
 }
 
