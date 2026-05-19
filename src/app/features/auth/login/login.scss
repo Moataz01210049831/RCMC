@@ -45,6 +45,34 @@
   height: 100vh;
   width: 100vw;
   overflow: hidden;
+  position: relative;
+}
+
+// ── Language toggle (top corner) ──────────────────────────────────
+.lang-btn {
+  position: absolute;
+  top: 18px;
+  inset-inline-end: 18px;
+  z-index: 2;
+  min-width: 52px;
+  height: 34px;
+  padding: 0 14px;
+  border: 1px solid rgba(#fff, 0.6);
+  border-radius: 999px;
+  background: rgba(#fff, 0.12);
+  color: #fff;
+  font-family: $font-family;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+
+  &:hover {
+    background: #fff;
+    color: $primary;
+    border-color: #fff;
+  }
 }
 
 // ── Left green panel ──────────────────────────────────────────────

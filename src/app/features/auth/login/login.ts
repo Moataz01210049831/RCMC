@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AppConfig } from '../../../core/config/app-config';
 import { AuthService } from '../../../core/services/auth.service';
+import { LanguageService } from '../../../core/services/language.service';
 import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
@@ -25,10 +26,15 @@ export class Login {
     private auth: AuthService,
     private toast: ToastService,
     private translate: TranslateService,
+    public langService: LanguageService,
   ) {}
 
   togglePassword() {
     this.showPassword.update(v => !v);
+  }
+
+  toggleLang() {
+    this.langService.toggleLang();
   }
 
   onSubmit(form: NgForm) {

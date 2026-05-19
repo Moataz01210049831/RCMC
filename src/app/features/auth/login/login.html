@@ -1,4 +1,10 @@
 <div id="login-wrapper" class="login-wrapper">
+  <button id="login-lang-btn" type="button" class="lang-btn"
+    [title]="'LANG.' + (langService.currentLang === 'ar' ? 'EN' : 'AR') | translate"
+    (click)="toggleLang()">
+    {{ langService.currentLang === 'ar' ? 'EN' : 'عربي' }}
+  </button>
+
   <!-- Right Panel -->
   <div id="login-right-panel" class="right-panel">
     <form id="login-form" class="login-form" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
