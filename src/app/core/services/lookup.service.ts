@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map } from 'rxjs';
+import { map, Observable, of, shareReplay, switchMap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { LookupItem } from '../models/lookup.model';
 import { ApiResponse } from '../models/api-response.model';
 import { ComplaintRequirement } from '../models/complaint-requirement.model';
+
+export type EntityKind = 'Individual' | 'Business';
 
 export type { LookupItem };
 
@@ -32,10 +34,41 @@ export class LookupService {
       .pipe(map(res => res.Data ?? []));
   }
 
-  getServiceProviders() {
+  getRegionsBySubCategory(subCategoryId: string) {
+    const params = new HttpParams().set('subCategoryId', subCategoryId);
     return this.http
-      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/service-providers`)
+      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/regions`, { params })
       .pipe(map(res => res.Data ?? []));
+  }
+
+  getServiceProviders(entityTypeId: string) {
+    const params = new HttpParams().set('entityTypeId', entityTypeId);
+    return this.http
+      .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/service-providers`, { params })
+      .pipe(map(res => res.Data ?? []));
+  }
+
+  // Entity types lookup is small and constant — cache it for the session.
+  private entityTypes$?: Observable<LookupItem[]>;
+  getEntityTypes() {
+    if (!this.entityTypes$) {
+      this.entityTypes$ = this.http
+        .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/entity-types`)
+        .pipe(map(res => res.Data ?? []), shareReplay(1));
+    }
+    return this.entityTypes$;
+  }
+
+  // Higher-level helper: resolve the right entity-type id by name, then load
+  // its service providers. Callers (complaint / inquiry forms) just pass
+  // 'Individual' when the customer picked فرد, or 'Business' for a CR.
+  getServiceProvidersForKind(kind: EntityKind) {
+    return this.getEntityTypes().pipe(
+      switchMap(types => {
+        const match = types.find(t => t.Name === kind);
+        return match ? this.getServiceProviders(match.Value) : of<LookupItem[]>([]);
+      }),
+    );
   }
 
   getMainServices(serviceProviderId: string) {

@@ -17,7 +17,10 @@
         <app-add-request (cancel)="cancelAdd()" (submitted)="onAddSubmitted()" />
       }
       @case ('inquiries') {
-        <app-add-inquiry (cancel)="cancelAdd()" (submitted)="onAddSubmitted()" />
+        <app-add-inquiry
+          [relatedContext]="relatedContext()"
+          (cancel)="cancelAdd()"
+          (submitted)="onAddSubmitted()" />
       }
       @case ('suggestions') {
         <app-add-suggestion (cancel)="cancelAdd()" (submitted)="onAddSubmitted()" />

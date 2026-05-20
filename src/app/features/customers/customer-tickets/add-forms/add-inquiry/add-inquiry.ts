@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, OnInit, Output, signal } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { SearchableSelect } from '../../../../../shared/components/searchable-select/searchable-select';
@@ -6,6 +6,7 @@ import { ConfirmDialog } from '../../../../../shared/components/confirm-dialog/c
 import { LookupItem, LookupService } from '../../../../../core/services/lookup.service';
 import { KnowledgeBaseService } from '../../../../../core/services/knowledge-base.service';
 import { AddInquiryForm } from '../../../../../core/models/add-inquiry.model';
+import { RelatedContext } from '../../../../../core/models/add-complaint.model';
 import { KbArticle } from '../../../../../core/models/kb-article.model';
 
 @Component({
@@ -15,6 +16,8 @@ import { KbArticle } from '../../../../../core/models/kb-article.model';
   styleUrl: './add-inquiry.scss',
 })
 export class AddInquiry implements OnInit {
+  @Input() relatedContext: RelatedContext | null = null;
+
   @Output() cancel = new EventEmitter<void>();
   @Output() submitted = new EventEmitter<AddInquiryForm>();
 
@@ -65,7 +68,8 @@ export class AddInquiry implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.lookupService.getServiceProviders().subscribe({
+    const kind = this.relatedContext?.selectedRelatedCR ? 'Business' : 'Individual';
+    this.lookupService.getServiceProvidersForKind(kind).subscribe({
       next: data => (this.entities = data),
     });
     this.lookupService.getInquiryMainCategories().subscribe({

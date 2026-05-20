@@ -36,11 +36,9 @@ export class AddComplaint implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.lookupService.getServiceProviders().subscribe({
+    const kind = this.relatedContext?.selectedRelatedCR ? 'Business' : 'Individual';
+    this.lookupService.getServiceProvidersForKind(kind).subscribe({
       next: data => (this.serviceProviders = data),
-    });
-    this.lookupService.getRegions().subscribe({
-      next: data => (this.regions = data),
     });
     if (this.contactId) {
       this.complaintsService.getRelatedTicketsByCustomer(this.contactId).subscribe({
@@ -112,9 +110,11 @@ export class AddComplaint implements OnInit {
     this.form.subClassificationId  = null;
     this.form.complaintCategory    = null;
     this.form.complaintCategoryId  = null;
+    this.form.regionId             = null;
     this.form.requirements         = [];
     this.mainClassifications = [];
     this.subClassifications  = [];
+    this.regions             = [];
   }
 
   // Step 2 options
@@ -126,7 +126,9 @@ export class AddComplaint implements OnInit {
     this.form.subClassificationId = null;
     this.form.complaintCategory   = null;
     this.form.complaintCategoryId = null;
+    this.form.regionId            = null;
     this.subClassifications = [];
+    this.regions            = [];
     this.form.requirements = [];
     const mainId = this.form.mainClassificationId;
     if (!mainId) return;
@@ -137,6 +139,8 @@ export class AddComplaint implements OnInit {
 
   onSubClassificationChange() {
     this.form.requirements = [];
+    this.form.regionId     = null;
+    this.regions           = [];
     const subId = this.form.subClassificationId;
     const selected = this.subClassifications.find(s => s.Value === subId);
     this.form.complaintCategory   = selected?.Child?.Name  ?? null;
@@ -150,6 +154,9 @@ export class AddComplaint implements OnInit {
         }));
         this.form.requirements = this.reorderRequirements(prepared);
       },
+    });
+    this.lookupService.getRegionsBySubCategory(subId).subscribe({
+      next: data => (this.regions = data),
     });
   }
 
