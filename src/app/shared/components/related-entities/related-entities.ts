@@ -5,6 +5,7 @@ import { Pager } from '../pager/pager';
 import { CommercialRegisterService } from '../../../core/services/commercial-register.service';
 import { SelectedEntityService } from '../../../core/services/selected-entity.service';
 import { ComplaintsService } from '../../../core/services/complaints.service';
+import { LookupService } from '../../../core/services/lookup.service';
 import { EntityCardData } from '../../../core/models/customer-card.model';
 import { RelatedCR } from '../../../core/models/person-related.model';
 import { RelatedTicket } from '../../../core/models/related-ticket.model';
@@ -89,13 +90,24 @@ export class RelatedEntities {
   private rawRelatedCRs: RelatedCR[] = [];
   private complaintTickets = signal<RelatedTicket[]>([]);
 
+  // Cached GUIDs from /Lookups/entity-types — Individual for فرد, Business for a CR.
+  private individualEntityTypeId = '';
+  private businessEntityTypeId = '';
+
   constructor(
     private router: Router,
     private commercialRegister: CommercialRegisterService,
     private translate: TranslateService,
     private selectedEntityService: SelectedEntityService,
     private complaintsService: ComplaintsService,
+    private lookupService: LookupService,
   ) {
+    this.lookupService.getEntityTypes().subscribe({
+      next: types => {
+        this.individualEntityTypeId = types.find(t => t.Name === 'Individual')?.Value ?? '';
+        this.businessEntityTypeId   = types.find(t => t.Name === 'Business')?.Value   ?? '';
+      },
+    });
     effect(() => {
       const idNo = this.identityNumber();
       if (idNo) this.loadRelated(idNo, this.identityTypeId());
@@ -160,6 +172,7 @@ export class RelatedEntities {
             identifierNo:      data.IdentifierNo ?? identifierNo,
             identifierType:    data.IdentifierType ?? null,
             selectedRelatedCR: null,
+            entityTypeId:      this.individualEntityTypeId,
           });
           // Keep "فرد" selected by default — don't reset selection here.
           this.publishEntity(null);
@@ -238,7 +251,11 @@ export class RelatedEntities {
     const selectedCR = this.rawRelatedCRs.find(cr => cr.CrBasicInfo.CrNumber === id) ?? null;
     const ctx = this.selectedEntityService.context();
     if (ctx) {
-      this.selectedEntityService.setContext({ ...ctx, selectedRelatedCR: selectedCR });
+      this.selectedEntityService.setContext({
+        ...ctx,
+        selectedRelatedCR: selectedCR,
+        entityTypeId:      selectedCR ? this.businessEntityTypeId : this.individualEntityTypeId,
+      });
     }
 
     if (!id) {

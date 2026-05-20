@@ -28,8 +28,8 @@ export class AddComplaint implements OnInit {
   currentStep = signal<1 | 2 | 3>(1);
   showDiscardConfirm = signal(false);
 
-  // Resolved from /Lookups/entity-types based on whether the user picked
-  // فرد (Individual) or a company (Business). Sent in the submit payload.
+  // Pre-resolved by related-entities: Individual GUID when فرد is selected,
+  // Business GUID when a CR is selected. Sent in the submit payload.
   private entityTypeId = '';
 
   readonly today = new Date().toISOString().split('T')[0];
@@ -40,17 +40,12 @@ export class AddComplaint implements OnInit {
   ) {}
 
   ngOnInit() {
-    const kind = this.relatedContext?.selectedRelatedCR ? 'Business' : 'Individual';
-    this.lookupService.getEntityTypes().subscribe({
-      next: types => {
-        const match = types.find(t => t.Name === kind);
-        if (!match) return;
-        this.entityTypeId = match.Value;
-        this.lookupService.getServiceProviders(match.Value).subscribe({
-          next: data => (this.serviceProviders = data),
-        });
-      },
-    });
+    this.entityTypeId = this.relatedContext?.entityTypeId ?? '';
+    if (this.entityTypeId) {
+      this.lookupService.getServiceProviders(this.entityTypeId).subscribe({
+        next: data => (this.serviceProviders = data),
+      });
+    }
     if (this.contactId) {
       this.complaintsService.getRelatedTicketsByCustomer(this.contactId).subscribe({
         next: tickets => {

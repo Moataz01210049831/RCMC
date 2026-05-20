@@ -22,6 +22,7 @@ export interface RelatedContext {
   identifierNo:      string;
   identifierType:    IdentifierType | null;
   selectedRelatedCR: RelatedCR | null;
+  entityTypeId:      string;
 }
 
 export interface AddComplaintPayload {
