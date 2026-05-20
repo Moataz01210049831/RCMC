@@ -283,6 +283,7 @@
     "TITLE": "Upload attachments to your ticket",
     "TICKET_ID": "Ticket ID:",
     "MISSING_TICKET": "Ticket ID is missing from the link. Please use the link you received.",
+    "REQUIRED_FILES": "Required attachments",
     "SUBMIT": "Submit",
     "SUBMITTING": "Submitting...",
     "SUCCESS": "Attachments uploaded successfully",

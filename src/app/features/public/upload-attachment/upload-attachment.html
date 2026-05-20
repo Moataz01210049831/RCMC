@@ -15,14 +15,26 @@
     </div>
 
     @if (ticketId() && !submitted()) {
-      <app-file-upload
-        id="public-upload-files"
-        [files]="files()"
-        (filesChange)="onFilesChange($event)" />
+      @if (requiredFiles().length > 0) {
+        <div id="public-upload-required" class="required-files">
+          <h3 class="required-title">{{ 'PUBLIC_UPLOAD.REQUIRED_FILES' | translate }}</h3>
+          @for (req of requiredFiles(); track req.Id) {
+            <div class="required-row" [attr.id]="'public-upload-req-' + req.Id">
+              <label class="required-label" [attr.for]="'public-upload-files-' + req.Id">
+                {{ req.Name }} @if (req.Required) { <span class="required-flag">*</span> }
+              </label>
+              <app-file-upload
+                [attr.id]="'public-upload-files-' + req.Id"
+                [files]="req.Value || []"
+                (filesChange)="onRequirementFilesChange(req, $event)" />
+            </div>
+          }
+        </div>
+      }
 
       <div id="public-upload-actions" class="upload-actions">
         <button id="public-upload-submit" type="button" class="btn-submit"
-          [disabled]="files().length === 0 || submitting()"
+          [disabled]="!canSubmit || submitting()"
           (click)="submit()">
           @if (submitting()) {
             {{ 'PUBLIC_UPLOAD.SUBMITTING' | translate }}

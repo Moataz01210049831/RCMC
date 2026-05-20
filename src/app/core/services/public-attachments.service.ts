@@ -4,6 +4,7 @@ import { map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../models/api-response.model';
 import { ComplainDetailsData } from '../models/complain-details.model';
+import { ComplaintRequirement } from '../models/complaint-requirement.model';
 
 @Injectable({ providedIn: 'root' })
 export class PublicAttachmentsService {
@@ -16,6 +17,13 @@ export class PublicAttachmentsService {
     return this.http
       .get<ApiResponse<ComplainDetailsData>>(`${this.apiUrl}/Complain/GetComplainDetails`, { params })
       .pipe(map(res => res.Data));
+  }
+
+  getRequirementsBySubCategory(subClassificationId: string) {
+    const params = new HttpParams().set('subClassificationId', subClassificationId);
+    return this.http
+      .get<ApiResponse<ComplaintRequirement[]>>(`${this.apiUrl}/Surveys/GetQuestionsBySubCategoryId`, { params })
+      .pipe(map(res => res.Data ?? []));
   }
 
   // Public endpoint — no auth header required. `ticketId` is the complain GUID
