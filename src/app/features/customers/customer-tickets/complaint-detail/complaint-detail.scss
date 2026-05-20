@@ -101,7 +101,7 @@
   > .label {
     font-size: 0.95rem;
     font-weight: 700;
-    color: $accent;
+    color: $text-muted;
   }
 }
 
@@ -117,7 +117,7 @@
 
 .label {
   font-size: 0.85rem;
-  color: $accent;
+  color: $text-muted;
   font-weight: 700;
 }
 
@@ -141,7 +141,7 @@
 
   > .label {
     font-size: 0.95rem;
-    color: $accent;
+    color: $text-muted;
     font-weight: 700;
   }
 }
@@ -170,7 +170,7 @@
   > .label {
     font-size: 0.95rem;
     font-weight: 700;
-    color: $accent;
+    color: $text-muted;
   }
 }
 
@@ -195,7 +195,7 @@
 .qa-question {
   font-size: 0.85rem;
   font-weight: 700;
-  color: $accent;
+  color: $text-muted;
 }
 
 .qa-answer {
@@ -230,7 +230,7 @@
 .attachments-icon {
   width: 20px;
   height: 20px;
-  color: $accent;
+  color: $text-muted;
   flex-shrink: 0;
 }
 
