@@ -284,22 +284,23 @@ export class RelatedEntities {
     });
   }
 
+  // True when a company tab is the active selection. Ticket creation against
+  // company entities is intentionally disabled until the per-CR APIs are wired.
+  isCompanySelected = computed(() => {
+    const id = this.selectedEntityId();
+    return !!id && !id.startsWith('person-');
+  });
+
   openTickets(titleKey: string, selectedCode?: string) {
     const type = TITLE_TO_TYPE[titleKey];
     if (!type || !this.customerId()) return;
+    // Block navigation for company tabs — creation flow stays customer-only for now.
+    if (this.isCompanySelected()) return;
     const queryParams = selectedCode ? { selected: selectedCode } : undefined;
     const id = this.selectedEntityId();
 
     this.syncEntityContext(id);
-
-    // Entity was already published by selectEntity() — just navigate.
-    // getDetails() runs in the background to enrich the card with phone, etc.
     this.router.navigate(['/customers', this.customerId(), 'tickets', type], { queryParams });
-
-    if (!id || id.startsWith('person-')) return;
-    this.loadEntityDetails(id, entity => {
-      if (entity) this.publishEntity(entity);
-    });
   }
 
   openTicketItem(titleKey: string, code: string, event: MouseEvent) {

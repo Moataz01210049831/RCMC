@@ -28,7 +28,8 @@
   <div id="related-entities-service-grid" class="service-grid">
     @for (card of activeServiceCards(); track card.titleKey) {
       <div class="service-card" [attr.id]="'related-service-card-' + card.titleKey"
-        (click)="openTickets(card.titleKey)" style="cursor: pointer;">
+        [class.disabled]="isCompanySelected()"
+        (click)="openTickets(card.titleKey)">
 
         <!-- Card type icon top right -->
         <div class="bulb-icon" [attr.id]="'related-service-bulb-' + card.titleKey">
