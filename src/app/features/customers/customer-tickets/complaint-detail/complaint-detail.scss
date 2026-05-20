@@ -52,7 +52,11 @@
 .detail-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 16px 20px;
+  gap: 14px;
+  padding: 22px 24px;
+  background: rgba($accent, 0.06);
+  border: 1px solid rgba($accent, 0.25);
+  border-radius: $radius-card;
 
   @media (max-width: 1200px) { grid-template-columns: repeat(3, 1fr); }
   @media (max-width: 700px)  { grid-template-columns: repeat(2, 1fr); }
@@ -61,23 +65,24 @@
 .field {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 10px 12px;
-  border: 1px solid $border;
+  gap: 6px;
+  padding: 14px 16px;
+  background: $bg-card;
+  border: 1px solid rgba($accent, 0.25);
   border-radius: $radius-input;
-  background-color: $bg-input;
 }
 
 .label {
-  font-size: 0.72rem;
-  color: $text-muted;
-  font-weight: 600;
+  font-size: 0.85rem;
+  color: $accent;
+  font-weight: 700;
 }
 
 .value {
-  font-size: 0.88rem;
+  font-size: 1rem;
   color: $text-primary;
   font-weight: 600;
+  word-break: break-word;
 
   &.link { color: $accent; }
 }
@@ -85,15 +90,109 @@
 .description-block {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 14px 16px;
-  border: 1px solid $border;
-  border-radius: $radius-input;
+  gap: 12px;
+  padding: 22px 24px;
+  background: rgba($accent, 0.06);
+  border: 1px solid rgba($accent, 0.25);
+  border-radius: $radius-card;
+
+  > .label {
+    font-size: 0.95rem;
+    color: $accent;
+    font-weight: 700;
+  }
 }
 
 .description-text {
   margin: 0;
+  padding: 14px 16px;
+  font-size: 0.95rem;
+  color: $text-primary;
+  line-height: 1.8;
+  background: $bg-card;
+  border: 1px solid rgba($accent, 0.25);
+  border-radius: $radius-input;
+}
+
+.qa-block,
+.attachments-block {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px 24px;
+  background: rgba($accent, 0.06);
+  border: 1px solid rgba($accent, 0.25);
+  border-radius: $radius-card;
+
+  > .label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: $accent;
+  }
+}
+
+.qa-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+
+  @media (max-width: 900px) { grid-template-columns: 1fr; }
+}
+
+.qa-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  background: $bg-card;
+  border: 1px solid rgba($accent, 0.25);
+  border-radius: $radius-input;
+}
+
+.qa-question {
   font-size: 0.85rem;
-  color: $text-secondary;
-  line-height: 1.7;
+  font-weight: 700;
+  color: $accent;
+}
+
+.qa-answer {
+  font-size: 1rem;
+  font-weight: 600;
+  color: $text-primary;
+  word-break: break-word;
+}
+
+.attachments-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.attachments-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: $bg-card;
+  border: 1px solid rgba($accent, 0.25);
+  border-radius: $radius-input;
+  font-size: 0.95rem;
+  color: $text-primary;
+  font-weight: 600;
+}
+
+.attachments-icon {
+  width: 20px;
+  height: 20px;
+  color: $accent;
+  flex-shrink: 0;
+}
+
+.attachments-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

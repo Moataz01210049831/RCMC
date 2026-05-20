@@ -1,5 +1,12 @@
 import { RelatedTicket } from './related-ticket.model';
 
+export interface ComplainAttachment {
+  Id:              string;
+  FileName:        string;
+  FilePath:        string;
+  FileDescription: string | null;
+}
+
 export interface ComplainDetailsData {
   ServiceProviderId:           string | null;
   EntityTypeId:                string | null;
@@ -36,6 +43,7 @@ export interface ComplainDetailsData {
   ComplaintSubCategoryName:    string | null;
   ComplaintMainCategoryName:   string | null;
   RelatedTickets:              RelatedTicket[] | null;
+  Attachments:                 ComplainAttachment[] | null;
   Questions:                   unknown;
   EntityTypeName:              string | null;
   TicketNumber:                string | null;

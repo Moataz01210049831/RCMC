@@ -6,6 +6,16 @@ export interface TicketListItem {
   incidentId?: string;
 }
 
+export interface TicketAttachment {
+  id:       string;
+  fileName: string;
+}
+
+export interface ComplainQA {
+  question: string;
+  answer:   string;
+}
+
 export interface TicketDetail {
   code: string;
   statusKey: string;
@@ -18,7 +28,7 @@ export interface TicketDetail {
   mainClassification: string;
   subClassification: string;
   complaintCategory: string;
-  requirements: string;
+  complainQuestions: ComplainQA[];
   branch: string;
   channel: string;
   createdAt: string;
@@ -27,6 +37,7 @@ export interface TicketDetail {
   updatedBy: string;
   slaDue: string;
   description: string;
+  attachments: TicketAttachment[];
 }
 
 export interface TabDef {
@@ -77,7 +88,7 @@ export function buildMockDetail(item: TicketListItem): TicketDetail {
     mainClassification: 'مشكلة دخول الحساب',
     subClassification: 'رمز التحقق فعمل',
     complaintCategory: 'تقني',
-    requirements: 'نسخ للضم كريم',
+    complainQuestions: [],
     branch: 'الوزارة',
     channel: 'مركز الاتصال',
     createdAt: '12/2/2025 12:23pm',
@@ -87,5 +98,6 @@ export function buildMockDetail(item: TicketListItem): TicketDetail {
     slaDue: '2 ساعة',
     description:
       'هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيليه القارئ عن التركيز على الشكل الخارجي للنص أو شكل توضع الفقرات في الصفحة التي يقرأها.',
+    attachments: [],
   };
 }

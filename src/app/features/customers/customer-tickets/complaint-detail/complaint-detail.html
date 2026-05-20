@@ -59,12 +59,6 @@
           <span id="ticket-detail-value-complaint-category" class="value">{{ t.complaintCategory }}</span>
         </div>
       }
-      @if (has(t.requirements)) {
-        <div id="ticket-detail-field-requirements" class="field">
-          <span id="ticket-detail-label-requirements" class="label">{{ 'TICKETS.REQUIREMENTS' | translate }}</span>
-          <span id="ticket-detail-value-requirements" class="value">{{ t.requirements }}</span>
-        </div>
-      }
       @if (has(t.branch)) {
         <div id="ticket-detail-field-branch" class="field">
           <span id="ticket-detail-label-branch" class="label">{{ 'TICKETS.BRANCH' | translate }}</span>
@@ -119,6 +113,37 @@
       <div id="ticket-detail-description-block" class="description-block">
         <span id="ticket-detail-label-description" class="label">{{ 'TICKETS.DESCRIPTION' | translate }}</span>
         <p id="ticket-detail-description-text" class="description-text">{{ t.description }}</p>
+      </div>
+    }
+
+    @if (t.complainQuestions.length > 0) {
+      <div id="ticket-detail-questions-block" class="qa-block">
+        <span id="ticket-detail-label-questions" class="label">{{ 'TICKETS.REQUIREMENTS' | translate }}</span>
+        <div id="ticket-detail-questions-list" class="qa-list">
+          @for (qa of t.complainQuestions; track qa.question) {
+            <div class="qa-item">
+              <span class="qa-question">{{ qa.question }}</span>
+              <span class="qa-answer">{{ qa.answer }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    @if (t.attachments.length > 0) {
+      <div id="ticket-detail-attachments-block" class="attachments-block">
+        <span id="ticket-detail-label-attachments" class="label">{{ 'TICKETS.ATTACHMENTS' | translate }}</span>
+        <ul id="ticket-detail-attachments-list" class="attachments-list">
+          @for (att of t.attachments; track att.id) {
+            <li class="attachments-item" [attr.id]="'ticket-detail-attachment-' + att.id">
+              <svg class="attachments-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+              </svg>
+              <span class="attachments-name">{{ att.fileName }}</span>
+            </li>
+          }
+        </ul>
       </div>
     }
   </div>

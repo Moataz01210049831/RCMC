@@ -167,13 +167,14 @@ export class TicketsLayout implements OnInit {
     this.activeTicketChange.emit(detail);
   }
 
-  private formatComplainQuestions(q: Record<string, string | string[]> | null): string {
-    if (!q) return '-';
-    const values = Object.values(q)
-      .flatMap(v => Array.isArray(v) ? v : [v])
-      .map(v => String(v).trim())
-      .filter(Boolean);
-    return values.length ? values.join('، ') : '-';
+  private mapComplainQuestions(q: Record<string, string | string[]> | null) {
+    if (!q) return [];
+    return Object.entries(q).map(([question, value]) => {
+      const answer = Array.isArray(value)
+        ? value.map(v => String(v).trim()).filter(Boolean).join('، ')
+        : String(value ?? '').trim();
+      return { question, answer: answer || '-' };
+    });
   }
 
   private toTicketDetail(item: TicketListItem, d: ComplainDetailsData): TicketDetail {
@@ -194,7 +195,7 @@ export class TicketsLayout implements OnInit {
       mainClassification: d.ComplaintMainCategoryName ?? '-',
       subClassification:  d.ComplaintSubCategoryName ?? '-',
       complaintCategory:  d.ComplaintCategoryName ?? '-',
-      requirements:       this.formatComplainQuestions(d.ComplainQuestions),
+      complainQuestions:  this.mapComplainQuestions(d.ComplainQuestions),
       branch:             d.RegionName ?? '-',
       channel:            d.EntityTypeName ?? '-',
       createdAt:          fmtDate(d.CreatedOn),
@@ -203,6 +204,7 @@ export class TicketsLayout implements OnInit {
       updatedBy:          d.ModifiedByName ?? '-',
       slaDue:             '-',
       description:        d.Description ?? '-',
+      attachments:        (d.Attachments ?? []).map(a => ({ id: a.Id, fileName: a.FileName })),
     };
   }
 
