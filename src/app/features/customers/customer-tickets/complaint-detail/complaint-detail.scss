@@ -60,6 +60,49 @@
 
   @media (max-width: 1200px) { grid-template-columns: repeat(3, 1fr); }
   @media (max-width: 700px)  { grid-template-columns: repeat(2, 1fr); }
+
+  &.service-grid,
+  &.classification-grid,
+  &.meta-grid {
+    padding: 0;
+    background: transparent;
+    border: 0;
+  }
+
+  &.service-grid {
+    grid-template-columns: repeat(3, 1fr);
+
+    @media (max-width: 700px) { grid-template-columns: 1fr; }
+  }
+
+  &.classification-grid {
+    grid-template-columns: repeat(2, 1fr);
+
+    @media (max-width: 700px) { grid-template-columns: 1fr; }
+  }
+
+  &.meta-grid {
+    grid-template-columns: repeat(3, 1fr);
+
+    @media (max-width: 900px) { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 600px) { grid-template-columns: 1fr; }
+  }
+}
+
+.meta-block {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px 24px;
+  background: rgba($accent, 0.06);
+  border: 1px solid rgba($accent, 0.25);
+  border-radius: $radius-card;
+
+  > .label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: $accent;
+  }
 }
 
 .field {

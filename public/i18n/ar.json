@@ -152,6 +152,9 @@
   },
   "TICKETS": {
     "TICKETS": "التذاكر",
+    "TICKET_DETAILS": "تفاصيل التذكرة",
+    "SERVICE_INFO": "بيانات الخدمة",
+    "COMPLAINT_CLASSIFICATION": "تصنيف الشكوى",
     "NO_TICKETS": "لا توجد تذاكر للعرض",
     "SELECT_TICKET_HINT": "لا توجد تذاكر للعرض. اضغط «إضافة» لإنشاء تذكرة جديدة",
     "SEARCH": "بحث...",

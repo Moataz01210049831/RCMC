@@ -4,110 +4,136 @@
       <span id="ticket-detail-code" class="detail-code">{{ t.code }}</span>
     </div>
 
-    <div id="ticket-detail-grid" class="detail-grid">
-      @if (has(t.commercialEntity)) {
-        <div id="ticket-detail-field-commercial-entity" class="field">
-          <span id="ticket-detail-label-commercial-entity" class="label">{{ 'TICKETS.COMMERCIAL_ENTITY' | translate }}</span>
-          <span id="ticket-detail-value-commercial-entity" class="value">{{ t.commercialEntity }}</span>
+    @if (has(t.serviceProvider) || has(t.mainService) || has(t.subService)) {
+      <div id="ticket-detail-service-block" class="meta-block">
+        <span id="ticket-detail-label-service" class="label">{{ 'TICKETS.SERVICE_INFO' | translate }}</span>
+        <div id="ticket-detail-service-grid" class="detail-grid service-grid">
+          @if (has(t.serviceProvider)) {
+            <div id="ticket-detail-field-service-provider" class="field">
+              <span id="ticket-detail-label-service-provider" class="label">{{ 'TICKETS.SERVICE_PROVIDER' | translate }}</span>
+              <span id="ticket-detail-value-service-provider" class="value">{{ t.serviceProvider }}</span>
+            </div>
+          }
+          @if (has(t.mainService)) {
+            <div id="ticket-detail-field-main-service" class="field">
+              <span id="ticket-detail-label-main-service" class="label">{{ 'TICKETS.MAIN_SERVICE' | translate }}</span>
+              <span id="ticket-detail-value-main-service" class="value">{{ t.mainService }}</span>
+            </div>
+          }
+          @if (has(t.subService)) {
+            <div id="ticket-detail-field-sub-service" class="field">
+              <span id="ticket-detail-label-sub-service" class="label">{{ 'TICKETS.SUB_SERVICE' | translate }}</span>
+              <span id="ticket-detail-value-sub-service" class="value">{{ t.subService }}</span>
+            </div>
+          }
         </div>
-      }
-      @if (has(t.entityType)) {
-        <div id="ticket-detail-field-entity-type" class="field">
-          <span id="ticket-detail-label-entity-type" class="label">{{ 'TICKETS.ENTITY_TYPE' | translate }}</span>
-          <span id="ticket-detail-value-entity-type" class="value">{{ t.entityType }}</span>
+      </div>
+    }
+
+    @if (has(t.mainClassification) || has(t.subClassification)) {
+      <div id="ticket-detail-classification-block" class="meta-block">
+        <span id="ticket-detail-label-classification" class="label">{{ 'TICKETS.COMPLAINT_CLASSIFICATION' | translate }}</span>
+        <div id="ticket-detail-classification-grid" class="detail-grid classification-grid">
+          @if (has(t.mainClassification)) {
+            <div id="ticket-detail-field-main-classification" class="field">
+              <span id="ticket-detail-label-main-classification" class="label">{{ 'TICKETS.MAIN_CLASSIFICATION' | translate }}</span>
+              <span id="ticket-detail-value-main-classification" class="value">{{ t.mainClassification }}</span>
+            </div>
+          }
+          @if (has(t.subClassification)) {
+            <div id="ticket-detail-field-sub-classification" class="field">
+              <span id="ticket-detail-label-sub-classification" class="label">{{ 'TICKETS.SUB_CLASSIFICATION' | translate }}</span>
+              <span id="ticket-detail-value-sub-classification" class="value">{{ t.subClassification }}</span>
+            </div>
+          }
         </div>
-      }
-      @if (has(t.entityId)) {
-        <div id="ticket-detail-field-entity-id" class="field">
-          <span id="ticket-detail-label-entity-id" class="label">{{ 'TICKETS.ENTITY_ID' | translate }}</span>
-          <span id="ticket-detail-value-entity-id" class="value link">{{ t.entityId }}</span>
+      </div>
+    }
+
+    @if (has(t.commercialEntity) || has(t.entityType) || has(t.entityId) || has(t.complaintCategory) || has(t.statusKey) || has(t.slaDue)) {
+      <div id="ticket-detail-grid" class="detail-grid">
+        @if (has(t.commercialEntity)) {
+          <div id="ticket-detail-field-commercial-entity" class="field">
+            <span id="ticket-detail-label-commercial-entity" class="label">{{ 'TICKETS.COMMERCIAL_ENTITY' | translate }}</span>
+            <span id="ticket-detail-value-commercial-entity" class="value">{{ t.commercialEntity }}</span>
+          </div>
+        }
+        @if (has(t.entityType)) {
+          <div id="ticket-detail-field-entity-type" class="field">
+            <span id="ticket-detail-label-entity-type" class="label">{{ 'TICKETS.ENTITY_TYPE' | translate }}</span>
+            <span id="ticket-detail-value-entity-type" class="value">{{ t.entityType }}</span>
+          </div>
+        }
+        @if (has(t.entityId)) {
+          <div id="ticket-detail-field-entity-id" class="field">
+            <span id="ticket-detail-label-entity-id" class="label">{{ 'TICKETS.ENTITY_ID' | translate }}</span>
+            <span id="ticket-detail-value-entity-id" class="value link">{{ t.entityId }}</span>
+          </div>
+        }
+        @if (has(t.complaintCategory)) {
+          <div id="ticket-detail-field-complaint-category" class="field">
+            <span id="ticket-detail-label-complaint-category" class="label">{{ 'TICKETS.COMPLAINT_CATEGORY' | translate }}</span>
+            <span id="ticket-detail-value-complaint-category" class="value">{{ t.complaintCategory }}</span>
+          </div>
+        }
+        @if (has(t.statusKey)) {
+          <div id="ticket-detail-field-status" class="field">
+            <span id="ticket-detail-label-status" class="label">{{ 'TICKETS.STATUS' | translate }}</span>
+            <span id="ticket-detail-value-status" class="value link">{{ t.statusKey | translate }}</span>
+          </div>
+        }
+        @if (has(t.slaDue)) {
+          <div id="ticket-detail-field-sla" class="field">
+            <span id="ticket-detail-label-sla" class="label">{{ 'TICKETS.SLA' | translate }}</span>
+            <span id="ticket-detail-value-sla" class="value">{{ t.slaDue }}</span>
+          </div>
+        }
+      </div>
+    }
+
+    @if (has(t.branch) || has(t.channel) || has(t.createdAt) || has(t.createdBy) || has(t.updatedAt) || has(t.updatedBy)) {
+      <div id="ticket-detail-meta-block" class="meta-block">
+        <span id="ticket-detail-label-meta" class="label">{{ 'TICKETS.TICKET_DETAILS' | translate }}</span>
+        <div id="ticket-detail-meta-grid" class="detail-grid meta-grid">
+          @if (has(t.branch)) {
+            <div id="ticket-detail-field-branch" class="field">
+              <span id="ticket-detail-label-branch" class="label">{{ 'TICKETS.BRANCH' | translate }}</span>
+              <span id="ticket-detail-value-branch" class="value link">{{ t.branch }}</span>
+            </div>
+          }
+          @if (has(t.channel)) {
+            <div id="ticket-detail-field-channel" class="field">
+              <span id="ticket-detail-label-channel" class="label">{{ 'TICKETS.TICKET_CHANNEL' | translate }}</span>
+              <span id="ticket-detail-value-channel" class="value">{{ t.channel }}</span>
+            </div>
+          }
+          @if (has(t.createdAt)) {
+            <div id="ticket-detail-field-created-at" class="field">
+              <span id="ticket-detail-label-created-at" class="label">{{ 'TICKETS.CREATED_AT' | translate }}</span>
+              <span id="ticket-detail-value-created-at" class="value">{{ t.createdAt }}</span>
+            </div>
+          }
+          @if (has(t.createdBy)) {
+            <div id="ticket-detail-field-created-by" class="field">
+              <span id="ticket-detail-label-created-by" class="label">{{ 'TICKETS.CREATED_BY' | translate }}</span>
+              <span id="ticket-detail-value-created-by" class="value">{{ t.createdBy }}</span>
+            </div>
+          }
+          @if (has(t.updatedAt)) {
+            <div id="ticket-detail-field-updated-at" class="field">
+              <span id="ticket-detail-label-updated-at" class="label">{{ 'TICKETS.UPDATED_AT' | translate }}</span>
+              <span id="ticket-detail-value-updated-at" class="value">{{ t.updatedAt }}</span>
+            </div>
+          }
+          @if (has(t.updatedBy)) {
+            <div id="ticket-detail-field-updated-by" class="field">
+              <span id="ticket-detail-label-updated-by" class="label">{{ 'TICKETS.UPDATED_BY' | translate }}</span>
+              <span id="ticket-detail-value-updated-by" class="value">{{ t.updatedBy }}</span>
+            </div>
+          }
         </div>
-      }
-      @if (has(t.serviceProvider)) {
-        <div id="ticket-detail-field-service-provider" class="field">
-          <span id="ticket-detail-label-service-provider" class="label">{{ 'TICKETS.SERVICE_PROVIDER' | translate }}</span>
-          <span id="ticket-detail-value-service-provider" class="value">{{ t.serviceProvider }}</span>
-        </div>
-      }
-      @if (has(t.mainService)) {
-        <div id="ticket-detail-field-main-service" class="field">
-          <span id="ticket-detail-label-main-service" class="label">{{ 'TICKETS.MAIN_SERVICE' | translate }}</span>
-          <span id="ticket-detail-value-main-service" class="value">{{ t.mainService }}</span>
-        </div>
-      }
-      @if (has(t.subService)) {
-        <div id="ticket-detail-field-sub-service" class="field">
-          <span id="ticket-detail-label-sub-service" class="label">{{ 'TICKETS.SUB_SERVICE' | translate }}</span>
-          <span id="ticket-detail-value-sub-service" class="value">{{ t.subService }}</span>
-        </div>
-      }
-      @if (has(t.mainClassification)) {
-        <div id="ticket-detail-field-main-classification" class="field">
-          <span id="ticket-detail-label-main-classification" class="label">{{ 'TICKETS.MAIN_CLASSIFICATION' | translate }}</span>
-          <span id="ticket-detail-value-main-classification" class="value">{{ t.mainClassification }}</span>
-        </div>
-      }
-      @if (has(t.subClassification)) {
-        <div id="ticket-detail-field-sub-classification" class="field">
-          <span id="ticket-detail-label-sub-classification" class="label">{{ 'TICKETS.SUB_CLASSIFICATION' | translate }}</span>
-          <span id="ticket-detail-value-sub-classification" class="value">{{ t.subClassification }}</span>
-        </div>
-      }
-      @if (has(t.complaintCategory)) {
-        <div id="ticket-detail-field-complaint-category" class="field">
-          <span id="ticket-detail-label-complaint-category" class="label">{{ 'TICKETS.COMPLAINT_CATEGORY' | translate }}</span>
-          <span id="ticket-detail-value-complaint-category" class="value">{{ t.complaintCategory }}</span>
-        </div>
-      }
-      @if (has(t.branch)) {
-        <div id="ticket-detail-field-branch" class="field">
-          <span id="ticket-detail-label-branch" class="label">{{ 'TICKETS.BRANCH' | translate }}</span>
-          <span id="ticket-detail-value-branch" class="value link">{{ t.branch }}</span>
-        </div>
-      }
-      @if (has(t.statusKey)) {
-        <div id="ticket-detail-field-status" class="field">
-          <span id="ticket-detail-label-status" class="label">{{ 'TICKETS.STATUS' | translate }}</span>
-          <span id="ticket-detail-value-status" class="value link">{{ t.statusKey | translate }}</span>
-        </div>
-      }
-      @if (has(t.slaDue)) {
-        <div id="ticket-detail-field-sla" class="field">
-          <span id="ticket-detail-label-sla" class="label">{{ 'TICKETS.SLA' | translate }}</span>
-          <span id="ticket-detail-value-sla" class="value">{{ t.slaDue }}</span>
-        </div>
-      }
-      @if (has(t.channel)) {
-        <div id="ticket-detail-field-channel" class="field">
-          <span id="ticket-detail-label-channel" class="label">{{ 'TICKETS.TICKET_CHANNEL' | translate }}</span>
-          <span id="ticket-detail-value-channel" class="value">{{ t.channel }}</span>
-        </div>
-      }
-      @if (has(t.createdBy)) {
-        <div id="ticket-detail-field-created-by" class="field">
-          <span id="ticket-detail-label-created-by" class="label">{{ 'TICKETS.CREATED_BY' | translate }}</span>
-          <span id="ticket-detail-value-created-by" class="value">{{ t.createdBy }}</span>
-        </div>
-      }
-      @if (has(t.createdAt)) {
-        <div id="ticket-detail-field-created-at" class="field">
-          <span id="ticket-detail-label-created-at" class="label">{{ 'TICKETS.CREATED_AT' | translate }}</span>
-          <span id="ticket-detail-value-created-at" class="value">{{ t.createdAt }}</span>
-        </div>
-      }
-      @if (has(t.updatedAt)) {
-        <div id="ticket-detail-field-updated-at" class="field">
-          <span id="ticket-detail-label-updated-at" class="label">{{ 'TICKETS.UPDATED_AT' | translate }}</span>
-          <span id="ticket-detail-value-updated-at" class="value">{{ t.updatedAt }}</span>
-        </div>
-      }
-      @if (has(t.updatedBy)) {
-        <div id="ticket-detail-field-updated-by" class="field">
-          <span id="ticket-detail-label-updated-by" class="label">{{ 'TICKETS.UPDATED_BY' | translate }}</span>
-          <span id="ticket-detail-value-updated-by" class="value">{{ t.updatedBy }}</span>
-        </div>
-      }
-    </div>
+      </div>
+    }
 
     @if (has(t.description)) {
       <div id="ticket-detail-description-block" class="description-block">
