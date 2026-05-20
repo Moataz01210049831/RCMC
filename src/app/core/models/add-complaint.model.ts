@@ -34,13 +34,13 @@ export interface AddComplaintPayload {
   complaintSubCategoryId:      string;
   complaintSubCategoryClassId: string;
   regionId:                    string;
-  // entityTypeId:                string;
+  entityTypeId:                string;
   // commercialRecordId:          string;
   customerId:                  string;
   description:                 string;
   agentQuestionnaire:          string;
   complainQuestions:           Record<string, string | string[]>;
-  attachmentFullfield:         boolean;
+  RequiredAttachmentFullFilled:         boolean;
 }
 
 export interface AddComplaintSubmission {

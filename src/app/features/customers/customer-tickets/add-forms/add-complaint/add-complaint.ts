@@ -28,6 +28,10 @@ export class AddComplaint implements OnInit {
   currentStep = signal<1 | 2 | 3>(1);
   showDiscardConfirm = signal(false);
 
+  // Resolved from /Lookups/entity-types based on whether the user picked
+  // فرد (Individual) or a company (Business). Sent in the submit payload.
+  private entityTypeId = '';
+
   readonly today = new Date().toISOString().split('T')[0];
 
   constructor(
@@ -37,8 +41,15 @@ export class AddComplaint implements OnInit {
 
   ngOnInit() {
     const kind = this.relatedContext?.selectedRelatedCR ? 'Business' : 'Individual';
-    this.lookupService.getServiceProvidersForKind(kind).subscribe({
-      next: data => (this.serviceProviders = data),
+    this.lookupService.getEntityTypes().subscribe({
+      next: types => {
+        const match = types.find(t => t.Name === kind);
+        if (!match) return;
+        this.entityTypeId = match.Value;
+        this.lookupService.getServiceProviders(match.Value).subscribe({
+          next: data => (this.serviceProviders = data),
+        });
+      },
     });
     if (this.contactId) {
       this.complaintsService.getRelatedTicketsByCustomer(this.contactId).subscribe({
@@ -285,13 +296,13 @@ export class AddComplaint implements OnInit {
       complaintSubCategoryId:      this.form.subClassificationId  ?? '',
       complaintSubCategoryClassId: categoryId,
       regionId:                    this.form.regionId ?? '',
-      // entityTypeId:                '',
+      entityTypeId:                this.entityTypeId,
       // commercialRecordId:          '43c4c149-ec49-f111-93f2-00505689e20d',
       customerId:                  this.contactId,
       description:                 this.form.description,
       agentQuestionnaire:          '',
       complainQuestions,
-      attachmentFullfield:         requirementFiles.length > 0,
+      RequiredAttachmentFullFilled:         requirementFiles.length > 0,
     };
 
     return {
