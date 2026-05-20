@@ -9,7 +9,7 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/login/login').then(m => m.Login),
   },
   {
-    path: 'ticket/:ticketId/attachments',
+    path: 'ticket/attachments/:ticketId',
     title: 'PAGES.PUBLIC_UPLOAD',
     loadComponent: () =>
       import('./features/public/upload-attachment/upload-attachment').then(m => m.UploadAttachment),

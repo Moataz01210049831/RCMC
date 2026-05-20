@@ -7,7 +7,7 @@
       @if (ticketId()) {
         <div id="public-upload-ticket-row" class="ticket-row">
           <span id="public-upload-ticket-label" class="ticket-label">{{ 'PUBLIC_UPLOAD.TICKET_ID' | translate }}</span>
-          <span id="public-upload-ticket-value" class="ticket-value">{{ ticketId() }}</span>
+          <span id="public-upload-ticket-value" class="ticket-value">{{ ticketNumber() }}</span>
         </div>
       } @else {
         <p id="public-upload-no-ticket" class="error-text">{{ 'PUBLIC_UPLOAD.MISSING_TICKET' | translate }}</p>
@@ -41,9 +41,9 @@
         </svg>
         <h2 class="success-title">{{ 'PUBLIC_UPLOAD.SUCCESS' | translate }}</h2>
         <p class="success-text">{{ 'PUBLIC_UPLOAD.SUCCESS_HINT' | translate }}</p>
-        <button type="button" class="btn-secondary" (click)="uploadMore()">
+        <!-- <button type="button" class="btn-secondary" (click)="uploadMore()">
           {{ 'PUBLIC_UPLOAD.UPLOAD_MORE' | translate }}
-        </button>
+        </button> -->
       </div>
     }
 

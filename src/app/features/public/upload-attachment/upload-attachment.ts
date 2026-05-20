@@ -16,6 +16,7 @@ export class UploadAttachment implements OnInit {
   readonly config = AppConfig;
 
   ticketId = signal<string>('');
+  ticketNumber = signal<string>('');
   files = signal<File[]>([]);
   submitting = signal(false);
   submitted = signal(false);
@@ -28,7 +29,13 @@ export class UploadAttachment implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.ticketId.set(this.route.snapshot.paramMap.get('ticketId') ?? '');
+    const id = this.route.snapshot.paramMap.get('ticketId') ?? '';
+    this.ticketId.set(id);
+    if (id) {
+      this.service.getComplainDetails(id).subscribe({
+        next: data => this.ticketNumber.set(data?.TicketNumber ?? ''),
+      });
+    }
   }
 
   onFilesChange(files: File[]) {
