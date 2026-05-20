@@ -54,8 +54,8 @@
   grid-template-columns: repeat(5, 1fr);
   gap: 14px;
   padding: 22px 24px;
-  background: rgba($accent, 0.06);
-  border: 1px solid rgba($accent, 0.25);
+  background: $bg-page;
+  border: 1px solid $border;
   border-radius: $radius-card;
 
   @media (max-width: 1200px) { grid-template-columns: repeat(3, 1fr); }
@@ -94,8 +94,8 @@
   flex-direction: column;
   gap: 14px;
   padding: 22px 24px;
-  background: rgba($accent, 0.06);
-  border: 1px solid rgba($accent, 0.25);
+  background: $bg-page;
+  border: 1px solid $border;
   border-radius: $radius-card;
 
   > .label {
@@ -135,8 +135,8 @@
   flex-direction: column;
   gap: 12px;
   padding: 22px 24px;
-  background: rgba($accent, 0.06);
-  border: 1px solid rgba($accent, 0.25);
+  background: $bg-page;
+  border: 1px solid $border;
   border-radius: $radius-card;
 
   > .label {
@@ -163,8 +163,8 @@
   flex-direction: column;
   gap: 14px;
   padding: 22px 24px;
-  background: rgba($accent, 0.06);
-  border: 1px solid rgba($accent, 0.25);
+  background: $bg-page;
+  border: 1px solid $border;
   border-radius: $radius-card;
 
   > .label {
