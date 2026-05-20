@@ -36,7 +36,7 @@ export interface AddComplaintPayload {
   complaintSubCategoryClassId: string;
   regionId:                    string;
   entityTypeId:                string;
-  // commercialRecordId:          string;
+  commercialRecordId?:         string;
   customerId:                  string;
   description:                 string;
   agentQuestionnaire:          string;

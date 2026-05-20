@@ -281,6 +281,10 @@ export class AddComplaint implements OnInit {
 
     const attachments = [...(this.form.attachments ?? []), ...requirementFiles];
 
+    // commercialRecordId is the selected company's CrNumber. Only sent when
+    // filing against a company — omitted entirely for فرد (Individual).
+    const commercialRecordId = this.relatedContext?.selectedRelatedCR?.CrBasicInfo?.CrNumber;
+
     const payload: AddComplaintPayload = {
       serviceProviderId:           this.form.serviceProviderId  ?? '',
       mainServiceId:               this.form.mainServiceId      ?? '',
@@ -292,7 +296,7 @@ export class AddComplaint implements OnInit {
       complaintSubCategoryClassId: categoryId,
       regionId:                    this.form.regionId ?? '',
       entityTypeId:                this.entityTypeId,
-      // commercialRecordId:          '43c4c149-ec49-f111-93f2-00505689e20d',
+      ...(commercialRecordId ? { commercialRecordId } : {}),
       customerId:                  this.contactId,
       description:                 this.form.description,
       agentQuestionnaire:          '',

@@ -219,11 +219,17 @@ export class RelatedEntities {
   }
 
   activeServiceCards = computed<ServiceCard[]>(() => {
-    if (!this.selectedEntityId()) return [];
-    const complaintItems: ServiceItem[] = this.complaintTickets().map(t => ({
-      code:      t.TicketNumber,
-      statusKey: t.CaseCurrentStatus || '-',
-    }));
+    const id = this.selectedEntityId();
+    if (!id) return [];
+    // فرد uses the customer-level endpoint; company tabs stay empty until
+    // the per-CR tickets API is wired in.
+    const isPerson = id.startsWith('person-');
+    const complaintItems: ServiceItem[] = isPerson
+      ? this.complaintTickets().map(t => ({
+          code:      t.TicketNumber,
+          statusKey: t.CaseCurrentStatus || '-',
+        }))
+      : [];
     return [
       { titleKey: 'ENTITIES.REQUESTS',    count: 0,                     descriptionKey: '', items: [] },
       { titleKey: 'ENTITIES.INQUIRIES',   count: 0,                     descriptionKey: '', items: [] },
@@ -235,37 +241,64 @@ export class RelatedEntities {
   selectEntity(id: string) {
     this.selectedEntityId.set(id);
     this.pages.set({});
-    // No publish here — entity card stays hidden on the customer page
-    // until the user opens one of the service categories below.
+    this.syncEntityContext(id);
+    // Refresh the customer card to reflect the chosen entity: company info
+    // for a CR tab, cleared for فرد.
+    if (id.startsWith('person-')) {
+      this.publishEntity(null);
+      return;
+    }
+    // Publish whatever we already know from /PersonRelated immediately so the
+    // customer card doesn't sit blank, then enrich with /GetDetails (phone, etc).
+    const cached = this.entityFromRelatedCR(id);
+    if (cached) this.publishEntity(cached);
+    this.loadEntityDetails(id, entity => {
+      if (entity) this.publishEntity(entity);
+    });
+  }
+
+  private entityFromRelatedCR(crNumber: string): EntityCardData | null {
+    const cr = this.rawRelatedCRs.find(c => c.CrBasicInfo.CrNumber === crNumber);
+    if (!cr) return null;
+    const isEn = this.translate.currentLang === 'en';
+    return {
+      companyName:   isEn ? cr.CrBasicInfo.EntityFullNameEn : cr.CrBasicInfo.EntityFullNameAr,
+      entityType:    isEn ? cr.CrBasicInfo.CrStatus.CrStatusDescEn : cr.CrBasicInfo.CrStatus.CrStatusDescAr,
+      crNumber:      cr.CrBasicInfo.CrNumber,
+      unifiedNumber: cr.CrBasicInfo.CrNationalNumber,
+      phone:         '',
+    };
+  }
+
+  // Mirror the active tab into SelectedEntityService context so any create
+  // form opened next (complaint, inquiry, ...) picks up the right entityTypeId
+  // and selectedRelatedCR — even before a service card is clicked.
+  private syncEntityContext(id: string) {
+    const ctx = this.selectedEntityService.context();
+    if (!ctx) return;
+    const selectedCR = this.rawRelatedCRs.find(cr => cr.CrBasicInfo.CrNumber === id) ?? null;
+    this.selectedEntityService.setContext({
+      ...ctx,
+      selectedRelatedCR: selectedCR,
+      entityTypeId:      selectedCR ? this.businessEntityTypeId : this.individualEntityTypeId,
+    });
   }
 
   openTickets(titleKey: string, selectedCode?: string) {
     const type = TITLE_TO_TYPE[titleKey];
     if (!type || !this.customerId()) return;
     const queryParams = selectedCode ? { selected: selectedCode } : undefined;
-    const navigate = () =>
-      this.router.navigate(['/customers', this.customerId(), 'tickets', type], { queryParams });
     const id = this.selectedEntityId();
 
-    // Snapshot which RelatedCR (if any) the user is filing against
-    const selectedCR = this.rawRelatedCRs.find(cr => cr.CrBasicInfo.CrNumber === id) ?? null;
-    const ctx = this.selectedEntityService.context();
-    if (ctx) {
-      this.selectedEntityService.setContext({
-        ...ctx,
-        selectedRelatedCR: selectedCR,
-        entityTypeId:      selectedCR ? this.businessEntityTypeId : this.individualEntityTypeId,
-      });
-    }
+    this.syncEntityContext(id);
 
-    if (!id) {
-      this.publishEntity(null);
-      navigate();
-      return;
-    }
+    // Entity was already published by selectEntity() — just navigate.
+    // getDetails() runs in the background to enrich the card with phone, etc.
+    this.router.navigate(['/customers', this.customerId(), 'tickets', type], { queryParams });
+
+    if (!id || id.startsWith('person-')) return;
     this.loadEntityDetails(id, entity => {
-      this.publishEntity(entity);
-      navigate();
+      if (entity) this.publishEntity(entity);
     });
   }
 
