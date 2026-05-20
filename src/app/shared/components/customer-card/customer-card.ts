@@ -20,4 +20,9 @@ export class CustomerCard {
     const str = String(value).trim();
     return str !== '' && str !== '-';
   }
+
+  // Fall back to a dash so every field has a placeholder when the data is missing.
+  dash(value: unknown): string {
+    return this.has(value) ? String(value) : '-';
+  }
 }
