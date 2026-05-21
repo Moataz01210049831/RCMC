@@ -149,7 +149,13 @@
           @for (qa of t.complainQuestions; track qa.question) {
             <div class="qa-item">
               <span class="qa-question">{{ qa.question }}</span>
-              <span class="qa-answer">{{ qa.answer }}</span>
+              <span class="qa-answer">
+                @if (qa.answerKey) {
+                  {{ qa.answerKey | translate }}
+                } @else {
+                  {{ qa.answer }}
+                }
+              </span>
             </div>
           }
         </div>

@@ -207,6 +207,11 @@ export class TicketsLayout implements OnInit {
   private mapComplainQuestions(q: Record<string, string | string[]> | null) {
     if (!q) return [];
     return Object.entries(q).map(([question, value]) => {
+      if (!Array.isArray(value)) {
+        const raw = String(value ?? '').trim().toLowerCase();
+        if (raw === 'true')  return { question, answer: '', answerKey: 'COMMON.YES' };
+        if (raw === 'false') return { question, answer: '', answerKey: 'COMMON.NO'  };
+      }
       const answer = Array.isArray(value)
         ? value.map(v => String(v).trim()).filter(Boolean).join('، ')
         : String(value ?? '').trim();

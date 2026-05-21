@@ -12,8 +12,10 @@ export interface TicketAttachment {
 }
 
 export interface ComplainQA {
-  question: string;
-  answer:   string;
+  question:   string;
+  answer:     string;
+  // Translation key for yes/no answers — when set, template uses `| translate`.
+  answerKey?: string;
 }
 
 export interface TicketDetail {
