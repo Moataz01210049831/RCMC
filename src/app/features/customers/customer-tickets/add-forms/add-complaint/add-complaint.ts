@@ -301,6 +301,7 @@ export class AddComplaint implements OnInit {
       description:                 this.form.description,
       agentQuestionnaire:          '',
       complainQuestions,
+      RelatedTicketIds:              this.form.relatedTickets ?? [],
       RequiredAttachmentFullFilled:         requirementFiles.length > 0,
     };
 

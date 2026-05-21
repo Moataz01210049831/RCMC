@@ -41,6 +41,7 @@ export interface AddComplaintPayload {
   description:                 string;
   agentQuestionnaire:          string;
   complainQuestions:           Record<string, string | string[]>;
+  RelatedTicketIds:              string[];
   RequiredAttachmentFullFilled:         boolean;
 }
 
