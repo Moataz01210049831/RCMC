@@ -4,7 +4,7 @@ import { map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../models/api-response.model';
 import { AddComplaintSubmission } from '../models/add-complaint.model';
-import { RelatedTicket } from '../models/related-ticket.model';
+import { RelatedTicket, ComplainSearchRequest, ComplainSearchResult } from '../models/related-ticket.model';
 import { ComplainDetailsData } from '../models/complain-details.model';
 
 @Injectable({ providedIn: 'root' })
@@ -29,6 +29,15 @@ export class ComplaintsService {
     return this.http.get<RelatedTicket[]>(
       `${this.apiUrl}/Complain/GetRelatedTicketsByCustomer/${contactId}`,
     );
+  }
+
+  searchComplaints(body: ComplainSearchRequest) {
+    return this.http
+      .post<ApiResponse<RelatedTicket[]>>(`${this.apiUrl}/Complain/search`, body)
+      .pipe(map((res): ComplainSearchResult => ({
+        data:       res.Data ?? [],
+        totalCount: res.TotalCount ?? 0,
+      })));
   }
 
   getComplainDetails(complainId: string) {

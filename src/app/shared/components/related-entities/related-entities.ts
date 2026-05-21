@@ -120,8 +120,18 @@ export class RelatedEntities {
   }
 
   private loadComplaintTickets(customerId: string) {
-    this.complaintsService.getRelatedTicketsByCustomer(customerId).subscribe({
-      next: tickets => this.complaintTickets.set(tickets),
+    // Card paginates client-side, so pull a large page in one shot.
+    this.complaintsService.searchComplaints({
+      ContactId:    customerId,
+      TicketNumber: '',
+      Status:       '',
+      FromDate:     '',
+      ToDate:       '',
+      PageNumber:   1,
+      PageSize:     200,
+      OrderBy:      0,
+    }).subscribe({
+      next: result => this.complaintTickets.set(result.data),
     });
   }
 

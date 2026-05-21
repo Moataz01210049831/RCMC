@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, signal, computed } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, signal, computed, effect } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -48,23 +48,34 @@ export class TicketsLayout implements OnInit {
   );
 
   private complaintsList = signal<TicketListItem[]>([]);
+  // Server-reported total for the active complaints search (drives pagination).
+  private complaintsTotal = signal(0);
+  private complaintsSearchTimer: ReturnType<typeof setTimeout> | null = null;
 
   tickets = computed<TicketListItem[]>(() => {
-    const all = this.activeType() === 'complaints'
-      ? this.complaintsList()
-      : (MOCK_TICKETS[this.activeType()] ?? []);
+    if (this.activeType() === 'complaints') {
+      // Complaints come pre-filtered and pre-paged from the server.
+      return this.complaintsList();
+    }
+    const all = MOCK_TICKETS[this.activeType()] ?? [];
     const term = this.searchTerm().trim().toLowerCase();
-    if (!term) return all;
-    return all.filter(t => t.code.toLowerCase().includes(term));
+    return term ? all.filter(t => t.code.toLowerCase().includes(term)) : all;
   });
 
   // ── Pagination ────────────────────────────────────────────────────
   readonly pageSize = 5;
   currentPage = signal(1);
 
-  totalPages = computed(() => Math.max(1, Math.ceil(this.tickets().length / this.pageSize)));
+  totalPages = computed(() => {
+    if (this.activeType() === 'complaints') {
+      return Math.max(1, Math.ceil(this.complaintsTotal() / this.pageSize));
+    }
+    return Math.max(1, Math.ceil(this.tickets().length / this.pageSize));
+  });
 
   pagedTickets = computed<TicketListItem[]>(() => {
+    // Server-paginated tabs (complaints) — list is already one page.
+    if (this.activeType() === 'complaints') return this.tickets();
     const page = Math.min(this.currentPage(), this.totalPages());
     const start = (page - 1) * this.pageSize;
     return this.tickets().slice(start, start + this.pageSize);
@@ -80,7 +91,22 @@ export class TicketsLayout implements OnInit {
     private complaintsService: ComplaintsService,
     private translate: TranslateService,
     public selectedEntityService: SelectedEntityService,
-  ) {}
+  ) {
+    // Refetch complaints from /Complain/search whenever the page,
+    // search term, or active tab changes (debounced for typing).
+    effect(() => {
+      const term = this.searchTerm();
+      const page = this.currentPage();
+      const type = this.activeType();
+      if (type !== 'complaints') return;
+      const contactId = this.route.snapshot.paramMap.get('id') ?? '';
+      if (!contactId) return;
+      if (this.complaintsSearchTimer) clearTimeout(this.complaintsSearchTimer);
+      this.complaintsSearchTimer = setTimeout(() => {
+        this.searchComplaints(contactId, term, page);
+      }, term.trim() === '' ? 0 : 300);
+    });
+  }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id') ?? '';
@@ -116,21 +142,29 @@ export class TicketsLayout implements OnInit {
         CreatedOn:   contact.CreatedOn ? contact.CreatedOn.split('T')[0] : '',
       });
     });
-
-    this.loadComplaints(id);
+    // The complaints effect handles the initial /Complain/search call too.
   }
 
-  private loadComplaints(contactId: string) {
-    if (!contactId) return;
-    this.complaintsService.getRelatedTicketsByCustomer(contactId).subscribe({
-      next: tickets => {
+  private searchComplaints(contactId: string, term: string, page: number) {
+    this.complaintsService.searchComplaints({
+      ContactId:    contactId,
+      TicketNumber: term.trim(),
+      Status:       '',
+      FromDate:     '',
+      ToDate:       '',
+      PageNumber:   page,
+      PageSize:     this.pageSize,
+      OrderBy:      0,
+    }).subscribe({
+      next: result => {
         this.complaintsList.set(
-          tickets.map(t => ({
+          result.data.map(t => ({
             code:       t.TicketNumber,
             statusKey:  t.CaseCurrentStatus || '-',
             incidentId: t.IncidentId,
           })),
         );
+        this.complaintsTotal.set(result.totalCount);
         if (this.activeType() === 'complaints') this.refreshActiveTicket();
       },
     });
@@ -139,8 +173,11 @@ export class TicketsLayout implements OnInit {
   refreshAndSelectComplaint(ticketNumber: string) {
     this.activeType.set('complaints');
     this.selectedCode.set(ticketNumber);
-    const id = this.route.snapshot.paramMap.get('id') ?? '';
-    this.loadComplaints(id);
+    this.searchTerm.set('');
+    this.currentPage.set(1);
+    // Force a refetch even if signals didn't actually change.
+    const contactId = this.route.snapshot.paramMap.get('id') ?? '';
+    if (contactId) this.searchComplaints(contactId, '', 1);
   }
 
   private refreshActiveTicket() {
