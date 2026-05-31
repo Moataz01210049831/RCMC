@@ -8,8 +8,8 @@ import { CustomerService } from '../../../../core/services/customer.service';
 import { LookupService, LookupItem } from '../../../../core/services/lookup.service';
 import { SelectedEntityService } from '../../../../core/services/selected-entity.service';
 import { ComplaintsService } from '../../../../core/services/complaints.service';
+import { buildTicketDetail } from '../../../../core/utils/ticket-detail.util';
 import { CustomerCardData } from '../../../../core/models/customer-card.model';
-import { ComplainDetailsData } from '../../../../core/models/complain-details.model';
 import {
   TABS,
   MOCK_TICKETS,
@@ -192,7 +192,7 @@ export class TicketsLayout implements OnInit {
     if (this.activeType() === 'complaints' && match.incidentId) {
       this.complaintsService.getComplainDetails(match.incidentId).subscribe({
         next: data => {
-          const detail = data ? this.toTicketDetail(match, data) : buildMockDetail(match);
+          const detail = data ? buildTicketDetail(data, match.code) : buildMockDetail(match);
           this.activeTicket.set(detail);
           this.activeTicketChange.emit(detail);
         },
@@ -202,52 +202,6 @@ export class TicketsLayout implements OnInit {
     const detail = buildMockDetail(match);
     this.activeTicket.set(detail);
     this.activeTicketChange.emit(detail);
-  }
-
-  private mapComplainQuestions(q: Record<string, string | string[]> | null) {
-    if (!q) return [];
-    return Object.entries(q).map(([question, value]) => {
-      if (!Array.isArray(value)) {
-        const raw = String(value ?? '').trim().toLowerCase();
-        if (raw === 'true')  return { question, answer: '', answerKey: 'COMMON.YES' };
-        if (raw === 'false') return { question, answer: '', answerKey: 'COMMON.NO'  };
-      }
-      const answer = Array.isArray(value)
-        ? value.map(v => String(v).trim()).filter(Boolean).join('، ')
-        : String(value ?? '').trim();
-      return { question, answer: answer || '-' };
-    });
-  }
-
-  private toTicketDetail(item: TicketListItem, d: ComplainDetailsData): TicketDetail {
-    const fmtDate = (s: string | null | undefined) => {
-      if (!s) return '-';
-      return s.replace('T', ' ').slice(0, 19);
-    };
-    const relatedNumbers = (d.RelatedTickets ?? []).map(t => t.TicketNumber);
-    return {
-      code:               item.code,
-      statusKey:          d.CaseCurrentStatus || '-',
-      commercialEntity:   d.CommercialRecordName ?? '-',
-      entityType:         d.EntityTypeName ?? '-',
-      entityId:           relatedNumbers.length ? relatedNumbers.join('، ') : '-',
-      serviceProvider:    d.ServiceProviderName ?? '-',
-      mainService:        d.MainServiceName ?? '-',
-      subService:         d.SubServiceName ?? '-',
-      mainClassification: d.ComplaintMainCategoryName ?? '-',
-      subClassification:  d.ComplaintSubCategoryName ?? '-',
-      complaintCategory:  d.ComplaintCategoryName ?? '-',
-      complainQuestions:  this.mapComplainQuestions(d.ComplainQuestions),
-      branch:             d.RegionName ?? '-',
-      channel:            d.EntityTypeName ?? '-',
-      createdAt:          fmtDate(d.CreatedOn),
-      createdBy:          d.CreatedByName ?? '-',
-      updatedAt:          fmtDate(d.ModifiedOn),
-      updatedBy:          d.ModifiedByName ?? '-',
-      slaDue:             '-',
-      description:        d.Description ?? '-',
-      attachments:        (d.Attachments ?? []).map(a => ({ id: a.Id, fileName: a.FileName })),
-    };
   }
 
   selectTab(type: TicketType) {

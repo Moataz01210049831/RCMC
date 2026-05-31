@@ -2,14 +2,17 @@ import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FileUpload } from '../../../shared/components/file-upload/file-upload';
+import { ComplaintDetail } from '../../customers/customer-tickets/complaint-detail/complaint-detail';
+import { TicketDetail } from '../../customers/customer-tickets/tickets-layout/tickets.types';
 import { PublicAttachmentsService } from '../../../core/services/public-attachments.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { AppConfig } from '../../../core/config/app-config';
 import { ComplaintRequirement } from '../../../core/models/complaint-requirement.model';
+import { buildTicketDetail } from '../../../core/utils/ticket-detail.util';
 
 @Component({
   selector: 'app-public-upload-attachment',
-  imports: [TranslateModule, FileUpload],
+  imports: [TranslateModule, FileUpload, ComplaintDetail],
   templateUrl: './upload-attachment.html',
   styleUrl: './upload-attachment.scss',
 })
@@ -18,6 +21,7 @@ export class UploadAttachment implements OnInit {
 
   ticketId = signal<string>('');
   ticketNumber = signal<string>('');
+  ticketDetail = signal<TicketDetail | null>(null);
   // Each entry is a requirement plus its own picked files — one upload field per question.
   requiredFiles = signal<ComplaintRequirement[]>([]);
   submitting = signal(false);
@@ -36,8 +40,10 @@ export class UploadAttachment implements OnInit {
     if (!id) return;
     this.service.getComplainDetails(id).subscribe({
       next: data => {
-        this.ticketNumber.set(data?.TicketNumber ?? '');
-        const subId = data?.ComplaintSubCategoryId;
+        if (!data) return;
+        this.ticketNumber.set(data.TicketNumber ?? '');
+        this.ticketDetail.set(buildTicketDetail(data));
+        const subId = data.ComplaintSubCategoryId;
         if (subId) this.loadRequirements(subId);
       },
     });

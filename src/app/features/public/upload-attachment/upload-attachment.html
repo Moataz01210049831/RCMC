@@ -14,6 +14,10 @@
       }
     </div>
 
+    @if (ticketDetail(); as t) {
+      <app-complaint-detail id="public-upload-ticket-detail" [ticket]="t" />
+    }
+
     @if (ticketId() && !submitted()) {
       @if (requiredFiles().length > 0) {
         <div id="public-upload-required" class="required-files">
