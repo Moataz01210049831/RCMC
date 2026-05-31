@@ -143,15 +143,6 @@
       }
 
     </div>
-  } @else {
-    <div id="add-inquiry-step3-grid" class="form-grid">
-      <div id="add-inquiry-field-notes" class="field-group full">
-        <label>{{ 'TICKETS.INQUIRY_NOTES' | translate }}</label>
-        <textarea name="notes" [(ngModel)]="form.notes"
-          [placeholder]="'TICKETS.INQUIRY_NOTES_PLACEHOLDER' | translate"
-          maxlength="1000"></textarea>
-      </div>
-    </div>
   }
 
   <div id="add-inquiry-actions" class="form-actions">
@@ -160,7 +151,7 @@
       <button type="button" class="btn-prev" (click)="prev()">{{ 'TICKETS.PREVIOUS' | translate }}</button>
     }
     <button type="button" class="btn-next" [disabled]="!canProceed" (click)="next()">
-      {{ (currentStep() === 3 ? 'TICKETS.SUBMIT' : 'TICKETS.NEXT') | translate }}
+      {{ (currentStep() === 2 ? 'TICKETS.SUBMIT' : 'TICKETS.NEXT') | translate }}
     </button>
   </div>
 </div>

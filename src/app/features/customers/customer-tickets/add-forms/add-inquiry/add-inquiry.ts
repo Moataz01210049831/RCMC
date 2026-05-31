@@ -21,7 +21,7 @@ export class AddInquiry implements OnInit {
   @Output() cancel = new EventEmitter<void>();
   @Output() submitted = new EventEmitter<AddInquiryForm>();
 
-  currentStep = signal<1 | 2 | 3>(1);
+  currentStep = signal<1 | 2>(1);
   showDiscardConfirm = signal(false);
 
   // Knowledge base state
@@ -59,7 +59,6 @@ export class AddInquiry implements OnInit {
   steps = [
     { index: 1, labelKey: 'TICKETS.STEP_INQUIRY_INFO' },
     { index: 2, labelKey: 'TICKETS.STEP_INQUIRY_DETAILS' },
-    { index: 3, labelKey: 'TICKETS.STEP_EXTRA_DETAILS' },
   ];
 
   constructor(
@@ -157,14 +156,13 @@ export class AddInquiry implements OnInit {
   get canProceed(): boolean {
     const step = this.currentStep();
     if (step === 1) return this.step1Valid;
-    if (step === 2) return this.step2Valid;
-    return true;
+    return this.step2Valid;
   }
 
   next() {
     if (!this.canProceed) return;
-    if (this.currentStep() < 3) {
-      this.currentStep.set((this.currentStep() + 1) as 1 | 2 | 3);
+    if (this.currentStep() < 2) {
+      this.currentStep.set(2);
       return;
     }
     console.log('[AddInquiry] submit payload:', JSON.parse(JSON.stringify(this.form)));
@@ -173,7 +171,7 @@ export class AddInquiry implements OnInit {
 
   prev() {
     if (this.currentStep() > 1) {
-      this.currentStep.set((this.currentStep() - 1) as 1 | 2 | 3);
+      this.currentStep.set(1);
     }
   }
 
