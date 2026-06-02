@@ -63,7 +63,7 @@ export class TicketsLayout implements OnInit {
   });
 
   // ── Pagination ────────────────────────────────────────────────────
-  readonly pageSize = 5;
+  readonly pageSize = 200;
   currentPage = signal(1);
 
   totalPages = computed(() => {

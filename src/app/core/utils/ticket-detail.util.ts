@@ -34,7 +34,8 @@ export function buildTicketDetail(d: ComplainDetailsData, code?: string): Ticket
     subService:         d.SubServiceName ?? '-',
     mainClassification: d.ComplaintMainCategoryName ?? '-',
     subClassification:  d.ComplaintSubCategoryName ?? '-',
-    complaintCategory:  d.ComplaintCategoryName ?? '-',
+    // فئة الشكوى — backend returns it as EntityTypeName from /Complain/GetComplainDetails.
+    complaintCategory:  d.EntityTypeName ?? '-',
     complainQuestions:  mapComplainQuestions(d.ComplainQuestions),
     branch:             d.RegionName ?? '-',
     channel:            d.EntityTypeName ?? '-',

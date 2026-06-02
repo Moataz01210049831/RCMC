@@ -46,21 +46,41 @@
 
       @if (activeTab() === 'classification') {
         <div class="tab-stack">
-          @if (has(t.mainClassification) || has(t.subClassification)) {
-            <div id="ticket-detail-grid-classification" class="detail-grid classification-grid">
-              @if (has(t.mainClassification)) {
-                <div id="ticket-detail-field-main-classification" class="field">
-                  <span id="ticket-detail-label-main-classification" class="label">{{ 'TICKETS.MAIN_CLASSIFICATION' | translate }}</span>
-                  <span id="ticket-detail-value-main-classification" class="value">{{ t.mainClassification }}</span>
-                </div>
-              }
-              @if (has(t.subClassification)) {
-                <div id="ticket-detail-field-sub-classification" class="field">
-                  <span id="ticket-detail-label-sub-classification" class="label">{{ 'TICKETS.SUB_CLASSIFICATION' | translate }}</span>
-                  <span id="ticket-detail-value-sub-classification" class="value">{{ t.subClassification }}</span>
-                </div>
-              }
-            </div>
+          <div id="ticket-detail-grid-classification" class="detail-grid classification-grid-3">
+            @if (has(t.mainClassification)) {
+              <div id="ticket-detail-field-main-classification" class="field">
+                <span id="ticket-detail-label-main-classification" class="label">{{ 'TICKETS.MAIN_CLASSIFICATION' | translate }}</span>
+                <span id="ticket-detail-value-main-classification" class="value">{{ t.mainClassification }}</span>
+              </div>
+            }
+            @if (has(t.subClassification)) {
+              <div id="ticket-detail-field-sub-classification" class="field">
+                <span id="ticket-detail-label-sub-classification" class="label">{{ 'TICKETS.SUB_CLASSIFICATION' | translate }}</span>
+                <span id="ticket-detail-value-sub-classification" class="value">{{ t.subClassification }}</span>
+              </div>
+            }
+            @if (has(t.complaintCategory)) {
+              <div id="ticket-detail-field-complaint-category" class="field">
+                <span id="ticket-detail-label-complaint-category" class="label">{{ 'TICKETS.COMPLAINT_CATEGORY' | translate }}</span>
+                <span id="ticket-detail-value-complaint-category" class="value">{{ t.complaintCategory }}</span>
+              </div>
+            }
+            @if (has(t.branch)) {
+              <div id="ticket-detail-field-branch-classification" class="field">
+                <span class="label">{{ 'TICKETS.BRANCH' | translate }}</span>
+                <span class="value">{{ t.branch }}</span>
+              </div>
+            }
+            @if (has(t.createdAt)) {
+              <div id="ticket-detail-field-created-at-classification" class="field">
+                <span class="label">{{ 'TICKETS.CREATED_AT' | translate }}</span>
+                <span class="value">{{ t.createdAt }}</span>
+              </div>
+            }
+          </div>
+
+          @if (has(t.description)) {
+            <div id="ticket-detail-description-text" class="description-text">{{ t.description }}</div>
           }
 
           @if (t.complainQuestions.length > 0) {
@@ -77,6 +97,35 @@
                   </span>
                 </div>
               }
+            </div>
+          }
+
+          @if (t.attachments.length > 0) {
+            <div class="attachments-section">
+              <h4 class="attachments-title">{{ 'TICKETS.ATTACHMENTS' | translate }}</h4>
+              <ul id="ticket-detail-attachments-list-classification" class="attachments-list">
+                @for (att of t.attachments; track att.id) {
+                  <li class="attachments-row" [attr.id]="'ticket-detail-attachment-' + att.id">
+                    <div class="attachments-left">
+                      <span class="attachments-check">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" stroke-width="3">
+                          <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                      </span>
+                      <span class="attachments-name">{{ att.fileName }}</span>
+                    </div>
+                    <button type="button" class="attachments-download" aria-label="Download">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                      </svg>
+                    </button>
+                  </li>
+                }
+              </ul>
             </div>
           }
         </div>
