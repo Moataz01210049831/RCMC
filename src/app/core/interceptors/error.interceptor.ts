@@ -1,5 +1,6 @@
 import { HttpErrorResponse, HttpEventType, HttpInterceptorFn, HttpResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, map, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../services/toast.service';
@@ -9,6 +10,13 @@ const TOASTED = Symbol('toasted');
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const toast = inject(ToastService);
   const translate = inject(TranslateService);
+  const router = inject(Router);
+
+  const handleUnauthorized = () => {
+    if (router.url.startsWith('/login')) return;
+    toast.error(translate.instant('TOAST.SESSION_EXPIRED'));
+    router.navigate(['/login']);
+  };
 
   return next(req).pipe(
     map(event => {
@@ -29,6 +37,10 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       return event;
     }),
     catchError((error: HttpErrorResponse) => {
+      if (error.status === 401) {
+        handleUnauthorized();
+        return throwError(() => error);
+      }
       if (!(error as any)[TOASTED]) {
         const isNetworkError = error.status === 0 || !navigator.onLine;
         if (isNetworkError) {

@@ -260,7 +260,8 @@
     "SUCCESS_TITLE": "Operation completed successfully",
     "ERROR_TITLE": "An error occurred",
     "UNEXPECTED_ERROR": "An unexpected error occurred",
-    "NO_CONNECTION": "No internet connection. Please check your network and try again."
+    "NO_CONNECTION": "No internet connection. Please check your network and try again.",
+    "SESSION_EXPIRED": "Your session has expired. Please sign in again."
   },
   "SEARCHABLE_SELECT": {
     "CHOOSE": "Choose...",
