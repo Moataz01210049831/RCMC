@@ -15,7 +15,12 @@
 }
 
 .tickets-sidebar { order: -1; }
-.tickets-content { order: 1; min-width: 0; }
+.tickets-content {
+  order: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
 
 // ── Sidebar ───────────────────────────────────────────────────────
 .tickets-sidebar {

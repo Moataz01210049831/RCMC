@@ -1,5 +1,12 @@
 @use '../../../../../styles/variables' as *;
 
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
 .detail-card {
   background: $bg-card;
   border: 1px solid $border;
@@ -9,7 +16,9 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
-}
+  width: 100%;
+  flex: 1;
+ }
 
 .detail-empty {
   background: $bg-card;
@@ -46,28 +55,58 @@
 .detail-code {
   color: $accent;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
+// ── Tab strip ──────────────────────────────────────────────────────
+.detail-tabs {
+  display: flex;
+  gap: 28px;
+  border-bottom: 1px solid $border;
+  justify-content: flex-start;
+  padding-inline-end: 8px;
+}
+
+.detail-tab {
+  background: transparent;
+  border: 0;
+  padding: 12px 4px;
+  margin-bottom: -1px; // overlap the bottom border so the active underline meets it
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: $text-muted;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+
+  &:hover { color: $text-primary; }
+
+  &.active {
+    color: $primary;
+    border-bottom-color: $primary;
+  }
+}
+
+.detail-tab-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+// ── Grid (white fields with subtle border, no tinted wrapper) ─────
 .detail-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 14px;
-  padding: 22px 24px;
-  background: $bg-page;
-  border: 1px solid $border;
-  border-radius: $radius-card;
 
   @media (max-width: 1200px) { grid-template-columns: repeat(3, 1fr); }
   @media (max-width: 700px)  { grid-template-columns: repeat(2, 1fr); }
-
-  &.service-grid,
-  &.classification-grid,
-  &.meta-grid {
-    padding: 0;
-    background: transparent;
-    border: 0;
-  }
 
   &.service-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -89,30 +128,14 @@
   }
 }
 
-.meta-block {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 22px 24px;
-  background: $bg-page;
-  border: 1px solid $border;
-  border-radius: $radius-card;
-
-  > .label {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: $accent;
-  }
-}
-
 .field {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 14px 16px;
-  background: $bg-card;
-  border: 1px solid rgba($accent, 0.25);
-  border-radius: $radius-input;
+  padding: 16px 20px;
+  background: $bg-input;
+  border: 1px solid $border;
+  border-radius: $radius-card;
 }
 
 .label {
@@ -130,50 +153,19 @@
   &.link { color: $accent; }
 }
 
-.description-block {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 22px 24px;
-  background: $bg-page;
-  border: 1px solid $border;
-  border-radius: $radius-card;
-
-  > .label {
-    font-size: 0.95rem;
-    color: $accent;
-    font-weight: 700;
-  }
-}
-
+// ── Description block ─────────────────────────────────────────────
 .description-text {
   margin: 0;
-  padding: 14px 16px;
+  padding: 16px 20px;
   font-size: 0.95rem;
   color: $text-primary;
   line-height: 1.8;
-  background: $bg-card;
-  border: 1px solid rgba($accent, 0.25);
-  border-radius: $radius-input;
-}
-
-.qa-block,
-.attachments-block {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 22px 24px;
-  background: $bg-page;
+  background: $bg-input;
   border: 1px solid $border;
   border-radius: $radius-card;
-
-  > .label {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: $accent;
-  }
 }
 
+// ── Q&A list ──────────────────────────────────────────────────────
 .qa-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -186,10 +178,10 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 14px 16px;
-  background: $bg-card;
-  border: 1px solid rgba($accent, 0.25);
-  border-radius: $radius-input;
+  padding: 16px 20px;
+  background: $bg-input;
+  border: 1px solid $border;
+  border-radius: $radius-card;
 }
 
 .qa-question {
@@ -205,6 +197,7 @@
   word-break: break-word;
 }
 
+// ── Attachments list ──────────────────────────────────────────────
 .attachments-list {
   list-style: none;
   margin: 0;
@@ -218,10 +211,10 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 16px;
-  background: $bg-card;
-  border: 1px solid rgba($accent, 0.25);
-  border-radius: $radius-input;
+  padding: 16px 20px;
+  background: $bg-input;
+  border: 1px solid $border;
+  border-radius: $radius-card;
   font-size: 0.95rem;
   color: $text-primary;
   font-weight: 600;
