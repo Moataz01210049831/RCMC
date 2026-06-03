@@ -1,0 +1,32 @@
+<div class="data-table-wrap">
+  @if (rows.length === 0) {
+    <div class="data-table-empty">{{ emptyKey | translate }}</div>
+  } @else {
+    <table class="data-table">
+      <thead>
+        <tr>
+          @for (col of columns; track col.key) {
+            <th [style.width]="col.width" [style.text-align]="col.align ?? 'start'">
+              @if (col.label) {
+                {{ col.label }}
+              } @else if (col.labelKey) {
+                {{ col.labelKey | translate }}
+              }
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of rows; track $index) {
+          <tr>
+            @for (col of columns; track col.key) {
+              <td [style.text-align]="col.align ?? 'start'">
+                {{ cell(row, col.key) }}
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

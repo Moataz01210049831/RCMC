@@ -146,44 +146,10 @@
       }
 
       @if (activeTab() === 'history') {
-        <div id="ticket-detail-grid-meta" class="detail-grid meta-grid">
-          @if (has(t.branch)) {
-            <div id="ticket-detail-field-branch" class="field">
-              <span id="ticket-detail-label-branch" class="label">{{ 'TICKETS.BRANCH' | translate }}</span>
-              <span id="ticket-detail-value-branch" class="value link">{{ t.branch }}</span>
-            </div>
-          }
-          @if (has(t.channel)) {
-            <div id="ticket-detail-field-channel" class="field">
-              <span id="ticket-detail-label-channel" class="label">{{ 'TICKETS.TICKET_CHANNEL' | translate }}</span>
-              <span id="ticket-detail-value-channel" class="value">{{ t.channel }}</span>
-            </div>
-          }
-          @if (has(t.createdAt)) {
-            <div id="ticket-detail-field-created-at" class="field">
-              <span id="ticket-detail-label-created-at" class="label">{{ 'TICKETS.CREATED_AT' | translate }}</span>
-              <span id="ticket-detail-value-created-at" class="value">{{ t.createdAt }}</span>
-            </div>
-          }
-          @if (has(t.createdBy)) {
-            <div id="ticket-detail-field-created-by" class="field">
-              <span id="ticket-detail-label-created-by" class="label">{{ 'TICKETS.CREATED_BY' | translate }}</span>
-              <span id="ticket-detail-value-created-by" class="value">{{ t.createdBy }}</span>
-            </div>
-          }
-          @if (has(t.updatedAt)) {
-            <div id="ticket-detail-field-updated-at" class="field">
-              <span id="ticket-detail-label-updated-at" class="label">{{ 'TICKETS.UPDATED_AT' | translate }}</span>
-              <span id="ticket-detail-value-updated-at" class="value">{{ t.updatedAt }}</span>
-            </div>
-          }
-          @if (has(t.updatedBy)) {
-            <div id="ticket-detail-field-updated-by" class="field">
-              <span id="ticket-detail-label-updated-by" class="label">{{ 'TICKETS.UPDATED_BY' | translate }}</span>
-              <span id="ticket-detail-value-updated-by" class="value">{{ t.updatedBy }}</span>
-            </div>
-          }
-        </div>
+        <app-data-table
+          id="ticket-detail-history-table"
+          [columns]="historyColumns"
+          [rows]="historyRows" />
       }
 
     </div>

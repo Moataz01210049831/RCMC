@@ -1,0 +1,54 @@
+@use '../../../../styles/variables' as *;
+
+:host { display: block; }
+
+.data-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: $text-primary;
+
+  thead th {
+    text-align: start;
+    padding: 14px 16px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: $text-muted;
+    border-bottom: 1px solid $border;
+    background: transparent;
+    white-space: nowrap;
+  }
+
+  tbody tr {
+    transition: background 0.15s;
+
+    &:nth-child(odd) {
+      background: $bg-input;
+    }
+
+    &:hover {
+      background: rgba($primary, 0.04);
+    }
+  }
+
+  tbody td {
+    padding: 14px 16px;
+    border-bottom: 1px solid transparent;
+    color: $text-primary;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+}
+
+.data-table-empty {
+  padding: 28px 16px;
+  text-align: center;
+  color: $text-muted;
+  font-size: 0.9rem;
+}
