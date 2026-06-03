@@ -79,10 +79,6 @@
             }
           </div>
 
-          @if (has(t.description)) {
-            <div id="ticket-detail-description-text" class="description-text">{{ t.description }}</div>
-          }
-
           @if (t.complainQuestions.length > 0) {
             <div id="ticket-detail-questions-list" class="qa-list">
               @for (qa of t.complainQuestions; track qa.question) {
@@ -99,11 +95,29 @@
               }
             </div>
           }
+        </div>
+      }
+
+      @if (activeTab() === 'extra') {
+        <div class="tab-stack">
+          @if (has(t.entityId)) {
+            <div id="ticket-detail-field-related" class="field">
+              <span class="label">{{ 'TICKETS.ENTITY_ID' | translate }}</span>
+              <span class="value link">{{ t.entityId }}</span>
+            </div>
+          }
+
+          @if (has(t.description)) {
+            <div id="ticket-detail-field-description" class="field">
+              <span class="label">{{ 'TICKETS.DESCRIPTION' | translate }}</span>
+              <span class="value">{{ t.description }}</span>
+            </div>
+          }
 
           @if (t.attachments.length > 0) {
             <div class="attachments-section">
               <h4 class="attachments-title">{{ 'TICKETS.ATTACHMENTS' | translate }}</h4>
-              <ul id="ticket-detail-attachments-list-classification" class="attachments-list">
+              <ul id="ticket-detail-attachments-list" class="attachments-list">
                 @for (att of t.attachments; track att.id) {
                   <li class="attachments-row" [attr.id]="'ticket-detail-attachment-' + att.id">
                     <div class="attachments-left">
@@ -127,69 +141,6 @@
                 }
               </ul>
             </div>
-          }
-        </div>
-      }
-
-      @if (activeTab() === 'extra') {
-        <div class="tab-stack">
-          @if (has(t.commercialEntity) || has(t.entityType) || has(t.entityId) || has(t.complaintCategory) || has(t.statusKey) || has(t.slaDue)) {
-            <div id="ticket-detail-grid" class="detail-grid">
-              @if (has(t.commercialEntity)) {
-                <div id="ticket-detail-field-commercial-entity" class="field">
-                  <span id="ticket-detail-label-commercial-entity" class="label">{{ 'TICKETS.COMMERCIAL_ENTITY' | translate }}</span>
-                  <span id="ticket-detail-value-commercial-entity" class="value">{{ t.commercialEntity }}</span>
-                </div>
-              }
-              @if (has(t.entityType)) {
-                <div id="ticket-detail-field-entity-type" class="field">
-                  <span id="ticket-detail-label-entity-type" class="label">{{ 'TICKETS.ENTITY_TYPE' | translate }}</span>
-                  <span id="ticket-detail-value-entity-type" class="value">{{ t.entityType }}</span>
-                </div>
-              }
-              @if (has(t.entityId)) {
-                <div id="ticket-detail-field-entity-id" class="field">
-                  <span id="ticket-detail-label-entity-id" class="label">{{ 'TICKETS.ENTITY_ID' | translate }}</span>
-                  <span id="ticket-detail-value-entity-id" class="value link">{{ t.entityId }}</span>
-                </div>
-              }
-              @if (has(t.complaintCategory)) {
-                <div id="ticket-detail-field-complaint-category" class="field">
-                  <span id="ticket-detail-label-complaint-category" class="label">{{ 'TICKETS.COMPLAINT_CATEGORY' | translate }}</span>
-                  <span id="ticket-detail-value-complaint-category" class="value">{{ t.complaintCategory }}</span>
-                </div>
-              }
-              @if (has(t.statusKey)) {
-                <div id="ticket-detail-field-status" class="field">
-                  <span id="ticket-detail-label-status" class="label">{{ 'TICKETS.STATUS' | translate }}</span>
-                  <span id="ticket-detail-value-status" class="value link">{{ t.statusKey | translate }}</span>
-                </div>
-              }
-              @if (has(t.slaDue)) {
-                <div id="ticket-detail-field-sla" class="field">
-                  <span id="ticket-detail-label-sla" class="label">{{ 'TICKETS.SLA' | translate }}</span>
-                  <span id="ticket-detail-value-sla" class="value">{{ t.slaDue }}</span>
-                </div>
-              }
-            </div>
-          }
-
-          @if (has(t.description)) {
-            <div id="ticket-detail-description-text" class="description-text">{{ t.description }}</div>
-          }
-
-          @if (t.attachments.length > 0) {
-            <ul id="ticket-detail-attachments-list" class="attachments-list">
-              @for (att of t.attachments; track att.id) {
-                <li class="attachments-item" [attr.id]="'ticket-detail-attachment-' + att.id">
-                  <svg class="attachments-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
-                  </svg>
-                  <span class="attachments-name">{{ att.fileName }}</span>
-                </li>
-              }
-            </ul>
           }
         </div>
       }
