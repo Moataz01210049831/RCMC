@@ -20,7 +20,8 @@
         @for (row of rows; track $index) {
           <tr>
             @for (col of columns; track col.key) {
-              <td [style.text-align]="col.align ?? 'start'">
+              <td [style.text-align]="col.align ?? 'start'"
+                [attr.data-label]="col.label || (col.labelKey ? (col.labelKey | translate) : '')">
                 {{ cell(row, col.key) }}
               </td>
             }

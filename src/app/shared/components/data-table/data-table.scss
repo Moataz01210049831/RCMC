@@ -52,3 +52,56 @@
   color: $text-muted;
   font-size: 0.9rem;
 }
+
+// ── Mobile: collapse rows into stacked cards ──────────────────────
+@media (max-width: 720px) {
+  .data-table-wrap {
+    overflow-x: visible;
+  }
+
+  .data-table {
+    display: block;
+
+    thead { display: none; }
+
+    tbody {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    tbody tr {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 14px 16px;
+      background: $bg-input;
+      border: 1px solid $border;
+      border-radius: $radius-card;
+
+      &:nth-child(odd) { background: $bg-input; }
+      &:hover { background: rgba($primary, 0.04); }
+    }
+
+    tbody td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 0;
+      border-bottom: 1px dashed $border;
+      white-space: normal;
+      text-align: start !important;
+
+      &:last-child { border-bottom: 0; }
+
+      &::before {
+        content: attr(data-label);
+        font-weight: 600;
+        font-size: 0.78rem;
+        color: $text-muted;
+        flex-shrink: 0;
+      }
+    }
+  }
+}
