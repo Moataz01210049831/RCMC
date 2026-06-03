@@ -27,7 +27,7 @@ export const appConfig: ApplicationConfig = {
       closeButton: true,
     }),
     provideTranslateService({
-      defaultLanguage: 'ar',
+      fallbackLang: 'ar',
     }),
     provideTranslateHttpLoader({
       prefix: './i18n/',

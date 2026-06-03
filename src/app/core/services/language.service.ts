@@ -11,7 +11,7 @@ export class LanguageService {
 
   init() {
     this.translate.addLangs(['ar', 'en']);
-    this.translate.setDefaultLang('ar');
+    this.translate.setFallbackLang('ar');
     const saved = this.getSavedLang();
     this.setLang(saved);
   }
