@@ -1,7 +1,8 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { TicketDetail } from '../tickets-layout/tickets.types';
 import { DataTable, DataTableColumn } from '../../../../shared/components/data-table/data-table';
+import { ComplaintsService } from '../../../../core/services/complaints.service';
 
 type DetailTab = 'service' | 'classification' | 'extra' | 'history';
 
@@ -16,10 +17,41 @@ interface TabDef {
   templateUrl: './complaint-detail.html',
   styleUrl: './complaint-detail.scss',
 })
-export class ComplaintDetail {
+export class ComplaintDetail implements OnChanges {
   @Input() ticket: TicketDetail | null = null;
 
+  constructor(private complaintsService: ComplaintsService) {}
+
   activeTab = signal<DetailTab>('service');
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes['ticket']) return;
+    const id = this.ticket?.incidentId;
+    if (id) this.loadHistory(id);
+    else this.historyRows = [];
+  }
+
+  private loadHistory(complainId: string) {
+    this.complaintsService.getComplainSLAItems(complainId).subscribe({
+      next: items => {
+        // currentStatus + dateArrival come from the complaint itself (same for
+        // every row); the rest are per-SLA-item.
+        const currentStatus = this.ticket?.statusKey ?? '';
+        const dateArrival   = this.ticket?.createdAt ?? '';
+        this.historyRows = (items ?? []).map(it => ({
+          currentStatus,
+          stepDecision:  it.stepDecision?.name ?? '',
+          contactAction: it.communicationProcedure?.name ?? '',
+          notes:         it.notes ?? '',
+          endOn:         it.endOn ?? '',
+          overdueDate:   it.overdueDate ?? '',
+          takenBy:       it.takenBy?.name ?? '',
+          modifiedOn:    it.modifiedOn ?? '',
+          dateArrival,
+        }));
+      },
+    });
+  }
 
   readonly tabs: TabDef[] = [
     { key: 'service',        labelKey: 'TICKETS.TAB_SERVICE_INFO' },
@@ -28,66 +60,21 @@ export class ComplaintDetail {
     { key: 'history',        labelKey: 'TICKETS.TAB_HISTORY' },
   ];
 
-  // Columns for the change-history table. Rows will come from the API later.
+  // Columns map to the flattened fields produced in loadHistory().
   readonly historyColumns: DataTableColumn[] = [
     { key: 'currentStatus', labelKey: 'TICKETS.HISTORY_CURRENT_STATUS' },
     { key: 'stepDecision',  labelKey: 'TICKETS.HISTORY_STEP_DECISION' },
     { key: 'contactAction', labelKey: 'TICKETS.HISTORY_CONTACT_ACTION' },
     { key: 'notes',         labelKey: 'TICKETS.HISTORY_NOTES' },
-    { key: 'dueAt',         labelKey: 'TICKETS.HISTORY_DUE_AT' },
-    { key: 'skipDate',      labelKey: 'TICKETS.HISTORY_SKIP_DATE' },
-    { key: 'decidedBy',     labelKey: 'TICKETS.HISTORY_DECIDED_BY' },
-    { key: 'createdAt',     labelKey: 'TICKETS.HISTORY_CREATED_AT' },
+    { key: 'endOn',         labelKey: 'TICKETS.HISTORY_DUE_AT' },
+    { key: 'overdueDate',   labelKey: 'TICKETS.HISTORY_SKIP_DATE' },
+    { key: 'takenBy',       labelKey: 'TICKETS.HISTORY_DECIDED_BY' },
+    { key: 'modifiedOn',    labelKey: 'TICKETS.HISTORY_CREATED_AT' },
     { key: 'dateArrival',   labelKey: 'TICKETS.DATE_ARRIVAL' },
   ];
 
-  // Placeholder dummy rows until the change-log endpoint is wired up.
-  historyRows: Record<string, unknown>[] = [
-    {
-      currentStatus: 'جديدة',
-      stepDecision:  'موافقة',
-      contactAction: 'اتصال هاتفي',
-      notes:         'تم التواصل مع العميل',
-      dueAt:         '2026-05-10 10:30',
-      skipDate:      '2026-05-12 17:00',
-      decidedBy:     'أحمد محمد',
-      createdAt:     '2026-05-08 09:15',
-      dateArrival:   '2026-05-08 09:00',
-    },
-    {
-      currentStatus: 'قيد المراجعة',
-      stepDecision:  'تصعيد',
-      contactAction: 'بريد إلكتروني',
-      notes:         'تحويل للجهة المختصة',
-      dueAt:         '2026-05-14 12:00',
-      skipDate:      '2026-05-16 17:00',
-      decidedBy:     'سارة عبدالله',
-      createdAt:     '2026-05-11 14:22',
-      dateArrival:   '2026-05-11 14:00',
-    },
-    {
-      currentStatus: 'قيد التنفيذ',
-      stepDecision:  'تنفيذ',
-      contactAction: 'زيارة ميدانية',
-      notes:         'تم رفع تقرير الزيارة',
-      dueAt:         '2026-05-18 16:00',
-      skipDate:      '2026-05-20 17:00',
-      decidedBy:     'خالد العتيبي',
-      createdAt:     '2026-05-15 08:45',
-      dateArrival:   '2026-05-15 08:30',
-    },
-    {
-      currentStatus: 'مغلقة',
-      stepDecision:  'إغلاق',
-      contactAction: 'رسالة نصية',
-      notes:         'تم حل الشكوى ورضا العميل',
-      dueAt:         '2026-05-20 11:00',
-      skipDate:      '2026-05-22 17:00',
-      decidedBy:     'منى الحربي',
-      createdAt:     '2026-05-20 09:48',
-      dateArrival:   '2026-05-20 09:30',
-    },
-  ];
+  // Populated from /Complain/GetComplainSLAItems on each ticket change.
+  historyRows: Record<string, unknown>[] = [];
 
   setTab(tab: DetailTab) {
     this.activeTab.set(tab);

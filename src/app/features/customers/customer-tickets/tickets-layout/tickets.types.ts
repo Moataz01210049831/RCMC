@@ -20,6 +20,7 @@ export interface ComplainQA {
 
 export interface TicketDetail {
   code: string;
+  incidentId: string;
   statusKey: string;
   commercialEntity: string;
   entityType: string;
@@ -80,6 +81,7 @@ export const MOCK_TICKETS: Record<TicketType, TicketListItem[]> = {
 export function buildMockDetail(item: TicketListItem): TicketDetail {
   return {
     code: item.code,
+    incidentId: item.incidentId ?? '',
     statusKey: item.statusKey,
     commercialEntity: 'سجل تجاري',
     entityType: 'العرض للتقن',

@@ -6,6 +6,7 @@ import { ApiResponse } from '../models/api-response.model';
 import { AddComplaintSubmission } from '../models/add-complaint.model';
 import { RelatedTicket, ComplainSearchRequest, ComplainSearchResult } from '../models/related-ticket.model';
 import { ComplainDetailsData } from '../models/complain-details.model';
+import { ComplainSLAItem } from '../models/complain-sla-item.model';
 
 @Injectable({ providedIn: 'root' })
 export class ComplaintsService {
@@ -45,5 +46,12 @@ export class ComplaintsService {
     return this.http
       .get<ApiResponse<ComplainDetailsData>>(`${this.apiUrl}/Complain/GetComplainDetails`, { params })
       .pipe(map(res => res.Data));
+  }
+
+  getComplainSLAItems(complainId: string) {
+    const params = new HttpParams().set('complainId', complainId);
+    return this.http
+      .get<ApiResponse<ComplainSLAItem[]> | ComplainSLAItem[]>(`${this.apiUrl}/Complain/GetComplainSLAItems`, { params })
+      .pipe(map(res => Array.isArray(res) ? res : (res?.Data ?? [])));
   }
 }

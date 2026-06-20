@@ -25,6 +25,7 @@ export function buildTicketDetail(d: ComplainDetailsData, code?: string): Ticket
   const relatedNumbers = (d.RelatedTickets ?? []).map(t => t.TicketNumber);
   return {
     code:               code ?? d.TicketNumber ?? '',
+    incidentId:         d.ComplainId ?? '',
     statusKey:          d.CaseCurrentStatus || '-',
     commercialEntity:   d.CommercialRecordName ?? '-',
     entityType:         d.EntityTypeName ?? '-',
