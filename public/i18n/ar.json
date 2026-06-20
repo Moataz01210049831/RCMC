@@ -285,7 +285,11 @@
   },
   "LANG": {
     "AR": "العربية",
-    "EN": "English"
+    "EN": "English",
+    "REFRESH_TITLE": "تغيير اللغة",
+    "REFRESH_MESSAGE": "لتطبيق اللغة الجديدة على جميع البيانات، يجب إعادة تحميل الصفحة. هل تريد المتابعة؟",
+    "REFRESH_CONFIRM": "إعادة تحميل",
+    "REFRESH_LATER": "لاحقًا"
   },
   "PAGES": {
     "LOGIN": "تسجيل الدخول",

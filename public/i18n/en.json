@@ -285,7 +285,11 @@
   },
   "LANG": {
     "AR": "العربية",
-    "EN": "English"
+    "EN": "English",
+    "REFRESH_TITLE": "Language changed",
+    "REFRESH_MESSAGE": "The page needs to reload to apply the new language to already-loaded data. Continue?",
+    "REFRESH_CONFIRM": "Reload",
+    "REFRESH_LATER": "Later"
   },
   "PAGES": {
     "LOGIN": "Login",

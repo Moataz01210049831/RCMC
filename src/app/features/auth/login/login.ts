@@ -6,10 +6,11 @@ import { AppConfig } from '../../../core/config/app-config';
 import { AuthService } from '../../../core/services/auth.service';
 import { LanguageService } from '../../../core/services/language.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { ConfirmDialog } from '../../../shared/components/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, TranslateModule],
+  imports: [FormsModule, TranslateModule, ConfirmDialog],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -20,6 +21,7 @@ export class Login {
   showPassword = signal(false);
   submitted = signal(false);
   loading = signal(false);
+  showLangRefreshDialog = signal(false);
 
   constructor(
     private router: Router,
@@ -34,7 +36,17 @@ export class Login {
   }
 
   toggleLang() {
+    this.showLangRefreshDialog.set(true);
+  }
+
+  confirmLangRefresh() {
+    this.showLangRefreshDialog.set(false);
     this.langService.toggleLang();
+    window.location.reload();
+  }
+
+  cancelLangRefresh() {
+    this.showLangRefreshDialog.set(false);
   }
 
   onSubmit(form: NgForm) {

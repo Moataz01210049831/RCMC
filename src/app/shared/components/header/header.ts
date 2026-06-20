@@ -8,6 +8,7 @@ import { AppConfig } from '../../../core/config/app-config';
 import { LanguageService } from '../../../core/services/language.service';
 import { CustomerService } from '../../../core/services/customer.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
 import type { SearchContactsRequest } from '../../../core/models/contact.model';
 
 const SEARCH_HIDDEN_ROUTES = [
@@ -18,13 +19,14 @@ const SEARCH_HIDDEN_ROUTES = [
 
 @Component({
   selector: 'app-header',
-  imports: [TranslateModule, FormsModule],
+  imports: [TranslateModule, FormsModule, ConfirmDialog],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
 export class Header {
   dropdownOpen = signal(false);
   searching = signal(false);
+  showLangRefreshDialog = signal(false);
   searchText = '';
   searchType: 'id' | 'phone' = 'id';
 
@@ -136,7 +138,19 @@ export class Header {
   }
 
   toggleLang() {
+    // Confirm first — flipping the language without a reload leaves the
+    // backend-fetched data in the previous language.
+    this.showLangRefreshDialog.set(true);
+  }
+
+  confirmLangRefresh() {
+    this.showLangRefreshDialog.set(false);
     this.langService.toggleLang();
+    window.location.reload();
+  }
+
+  cancelLangRefresh() {
+    this.showLangRefreshDialog.set(false);
   }
 
   @HostListener('document:click', ['$event'])

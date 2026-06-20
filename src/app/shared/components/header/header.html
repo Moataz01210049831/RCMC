@@ -95,3 +95,12 @@
 
   </div>
 </header>
+
+<app-confirm-dialog
+  [open]="showLangRefreshDialog()"
+  [title]="'LANG.REFRESH_TITLE' | translate"
+  [message]="'LANG.REFRESH_MESSAGE' | translate"
+  [confirmText]="'LANG.REFRESH_CONFIRM' | translate"
+  [cancelText]="'LANG.REFRESH_LATER' | translate"
+  (confirm)="confirmLangRefresh()"
+  (cancel)="cancelLangRefresh()" />
