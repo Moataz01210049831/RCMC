@@ -385,8 +385,9 @@ export class RelatedEntities {
     this.showSearchDialog.set(false);
   }
 
-  // Look up the typed CR number. Currently scans the customer's related CRs;
-  // swap for the real "search CR" endpoint when it's available.
+  // Look up the typed CR number via /CommercialRegister/details.
+  // The endpoint expects both numbers but accepts just the CR number; the
+  // CRNationalNumber field is sent empty.
   runCrLookup() {
     const q = this.dialogCrInput.trim();
     if (!q) {
@@ -395,17 +396,26 @@ export class RelatedEntities {
       this.searchNotFound.set(false);
       return;
     }
-    const cr = this.rawRelatedCRs.find(c => c.CrBasicInfo.CrNumber === q);
-    if (!cr) {
-      this.searchSelectedCr.set('');
-      this.searchEntityName.set('');
-      this.searchNotFound.set(true);
-      return;
-    }
-    const isEn = this.translate.currentLang === 'en';
-    this.searchSelectedCr.set(cr.CrBasicInfo.CrNumber);
-    this.searchEntityName.set(isEn ? cr.CrBasicInfo.EntityFullNameEn : cr.CrBasicInfo.EntityFullNameAr);
-    this.searchNotFound.set(false);
+    this.commercialRegister.getDetails({ CRNumber: q, CRNationalNumber: '' }).subscribe({
+      next: data => {
+        const info = data?.CrInformation;
+        if (!info?.CrNumber) {
+          this.searchSelectedCr.set('');
+          this.searchEntityName.set('');
+          this.searchNotFound.set(true);
+          return;
+        }
+        const isEn = this.translate.currentLang === 'en';
+        this.searchSelectedCr.set(info.CrNumber);
+        this.searchEntityName.set(isEn ? info.EntityFullNameEn : info.EntityFullNameAr);
+        this.searchNotFound.set(false);
+      },
+      error: () => {
+        this.searchSelectedCr.set('');
+        this.searchEntityName.set('');
+        this.searchNotFound.set(true);
+      },
+    });
   }
 
   // Stub: hook the real "link entity to customer" endpoint here when ready.

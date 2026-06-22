@@ -10,6 +10,27 @@ export type EntityKind = 'Individual' | 'Business';
 
 export type { LookupItem };
 
+// API returns the label under different keys depending on Accept-Language:
+//   AR → "nameAr"  (also "nameAR")
+//   EN → "name"
+// older endpoints still ship PascalCase "Name". Same story for Value/Child.
+// Map everything to a single canonical LookupItem so callers stay simple.
+function normalizeLookup(raw: any): LookupItem {
+  if (!raw) return { Name: '', Value: '' };
+  const name  = raw.Name  ?? raw.name  ?? raw.nameAr ?? raw.nameAR ?? raw.nameEn ?? '';
+  const value = raw.Value ?? raw.value ?? raw.ID     ?? raw.id     ?? '';
+  const child = raw.Child ?? raw.child ?? null;
+  return {
+    Name:  String(name ?? ''),
+    Value: String(value ?? ''),
+    Child: child ? normalizeLookup(child) : null,
+  };
+}
+
+function normalizeList(data: unknown): LookupItem[] {
+  return Array.isArray(data) ? data.map(normalizeLookup) : [];
+}
+
 @Injectable({ providedIn: 'root' })
 export class LookupService {
   private apiUrl = environment.apiUrl;
@@ -19,33 +40,33 @@ export class LookupService {
   getCities() {
     return this.http
       .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/city`)
-      .pipe(map(res => res.Data ?? []));
+      .pipe(map(res => normalizeList(res.Data)));
   }
 
   getCountries() {
     return this.http
       .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/country`)
-      .pipe(map(res => res.Data ?? []));
+      .pipe(map(res => normalizeList(res.Data)));
   }
 
   getRegions() {
     return this.http
       .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/region`)
-      .pipe(map(res => res.Data ?? []));
+      .pipe(map(res => normalizeList(res.Data)));
   }
 
   getRegionsBySubCategory(subCategoryId: string) {
     const params = new HttpParams().set('subCategoryId', subCategoryId);
     return this.http
       .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/regions`, { params })
-      .pipe(map(res => res.Data ?? []));
+      .pipe(map(res => normalizeList(res.Data)));
   }
 
   getServiceProviders(entityTypeId: string) {
     const params = new HttpParams().set('entityTypeId', entityTypeId);
     return this.http
       .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/service-providers`, { params })
-      .pipe(map(res => res.Data ?? []));
+      .pipe(map(res => normalizeList(res.Data)));
   }
 
   // Entity types lookup is small and constant — cache it for the session.
@@ -54,7 +75,7 @@ export class LookupService {
     if (!this.entityTypes$) {
       this.entityTypes$ = this.http
         .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/entity-types`)
-        .pipe(map(res => res.Data ?? []), shareReplay(1));
+        .pipe(map(res => normalizeList(res.Data)), shareReplay(1));
     }
     return this.entityTypes$;
   }
@@ -75,40 +96,40 @@ export class LookupService {
     const params = new HttpParams().set('serviceProviderId', serviceProviderId);
     return this.http
       .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/main-services`, { params })
-      .pipe(map(res => res.Data ?? []));
+      .pipe(map(res => normalizeList(res.Data)));
   }
 
   getSubServices(mainServiceId: string) {
     const params = new HttpParams().set('mainServiceId', mainServiceId);
     return this.http
       .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/sub-services`, { params })
-      .pipe(map(res => res.Data ?? []));
+      .pipe(map(res => normalizeList(res.Data)));
   }
 
   getComplaintMainCategories(subServiceId: string) {
     const params = new HttpParams().set('subServiceId', subServiceId);
     return this.http
       .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/main-categories`, { params })
-      .pipe(map(res => res.Data ?? []));
+      .pipe(map(res => normalizeList(res.Data)));
   }
 
   getComplaintSubCategories(mainCategoryId: string) {
     const params = new HttpParams().set('mainCategoryId', mainCategoryId);
     return this.http
       .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/sub-categories`, { params })
-      .pipe(map(res => res.Data ?? []));
+      .pipe(map(res => normalizeList(res.Data)));
   }
 
   getInquiryMainCategories() {
     return this.http
       .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/complaintmaincategory`)
-      .pipe(map(res => res.Data ?? []));
+      .pipe(map(res => normalizeList(res.Data)));
   }
 
   getInquiryTypes() {
     return this.http
       .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/inquiry`)
-      .pipe(map(res => res.Data ?? []));
+      .pipe(map(res => normalizeList(res.Data)));
   }
 
   getInquirySubCategories(mainId: string) {
@@ -121,7 +142,7 @@ export class LookupService {
       .set('filterByLookupId', filterByLookupId);
     return this.http
       .get<ApiResponse<LookupItem[]>>(`${this.apiUrl}/Lookups/filter`, { params })
-      .pipe(map(res => res.Data ?? []));
+      .pipe(map(res => normalizeList(res.Data)));
   }
 
   getComplaintRequirements(subCategoryId: string) {
