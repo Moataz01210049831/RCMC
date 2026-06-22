@@ -11,13 +11,290 @@
   background: $bg-card;
 }
 
-// ── Title ─────────────────────────────────────────────────────────
+// ── Header (title + search) ───────────────────────────────────────
+.entities-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
 .section-title {
   font-size: 1.05rem;
   font-weight: 700;
   color: $accent;
   margin: 0;
   text-align: right;
+}
+
+.entities-search {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.entities-search-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.entities-search-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: $bg-input;
+  border: 1px solid $border;
+  border-radius: $radius-input;
+  padding: 0 10px;
+  transition: border-color 0.2s;
+
+  &.invalid { border-color: $error; }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    color: $text-muted;
+    flex-shrink: 0;
+  }
+  input {
+    flex: 1;
+    border: 0;
+    outline: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.88rem;
+    height: 34px;
+    min-width: 180px;
+  }
+}
+
+.entities-search-error {
+  margin: 0;
+  font-size: 0.78rem;
+  color: $error;
+  font-weight: 600;
+}
+
+.entities-search-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  width: 34px;
+  border: 0;
+  border-radius: $radius-input;
+  background: $primary;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  svg { width: 16px; height: 16px; }
+  &:hover { background: $primary-dark; }
+}
+
+// ── CR search modal ───────────────────────────────────────────────
+.cr-search-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.cr-search-modal {
+  background: $bg-card;
+  border-radius: $radius-card;
+  width: 100%;
+  max-width: 460px;
+  padding: 22px 24px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cr-search-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cr-search-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: $accent;
+}
+
+.cr-search-close {
+  background: transparent;
+  border: 0;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: $text-muted;
+  cursor: pointer;
+
+  &:hover { color: $text-primary; }
+}
+
+.cr-search-desc {
+  margin: 0;
+  font-size: 0.85rem;
+  color: $text-muted;
+  line-height: 1.6;
+}
+
+.cr-search-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cr-search-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: $text-muted;
+}
+
+.cr-search-readonly {
+  padding: 10px 12px;
+  background: $bg-input;
+  border: 1px solid $border;
+  border-radius: $radius-input;
+  font-size: 0.9rem;
+  color: $text-primary;
+  font-weight: 600;
+}
+
+.cr-search-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: $bg-input;
+  border: 1px solid $border;
+  border-radius: $radius-input;
+  padding: 0 6px 0 10px;
+
+  input {
+    flex: 1;
+    border: 0;
+    outline: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.9rem;
+    height: 38px;
+    color: $text-primary;
+  }
+}
+
+.cr-search-input-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: $primary;
+  color: #fff;
+  border: 0;
+  border-radius: $radius-input;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  svg { width: 14px; height: 14px; }
+  &:hover { background: $primary-dark; }
+}
+
+.cr-search-error {
+  margin: 0;
+  font-size: 0.82rem;
+  color: $error;
+}
+
+// ── Result row (matches design: link-btn + badge | name + CR) ─────
+// Text on the right, actions (badge + link button) on the left, light grey card.
+.cr-result-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+  background: $bg-card;
+  border-radius: $radius-input;
+  box-shadow: $shadow-card;
+}
+
+.cr-result-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cr-result-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  // margin-inline-start: auto;
+  text-align: start;
+}
+
+.cr-result-name {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: $text-primary;
+}
+
+.cr-result-cr {
+  font-size: 0.78rem;
+  color: $text-muted;
+}
+
+.cr-result-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: rgba($accent, 0.18);
+  color: $accent;
+  border-radius: 6px;
+  flex-shrink: 0;
+
+  svg { width: 16px; height: 16px; }
+}
+
+.cr-search-actions {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.cr-search-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: $primary;
+  color: #fff;
+  border: 0;
+  border-radius: $radius-input;
+  padding: 0 18px;
+  height: 36px;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+
+  &:hover:not(:disabled) { background: $primary-dark; }
+  &:disabled { opacity: 0.55; cursor: not-allowed; }
+}
+
+.cr-search-link-plus {
+  font-size: 1.1rem;
+  line-height: 1;
 }
 
 // ── Entity tabs ───────────────────────────────────────────────────

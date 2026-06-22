@@ -1,4 +1,5 @@
 import { Component, computed, effect, EventEmitter, input, Output, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Pager } from '../pager/pager';
@@ -47,7 +48,7 @@ const EMPTY_SERVICE_CARDS: ServiceCard[] = [
 
 @Component({
   selector: 'app-related-entities',
-  imports: [TranslateModule, Pager],
+  imports: [TranslateModule, FormsModule, Pager],
   templateUrl: './related-entities.html',
   styleUrl: './related-entities.scss',
 })
@@ -93,6 +94,16 @@ export class RelatedEntities {
   // Cached GUIDs from /Lookups/entity-types — Individual for فرد, Business for a CR.
   private individualEntityTypeId = '';
   private businessEntityTypeId = '';
+
+  // ── CR search dialog (kept here so it sits inside the entities panel) ─
+  searchQuery = '';
+  // Translation key for the header-search inline error, or '' when valid.
+  headerSearchError = signal<string>('');
+  showSearchDialog = signal(false);
+  dialogCrInput = '';
+  searchSelectedCr = signal<string>('');
+  searchEntityName = signal<string>('');
+  searchNotFound = signal(false);
 
   constructor(
     private router: Router,
@@ -316,5 +327,72 @@ export class RelatedEntities {
   openTicketItem(titleKey: string, code: string, event: MouseEvent) {
     event.stopPropagation();
     this.openTickets(titleKey, code);
+  }
+
+  // ── CR search dialog ─────────────────────────────────────────────
+  // Strip non-digits from the header search input on every keystroke.
+  onHeaderSearchInput(event: Event) {
+    const cleaned = (event.target as HTMLInputElement).value.replace(/[^0-9]/g, '').slice(0, 10);
+    this.searchQuery = cleaned;
+    (event.target as HTMLInputElement).value = cleaned;
+    if (this.headerSearchError()) this.headerSearchError.set('');
+  }
+
+  openSearchDialog() {
+    const q = this.searchQuery.trim();
+    // Required.
+    if (!q) {
+      this.headerSearchError.set('ENTITIES.SEARCH_CR_REQUIRED');
+      return;
+    }
+    // CR numbers are 10 digits (e.g. "1010123456").
+    if (!/^[0-9]{10}$/.test(q)) {
+      this.headerSearchError.set('ENTITIES.SEARCH_CR_INVALID');
+      return;
+    }
+    this.headerSearchError.set('');
+    // Seed the dialog from the header search box and run the lookup so the
+    // user sees results immediately. They can still refine inside the dialog.
+    this.dialogCrInput = q;
+    this.searchSelectedCr.set('');
+    this.searchEntityName.set('');
+    this.searchNotFound.set(false);
+    this.showSearchDialog.set(true);
+    this.runCrLookup();
+  }
+
+  closeSearchDialog() {
+    this.showSearchDialog.set(false);
+  }
+
+  // Look up the typed CR number. Currently scans the customer's related CRs;
+  // swap for the real "search CR" endpoint when it's available.
+  runCrLookup() {
+    const q = this.dialogCrInput.trim();
+    if (!q) {
+      this.searchSelectedCr.set('');
+      this.searchEntityName.set('');
+      this.searchNotFound.set(false);
+      return;
+    }
+    const cr = this.rawRelatedCRs.find(c => c.CrBasicInfo.CrNumber === q);
+    if (!cr) {
+      this.searchSelectedCr.set('');
+      this.searchEntityName.set('');
+      this.searchNotFound.set(true);
+      return;
+    }
+    const isEn = this.translate.currentLang === 'en';
+    this.searchSelectedCr.set(cr.CrBasicInfo.CrNumber);
+    this.searchEntityName.set(isEn ? cr.CrBasicInfo.EntityFullNameEn : cr.CrBasicInfo.EntityFullNameAr);
+    this.searchNotFound.set(false);
+  }
+
+  // Stub: hook the real "link entity to customer" endpoint here when ready.
+  linkSelectedEntity() {
+    const id = this.searchSelectedCr();
+    if (!id) return;
+    this.selectEntity(id);
+    this.closeSearchDialog();
   }
 }

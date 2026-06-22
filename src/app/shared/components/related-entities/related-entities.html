@@ -1,6 +1,36 @@
 <div id="related-entities" class="related-entities">
 
-  <h3 id="related-entities-title" class="section-title">{{ 'ENTITIES.RELATED_ENTITIES' | translate }}</h3>
+  <div id="related-entities-header" class="entities-header">
+    <h3 id="related-entities-title" class="section-title">{{ 'ENTITIES.RELATED_ENTITIES' | translate }}</h3>
+    <div id="related-entities-search-row" class="entities-search">
+      <div class="entities-search-stack">
+        <div class="entities-search-input" [class.invalid]="headerSearchError()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="text" name="entitiesSearch" [(ngModel)]="searchQuery"
+            inputmode="numeric"
+            maxlength="10"
+            [placeholder]="'ENTITIES.SEARCH_CR_PLACEHOLDER' | translate"
+            (input)="onHeaderSearchInput($event)"
+            (keydown.enter)="openSearchDialog()" />
+        </div>
+        @if (headerSearchError()) {
+          <p class="entities-search-error">{{ headerSearchError() | translate }}</p>
+        }
+      </div>
+      <button type="button" class="entities-search-btn" (click)="openSearchDialog()"
+        [attr.aria-label]="'COMMON.SEARCH' | translate">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </button>
+    </div>
+  </div>
 
   <!-- Entity tabs -->
   <div id="related-entities-tabs" class="entity-tabs">
@@ -90,3 +120,55 @@
   </div>
 
 </div>
+
+@if (showSearchDialog()) {
+  <div id="cr-search-overlay" class="cr-search-overlay" (click)="closeSearchDialog()">
+    <div class="cr-search-modal" (click)="$event.stopPropagation()">
+      <div class="cr-search-header">
+        <h4 class="cr-search-title">{{ 'ENTITIES.SEARCH_CR_TITLE' | translate }}</h4>
+        <button type="button" class="cr-search-close" (click)="closeSearchDialog()">&times;</button>
+      </div>
+      <p class="cr-search-desc">{{ 'ENTITIES.SEARCH_CR_DESC' | translate }}</p>
+
+      <div class="cr-search-field">
+        <label class="cr-search-label">{{ 'ENTITY.CR_NUMBER' | translate }}</label>
+        <div class="cr-search-input-row">
+          <input type="text" name="dialogCrInput" [(ngModel)]="dialogCrInput"
+            (keydown.enter)="runCrLookup()"
+            [placeholder]="'ENTITIES.SEARCH_CR_PLACEHOLDER' | translate" />
+          <button type="button" class="cr-search-input-btn" (click)="runCrLookup()"
+            [attr.aria-label]="'COMMON.SEARCH' | translate">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      @if (searchEntityName()) {
+        <div class="cr-result-row">
+          <div class="cr-result-text">
+            <span class="cr-result-name">{{ searchEntityName() }}</span>
+            <span class="cr-result-cr">{{ searchSelectedCr() }}</span>
+          </div>
+          <div class="cr-result-actions">
+            <span class="cr-result-badge" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2">
+                <path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/>
+              </svg>
+            </span>
+            <button type="button" class="cr-search-link-btn" (click)="linkSelectedEntity()">
+              <span class="cr-search-link-plus">+</span>
+              {{ 'ENTITIES.LINK_ENTITY' | translate }}
+            </button>
+          </div>
+        </div>
+      } @else if (searchNotFound()) {
+        <p class="cr-search-error">{{ 'COMMON.NO_RESULTS' | translate }}</p>
+      }
+    </div>
+  </div>
+}
