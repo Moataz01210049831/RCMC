@@ -17,6 +17,27 @@ export interface CreateContactRequest {
   regionId: string;
 }
 
+export interface CommercialRecordCrInformation {
+  crNationalNumber: string;
+  crNumber:         string;
+  entityFullNameAr: string;
+  entityFullNameEn: string;
+  crStatus:         { id: string; name: string | null } | null;
+  isMain:           boolean;
+}
+
+export interface CommercialRecord {
+  id:               string;
+  crNationalNumber: string;
+  isVipCR:          boolean;
+  crData: {
+    crInformation:     CommercialRecordCrInformation;
+    crActivities?:     { fullActivitiesText: string } | null;
+    capitalDetails?:   { capital: number } | null;
+    contactInformation?: { email: string } | null;
+  };
+}
+
 export interface ContactResponse {
   id: string;
   firstName: string;
@@ -36,6 +57,7 @@ export interface ContactResponse {
   preferredLanguage: number;
   regionId: string;
   CreatedOn: string;
+  commercialRecords: CommercialRecord[];
 }
 
 export interface UpdateContactRequest extends CreateContactRequest {

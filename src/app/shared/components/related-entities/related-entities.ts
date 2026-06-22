@@ -4,12 +4,14 @@ import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Pager } from '../pager/pager';
 import { CommercialRegisterService } from '../../../core/services/commercial-register.service';
+import { CustomerService } from '../../../core/services/customer.service';
 import { SelectedEntityService } from '../../../core/services/selected-entity.service';
 import { ComplaintsService } from '../../../core/services/complaints.service';
 import { LookupService } from '../../../core/services/lookup.service';
 import { EntityCardData } from '../../../core/models/customer-card.model';
 import { RelatedCR } from '../../../core/models/person-related.model';
 import { RelatedTicket } from '../../../core/models/related-ticket.model';
+import { CommercialRecord } from '../../../core/models/contact.model';
 
 interface ServiceItem {
   code: string;
@@ -112,6 +114,7 @@ export class RelatedEntities {
     private selectedEntityService: SelectedEntityService,
     private complaintsService: ComplaintsService,
     private lookupService: LookupService,
+    private customerService: CustomerService,
   ) {
     this.lookupService.getEntityTypes().subscribe({
       next: types => {
@@ -120,13 +123,13 @@ export class RelatedEntities {
       },
     });
     effect(() => {
-      const idNo = this.identityNumber();
-      if (idNo) this.loadRelated(idNo, this.identityTypeId());
-    });
-    effect(() => {
       const id = this.customerId();
-      if (id) this.loadComplaintTickets(id);
-      else this.complaintTickets.set([]);
+      if (id) {
+        this.loadRelated(id);
+        this.loadComplaintTickets(id);
+      } else {
+        this.complaintTickets.set([]);
+      }
     });
   }
 
@@ -157,48 +160,65 @@ export class RelatedEntities {
     };
   }
 
-  private loadRelated(identifierNo: string, identifierTypeId: number) {
-    const personEntity = this.buildPersonEntity(identifierNo);
+  // Bridge: API now ships CRs as `CommercialRecord[]` (camelCase, nested under
+  // `crData`). The rest of this component still talks the older `RelatedCR`
+  // (PascalCase) shape, so we adapt at the source.
+  private toRelatedCR(rec: CommercialRecord): RelatedCR {
+    const info   = rec.crData?.crInformation;
+    const status = info?.crStatus;
+    return {
+      RelationTypeList: [],
+      CrBasicInfo: {
+        IsMain:           info?.isMain ?? false,
+        CrNationalNumber: info?.crNationalNumber ?? rec.crNationalNumber ?? '',
+        CrNumber:         info?.crNumber ?? '',
+        EntityFullNameAr: info?.entityFullNameAr ?? '',
+        EntityFullNameEn: info?.entityFullNameEn ?? '',
+        EntityType:    { EntityTypeID: 0,    EntityTypeDescAr: '', EntityTypeDescEn: '' },
+        CompanyForm:   { CompanyFormID: 0,   CompanyFormDescriptionAr: '', CompanyFormDescriptionEn: '' },
+        CrStatus:      { CrStatusID: 0,      CrStatusDescAr: status?.name ?? '', CrStatusDescEn: status?.name ?? '' },
+      },
+    };
+  }
+
+  private loadRelated(customerId: string) {
+    const idNo = this.identityNumber() || customerId;
+    const personEntity = this.buildPersonEntity(idNo);
     this.entities.set([personEntity]);
     this.selectedEntityId.set(personEntity.id);
 
-    this.commercialRegister
-      .getPersonRelated({
-        IdentifierTypeID: identifierTypeId,
-        IdentifierNo: identifierNo,
-      })
-      .subscribe({
-        next: data => {
-          if (!data) return;
-          this.rawRelatedCRs = data.RelatedCRList ?? [];
-          this.crListByNumber.clear();
-          this.rawRelatedCRs.forEach(cr =>
-            this.crListByNumber.set(cr.CrBasicInfo.CrNumber, {
-              CrNationalNumber: cr.CrBasicInfo.CrNationalNumber,
-              CrNumber:         cr.CrBasicInfo.CrNumber,
-            }),
-          );
-          const businessEntities: Entity[] = this.rawRelatedCRs.map(cr => ({
-            id:       cr.CrBasicInfo.CrNumber,
-            nameAr:   cr.CrBasicInfo.EntityFullNameAr,
-            nameEn:   cr.CrBasicInfo.EntityFullNameEn,
-            number:   cr.CrBasicInfo.CrNumber,
-            isPerson: false,
-            serviceCards: EMPTY_SERVICE_CARDS,
-          }));
-          this.entities.set([personEntity, ...businessEntities]);
-          this.selectedEntityService.setContext({
-            parityNameAr:      data.ParityNameAr ?? '',
-            parityNameEn:      data.ParityNameEn ?? '',
-            identifierNo:      data.IdentifierNo ?? identifierNo,
-            identifierType:    data.IdentifierType ?? null,
-            selectedRelatedCR: null,
-            entityTypeId:      this.individualEntityTypeId,
-          });
-          // Keep "فرد" selected by default — don't reset selection here.
-          this.publishEntity(null);
-        },
-      });
+    this.customerService.getContact(customerId).subscribe({
+      next: contact => {
+        if (!contact) return;
+        this.rawRelatedCRs = (contact.commercialRecords ?? []).map(r => this.toRelatedCR(r));
+        this.crListByNumber.clear();
+        this.rawRelatedCRs.forEach(cr =>
+          this.crListByNumber.set(cr.CrBasicInfo.CrNumber, {
+            CrNationalNumber: cr.CrBasicInfo.CrNationalNumber,
+            CrNumber:         cr.CrBasicInfo.CrNumber,
+          }),
+        );
+        const businessEntities: Entity[] = this.rawRelatedCRs.map(cr => ({
+          id:       cr.CrBasicInfo.CrNumber,
+          nameAr:   cr.CrBasicInfo.EntityFullNameAr,
+          nameEn:   cr.CrBasicInfo.EntityFullNameEn,
+          number:   cr.CrBasicInfo.CrNumber,
+          isPerson: false,
+          serviceCards: EMPTY_SERVICE_CARDS,
+        }));
+        this.entities.set([personEntity, ...businessEntities]);
+        this.selectedEntityService.setContext({
+          parityNameAr:      contact.firstName ?? '',
+          parityNameEn:      '',
+          identifierNo:      contact.identityNumber ?? idNo,
+          identifierType:    null,
+          selectedRelatedCR: null,
+          entityTypeId:      this.individualEntityTypeId,
+        });
+        // Keep "فرد" selected by default — don't reset selection here.
+        this.publishEntity(null);
+      },
+    });
   }
 
   private crListByNumber = new Map<string, { CrNationalNumber: string; CrNumber: string }>();

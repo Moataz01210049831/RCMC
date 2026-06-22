@@ -99,50 +99,54 @@
       }
 
       @if (activeTab() === 'extra') {
-        <div class="tab-stack">
-          @if (has(t.entityId)) {
-            <div id="ticket-detail-field-related" class="field">
-              <span class="label">{{ 'TICKETS.ENTITY_ID' | translate }}</span>
-              <span class="value link">{{ t.entityId }}</span>
-            </div>
-          }
+        @if (!has(t.entityId) && !has(t.description) && t.attachments.length === 0) {
+          <div class="tab-empty">{{ 'COMMON.NO_RESULTS' | translate }}</div>
+        } @else {
+          <div class="tab-stack">
+            @if (has(t.entityId)) {
+              <div id="ticket-detail-field-related" class="field">
+                <span class="label">{{ 'TICKETS.ENTITY_ID' | translate }}</span>
+                <span class="value link">{{ t.entityId }}</span>
+              </div>
+            }
 
-          @if (has(t.description)) {
-            <div id="ticket-detail-field-description" class="field">
-              <span class="label">{{ 'TICKETS.DESCRIPTION' | translate }}</span>
-              <span class="value">{{ t.description }}</span>
-            </div>
-          }
+            @if (has(t.description)) {
+              <div id="ticket-detail-field-description" class="field">
+                <span class="label">{{ 'TICKETS.DESCRIPTION' | translate }}</span>
+                <span class="value">{{ t.description }}</span>
+              </div>
+            }
 
-          @if (t.attachments.length > 0) {
-            <div class="attachments-section">
-              <h4 class="attachments-title">{{ 'TICKETS.ATTACHMENTS' | translate }}</h4>
-              <ul id="ticket-detail-attachments-list" class="attachments-list">
-                @for (att of t.attachments; track att.id) {
-                  <li class="attachments-row" [attr.id]="'ticket-detail-attachment-' + att.id">
-                    <div class="attachments-left">
-                      <span class="attachments-check">
+            @if (t.attachments.length > 0) {
+              <div class="attachments-section">
+                <h4 class="attachments-title">{{ 'TICKETS.ATTACHMENTS' | translate }}</h4>
+                <ul id="ticket-detail-attachments-list" class="attachments-list">
+                  @for (att of t.attachments; track att.id) {
+                    <li class="attachments-row" [attr.id]="'ticket-detail-attachment-' + att.id">
+                      <div class="attachments-left">
+                        <span class="attachments-check">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="3">
+                            <polyline points="20 6 9 17 4 12"/>
+                          </svg>
+                        </span>
+                        <span class="attachments-name">{{ att.fileName }}</span>
+                      </div>
+                      <button type="button" class="attachments-download" aria-label="Download">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                          stroke="currentColor" stroke-width="3">
-                          <polyline points="20 6 9 17 4 12"/>
+                          stroke="currentColor" stroke-width="2">
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                          <polyline points="7 10 12 15 17 10"/>
+                          <line x1="12" y1="15" x2="12" y2="3"/>
                         </svg>
-                      </span>
-                      <span class="attachments-name">{{ att.fileName }}</span>
-                    </div>
-                    <button type="button" class="attachments-download" aria-label="Download">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                        <polyline points="7 10 12 15 17 10"/>
-                        <line x1="12" y1="15" x2="12" y2="3"/>
-                      </svg>
-                    </button>
-                  </li>
-                }
-              </ul>
-            </div>
-          }
-        </div>
+                      </button>
+                    </li>
+                  }
+                </ul>
+              </div>
+            }
+          </div>
+        }
       }
 
       @if (activeTab() === 'history') {

@@ -144,7 +144,7 @@
     "BUSINESS_NAME": "Business Name",
     "SEARCH_CR_TITLE": "Search a commercial entity",
     "SEARCH_CR_DESC": "Type below in case any clarification or extra detail is needed.",
-    "SEARCH_CR_PLACEHOLDER": "Choose a commercial register",
+    "SEARCH_CR_PLACEHOLDER": "commercial register Number",
     "SEARCH_CR_REQUIRED": "CR number is required",
     "SEARCH_CR_INVALID": "CR number must be 10 digits",
     "LINK_ENTITY": "Link entity"

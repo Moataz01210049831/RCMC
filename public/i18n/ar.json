@@ -144,7 +144,7 @@
     "BUSINESS_NAME": "العرض للتقن",
     "SEARCH_CR_TITLE": "بحث عن كيان تجاري",
     "SEARCH_CR_DESC": "اكتب المحتوى أدناه في حال أن رسالة الاهتمام أو لتنبيه تحتاج إلى شرح أو تفصيل.",
-    "SEARCH_CR_PLACEHOLDER": "اختر السجل التجاري",
+    "SEARCH_CR_PLACEHOLDER": "رقم السجل التجاري",
     "SEARCH_CR_REQUIRED": "رقم السجل التجاري مطلوب",
     "SEARCH_CR_INVALID": "رقم السجل التجاري يجب أن يتكون من 10 أرقام",
     "LINK_ENTITY": "ربط الكيان"

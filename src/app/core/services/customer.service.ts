@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { ContactResponse, CreateContactRequest, UpdateContactRequest, UpdateContactResponse, SearchContactsRequest, SearchContactsResponse, BasicInfoRequest, BasicInfoResponse } from '../models/contact.model';
+import { ContactResponse, CreateContactRequest, UpdateContactRequest, UpdateContactResponse, SearchContactsRequest, SearchContactsResponse, BasicInfoRequest, BasicInfoResponse, CommercialRecord } from '../models/contact.model';
 import { ApiResponse } from '../models/api-response.model';
 
 export type { CreateContactRequest, ContactResponse, UpdateContactRequest, UpdateContactResponse, SearchContactsRequest, SearchContactsResponse, BasicInfoRequest, BasicInfoResponse };
@@ -38,6 +38,7 @@ interface ContactApiDto {
   Created?: string | null;
   DateCreated?: string | null;
   CreatedAt?: string | null;
+  CommercialRecords?: CommercialRecord[] | null;
 }
 
 function mapContact(dto: ContactApiDto): ContactResponse {
@@ -68,6 +69,7 @@ function mapContact(dto: ContactApiDto): ContactResponse {
     nationalityId: dto.NationalityId ?? '',
     regionId: dto.RegionId,
     CreatedOn:dto.CreatedOn ?? dto.CreatedDate ?? dto.CreationDate ?? dto.Created ?? dto.DateCreated ?? dto.CreatedAt ?? '',
+    commercialRecords: dto.CommercialRecords ?? [],
   };
 }
 
