@@ -18,11 +18,36 @@
   justify-content: space-between;
 }
 
+.card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .card-title {
   font-size: 1.15rem;
   font-weight: 700;
   color: $primary;
   margin: 0;
+}
+
+.vip-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: rgba($accent, 0.18);
+  color: $accent;
+  border: 1px solid rgba($accent, 0.45);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+
+  svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
 }
 
 .card-actions {

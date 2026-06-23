@@ -140,6 +140,7 @@ export class TicketsLayout implements OnInit {
         gender:      this.translate.instant(GENDER_KEYS[contact.gender] ?? '-'),
         city:        resolveName(cities, contact.cityId),
         CreatedOn:   contact.CreatedOn ? contact.CreatedOn.split('T')[0] : '',
+        isVipCR:     (contact.commercialRecords ?? []).some(r => r.isVipCR),
       });
     });
     // The complaints effect handles the initial /Complain/search call too.

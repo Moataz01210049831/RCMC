@@ -63,6 +63,7 @@ export class CustomerDetail implements OnInit {
         gender:      this.translate.instant(GENDER_KEYS[contact.gender] ?? '-'),
         city:        resolveName(cities, contact.cityId),
         CreatedOn:   contact.CreatedOn ? contact.CreatedOn.split('T')[0] : '',
+        isVipCR:     (contact.commercialRecords ?? []).some(r => r.isVipCR),
       });
       this.identityTypeId.set(contact.identityType ?? 0);
       this.nationalityIdNum.set(Number(contact.nationalityId) || 0);
