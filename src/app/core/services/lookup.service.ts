@@ -10,15 +10,18 @@ export type EntityKind = 'Individual' | 'Business';
 
 export type { LookupItem };
 
-// API returns the label under different keys depending on Accept-Language:
-//   AR → "nameAr"  (also "nameAR")
-//   EN → "name"
-// older endpoints still ship PascalCase "Name". Same story for Value/Child.
-// Map everything to a single canonical LookupItem so callers stay simple.
+// Most lookup responses ship BOTH labels per item:
+//   { "Name": "1. Commercial Agencies", "NameAR": "1. الوكالات التجارية" }
+// We pick by the active language (read from localStorage to avoid pulling
+// LanguageService into this DI graph). Older endpoints that only ship a
+// single "Name" / "nameAr" / etc. still work via the fallback chain.
 function normalizeLookup(raw: any): LookupItem {
   if (!raw) return { Name: '', Value: '' };
-  const name  = raw.Name  ?? raw.name  ?? raw.nameAr ?? raw.nameAR ?? raw.nameEn ?? '';
-  const value = raw.Value ?? raw.value ?? raw.ID     ?? raw.id     ?? '';
+  const isAr = (localStorage.getItem('lang') ?? 'ar') !== 'en';
+  const name = isAr
+    ? (raw.NameAR ?? raw.nameAR ?? raw.nameAr ?? raw.Name  ?? raw.name   ?? '')
+    : (raw.Name   ?? raw.name   ?? raw.nameEn ?? raw.NameAR ?? raw.nameAr ?? '');
+  const value = raw.Value ?? raw.value ?? raw.ID ?? raw.id ?? '';
   const child = raw.Child ?? raw.child ?? null;
   return {
     Name:  String(name ?? ''),
