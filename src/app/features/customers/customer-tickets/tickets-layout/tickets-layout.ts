@@ -141,6 +141,7 @@ export class TicketsLayout implements OnInit {
         city:        resolveName(cities, contact.cityId),
         CreatedOn:   contact.CreatedOn ? contact.CreatedOn.split('T')[0] : '',
         isVipCR:     (contact.commercialRecords ?? []).some(r => r.isVipCR),
+        isMain:      (contact.commercialRecords ?? []).some(r => r.crData?.crInformation?.isMain),
       });
     });
     // The complaints effect handles the initial /Complain/search call too.

@@ -64,6 +64,7 @@ export class CustomerDetail implements OnInit {
         city:        resolveName(cities, contact.cityId),
         CreatedOn:   contact.CreatedOn ? contact.CreatedOn.split('T')[0] : '',
         isVipCR:     (contact.commercialRecords ?? []).some(r => r.isVipCR),
+        isMain:      (contact.commercialRecords ?? []).some(r => r.crData?.crInformation?.isMain),
       });
       this.identityTypeId.set(contact.identityType ?? 0);
       this.nationalityIdNum.set(Number(contact.nationalityId) || 0);

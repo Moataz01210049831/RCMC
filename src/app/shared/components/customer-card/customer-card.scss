@@ -31,14 +31,12 @@
   margin: 0;
 }
 
-.vip-badge {
+.vip-badge,
+.lawyer-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 4px 10px;
-  background: rgba($accent, 0.18);
-  color: $accent;
-  border: 1px solid rgba($accent, 0.45);
   border-radius: 6px;
   font-size: 0.78rem;
   font-weight: 700;
@@ -48,6 +46,18 @@
     height: 14px;
     flex-shrink: 0;
   }
+}
+
+.vip-badge {
+  background: rgba($accent, 0.18);
+  color: $accent;
+  border: 1px solid rgba($accent, 0.45);
+}
+
+.lawyer-badge {
+  background: rgba(#175CD3, 0.12);
+  color: #175CD3;
+  border: 1px solid rgba(#175CD3, 0.35);
 }
 
 .card-actions {

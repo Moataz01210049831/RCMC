@@ -13,6 +13,8 @@ export interface CustomerCardData {
   updatedAt?: string;
   // True when at least one of the customer's commercial records is flagged VIP.
   isVipCR?: boolean;
+  // True when at least one of the customer's commercial records is "main".
+  isMain?: boolean;
 }
 
 export interface EntityCardData {
